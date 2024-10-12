@@ -1,0 +1,27 @@
+.form {
+  @apply flex flex-col w-full max-w-[425px];
+}
+
+.inputsContainer {
+  @apply flex flex-col gap-5;
+}
+
+.input {
+  @apply 
+    py-2 px-3 md:px-5
+    bg-gray-medium
+    text-gray-dark text-lg placeholder-gray-dark placeholder-opacity-50
+    border border-gray-dark rounded-xl
+}
+
+.btn {
+  @apply mt-12 py-4 text-xl lg:text-2xl font-bold uppercase rounded-2xl;
+}
+
+.p {
+  @apply mt-2 text-navy text-sm lg:text-lg;
+}
+
+.cta {
+  @apply ml-1 text-gray-dark font-bold underline;
+}

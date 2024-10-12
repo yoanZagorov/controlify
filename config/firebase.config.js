@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyDXdd8tw86Td77Oc7YBZFJAhc5yuDX5lHs",
   authDomain: "controlify-3bdd8.firebaseapp.com",
   projectId: "controlify-3bdd8",
@@ -9,4 +9,4 @@ const firebaseConfig = {
   appId: "1:837564313324:web:e0c624f85288ce2a173fc9"
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);

@@ -1,0 +1,3 @@
+.btnPrimary {
+  @apply bg-navy text-goldenrod;
+}

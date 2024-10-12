@@ -2,17 +2,24 @@
 export default {
   content: [
     "index.html",
-    "src/**/*.{js,ts,jsx,tsx}",
+    "src/**/*.{js,jsx}",
   ],
   theme: {
     colors: {
-      "light-gray": "#F5F5F5",
-      "medium-gray": "#E0E0E0",
-      "dark-gray": "#333333",
-      "navy": "#002B5B",
-      "dark-navy": "#001F4D",
+      "gray": {
+        "light": "#F5F5F5",
+        "medium": "#E0E0E0",
+        "dark": "#333333"
+      },
+      "navy": {
+        DEFAULT: "#002B5B",
+        "dark-navy": "#001F4D",
+      },
       "goldenrod": "#DAA520",
     },
+    fontFamily: {
+      "roboto": ["Roboto", "sans-serif"]
+    }
   },
   plugins: [],
 }

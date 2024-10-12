@@ -1,9 +1,9 @@
 import { Nav } from "./components/Nav";
 
-const Header = () => (
-  <header>
-    <Nav/>
-  </header>
-)
-
-export default Header;
+export default function Header() {
+  return (
+    <header>
+      <Nav />
+    </header>
+  )
+}
