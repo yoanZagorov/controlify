@@ -17,10 +17,10 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "../src"),
       "logos": path.resolve(__dirname, "../src/assets/images/logos"),
-      "pages": path.resolve(__dirname, '../src/pages'),
-      "components": path.resolve(__dirname, '../src/components'),
-      "styles": path.resolve(__dirname, '../src/styles'), 
-      "layouts": path.resolve(__dirname, '../src/layouts'), 
+      "services": path.resolve(__dirname, "../services"),
+      // "pages": path.resolve(__dirname, '../src/pages'),
+      // "components": path.resolve(__dirname, '../src/components'),
+      // "styles": path.resolve(__dirname, '../src/styles'), 
     },
   },
 })

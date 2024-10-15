@@ -16,10 +16,11 @@ export default {
         "dark-navy": "#001F4D",
       },
       "goldenrod": "#DAA520",
+      "red": "#FF6961",
     },
     fontFamily: {
       "roboto": ["Roboto", "sans-serif"]
-    }
+    },
   },
   plugins: [],
 }

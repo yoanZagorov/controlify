@@ -5,6 +5,7 @@ export default function Input({ type, name, placeholder, classes }) {
       name={name}
       placeholder={placeholder}
       className={classes}
+      required
     />
   )
 }

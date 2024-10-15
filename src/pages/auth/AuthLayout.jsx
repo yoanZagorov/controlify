@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useActionData } from "react-router-dom";
 import logo from "logos/logoGrayBg.png";
 import s from "./auth.module.css";
 

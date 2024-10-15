@@ -7,9 +7,10 @@ import {
 
 import { LandingPage } from "@/pages/LandingPage";
 import { Login } from "@/pages/auth";
-import { CreateAccount } from "@/pages/auth";
+import { AuthLayout, CreateAccount } from "@/pages/auth";
 import { createAccountAction, loginAction } from "./actions";
-import { AuthLayout } from "@/pages/auth";
+import { Error } from "@/components/Error";
+
 
 const router = createBrowserRouter(createRoutesFromElements(
   <>

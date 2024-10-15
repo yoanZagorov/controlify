@@ -1,9 +1,8 @@
 import classNames from "classnames";
-import { Link, Form as RouterForm } from "react-router-dom";
+import { Link, Form as RouterForm, useActionData } from "react-router-dom";
 
 // Components
 import { Button } from "@/components/Button";
-import { Input } from "@/components/Input";
 
 // Styles
 import s from "./Form.module.css";
@@ -19,17 +18,22 @@ export default function Form({ action, btnText, msg, CTA }) {
       className={s.form}
     >
       <div className={s.inputsContainer}>
-        <Input
+        <input
           type="email"
           name="email"
           placeholder="Email"
-          classes={s.input} 
+          minLength={2}
+          required
+          className={s.input} 
         />
-        <Input
+        <input
           type="password"
           name="password"
           placeholder="Password"
-          classes={s.input} 
+          minLength={8}
+          maxLength={12}
+          required
+          className={s.input} 
         />
       </div>
 
