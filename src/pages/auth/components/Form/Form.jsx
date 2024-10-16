@@ -45,8 +45,8 @@ export default function Form({ type, action, btnText, msg, CTA }) {
             type="text"
             name="username"
             placeholder="Username"
-            minLength={2}
-            maxLength={12}
+            minLength={3}
+            maxLength={20}
             required
             className={s.input}
           />

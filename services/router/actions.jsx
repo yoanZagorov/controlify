@@ -10,11 +10,14 @@ export async function createAccountAction({ request }) {
     const formData = await request.formData();
     const email = formData.get("email");
     const password = formData.get("password");
+    const username = formData.get("username");
 
-    const { verifiedEmail, verifiedPassword } = verifyCredentials({ email, password });
-    const userCredential = await createUserWithEmailAndPassword(auth, verifiedEmail, verifiedPassword);
+    const { verifiedEmail, verifiedPassword, verifiedUsername } = verifyCredentials({ email, password, username });
+    const userCredentials = await createUserWithEmailAndPassword(auth, verifiedEmail, verifiedPassword);
 
-    console.log(userCredential);
+    userCredentials.user.displayName = verifiedUsername;
+
+    console.log(userCredentials);
   } catch (error) {
     console.error(error);
     return { errorMsg: error.message };
