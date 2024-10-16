@@ -8,9 +8,9 @@ import {
 import { LandingPage } from "@/pages/LandingPage";
 import { Login } from "@/pages/auth";
 import { AuthLayout, CreateAccount } from "@/pages/auth";
-import { createAccountAction, loginAction } from "./actions";
-import { Error } from "@/components/Error";
+import { AppLayout, Dashboard } from "@/pages/app";
 
+import { createAccountAction, loginAction } from "./actions";
 
 const router = createBrowserRouter(createRoutesFromElements(
   <>
@@ -35,6 +35,15 @@ const router = createBrowserRouter(createRoutesFromElements(
         path="create-account"
         element={<CreateAccount />}
         action={createAccountAction}
+      />
+    </Route>
+    <Route
+      path="/app"
+      element={<AppLayout/>}
+    >
+      <Route 
+        index
+        element={<Dashboard/>}
       />
     </Route>
   </>

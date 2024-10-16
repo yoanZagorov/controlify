@@ -1,24 +1,32 @@
 .main {
   @apply 
-    px-4 md:px-10 h-screen w-screen max-w-[425px] md:max-w-[1920px]
-    flex flex-col md:flex-row justify-center md:items-center gap-12 md:gap-10
+    px-4 tab:px-10 h-screen w-screen max-w-[425px] tab:max-w-[1920px]
+    flex flex-col tab:flex-row justify-center tab:items-center gap-12
     text-center;
 }
 
 .layoutContainer,
 .formContainer {
-  @apply md:w-1/2 flex justify-center items-center;
+  @apply tab:w-1/2 flex justify-center items-center;
 }
 
 .layoutContainer {
   @apply flex-col;
 }
 
+.formContainer {
+  @apply flex-col gap-6; 
+}
+
+.errorMsg {
+  @apply text-red max-w-[425px] ;
+}
+
 .p {
-  @apply text-gray-dark text-lg lg:text-xl xl:text-2xl 2xl:text-3xl;
+  @apply text-gray-dark text-lg ls:text-xl lm:text-2xl fhd:text-3xl;
 }
 
 .divider {
-  @apply hidden md:block h-96 border-r border-navy;
+  @apply hidden tab:block h-96 border-r border-navy;
 }
 

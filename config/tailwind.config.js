@@ -13,13 +13,24 @@ export default {
       },
       "navy": {
         DEFAULT: "#002B5B",
-        "dark-navy": "#001F4D",
+        "dark": "#001F4D",
       },
       "goldenrod": "#DAA520",
-      "red": "#FF6961",
+      "red": "#CC0000",
     },
     fontFamily: {
       "roboto": ["Roboto", "sans-serif"]
+    },
+    screens: {
+      "ms": "320px",
+      "mm": "375px",
+      "ml": "425px",
+      "tab": "768px",
+      "ls": "1024px",
+      "lm": "1280px",
+      "ll": "1440px",
+      "fhd": "1920px",
+      "4k": "3840px",
     },
   },
   plugins: [],

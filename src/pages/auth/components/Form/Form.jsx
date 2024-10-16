@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Link, Form as RouterForm, useActionData } from "react-router-dom";
+import { Link, Form as RouterForm } from "react-router-dom";
 
 // Components
 import { Button } from "@/components/Button";
@@ -8,8 +8,13 @@ import { Button } from "@/components/Button";
 import s from "./Form.module.css";
 import { styles as btnS } from "@/components/Button";
 
-export default function Form({ action, btnText, msg, CTA }) {
+export default function Form({ type, action, btnText, msg, CTA }) {
   const btnClasses = classNames(s.btn, btnS.btnPrimary);
+
+  const isCreateAccount = type === "createAccount";
+  const path = isCreateAccount
+    ? "../login"
+    : "../create-account";
 
   return (
     <RouterForm
@@ -24,7 +29,7 @@ export default function Form({ action, btnText, msg, CTA }) {
           placeholder="Email"
           minLength={2}
           required
-          className={s.input} 
+          className={s.input}
         />
         <input
           type="password"
@@ -33,8 +38,19 @@ export default function Form({ action, btnText, msg, CTA }) {
           minLength={8}
           maxLength={12}
           required
-          className={s.input} 
+          className={s.input}
         />
+        {isCreateAccount &&
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            minLength={2}
+            maxLength={12}
+            required
+            className={s.input}
+          />
+        }
       </div>
 
       <Button classes={btnClasses}>
@@ -43,7 +59,7 @@ export default function Form({ action, btnText, msg, CTA }) {
 
       <p className={s.p}>{msg}
         <Link
-          to="create-account"
+          to={path}
           className={s.cta}
         >
           {CTA}

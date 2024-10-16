@@ -6,6 +6,7 @@ export default function Login() {
   return (
     <div className={s.formContainer}>
       <Form
+        type="login"
         action={loginAction}
         btnText="Log in"
         msg="Don’t yet have an account?"

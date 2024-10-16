@@ -1,18 +1,19 @@
-import { useActionData } from "react-router-dom";
-
 import { Form } from "../components/Form";
 import { createAccountAction } from "/services/router/actions";
 import s from "../auth.module.css";
+import { useActionData } from "react-router-dom";
 
 export default function CreateAccount() {
-  const errorMessage = useActionData();
+  const actionData = useActionData();
+  const errorMsg = actionData?.errorMsg || null;
 
   return (
     <>
-      {errorMessage && <h1 className="text-red">{errorMessage}</h1>}
-
       <div className={s.formContainer}>
+        {errorMsg && <p className={s.errorMsg}>{errorMsg}</p>}
+
         <Form
+          type="createAccount"
           action={createAccountAction}
           btnText="Create account"
           msg="Already have an account?"
