@@ -60,7 +60,5 @@ export default function verifyCredentials(credentials) {
     throw new Error("Please choose a different username");
   }
 
-  console.log("Successfully created account!");
-
   return { verifiedEmail: lc_email, verifiedPassword: password, verifiedUsername: username };
 }

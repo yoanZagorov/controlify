@@ -14,22 +14,26 @@ export async function createAccountAction({ request }) {
 
     const { verifiedEmail, verifiedPassword, verifiedUsername } = verifyCredentials({ email, password, username });
 
-    const {user: newUser} = await createUserWithEmailAndPassword(auth, verifiedEmail, verifiedPassword);
+    const { user: newUser } = await createUserWithEmailAndPassword(auth, verifiedEmail, verifiedPassword);
 
     updateProfile(newUser, {
       displayName: verifiedUsername
     })
 
-    // console.log(userCredentials);
+    // Message to display on successful account creation
+    sessionStorage.setItem("createAccountMsg", "Successfully created an account!");
+
+    return redirect("/app");
+
   } catch (error) {
     console.error(error);
+
+    if (error.code === "auth/email-already-in-use") {
+      error.message = "Email already in use";
+    }
+
     return { errorMsg: error.message };
   }
-
-  // Message to display on successful account creation
-  sessionStorage.setItem("createAccountMsg", "Successfully created an account!");
-
-  return redirect("/app");
 }
 
 export async function loginAction({ request }) {
@@ -39,16 +43,19 @@ export async function loginAction({ request }) {
     const password = formData.get("password");
 
     const { checkedEmail, checkedPassword } = checkUser({ email, password });
-    const userCredentials = await signInWithEmailAndPassword(auth, checkedEmail, checkedPassword);
+    await signInWithEmailAndPassword(auth, checkedEmail, checkedPassword);
 
-    console.log(userCredentials);
+    // Message to display on successful login
+    sessionStorage.setItem("loginMsg", "Successfully logged in!");
+    return redirect("/app");
   } catch (error) {
     console.error(error);
+    
+    if (error.code === "auth/invalid-credential") {
+      error.message = "Invalid email and/or password";
+    } else if (error.code === "auth/too-many-requests") {
+      error.message = "Too many requests. Please try again later";
+    }
     return { errorMsg: error.message };
   }
-
-  // Message to display on successful login
-  sessionStorage.setItem("loginMsg", "Successfully logged in!");
-
-  return redirect("/app");
 }

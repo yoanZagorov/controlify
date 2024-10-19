@@ -4,8 +4,8 @@ import s from "../auth.module.css";
 import { useActionData } from "react-router-dom";
 
 export default function CreateAccount() {
-  const actionData = useActionData();
-  const errorMsg = actionData?.errorMsg || null;
+  const errorMsg = useActionData()?.errorMsg || null;
+  // const errorMsg = actionData?.errorMsg || null;
 
   return (
     <>

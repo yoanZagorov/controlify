@@ -7,8 +7,6 @@ export const AuthContext = createContext(null);
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  console.log("Current user:", user);
-
   useEffect(() => {
     onAuthStateChanged(auth, (userObj) => {
       setUser(userObj);

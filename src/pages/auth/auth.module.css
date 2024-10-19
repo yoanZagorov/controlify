@@ -19,7 +19,7 @@
 }
 
 .errorMsg {
-  @apply text-red max-w-[425px] ;
+  @apply text-red max-w-[425px] ml:text-lg tab:text-xl;
 }
 
 .p {

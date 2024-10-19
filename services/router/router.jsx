@@ -3,18 +3,17 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import { LandingPage } from "@/pages/LandingPage";
 import { Login } from "@/pages/auth";
 import { AuthLayout, CreateAccount } from "@/pages/auth";
 import { AppLayout, Dashboard } from "@/pages/app";
 
 import { createAccountAction, loginAction } from "./actions";
-import { appLoader } from "./loaders";
+import { appLoader, rootLoader } from "./loaders";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage />
+    loader: rootLoader
   },
   {
     path: "/auth",
