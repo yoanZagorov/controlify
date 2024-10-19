@@ -1,4 +1,4 @@
-export function verifyCredentials(credentials) {
+export default function verifyCredentials(credentials) {
   const { email, password, username } = credentials;
 
   // Check email validity
@@ -50,18 +50,17 @@ export function verifyCredentials(credentials) {
   if (username.length < 3 && username.length > 20) {
     throw new Error("Username length should be between 3 and 20 characters");
   }
-  
-  const lc_username = username.toLowerCase();
 
-  if (!usernameRegex.test(lc_username)) {
+  if (!usernameRegex.test(username)) {
     throw new Error("The username should not include any special characters");
   }
   
+  const lc_username = username.toLowerCase();
   if (reserved.includes(lc_username)) {
     throw new Error("Please choose a different username");
   }
 
   console.log("Successfully created account!");
 
-  return { verifiedEmail: lc_email, verifiedPassword: password, verifiedUsername: lc_username };
+  return { verifiedEmail: lc_email, verifiedPassword: password, verifiedUsername: username };
 }

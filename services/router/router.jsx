@@ -1,8 +1,6 @@
 import {
   createBrowserRouter,
-  createRoutesFromElements,
   Navigate,
-  Route,
 } from "react-router-dom";
 
 import { LandingPage } from "@/pages/LandingPage";
@@ -11,42 +9,44 @@ import { AuthLayout, CreateAccount } from "@/pages/auth";
 import { AppLayout, Dashboard } from "@/pages/app";
 
 import { createAccountAction, loginAction } from "./actions";
+import { appLoader } from "./loaders";
 
-const router = createBrowserRouter(createRoutesFromElements(
-  <>
-    <Route
-      path="/"
-      element={<LandingPage />}
-    />
-    <Route
-      path="/auth"
-      element={<AuthLayout />}
-    >
-      <Route
-        index
-        element={<Navigate to="login" replace />}
-      />
-      <Route
-        path="login"
-        element={<Login />}
-        action={loginAction}
-      />
-      <Route
-        path="create-account"
-        element={<CreateAccount />}
-        action={createAccountAction}
-      />
-    </Route>
-    <Route
-      path="/app"
-      element={<AppLayout/>}
-    >
-      <Route 
-        index
-        element={<Dashboard/>}
-      />
-    </Route>
-  </>
-));
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LandingPage />
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="login" replace />
+      },
+      {
+        path: "login",
+        element: <Login />,
+        action: loginAction
+      },
+      {
+        path: "create-account",
+        element: <CreateAccount />,
+        action: createAccountAction
+      }
+    ]
+  },
+  {
+    path: "/app",
+    element: <AppLayout/>,
+    loader: appLoader,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />
+      }
+    ]
+  }
+])
 
 export default router;
