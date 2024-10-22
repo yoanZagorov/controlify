@@ -1,0 +1,5 @@
+.wrapper {
+  @apply w-screen px-4;
+}
+
+/* Header */

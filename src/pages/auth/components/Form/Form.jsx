@@ -43,9 +43,9 @@ export default function Form({ type, action, btnText, msg, CTA }) {
         {isCreateAccount &&
           <input
             type="text"
-            name="username"
-            placeholder="Username"
-            minLength={3}
+            name="fullName"
+            placeholder="Full name"
+            minLength={5}
             maxLength={20}
             required
             className={s.input}

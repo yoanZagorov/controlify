@@ -1,0 +1,49 @@
+/* To do: use the class defined in the app.module.css (deal with absolute imports) */
+.wrapper {
+  @apply w-screen px-4;
+}
+
+/* Mobile bar */
+.mobileBar {
+  composes: wrapper;
+  @apply w-screen h-16 flex items-center gap-4 bg-navy shadow;
+}
+
+.hamburger {
+  @apply w-7 h-8 fill-gray-light;
+}
+
+.pageTitle {
+  @apply text-lg text-gray-light font-medium;
+}
+
+/* Sidebar */
+.sidebar {
+  composes: wrapper;
+  @apply 
+  absolute top-0 left-0
+  flex flex-col items-center 
+  pt-5 w-[80%] max-w-[300px] h-full 
+  text-gray-light
+  bg-navy;
+}
+
+.slogan {
+  @apply text-sm tracking-wider font-light;
+}
+
+.userIcon {
+  @apply mt-7 w-20 h-20 fill-gray-light;
+}
+
+.email {
+ @apply mt-4 text-xs font-light;
+}
+
+.fullName {
+  @apply mt-2 text-2xl;
+}
+
+.navMain {
+  
+}

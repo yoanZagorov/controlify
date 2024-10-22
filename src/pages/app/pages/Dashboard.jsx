@@ -1,9 +1,12 @@
-import { signOut } from "firebase/auth";
-import useAuth from "@/utils/hooks/useAuth";
-import { useState, useEffect } from "react"
-import { Button } from "@/components/Button";
-import { auth } from "services/firebase";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { signOut } from "firebase/auth";
+import { auth } from "services/firebase/firebase.config";
+
+import { useAuth } from "@/utils/hooks";
+
+import { Button } from "@/components/Button";
 
 
 export default function Dashboard() {  

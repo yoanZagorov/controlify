@@ -32,6 +32,9 @@ export default {
       "fhd": "1920px",
       "4k": "3840px",
     },
+    "boxShadow": {
+      DEFAULT: "0 4px 4px rgba(0, 0, 0, 0.25)"
+    }
   },
   plugins: [],
 }

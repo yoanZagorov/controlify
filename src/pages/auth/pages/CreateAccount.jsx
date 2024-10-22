@@ -5,7 +5,6 @@ import { useActionData } from "react-router-dom";
 
 export default function CreateAccount() {
   const errorMsg = useActionData()?.errorMsg || null;
-  // const errorMsg = actionData?.errorMsg || null;
 
   return (
     <>

@@ -1,9 +1,10 @@
+// To do: try moving this file to the root config folder
 {
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"],
       "logos/*": ["./src/assets/images/logos/*"],
-      "services/*": ["./services/*"]      
+      "services/*": ["./services/*"],
     }
   }
 }
