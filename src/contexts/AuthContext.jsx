@@ -11,6 +11,7 @@ export default function AuthProvider({ children }) {
   useEffect(() => {
     onAuthStateChanged(auth, (userObj) => {
       setUser(userObj);
+      // Used localStorage because auth.currentUser is initially null, so it doesn't work with the app loader 
       localStorage.setItem("isUser", userObj ? true : false);
     });
 

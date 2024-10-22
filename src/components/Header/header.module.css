@@ -19,13 +19,17 @@
 
 /* Sidebar */
 .sidebar {
-  composes: wrapper;
   @apply 
-  absolute top-0 left-0
-  flex flex-col items-center 
-  pt-5 w-[80%] max-w-[300px] h-full 
-  text-gray-light
-  bg-navy;
+    absolute top-0 left-0
+    flex flex-col items-center 
+    pt-5 w-[80%] max-w-[300px] h-full 
+    text-gray-light
+    bg-navy;
+}
+
+.logoWrapper {
+  composes: wrapper;
+  @apply max-w-full;
 }
 
 .slogan {
@@ -44,6 +48,19 @@
   @apply mt-2 text-2xl;
 }
 
-.navMain {
-  
+/* Main navigation */
+.mainNav {
+  @apply mt-12 w-full;
+}
+
+.mainNavEl {
+  @apply flex items-center gap-3 py-3 px-4 text-xl;
+}
+
+.active {
+  @apply bg-gray-medium text-gray-dark font-semibold;
+}
+
+.mainNavIcon {
+  @apply w-6 h-6 fill-current;
 }

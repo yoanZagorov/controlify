@@ -42,7 +42,19 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <Navigate to="dashboard" replace />
+      },
+      {
+        path: "dashboard",
         element: <Dashboard />
+      },
+      {
+        path: "wallets",
+        element: <h1>This will be the wallets page!</h1>
+      },
+      {
+        path: "reflect",
+        element: <h1>This will be the stats page!</h1>
       }
     ]
   }

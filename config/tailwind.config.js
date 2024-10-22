@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     colors: {
+      "black": "#000000",
+      "white": "#FFFFFF",
+      "current": "currentColor",
       "gray": {
         "light": "#F5F5F5",
         "medium": "#E0E0E0",

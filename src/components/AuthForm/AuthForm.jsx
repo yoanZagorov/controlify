@@ -5,16 +5,15 @@ import { Link, Form as RouterForm } from "react-router-dom";
 import { Button } from "@/components/Button";
 
 // Styles
-import s from "./Form.module.css";
+import s from "./AuthForm.module.css"; 
 import { styles as btnS } from "@/components/Button";
 
-export default function Form({ type, action, btnText, msg, CTA }) {
+export default function AuthForm({ type, action, btnText, msg, CTA }) {
   const btnClasses = classNames(s.btn, btnS.btnPrimary);
 
   const isCreateAccount = type === "createAccount";
-  const path = isCreateAccount
-    ? "../login"
-    : "../create-account";
+  
+  const path = isCreateAccount ? "../login" : "../create-account";
 
   return (
     <RouterForm
@@ -46,7 +45,6 @@ export default function Form({ type, action, btnText, msg, CTA }) {
             name="fullName"
             placeholder="Full name"
             minLength={5}
-            maxLength={20}
             required
             className={s.input}
           />
@@ -57,7 +55,8 @@ export default function Form({ type, action, btnText, msg, CTA }) {
         {btnText}
       </Button>
 
-      <p className={s.p}>{msg}
+      <p className={s.p}>
+        {msg}
         <Link
           to={path}
           className={s.cta}
