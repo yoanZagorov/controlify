@@ -1,4 +1,4 @@
-export default function verifyCredentials(credentials) {
+export default function verifyCredentials(credentials, isSignup = false) {
   const { email, password, fullName } = credentials;
 
   // Check email validity
@@ -37,23 +37,27 @@ export default function verifyCredentials(credentials) {
     throw new Error("The password should include at least 1 lowercase letter, 1 uppercase letter and 1 special character");
   }
 
+
   // Check full name validity
   // Regex: Matches letters from all alphabets, with apostrophes, double names (with hyphens) 
-  const fullNameRegex = /^[\p{L}]{1,2}'?[\p{L}]{1,14}[\s-][\p{L}]{1,2}'?[\p{L}]{1,14}(?:[\s-][\p{L}]{1,2}'?[\p{L}]{1,14}){0,2}$/u;
+  if (isSignup) {
 
-  if (fullName === "") {
-    throw new Error("Please provide a name");
+    const fullNameRegex = /^[\p{L}]{1,2}'?[\p{L}]{1,14}[\s-][\p{L}]{1,2}'?[\p{L}]{1,14}(?:[\s-][\p{L}]{1,2}'?[\p{L}]{1,14}){0,2}$/u;
+
+    if (fullName === "") {
+      throw new Error("Please provide a name");
+    }
+
+    if (fullName.length < 3) {
+      throw new Error("Name length should be greater than 3 characters");
+    }
+
+    if (!fullNameRegex.test(fullName)) {
+      throw new Error("Invalid name format");
+    }
   }
 
-  if (fullName.length < 3) {
-    throw new Error("Name length should be greater than 3 characters");
-  }
-
-  if (!fullNameRegex.test(fullName)) {
-    throw new Error("Invalid name format");
-  }
-  
-  return { verifiedEmail: lcEmail, verifiedPassword: password, verifiedFullName: fullName };
+  return { verifiedEmail: lcEmail, verifiedPassword: password, verifiedFullName: isSignup ? fullName : null };
 
   // Check username validity
   // Regex: Can include letters, digits, - or _ but can't include two consecutive special chars or start and end with them

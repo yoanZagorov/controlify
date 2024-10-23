@@ -14,7 +14,7 @@ export default async function createAccountAction({ request }) {
     const password = formData.get("password");
     const fullName = formData.get("fullName");
 
-    const { verifiedEmail, verifiedPassword, verifiedFullName } = verifyCredentials({ email, password, fullName });
+    const { verifiedEmail, verifiedPassword, verifiedFullName } = verifyCredentials({ email, password, fullName }, true);
 
     const userCredential = await createUserWithEmailAndPassword(auth, verifiedEmail, verifiedPassword);
     const userId = userCredential.user.uid;

@@ -3,7 +3,7 @@ import { redirect } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "services/firebase/firebase.config";
 
-import { checkUser } from "@/utils/auth";
+import { verifyCredentials } from "@/utils/auth";
 
 export default async function loginAction({ request }) {
   try {
@@ -11,8 +11,9 @@ export default async function loginAction({ request }) {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    const { checkedEmail, checkedPassword } = checkUser({ email, password });
-    await signInWithEmailAndPassword(auth, checkedEmail, checkedPassword);
+    const { verifiedEmail, verifiedPassword } = verifyCredentials({ email, password });
+
+    await signInWithEmailAndPassword(auth, verifiedEmail, verifiedPassword);
 
     // Message to display on successful login
     sessionStorage.setItem("loginMsg", "Successfully logged in!");

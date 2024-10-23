@@ -1,21 +1,21 @@
 import { redirect } from "react-router-dom";
+import { checkUserStatus } from "@/utils/auth";
+import { getUser } from "services/firebase/db/user";
 
 export default async function appLoader() {
-  const isUser = JSON.parse(localStorage.getItem("isUser"));
+  const user = await checkUserStatus();
 
-  if (!isUser) {
-    return redirect("/auth/login");
-  }
+  if (user) {
+    const userId = user.uid;
 
-  try {
-    // To do: Implement querying logic
-    return {
-      profilePic: null,
-      email: null,
-      fullName: null,
+    try {
+      const userInfo = await getUser(userId);
+      return userInfo;
+    } catch (error) {
+      console.error(error);
+      return { error: "Unable to fetch user" };
     }
-  } catch (error) {
-    console.error(error);
-    return { error: error.message };
   }
+
+  return redirect("/auth/login");
 }

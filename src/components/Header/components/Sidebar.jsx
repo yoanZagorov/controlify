@@ -63,8 +63,8 @@ export default forwardRef(function Sidebar({ toggleSidebar }, ref) {
         <User className={s.userIcon} />
       }
 
-      <p className={s.email}>john@doe.gmail.com</p>
-      <p className={s.fullName}>John Doe</p>
+      <p className={s.email}>{email}</p>
+      <p className={s.fullName}>{fullName}</p>
 
       <nav className={s.mainNav}>
         <ul>
