@@ -5,6 +5,10 @@
     text-center;
 }
 
+.logOutMsg {
+  @apply mt-12 text-lg text-green-light;
+}
+
 .layoutContainer,
 .formContainer {
   @apply tab:w-1/2 flex justify-center items-center;
@@ -19,7 +23,7 @@
 }
 
 .errorMsg {
-  @apply text-red max-w-[425px] ml:text-lg tab:text-xl;
+  @apply text-red-dark max-w-[425px] ml:text-lg tab:text-xl;
 }
 
 .p {

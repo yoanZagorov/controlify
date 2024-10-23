@@ -8,7 +8,7 @@ import { AuthLayout, CreateAccount } from "@/pages/auth";
 import { AppLayout, Dashboard } from "@/pages/app";
 
 import { createAccountAction, loginAction } from "./actions";
-import { appLoader, rootLoader } from "./loaders";
+import { appLoader, dashboardLoader, rootLoader } from "./loaders";
 
 const router = createBrowserRouter([
   {
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <Dashboard />
+        element: <Dashboard />,
       },
       {
         path: "wallets",
@@ -55,7 +55,15 @@ const router = createBrowserRouter([
       {
         path: "reflect",
         element: <h1>This will be the stats page!</h1>
-      }
+      },
+      {
+        path: "settings",
+        element: <h1>This will be the settings page!</h1>
+      },
+      {
+        path: "categories",
+        element: <h1>This will be the categories page!</h1>
+      },
     ]
   }
 ])

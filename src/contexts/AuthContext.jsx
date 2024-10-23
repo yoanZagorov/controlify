@@ -1,22 +1,25 @@
 import { createContext, useEffect, useState } from "react";
 
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "services/firebase/firebase.config";
+import { getAuthUser } from "@/utils/auth";
+import { getUser } from "services/firebase/db/user";
 
 export const AuthContext = createContext(null);
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (userObj) => {
-  //     setUser(userObj);
-  //     // Used localStorage because auth.currentUser is initially null, so it doesn't work with the app loader 
-  //     localStorage.setItem("isUser", userObj ? true : false);
-  //   });
+  useEffect(() => {
+    async function fetchUser() {
+      const authUser = await getAuthUser();
 
-  //   return () => localStorage.removeItem("isUser");
-  // }, [])
+      if (authUser) {
+        const user = await getUser(authUser.uid);
+        setUser(user);
+      }
+    }
+
+    fetchUser();
+  }, []);
 
   return (
     <AuthContext.Provider value={user}>

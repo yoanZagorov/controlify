@@ -1,21 +1,20 @@
 import { redirect } from "react-router-dom";
-import { checkUserStatus } from "@/utils/auth";
+
+import { getAuthUser } from "@/utils/auth";
 import { getUser } from "services/firebase/db/user";
 
 export default async function appLoader() {
-  const user = await checkUserStatus();
+  const authUser = await getAuthUser();
 
-  if (user) {
-    const userId = user.uid;
-
-    try {
-      const userInfo = await getUser(userId);
-      return userInfo;
-    } catch (error) {
-      console.error(error);
-      return { error: "Unable to fetch user" };
-    }
+  if (authUser) {
+    const user = await getUser(authUser.uid);
+    return { 
+      user: {
+        ...user, 
+        id: authUser.uid
+      } 
+    };
+  } else {
+    return redirect("/auth/login");
   }
-
-  return redirect("/auth/login");
 }

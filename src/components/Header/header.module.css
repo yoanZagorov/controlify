@@ -22,7 +22,7 @@
   @apply 
     absolute top-0 left-0
     flex flex-col items-center 
-    pt-5 w-[80%] max-w-[300px] h-full 
+    py-5 w-[80%] max-w-[300px] h-full 
     text-gray-light
     bg-navy;
 }
@@ -50,7 +50,7 @@
 
 /* Main navigation */
 .mainNav {
-  @apply mt-12 w-full;
+  @apply mt-8 w-full;
 }
 
 .mainNavEl {
@@ -63,4 +63,26 @@
 
 .mainNavIcon {
   @apply w-6 h-6 fill-current;
+}
+
+/* Secondary navigation */
+.secNav {
+  @apply mt-auto w-full;
+}
+
+.secNavEl,
+.logOutNavEl {
+  @apply flex items-center gap-3 py-2 px-4;
+}
+
+.secNavEl {
+  @apply text-gray-medium;
+}
+
+.logOutNavEl {
+  @apply text-red-light;
+}
+
+.secNavIcon {
+  @apply w-4 h-4 fill-current;
 }

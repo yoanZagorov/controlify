@@ -1,11 +1,11 @@
 import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "services/firebase/firebase.config"
 
-export default function checkUserStatus() {
+export default function getAuthUser() {
   return new Promise((resolve) => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        resolve(user)
+    onAuthStateChanged(auth, (authUser) => {
+      if (authUser) {
+        resolve(authUser)
       } else {
         resolve(false);
       }

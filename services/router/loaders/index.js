@@ -1,2 +1,3 @@
-export { default as appLoader } from "./appLoader";
 export { default as rootLoader } from "./rootLoader";
+export { default as appLoader } from "./appLoader";
+export { default as dashboardLoader } from "./dashboardLoader";

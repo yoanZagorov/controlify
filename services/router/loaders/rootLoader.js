@@ -1,10 +1,10 @@
-import { checkUserStatus } from "@/utils/auth";
+import { getAuthUser } from "@/utils/auth";
 import { redirect } from "react-router-dom";
 
 export default async function rootLoader() {
-  const isUser = await checkUserStatus();
+  const authUser = await getAuthUser();
 
-  if (isUser) {
+  if (authUser) {
     return redirect("/app");
   }
 

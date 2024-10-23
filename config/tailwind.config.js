@@ -12,14 +12,21 @@ export default {
       "gray": {
         "light": "#F5F5F5",
         "medium": "#E0E0E0",
-        "dark": "#333333"
+        "dark": "#333333",
       },
       "navy": {
         DEFAULT: "#002B5B",
         "dark": "#001F4D",
       },
       "goldenrod": "#DAA520",
-      "red": "#CC0000",
+      "red": {
+        "light": "#FF5C5C",
+        "dark": "#CC0000",
+      },
+      "green": {
+        "light": "#008000",
+        "dark": "#03C03C",
+      }
     },
     fontFamily: {
       "roboto": ["Roboto", "sans-serif"]
