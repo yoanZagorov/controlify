@@ -1,15 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import classNames from "classnames";
+import { Sidebar } from "./Sidebar";
 
+import getCurrentPage from "@/utils/generic/getCurrentPage";
+
+import s from "./MobileHeader.module.css";
 import Hamburger from "@/assets/icons/hamburger.svg?react";
-
-import s from "../header.module.css";
-
-import getCurrentPage from "@/utils/getCurrentPage";
-
-import Sidebar from "./Sidebar";
 
 export default function MobileHeader() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -34,22 +31,16 @@ export default function MobileHeader() {
 
   const currentPage = getCurrentPage(location.pathname);
 
-  const mobileBarClasses = isSidebarOpen 
-    ? classNames(s.mobileBar, "invisible")
-    : s.mobileBar;
-
   return (
     <>
-      <div className={mobileBarClasses}>
+      <div className={isSidebarOpen ? s.topBarClosed : s.topBar}>
         <button onClick={toggleSidebar}>
           <Hamburger className={s.hamburger} />
         </button>
         <p className={s.pageTitle}>{currentPage}</p>
       </div>
 
-      {isSidebarOpen &&
-        <Sidebar ref={sidebarRef} toggleSidebar={toggleSidebar} />
-      }
+      <Sidebar ref={sidebarRef} toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
     </>
   )
 }

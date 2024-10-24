@@ -1,0 +1,45 @@
+/* To do: use these classes as imports */
+@import '../styles.module.css';
+
+.topBar {
+  composes: wrapper defaultTopBar;
+}
+
+.logo {
+  @apply max-h-10 lm:max-h-12 cursor-pointer;
+}
+
+/* Nav */
+.navUl {
+  @apply ml-8 lm:ml-10 flex gap-6 lm:gap-8;
+}
+
+.navEl {
+  @apply lm:text-lg text-gray-light opacity-50 tracking-wide hover:opacity-100 hover:font-semibold transition;
+}
+
+.navElActive {
+  composes: navEl;
+  @apply underline opacity-100 font-semibold;
+}
+
+.greetingContrainer {
+  @apply ml-auto flex items-center gap-4 text-gray-light;
+}
+
+.greeting {
+  @apply lm:text-xl;
+}
+
+.avatarWrapper {
+  @apply w-8 h-8 lm:w-10 lm:h-10 rounded-full;
+}
+
+.userIcon,
+.profilePic {
+  @apply w-full h-full;
+}
+
+.userIcon {
+  @apply fill-current; 
+}
