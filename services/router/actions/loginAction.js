@@ -17,7 +17,7 @@ export default async function loginAction({ request }) {
 
     // Message to display on successful login
     sessionStorage.setItem("loginMsg", "Successfully logged in!");
-    return redirect("/app");
+    return redirect("/");
   } catch (error) {
     console.error(error);
     

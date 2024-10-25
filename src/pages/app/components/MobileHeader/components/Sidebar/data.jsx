@@ -4,30 +4,28 @@ import StatsIcon from "@/assets/icons/stats.svg?react";
 import SettingsIcon from "@/assets/icons/settings.svg?react";
 import CategoriesIcon from "@/assets/icons/categories.svg?react";
 
-import s from "./Sidebar.module.css";
-
 export const mainNavPages = [
   {
     name: "dashboard",
-    icon: <HouseIcon className={s.mainNavIcon} />
+    icon: <HouseIcon className="w-6 h-6 tab:w-7 tab:h-7 fill-current" />
   },
   {
     name: "wallets",
-    icon: <WalletIcon className={s.mainNavIcon} />
+    icon: <WalletIcon className="w-6 h-6 tab:w-7 tab:h-7 fill-current" />
   },
   {
     name: "reflect",
-    icon: <StatsIcon className={s.mainNavIcon} />
+    icon: <StatsIcon className="w-6 h-6 tab:w-7 tab:h-7 fill-current" />
   },
 ]
 
 export const secNavPages = [
   {
     name: "settings",
-    icon: <SettingsIcon className={s.secNavIcon} />
+    icon: <SettingsIcon className="w-4 h-4 tab:w-5 tab:h-5 fill-current" />
   },
   {
     name: "categories",
-    icon: <CategoriesIcon className={s.secNavIcon} />
+    icon: <CategoriesIcon className="w-4 h-4 tab:w-5 tab:h-5 fill-current" />
   },
 ]

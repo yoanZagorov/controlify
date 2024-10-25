@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 
-import { getAuthUser } from "@/utils/auth";
+import { getAuthUserId } from "@/utils/auth";
 import { getUser } from "services/firebase/db/user";
 
 export const AuthContext = createContext(null);
@@ -10,10 +10,10 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     async function fetchUser() {
-      const authUser = await getAuthUser();
+      const authUserId = await getAuthUserId();
 
-      if (authUser) {
-        const user = await getUser(authUser.uid);
+      if (authUserId) {
+        const user = await getUser(authUserId);
         setUser(user);
       }
     }

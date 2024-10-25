@@ -24,7 +24,7 @@ export default async function createAccountAction({ request }) {
     // Message to display on successful account creation
     sessionStorage.setItem("createAccountMsg", "Successfully created an account!");
 
-    return redirect("/app");
+    return redirect("/");
   } catch (error) {
     console.error(error);
 

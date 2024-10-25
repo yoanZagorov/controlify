@@ -1,21 +1,12 @@
-import { redirect } from "react-router-dom";
-
-import { getAuthUser } from "@/utils/auth";
-import { getUser } from "services/firebase/db/user";
+import { getAuthUserId } from "@/utils/auth";
+import { getUserBalance, getUserWallets } from "services/firebase/db/user";
 
 export default async function dashboardLoader() {
-  // const authUser = await getAuthUser();
-
-  // if (authUser) {
-  //   const user = await getUser(authUser.uid);
-  //   return { 
-  //     user: {
-  //       ...user, 
-  //       id: authUser.uid
-  //     } 
-  //   };
-  // } else {
-  //   return redirect("/auth/login");
-  // }
+  // const user = await getAuthUser();
+  // const userId = user.uid;
+    
+  // const userBalance = await getUserBalance(userId);
+  // return { userBalance };
   return null;
 }
+

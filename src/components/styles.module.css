@@ -1,8 +1,0 @@
-.wrapper {
-  @apply w-screen px-4 tab:px-6 ll:px-10;
-}
-
-/* Header */
-.defaultTopBar {
-  @apply w-screen h-16 lm:h-20 flex items-center bg-navy shadow;
-}

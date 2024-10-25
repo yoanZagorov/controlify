@@ -1,16 +1,9 @@
-import classNames from "classnames";
+// Consider extracting the inputs into a separate component
 import { Link, Form as RouterForm } from "react-router-dom";
 
-// Components
 import { Button } from "@/components/Button";
 
-// Styles
-import s from "./AuthForm.module.css"; 
-import { styles as btnS } from "@/components/Button";
-
 export default function AuthForm({ type, action, btnText, msg, CTA }) {
-  const btnClasses = classNames(s.btn, btnS.btnPrimary);
-
   const isCreateAccount = type === "createAccount";
   
   const path = isCreateAccount ? "../login" : "../create-account";
@@ -19,16 +12,16 @@ export default function AuthForm({ type, action, btnText, msg, CTA }) {
     <RouterForm
       method="post"
       action={action}
-      className={s.form}
+      className="flex flex-col w-full max-w-[425px]"
     >
-      <div className={s.inputsContainer}>
+      <div className="flex flex-col gap-5">
         <input
           type="email"
           name="email"
           placeholder="Email"
           minLength={2}
           required
-          className={s.input}
+          className="auth-form__input"
         />
         <input
           type="password"
@@ -37,7 +30,7 @@ export default function AuthForm({ type, action, btnText, msg, CTA }) {
           minLength={8}
           maxLength={12}
           required
-          className={s.input}
+          className="auth-form__input"
         />
         {isCreateAccount &&
           <input
@@ -46,20 +39,23 @@ export default function AuthForm({ type, action, btnText, msg, CTA }) {
             placeholder="Full name"
             minLength={5}
             required
-            className={s.input}
+            className="auth-form__input"
           />
         }
       </div>
 
-      <Button classes={btnClasses}>
+      <Button 
+        className="mt-12"
+        size="l"
+      >
         {btnText}
       </Button>
 
-      <p className={s.p}>
+      <p className="mt-2 text-navy text-sm ls:text-lg ll:text-xl">
         {msg}
         <Link
           to={path}
-          className={s.cta}
+          className="ml-1 text-gray-dark font-bold underline"
         >
           {CTA}
         </Link>

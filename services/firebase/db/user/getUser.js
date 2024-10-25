@@ -8,7 +8,10 @@ export default async function getUser(userId) {
     const docSnap = await getDoc(userDocRef);
     if (docSnap.exists()) {
       const user = docSnap.data();
-      return user;
+      return {
+        ...user,
+        id: userId
+      };
     } else {
       throw new Error("No user doc!")
     }

@@ -1,20 +1,25 @@
 import { redirect } from "react-router-dom";
 
-import { getAuthUser } from "@/utils/auth";
-import { getUser } from "services/firebase/db/user";
+import { getAuthUserId } from "@/utils/auth";
+import { getUser, getUserBalance, getUserWallets, getUserTodayTransactions } from "services/firebase/db/user";
 
 export default async function appLoader() {
-  const authUser = await getAuthUser();
+  // To do: check if the repeated call can be evaded
+  const authUserId = await getAuthUserId();
 
-  if (authUser) {
-    const user = await getUser(authUser.uid);
-    return { 
-      user: {
-        ...user, 
-        id: authUser.uid
-      } 
-    };
-  } else {
-    return redirect("/auth/login");
-  }
+  const user = await getUser(authUserId);
+
+  const wallets = await getUserWallets(authUserId);
+
+  const balance = await getUserBalance({ wallets });
+
+  // const todayTransactions = await getUserTodayTransactions(authUserId, wallets);
+  // console.log(todayTransactions);
+
+  return {
+    user,
+    wallets,
+    balance,
+    // todayTransactions
+  };
 }
