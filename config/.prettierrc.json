@@ -1,0 +1,13 @@
+{
+  "plugins": [
+    "prettier-plugin-tailwindcss"
+  ],
+  "tailwindConfig": "./tailwind.config.js",
+  "tailwindFunctions": [
+    "cn",
+    "classname"
+  ],
+  "tabWidth": 2,
+  "semi": true,
+  "arrowParens": "avoid"
+}

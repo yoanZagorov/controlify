@@ -7,4 +7,6 @@ export default async function authLoader() {
   if (authUserId) {
     return redirect("/app");
   }
+
+  return null;
 }

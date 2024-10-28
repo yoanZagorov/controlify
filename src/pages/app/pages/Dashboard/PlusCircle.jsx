@@ -1,4 +1,4 @@
-export default function PlusCircleIcon({ size = 100, circleColor="fill-navy", plusColor="fill-goldenrod" }) {
+export default function PlusCircleIcon({ size = 100, circleColor = "fill-navy", plusColor = "fill-goldenrod" }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

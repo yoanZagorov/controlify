@@ -13,13 +13,13 @@ export default async function appLoader() {
 
   const balance = await getUserBalance({ wallets });
 
-  // const todayTransactions = await getUserTodayTransactions(authUserId, wallets);
+  const todayTransactionsByWallet = await getUserTodayTransactions(authUserId, wallets);
   // console.log(todayTransactions);
 
   return {
     user,
     wallets,
     balance,
-    // todayTransactions
+    todayTransactionsByWallet
   };
 }

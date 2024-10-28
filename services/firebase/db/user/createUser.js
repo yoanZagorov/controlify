@@ -2,7 +2,7 @@ import { db } from "services/firebase/firebase.config";
 import { doc, setDoc } from "firebase/firestore";
 
 import { getDefaultCurrency } from "@/utils/user";
-import { createWallet } from "../wallet";
+import { createCashWallet } from "../wallet";
 import { createCategories } from "../category";
 
 export default async function createUser(email, fullName, userId) {
@@ -21,7 +21,7 @@ export default async function createUser(email, fullName, userId) {
     })
 
     await createCategories(userDocRef);
-    await createWallet(userDocRef);
+    await createCashWallet(userDocRef);
   } catch (error) {
     console.error(error);
   }

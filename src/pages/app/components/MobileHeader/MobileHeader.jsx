@@ -32,7 +32,7 @@ export default function MobileHeader() {
 
   const currentPage = getCurrentPage(location.pathname);
 
-  const topBarCn = "w-screen px-4 fixed left-0 h-16 lm:h-20 flex items-center bg-navy shadow gap-4 transition-[top] duration-500 tab:duration-700";
+  const topBarCn = "page__wrapper fixed left-0 h-16 lm:h-20 flex items-center bg-navy shadow gap-4 transition-[top] duration-500 tab:duration-700";
 
   const topBarOpenedCn = cn(topBarCn, "top-0");
   const topBarClosedCn = cn(topBarCn, "-top-[4.5rem] lm:-top-[5.5rem]");

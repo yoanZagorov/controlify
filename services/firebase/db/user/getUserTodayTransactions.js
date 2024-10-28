@@ -8,20 +8,21 @@ export default async function getUserTodayTransactions(userId, wallets) {
 
   const promises = wallets.map(async (wallet) => {
     const transactionsRef = collection(db, `users/${userId}/wallets/${wallet.id}/transactions`);
-    
-    const q = query(transactionsRef, 
+
+    const q = query(transactionsRef,
       where("createdAt", ">=", start),
       where("createdAt", "<=", end)
-    )
-    
+    );
+
     try {
       const querySnapshot = await getDocs(q);
-      
-      const transactions = querySnapshot.docs.map(doc => ({
-        ...doc.data(),
-        id: doc.id
-      }));
-      
+
+      const transactions =
+        querySnapshot.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id
+        }));
+
       return {
         walletId: wallet.id,
         transactions
@@ -30,8 +31,8 @@ export default async function getUserTodayTransactions(userId, wallets) {
       console.error(error);
       error.message = `Unable to fetch transactions for wallet ${wallet.id}`;
     }
-    })
-    
+  })
+
   try {
     const allTransactions = await Promise.all(promises);
 

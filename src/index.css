@@ -11,10 +11,14 @@
       bg-gray-medium
       text-gray-dark text-lg ll:text-xl placeholder-gray-dark placeholder-opacity-50
       border border-gray-dark rounded-xl
-      focus:outline-goldenrod transition-all shadow;
+      focus:outline-none focus:border-none focus:ring focus:ring-goldenrod transition-all shadow;
   }
   
   .wrapper {
     @apply w-screen px-4 tab:px-6 ll:px-10;
+  }
+
+  .page__wrapper {
+    @apply w-screen px-4 tab:px-6 ls:px-8 ll:px-10;
   }
 }

@@ -1,7 +1,7 @@
 import { collection, addDoc } from "firebase/firestore";
 import { getDefaultCurrency } from "@/utils/user";
 
-export default async function createWallet(userDocRef) {
+export default async function createCashWallet(userDocRef) {
   // To do:
   const currency = getDefaultCurrency() || "BGN";
 
@@ -12,10 +12,11 @@ export default async function createWallet(userDocRef) {
       name: "cash",
       balance: 0,
       currency,
+      iconName: "wallet",
       createdAt: new Date()
     })
 
-  } catch(error) {
+  } catch (error) {
     console.error(error);
   }
 }

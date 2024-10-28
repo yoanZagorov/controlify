@@ -8,9 +8,9 @@ export default defineConfig({
   plugins: [react(), svgr()],
   css: {
     postcss: "config/postcss.config.js",
-    modules: {
-      localsConvention: "camelCase",
-    }
+    // modules: {
+    //   localsConvention: "camelCase",
+    // }
   },
   server: {
     open: "/"

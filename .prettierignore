@@ -1,0 +1,32 @@
+# Ignore node modules and build directories
+node_modules
+dist
+build
+
+# Ignore transpiled and minified files
+*.min.js
+*.min.css
+*.bundle.js
+*.bundle.css
+
+# Ignore environment and config files
+.env
+.env.local
+.env.production
+.prettierrc
+.eslintrc
+.stylelintrc
+package-lock.json
+
+# Ignore static assets
+public
+static
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+
+# Ignore markdown or documentation files
+README.md
+docs/

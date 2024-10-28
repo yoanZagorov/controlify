@@ -1,1 +1,1 @@
-export { default as createWallet } from "./createWallet";
+export { default as createCashWallet } from "./createCashWallet";
