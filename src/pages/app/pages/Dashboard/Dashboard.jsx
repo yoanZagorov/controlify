@@ -13,13 +13,15 @@ import { capitalize, loadIcon } from "@/utils/generic";
 import { Button } from "@/components/Button";
 import { openTransactionModal } from "@/utils/transaction";
 import { LazySvg } from "@/components/LazySvg";
+import { SvgIcon } from "@/components/SvgIcon";
 
 export default function Dashboard() {
   const [flashMsg, setFlashMsg] = useState(null);
 
-  const { user, balance, wallets, todayTransactionsByWallet } = useRouteLoaderData("app");
+  const { user, wallets, categories, balance, todayTransactionsByWallet } = useRouteLoaderData("app");
 
-  const { defaultCurrency, id } = user;
+  const { defaultCurrency } = user;
+
 
   // To do: create a custom hook and/or context for notifications 
   useEffect(() => {
@@ -44,6 +46,10 @@ export default function Dashboard() {
     }
   }
 
+  const categoriesEls = categories.map(category => (
+    <SvgIcon iconName={category.iconName} className="w-7 h-7" />
+  ));
+
   const walletWidgets = wallets.map(wallet => {
     const WalletIcon =
       <LazySvg iconName={wallet.iconName} className="w-5 h-5 fill-gray-dark" />
@@ -65,6 +71,10 @@ export default function Dashboard() {
   return (
     <div className={"page__wrapper mt-24 lm:mt-32 self-center tab:max-w-[calc(theme('screens.lm')-2*2.5rem)]"}>
       {flashMsg && <p className="text-lg text-green-light text-center">{flashMsg}</p>}
+      {/* Temp */}
+      <div>
+        {categoriesEls}
+      </div>
 
       <div className="grid grid-cols-1 tab:grid-cols-10 tab:grid-flow-col tab:grid-rows-[auto,1fr] gap-14">
         <WidgetSection

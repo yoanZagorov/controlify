@@ -1,7 +1,10 @@
 import { redirect } from "react-router-dom";
 
 import { getAuthUserId } from "@/utils/auth";
-import { getUser, getUserBalance, getUserWallets, getUserTodayTransactions } from "services/firebase/db/user";
+import { getUser, getUserBalance } from "services/firebase/db/user";
+import { getUserWallets } from "services/firebase/db/wallet";
+import { getUserTodayTransactions } from "services/firebase/db/transaction";
+import { getUserCategories } from "services/firebase/db/category";
 
 export default async function appLoader() {
   // To do: check if the repeated call can be evaded
@@ -11,14 +14,16 @@ export default async function appLoader() {
 
   const wallets = await getUserWallets(authUserId);
 
+  const categories = await getUserCategories(authUserId);
+
   const balance = await getUserBalance({ wallets });
 
   const todayTransactionsByWallet = await getUserTodayTransactions(authUserId, wallets);
-  // console.log(todayTransactions);
 
   return {
     user,
     wallets,
+    categories,
     balance,
     todayTransactionsByWallet
   };
