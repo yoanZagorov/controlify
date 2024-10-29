@@ -1,3 +1,4 @@
-export { default as useAuth } from "./useAuth";
-export { default as useUser } from "./useUser";
+export * from "./contextHooks";
+
 export { default as useScreenWidth } from "./useScreenWidth";
+export { default as useScrollLock } from "./useScrollLock";

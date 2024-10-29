@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 
-const NotificationContext = createContext(null);
+export const NotificationContext = createContext(null);
 
 export default function NotificationProvider({ children }) {
   const [notification, setNotification] = useState(null);
@@ -10,7 +10,7 @@ export default function NotificationProvider({ children }) {
       const timeoutId = setTimeout(() => {
         setNotification(null);
       }, 3000);
-      
+
       return () => clearTimeout(timeoutId);
     }
   }, [notification]);

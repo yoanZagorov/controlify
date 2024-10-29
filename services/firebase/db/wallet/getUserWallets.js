@@ -9,7 +9,7 @@ export default async function getUserWallets(userId) {
 
     const wallets = querySnapshot.docs.map((doc) => ({
       ...doc.data(),
-      id: doc.id
+      id: doc.id,
     }));
 
     return wallets;

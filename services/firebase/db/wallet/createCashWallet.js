@@ -13,6 +13,7 @@ export default async function createCashWallet(userDocRef) {
       balance: 0,
       currency,
       iconName: "wallet",
+      isDefault: true,
       createdAt: new Date()
     })
 

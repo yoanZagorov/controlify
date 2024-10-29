@@ -1,3 +1,10 @@
+// Transaction Modal
+import WalletIcon from "@/assets/icons/wallet.svg?react";
+import CategoriesIcon from "@/assets/icons/categories.svg?react";
+import CalendarIcon from "@/assets/icons/calendar.svg?react";
+
+
+// Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
 import ShoppingBagIcon from "@/assets/icons/shopping-bag.svg?react";
 import HouseIcon from "@/assets/icons/house.svg?react";
@@ -14,6 +21,9 @@ import PiggyBankIcon from "@/assets/icons/piggy-bank.svg?react";
 import MoneyBillStockUpIcon from "@/assets/icons/money-bill-stock-up.svg?react";
 
 const iconComponentsMap = {
+  "wallet": WalletIcon,
+  "categories": CategoriesIcon,
+  "calendar": CalendarIcon,
   "shopping-cart": ShoppingCartIcon,
   "shopping-bag": ShoppingBagIcon,
   "house": HouseIcon,
