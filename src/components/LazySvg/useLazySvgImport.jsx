@@ -7,16 +7,18 @@ export default function useLazySvgImport(iconName) {
 
   useEffect(() => {
     setLoading(true);
-    const importIcon = async () => {
+
+    async function importIcon() {
       try {
         importRef.current = (await import(`@/assets/icons/${iconName}.svg?react`)).default;
       } catch (error) {
-        console.error("Unable to dynamically import wallet icon");
+        console.error(`Unable to dynamically import ${iconName} icon`);
         setError(error);
       } finally {
         setLoading(false);
       }
     };
+
     importIcon();
   }, [iconName]);
 

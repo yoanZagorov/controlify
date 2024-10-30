@@ -1,8 +1,10 @@
-// Transaction Modal
+// Dashboard
+import ScaleIcon from "@/assets/icons/scale.svg?react";
 import WalletIcon from "@/assets/icons/wallet.svg?react";
-import CategoriesIcon from "@/assets/icons/categories.svg?react";
 import CalendarIcon from "@/assets/icons/calendar.svg?react";
 
+// Transaction Modal
+import CategoriesIcon from "@/assets/icons/categories.svg?react";
 
 // Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
@@ -37,10 +39,14 @@ const iconComponentsMap = {
   "football": FootballIcon,
   "briefcase": BriefcaseIcon,
   "piggy-bank": PiggyBankIcon,
-  "money-bill-stock-up": MoneyBillStockUpIcon
+  "money-bill-stock-up": MoneyBillStockUpIcon,
+  "scale": ScaleIcon
 }
 
 export default function SvgIcon({ iconName, ...props }) {
   const IconComponent = iconComponentsMap[iconName];
-  return IconComponent ? <IconComponent {...props} /> : null;
+
+  return IconComponent
+    ? <IconComponent {...props} />
+    : <div {...props}></div>
 }

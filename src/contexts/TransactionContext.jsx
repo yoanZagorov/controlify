@@ -12,18 +12,18 @@ export default function TransactionProvider({ children }) {
   const currency = defaultWallet.currency;
 
   const [transactionData, setTransactionData] = useState({
-    amount: 0,
+    amount: "0",
     wallet: walletName,
     currency,
-    category: null,
+    category: "choose",
     categoryType: "expense",
-    date: Date.now()
+    date: "today"
   })
 
   function updateTransactionData(newTransactionData) {
     setTransactionData(prevTransactionData => ({
       ...prevTransactionData,
-      newTransactionData
+      ...newTransactionData
     }))
   }
 

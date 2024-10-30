@@ -24,8 +24,8 @@ export default {
         "dark": "#CC0000",
       },
       "green": {
-        "light": "#008000",
-        "dark": "#03C03C",
+        "light": "#03C03C",
+        "dark": "#008000",
       }
     },
     fontFamily: {
