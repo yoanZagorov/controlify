@@ -12,7 +12,6 @@ import PlusCircleIcon from "./PlusCircle";
 import { useRouteLoaderData } from "react-router-dom";
 import { capitalize } from "@/utils/generic";
 import { Button } from "@/components/Button";
-import { openTransactionModal } from "@/utils/transaction";
 import { LazySvg } from "@/components/LazySvg";
 import { SvgIcon } from "@/components/SvgIcon";
 import { useScrollLock } from "@/utils/hooks";

@@ -1,1 +1,1 @@
-export { default as openTransactionModal } from "./openTransactionModal";
+export { default as handleAmountInput } from "./handleAmountInput";
