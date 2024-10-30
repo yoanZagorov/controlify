@@ -3,8 +3,8 @@ import { useRouteLoaderData } from "react-router-dom";
 import { capitalize } from "@/utils/generic";
 import { useTransaction } from "@/utils/hooks";
 
-import { SvgIcon } from "../SvgIcon";
-import { Balance } from "../Balance";
+import { SvgIcon } from "@/components/SvgIcon";
+import { Balance } from "@/components/Balance";
 
 export default function WalletModal({ closeModal }) {
   const { transactionData, updateTransactionData } = useTransaction();

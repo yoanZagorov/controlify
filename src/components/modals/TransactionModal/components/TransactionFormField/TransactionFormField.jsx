@@ -3,10 +3,10 @@ import { useTransaction } from "@/utils/hooks";
 
 import { capitalize } from "@/utils/generic";
 
-import { SelectModal } from "@/components/SelectModal";
-import { CategoryModal } from "@/components/CategoryModal";
-import { DateModal } from "@/components/DateModal";
-import { WalletModal } from "@/components/WalletModal";
+import { SelectModal } from "@/components/modals/SelectModal";
+import { CategoryModal } from "@/components/modals/CategoryModal";
+import { DateModal } from "@/components/modals/DateModal";
+import { WalletModal } from "@/components/modals/WalletModal";
 import { SvgIcon } from "@/components/SvgIcon";
 
 
@@ -58,7 +58,7 @@ export default function TransactionFormField({ name }) {
       <button
         type="button"
         onClick={() => setSelectModalOpen(wasOpen => !wasOpen)}
-        className="ml-auto w-24 flex justify-between items-center bg-gray-medium border px-2 py-1 font-bold rounded"
+        className="ml-auto min-w-24 flex justify-between gap-2 items-center bg-gray-medium border px-2 py-1 font-bold rounded"
       >
         <span>{defaultOption}</span>
         <span>{">"}</span>

@@ -30,7 +30,7 @@ export default function TransactionModal({ closeModal }) {
     }
   }
 
-  const isExpense = categoryType === "expense";
+  const isExpense = categoryType === "expenses";
 
   return (
     <>

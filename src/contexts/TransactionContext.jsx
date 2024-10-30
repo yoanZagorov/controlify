@@ -16,7 +16,7 @@ export default function TransactionProvider({ children }) {
     wallet: walletName,
     currency,
     category: "choose",
-    categoryType: "expense",
+    categoryType: "expenses",
     date: "today"
   })
 

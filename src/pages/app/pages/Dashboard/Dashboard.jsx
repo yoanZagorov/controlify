@@ -9,7 +9,7 @@ import { useScrollLock } from "@/utils/hooks";
 import { Button } from "@/components/Button";
 import { LazySvg } from "@/components/LazySvg";
 import { SvgIcon } from "@/components/SvgIcon";
-import { TransactionModal } from "@/components/TransactionModal";
+import { TransactionModal } from "@/components/modals/TransactionModal";
 import { Transaction, Widget, WidgetSection } from "./components";
 
 import PlusCircleIcon from "./PlusCircle";

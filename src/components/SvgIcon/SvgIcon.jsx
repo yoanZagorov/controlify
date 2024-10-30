@@ -21,6 +21,7 @@ import FootballIcon from "@/assets/icons/football.svg?react";
 import BriefcaseIcon from "@/assets/icons/briefcase.svg?react";
 import PiggyBankIcon from "@/assets/icons/piggy-bank.svg?react";
 import MoneyBillStockUpIcon from "@/assets/icons/money-bill-stock-up.svg?react";
+import ClipboardQuestionIcon from "@/assets/icons/clipboard-question.svg?react";
 
 const iconComponentsMap = {
   "wallet": WalletIcon,
@@ -40,7 +41,8 @@ const iconComponentsMap = {
   "briefcase": BriefcaseIcon,
   "piggy-bank": PiggyBankIcon,
   "money-bill-stock-up": MoneyBillStockUpIcon,
-  "scale": ScaleIcon
+  "scale": ScaleIcon,
+  "clipboard-question": ClipboardQuestionIcon,
 }
 
 export default function SvgIcon({ iconName, ...props }) {
