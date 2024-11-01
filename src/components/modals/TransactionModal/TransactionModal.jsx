@@ -5,11 +5,13 @@ import { dashboardAction } from "services/router/actions";
 import { useTransaction } from "@/utils/hooks";
 
 import { TransactionFormField } from "./components/TransactionFormField";
+import cn from "classnames";
+import { Button } from "@/components/Button";
 
 export default function TransactionModal({ closeModal }) {
   const { transactionData, updateTransactionData } = useTransaction();
 
-  const { amount, currency, categoryType } = transactionData;
+  const { amount, currency, categoriesType } = transactionData;
 
   function handleChange(e) {
     const value = e.target.value;
@@ -18,19 +20,26 @@ export default function TransactionModal({ closeModal }) {
 
     if (value === "") {
       updateTransactionData({ amount: "0" });
+      return;
     }
 
     if (amount === "0" && /^0[1-9]$/.test(value)) {
-      updateTransactionData({ amount: value.replace("0", "") });
+      updateTransactionData({ amount: value.replace("0", "") });;
       return;
     }
 
     if (regex.test(value)) {
       updateTransactionData({ amount: value });
+      return;
     }
   }
 
-  const isExpense = categoryType === "expenses";
+  const isExpenses = categoriesType === "expenses";
+
+  const amountValueClasses = cn(
+    "w-full flex gap-2 items-end text-xl",
+    isExpenses ? "text-red-light" : "text-green-light"
+  )
 
   return (
     <>
@@ -44,47 +53,54 @@ export default function TransactionModal({ closeModal }) {
       <RouterForm
         method="post"
         action={dashboardAction}
+        className="fixed bottom-0 h-[90%] w-screen rounded-t-lg bg-gray-light"
       >
-        <div className="fixed bottom-0 h-[90%] w-screen rounded-t-lg bg-gray-light">
-          <div className="py-10 px-4 mm:px-6 flex items-end gap-4 w-full rounded-t-lg font-semibold tracking-wide bg-navy">
-            <label
-              htmlFor="transactionAmount"
-              className="text-gray-light text-2xl"
-            >
-              Amount:
-            </label>
+        <div className="py-10 page__wrapper flex items-end gap-4 w-full rounded-t-lg font-semibold tracking-wide bg-navy shadow">
+          <label
+            htmlFor="transactionAmount"
+            className="text-gray-light text-2xl"
+          >
+            Amount:
+          </label>
 
-            <div
-              className={`${isExpense ? "text-red-light" : "text-green-light"} w-full flex gap-2 items-end text-xl`}
-            >
-              <span className="whitespace-nowrap">{isExpense ? "-" : ""}{currency}</span>
-              <input
-                name="amount"
-                type="number"
-                id="transactionAmount"
-                required
-                min={1}
-                onChange={handleChange}
-                value={amount}
-                className="bg-navy border-none focus:outline-none w-full"
-              />
-            </div>
+          <div
+            className={amountValueClasses}
+          >
+            <span className="whitespace-nowrap">{isExpenses ? "-" : ""}{currency}</span>
+            <input
+              name="amount"
+              type="number"
+              id="transactionAmount"
+              required
+              min={1}
+              onChange={handleChange}
+              value={amount}
+              className="bg-navy border-none focus:outline-none w-full"
+            />
           </div>
+        </div>
 
-          <div className="mt-16 px-4 mm:px-6 flex flex-col gap-8">
+        <div className="mt-16 page__wrapper flex flex-col">
+          <div className="flex flex-col gap-8">
             <TransactionFormField
               name="wallet"
             />
-
             <TransactionFormField
               name="category"
             />
-
             <TransactionFormField
               name="date"
             />
           </div>
-        </div >
+
+          <Button
+            size="m"
+            className="mt-12 ml:text-xl ml:py-4 ml:px-8 mm:self-center"
+          >
+            Complete Transaction
+          </Button>
+        </div>
+
       </RouterForm>
     </>
   )

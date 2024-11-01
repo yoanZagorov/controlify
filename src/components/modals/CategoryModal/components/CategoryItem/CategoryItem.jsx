@@ -1,7 +1,16 @@
 import { SvgIcon } from "@/components/SvgIcon";
 import { capitalize } from "@/utils/generic";
+import cn from "classnames";
 
-export default function CategoryItem({ category, updateCategory }) {
+export default function CategoryItem({ category, isActive, handleCategoryChange }) {
+  const btnClasses = cn("flex justify-center items-center w-12 h-12 rounded-full ",
+    isActive ? "border-2 bg-navy border-goldenrod" : "border bg-gray-light border-gray-dark");
+
+  const svgClasses = cn(
+    "w-6 h-6",
+    isActive ? "fill-goldenrod" : "fill-gray-dark"
+  )
+
   return (
     <li
       key={category.id}
@@ -9,11 +18,11 @@ export default function CategoryItem({ category, updateCategory }) {
     >
       <button
         type="button"
-        onClick={() => updateCategory(category.name)}
-        className="grid place-content-center w-12 h-12 rounded-full border border-gray-dark bg-gray-light">
-        <SvgIcon iconName={category.iconName} className="w-6 h-6 fill-gray-dark" />
+        onClick={() => handleCategoryChange({ name: category.name, id: category.id })}
+        className={btnClasses}>
+        <SvgIcon iconName={category.iconName} className={svgClasses} />
       </button>
-      <span className="text-xs text-gray-dark font-semibold">{capitalize(category.name)}</span>
+      <span className="text-xs font-semibold text-gray-dark">{capitalize(category.name)}</span>
     </li>
   )
 }

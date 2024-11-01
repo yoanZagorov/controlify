@@ -1,13 +1,13 @@
-import cn from "classnames";
 import { useState } from "react"
+import cn from "classnames";
 
-export default function ToggleSwitch({ className, options, addHandleToggle }) {
+export default function ToggleSwitch({ options, addHandleToggle, className }) {
   const { firstOption, secondOption } = options;
   const [activeOption, setActiveOption] = useState(firstOption.name);
 
   function handleToggle() {
     setActiveOption(prev => prev === firstOption.name ? secondOption.name : firstOption.name);
-    addHandleToggle();
+    addHandleToggle && addHandleToggle();
   }
 
   const toggleSwitchClasses = cn(className, "p-0.5 rounded-full flex items-center")

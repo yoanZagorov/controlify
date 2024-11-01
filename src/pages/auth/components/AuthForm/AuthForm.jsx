@@ -5,7 +5,7 @@ import { Button } from "@/components/Button";
 
 export default function AuthForm({ type, action, btnText, msg, CTA }) {
   const isCreateAccount = type === "createAccount";
-  
+
   const path = isCreateAccount ? "../login" : "../create-account";
 
   return (
@@ -44,9 +44,9 @@ export default function AuthForm({ type, action, btnText, msg, CTA }) {
         }
       </div>
 
-      <Button 
+      <Button
         className="mt-12"
-        size="l"
+        variant="l"
       >
         {btnText}
       </Button>

@@ -1,6 +1,8 @@
 export default function getCategoriesByType(categories) {
   let expenseCategories = [];
   let incomeCategories = [];
+
+  // Making sure the "Other" category is showed last
   let expenseOtherCategory;
   let incomeOtherCategory;
 

@@ -1,37 +1,43 @@
-import { useState } from "react";
 import { useRouteLoaderData } from "react-router-dom"
 
-import { useTransaction } from "@/utils/hooks";
-
 import { getCategoriesByType } from "@/utils/category";
+
 import { CategoryItem } from "./components/CategoryItem";
 import { ToggleSwitch } from "@/components/ToggleSwitch";
 
-export default function CategoryModal({ closeModal }) {
-  const [isExpenses, setExpenses] = useState(true);
-  const { transactionData, updateTransactionData } = useTransaction();
+export default function CategoryModal({ closeModal, state }) {
+  const [category, setCategory] = [state.category.value, state.category.updateState];
+  const [categoriesType, setCategoriesType] = [state.categoriesType.value, state.categoriesType.updateState];
+
   const { categories } = useRouteLoaderData("app");
 
   function handleCategoryTypeChange() {
-    setExpenses(prev => !prev);
-    updateTransactionData({
-      categoryType: transactionData.categoryType === "expenses" ? "income" : "expenses"
-    });
+    setCategoriesType(prev => prev === "expenses" ? "income" : "expenses");
   }
 
-  function handleCategoryChange(categoryName) {
-    updateTransactionData({ category: categoryName });
+  function handleCategoryChange({ name, id }) {
     closeModal();
+    setCategory({ name, id });
   }
 
   const { expenseCategories, incomeCategories } = getCategoriesByType(categories);
 
-  const expenseCategoriesEls = expenseCategories.map(category => (
-    <CategoryItem key={category.id} category={category} updateCategory={handleCategoryChange} />
+  const expenseCategoriesEls = expenseCategories.map(expenseCategory => (
+    <CategoryItem
+      key={expenseCategory.id}
+      category={expenseCategory}
+      isActive={expenseCategory.id === category.id}
+      handleCategoryChange={handleCategoryChange}
+    />
   ));
 
-  const incomeCategoriesEls = incomeCategories.map(category => (
-    <CategoryItem key={category.id} category={category} updateCategory={handleCategoryChange} />
+  const incomeCategoriesEls = incomeCategories.map(incomeCategory => (
+    <CategoryItem
+      key={incomeCategory.id}
+      category={incomeCategory}
+      isActive={incomeCategory.id === category.id}
+      handleCategoryChange={handleCategoryChange}
+    />
   ));
 
   const toggleSwitchOptions = {
@@ -52,13 +58,13 @@ export default function CategoryModal({ closeModal }) {
   return (
     <div>
       <ToggleSwitch
-        className="mt-3 border border-gray-dark bg-gray-light"
         options={toggleSwitchOptions}
         addHandleToggle={handleCategoryTypeChange}
+        className="mt-3 border border-gray-dark bg-gray-light"
       />
 
       <ul className="mt-6 grid grid-cols-3 gap-x-10 gap-y-4">
-        {isExpenses
+        {categoriesType === "expenses"
           ? expenseCategoriesEls
           : incomeCategoriesEls
         }

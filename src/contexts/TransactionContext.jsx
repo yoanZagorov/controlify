@@ -1,4 +1,3 @@
-import { getDay } from "@/utils/date";
 import { createContext, useState } from "react"
 import { useRouteLoaderData } from "react-router-dom";
 
@@ -16,8 +15,11 @@ export default function TransactionProvider({ children }) {
     amount: "0",
     wallet: walletName,
     currency,
-    category: "choose",
-    categoryType: "expenses",
+    category: {
+      name: "choose",
+      id: null
+    },
+    categoriesType: "expenses",
     date: new Date()
   })
 

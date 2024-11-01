@@ -9,11 +9,12 @@ import { CategoryModal } from "@/components/modals/CategoryModal";
 import { DateModal } from "@/components/modals/DateModal";
 import { WalletModal } from "@/components/modals/WalletModal";
 import { SvgIcon } from "@/components/SvgIcon";
+import { Button } from "@/components/Button";
 
 export default function TransactionFormField({ name }) {
   const { transactionData, updateTransactionData } = useTransaction();
   const [isSelectModalOpen, setSelectModalOpen] = useState(false);
-  const { wallet, category, date } = transactionData;
+  const { wallet, category, categoriesType, date } = transactionData;
 
   const formFields = {
     "wallet": {
@@ -24,18 +25,35 @@ export default function TransactionFormField({ name }) {
       iconName: "wallet",
       state: {
         value: wallet,
-        updateState: updateTransactionData // To do: Create a custom setter
+        updateState: (newWallet) => updateTransactionData({
+          wallet: newWallet
+        })
       }
     },
     "category": {
       Modal: CategoryModal,
       modalHeight: "h-3/5",
       inputValue: category,
-      btnValue: capitalize(category),
+      btnValue: capitalize(category.name),
       iconName: "categories",
       state: {
-        value: category,
-        updateState: updateTransactionData // To do: Create a custom setter
+        category: {
+          value: category,
+          updateState: (newCategory) => updateTransactionData({
+            category: {
+              name: newCategory.name,
+              id: newCategory.id
+            }
+          })
+        },
+        categoriesType: {
+          value: categoriesType,
+          updateState: (newCategoriesType) => updateTransactionData({
+            categoriesType: typeof newCategoriesType === "function"
+              ? newCategoriesType(transactionData.categoriesType)
+              : newCategoriesType
+          })
+        }
       }
     },
     "date": {
@@ -72,14 +90,16 @@ export default function TransactionFormField({ name }) {
       <SvgIcon iconName={iconName} className="w-8 h-8 fill-navy" />
       <span className="text-navy font-semibold">{capitalize(name)}</span>
 
-      <button
-        type="button"
+      <Button
+        variant="secondary"
+        size="xs"
         onClick={() => setSelectModalOpen(wasOpen => !wasOpen)}
-        className="ml-auto min-w-24 flex justify-between gap-2 items-center bg-gray-medium border px-2 py-1 font-bold rounded"
+        className="ml-auto min-w-24 flex justify-between gap-2 items-center focus:ring-1"
+        type="button"
       >
         <span>{btnValue}</span>
         <span>{">"}</span>
-      </button>
+      </Button>
 
       {isSelectModalOpen &&
         <SelectModal

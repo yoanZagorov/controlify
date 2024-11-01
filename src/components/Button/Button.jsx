@@ -2,28 +2,31 @@
 
 import cn from "classnames";
 
-export default function Button({ size = "m", type = "primary", className, children, ...rest }) {
-  const baseCn = "font-bold uppercase focus:outline-none transition-all shadow";
+export default function Button({ size = "m", variant = "primary", className = "", children, ...props }) {
+  const btn = "transition-all shadow focus:outline-none";
 
-  const typeCn =
-    type === "primary" ?
-      "bg-navy text-goldenrod focus:ring-goldenrod hover:bg-navy-dark active:bg-navy-dark "
-      : "";
+  const btnXS = "py-1 px-2 ll:py-2 text-sm ls:text-base rounded-md focus:ring"
+  const btnS = "py-2 px-4 ll:py-3 text-base ls:text-lg rounded-lg focus:ring-2";
+  const btnM = "py-3 px-6 ll:py-4 text-lg ls:text-xl rounded-lg focus:ring-4";
+  const btnL = "py-4 px-8 ll:py-5 text-xl ls:text-2xl rounded-lg focus:ring-4";
 
-  const sizeCn =
-    size === "s" ?
-      "py-2 px-4 ll:py-3 text-base ls:text-lg rounded-lg focus:ring-2"
-      : size === "m" ?
-        "py-3 px-6 ll:py-4 text-lg ls:text-xl rounded-xl focus:ring-3"
-        :
-        "py-4 px-8 ll:py-5 text-xl ls:text-2xl rounded-2xl focus:ring-4";
+  const btnPrimary = "font-bold uppercase text-goldenrod bg-navy focus:ring-goldenrod hover:bg-navy-dark active:bg-navy-dark";
+  const btnSecondary = "font-semibold text-gray-dark border border-gray-dark bg-gray-medium focus:ring-gray-dark";
 
-  const classes = cn(baseCn, sizeCn, typeCn, className);
+  const btnClasses = cn(
+    btn,
+    size === "xs" ? btnXS
+      : size === "s" ? btnS
+        : size === "l" ? btnL
+          : btnM,
+    variant === "primary" ? btnPrimary : btnSecondary,
+    className
+  )
 
   return (
     <button
-      className={classes}
-      {...rest}
+      className={btnClasses}
+      {...props}
     >
       {children}
     </button>
