@@ -16,11 +16,13 @@ export default function WalletModal({ closeModal, state }) {
   }
 
   const walletsEls = wallets.map(wallet => {
+    const { name, id } = wallet;
+
     return (
       <li
         key={wallet.id}
       >
-        <button type="button" onClick={() => handleClick(wallet.name)} className="w-full flex items-center gap-5">
+        <button type="button" onClick={() => handleClick({ name, id })} className="w-full flex items-center gap-5">
           <SvgIcon iconName={wallet.iconName} className="w-8 h-8 fill-gray-dark" />
 
           <div className="flex flex-col">
@@ -34,7 +36,7 @@ export default function WalletModal({ closeModal, state }) {
           </div>
 
           <div className="ml-auto w-6 h-6 rounded-full bg-navy flex justify-center items-center">
-            <div className={`w-2.5 h-2.5 rounded-full ${wallet.name === walletInState ? "bg-goldenrod" : "bg-gray-light"}`}></div>
+            <div className={`w-2.5 h-2.5 rounded-full ${wallet.name === walletInState.name ? "bg-goldenrod" : "bg-gray-light"}`}></div>
           </div>
         </button>
       </li>

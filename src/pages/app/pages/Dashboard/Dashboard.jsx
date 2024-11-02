@@ -1,4 +1,4 @@
-import { useRouteLoaderData } from "react-router-dom";
+import { useActionData, useRouteLoaderData } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import { TransactionProvider } from "@/contexts";
@@ -19,6 +19,10 @@ import { Balance } from "@/components/Balance";
 export default function Dashboard() {
   const [flashMsg, setFlashMsg] = useState(null);
   const [isTransactionModalOpen, setTransactionModalOpen] = useScrollLock(false);
+  console.log("Dashboard rendered")
+
+  const actionData = useActionData();
+  const { success, msg, resetKey } = actionData ?? {};
 
   const { user, wallets, balance, todayTransactionsByWallet } = useRouteLoaderData("app");
   const { defaultCurrency } = user;
@@ -37,7 +41,28 @@ export default function Dashboard() {
     }
   }, []);
 
+  useEffect(() => {
+    if (success) {
+      setTransactionModalOpen(false);
+    }
+  }, [success, resetKey])
+
   const hasTransactions = todayTransactionsByWallet.find(wallet => wallet.transactions.length > 0);
+
+  const transactionEls = hasTransactions ? todayTransactionsByWallet.map(wallet => (
+    wallet.transactions.map(transaction => (
+      <li key={transaction.id}>
+        <Transaction
+          type={transaction.category.type}
+          category={{ name: transaction.category.name, icon: <SvgIcon iconName={transaction.category.iconName} className="w-7 ml:w-8 h-7 ml:h-8 fill-navy" /> }}
+          wallet={{ name: transaction.wallet.name, icon: <SvgIcon iconName={transaction.wallet.iconName} className="w-2.5 ml:w-3 h-2.5 ml:h-3 fill-navy opacity-50" /> }}
+          amount={transaction.amount}
+          currency={transaction.wallet.currency}
+        >
+        </Transaction>
+      </li>
+    ))
+  )) : null;
 
   const widgetIconClasses = "w-5 h-5 fill-gray-dark";
 
@@ -66,6 +91,7 @@ export default function Dashboard() {
     <>
       <div className="page__wrapper mt-24 lm:mt-32 self-center tab:max-w-[calc(theme('screens.lm')-2*2.5rem)]">
         {flashMsg && <p className="text-lg text-green-light text-center">{flashMsg}</p>}
+        {msg && <p className="text-lg text-green-light text-center">{msg}</p>}
 
         <div className="grid grid-cols-1 tab:grid-cols-10 tab:grid-flow-col tab:grid-rows-[auto,1fr] gap-14 rounded-b-lg">
           <WidgetSection
@@ -111,19 +137,11 @@ export default function Dashboard() {
             className="tab:col-span-4 tab:row-span-2 h-full flex flex-col"
             widgetClasses="flex-grow"
           >
-            <div className="flex-grow mt-2 p-3 bg-gray-light rounded-lg flex flex-col gap-4">
+            <div className="flex-grow mt-2 p-3 bg-gray-light rounded-lg flex flex-col gap-6">
               {hasTransactions ? (
                 <ul className="flex flex-col gap-4">
                   {/* To do: implement real transaction data */}
-                  <Transaction
-                    type="expense"
-                    icon={<SvgIcon iconName="shopping-cart" className="w-7 ml:w-8 h-7 ml:h-8 fill-navy" />}
-                    category="groceries"
-                    wallet={{ name: "cash", icon: <SvgIcon iconName="wallet" className="w-2.5 ml:w-3 h-2.5 ml:h-3 fill-navy opacity-50" /> }}
-                    amount="200"
-                    defaultCurrency="BGN"
-                  >
-                  </Transaction>
+                  {transactionEls}
                 </ul>
               ) : (
                 <p className="text-navy-dark text-center font-semibold max-w-[350px] min-[375px]:max-tab:self-center">Oops... It looks like you haven’t made any transactions yet today. Add one now!</p>

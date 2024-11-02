@@ -20,20 +20,23 @@ export default function TransactionFormField({ name }) {
     "wallet": {
       Modal: WalletModal,
       modalHeight: "h-1/3",
-      inputValue: wallet,
-      btnValue: capitalize(wallet),
+      inputValue: wallet.id,
+      btnValue: capitalize(wallet.name),
       iconName: "wallet",
       state: {
         value: wallet,
         updateState: (newWallet) => updateTransactionData({
-          wallet: newWallet
+          wallet: {
+            name: newWallet.name,
+            id: newWallet.id
+          }
         })
       }
     },
     "category": {
       Modal: CategoryModal,
       modalHeight: "h-3/5",
-      inputValue: category,
+      inputValue: category.id,
       btnValue: capitalize(category.name),
       iconName: "categories",
       state: {

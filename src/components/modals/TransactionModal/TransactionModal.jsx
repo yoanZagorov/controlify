@@ -1,4 +1,4 @@
-import { Form as RouterForm } from "react-router-dom";
+import { Form as RouterForm, useActionData } from "react-router-dom";
 
 import { dashboardAction } from "services/router/actions";
 
@@ -7,11 +7,15 @@ import { useTransaction } from "@/utils/hooks";
 import { TransactionFormField } from "./components/TransactionFormField";
 import cn from "classnames";
 import { Button } from "@/components/Button";
+import { useEffect } from "react";
 
 export default function TransactionModal({ closeModal }) {
-  const { transactionData, updateTransactionData } = useTransaction();
+  // To do - figure out how to close the modal on successful transaction
+  const actionData = useActionData();
+  const { errorMsg } = actionData ?? {};
 
-  const { amount, currency, categoriesType } = transactionData;
+  const { transactionData, updateTransactionData } = useTransaction();
+  const { amount, currency, category, categoriesType } = transactionData;
 
   function handleChange(e) {
     const value = e.target.value;
@@ -67,7 +71,7 @@ export default function TransactionModal({ closeModal }) {
             className={amountValueClasses}
           >
             <span className="whitespace-nowrap">{isExpenses ? "-" : ""}{currency}</span>
-            <input
+            <input // To do: Auto-focus this input
               name="amount"
               type="number"
               id="transactionAmount"
@@ -79,6 +83,9 @@ export default function TransactionModal({ closeModal }) {
             />
           </div>
         </div>
+
+
+        {errorMsg && <p className="page__wrapper text-center mt-12 text-lg text-red-dark font-bold">{errorMsg}</p>}
 
         <div className="mt-16 page__wrapper flex flex-col">
           <div className="flex flex-col gap-8">
@@ -95,12 +102,12 @@ export default function TransactionModal({ closeModal }) {
 
           <Button
             size="m"
+            disabled={amount === "0" || category.name === "choose"}
             className="mt-12 ml:text-xl ml:py-4 ml:px-8 mm:self-center"
           >
             Complete Transaction
           </Button>
         </div>
-
       </RouterForm>
     </>
   )

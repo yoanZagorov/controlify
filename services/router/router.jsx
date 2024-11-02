@@ -7,7 +7,7 @@ import { Login } from "@/pages/auth";
 import { AuthLayout, CreateAccount } from "@/pages/auth";
 import { AppLayout, Dashboard } from "@/pages/app";
 
-import { createAccountAction, loginAction } from "./actions";
+import { createAccountAction, dashboardAction, loginAction } from "./actions";
 import { appLoader, dashboardLoader, rootLoader, authLoader } from "./loaders";
 
 const router = createBrowserRouter([
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/app",
-    element: <AppLayout/>,
+    element: <AppLayout />,
     id: "app",
     loader: appLoader,
     children: [
@@ -49,7 +49,8 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <Dashboard />,
-        loader: dashboardLoader
+        loader: dashboardLoader,
+        action: dashboardAction
       },
       {
         path: "wallets",

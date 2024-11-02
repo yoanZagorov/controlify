@@ -3,6 +3,7 @@ import cn from "classnames";
 
 export default function ToggleSwitch({ options, addHandleToggle, className }) {
   const { firstOption, secondOption } = options;
+  // To do: create the option for derived state to fix the bug
   const [activeOption, setActiveOption] = useState(firstOption.name);
 
   function handleToggle() {

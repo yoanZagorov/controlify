@@ -8,15 +8,16 @@ export default function TransactionProvider({ children }) {
 
   const defaultWallet = wallets.find(wallet => wallet.isDefault);
 
-  const walletName = defaultWallet.name;
-  const currency = defaultWallet.currency;
-
   const [transactionData, setTransactionData] = useState({
     amount: "0",
-    wallet: walletName,
-    currency,
+    wallet: {
+      name: defaultWallet.name,
+      id: defaultWallet.id
+    },
+    currency: defaultWallet.currency, // Plan to give the ability to change currency at a later stage
     category: {
       name: "choose",
+      type: null,
       id: null
     },
     categoriesType: "expenses",
