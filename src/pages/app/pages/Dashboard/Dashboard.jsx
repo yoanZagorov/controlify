@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { TransactionProvider } from "@/contexts";
 
 import { capitalize } from "@/utils/generic";
-import { useScrollLock } from "@/utils/hooks";
+import { useMountTransition, useScrollLock } from "@/utils/hooks";
 
 import { Button } from "@/components/Button";
 import { LazySvg } from "@/components/LazySvg";
@@ -15,10 +15,12 @@ import { Transaction, Widget, WidgetSection } from "./components";
 import PlusCircleIcon from "./PlusCircle";
 import { formatBalance } from "@/utils/formatting";
 import { Balance } from "@/components/Balance";
+import cn from "classnames";
 
 export default function Dashboard() {
   const [flashMsg, setFlashMsg] = useState(null);
   const [isTransactionModalOpen, setTransactionModalOpen] = useScrollLock(false);
+  const hasTransitioned = useMountTransition(isTransactionModalOpen, 300);
   console.log("Dashboard rendered")
 
   const actionData = useActionData();
@@ -86,6 +88,14 @@ export default function Dashboard() {
       </Widget>
     )
   })
+
+  const modalClasses = cn(
+    "w-full h-full transition-all duration-1000 fixed",
+    {
+      "-bottom-full": (isTransactionModalOpen && !hasTransitioned) || (!isTransactionModalOpen && hasTransitioned),
+      "bottom-0": isTransactionModalOpen && hasTransitioned
+    }
+  )
 
   return (
     <>
@@ -158,10 +168,12 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {isTransactionModalOpen &&
+      {(isTransactionModalOpen || hasTransitioned) &&
         <TransactionProvider>
           <TransactionModal
             closeModal={() => setTransactionModalOpen(false)}
+            isTransactionModalOpen={isTransactionModalOpen}
+            hasTransitioned={hasTransitioned}
           />
         </TransactionProvider>
       }

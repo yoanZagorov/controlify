@@ -9,7 +9,7 @@ import cn from "classnames";
 import { Button } from "@/components/Button";
 import { useEffect } from "react";
 
-export default function TransactionModal({ closeModal }) {
+export default function TransactionModal({ closeModal, isTransactionModalOpen, hasTransitioned }) {
   // To do - figure out how to close the modal on successful transaction
   const actionData = useActionData();
   const { errorMsg } = actionData ?? {};
@@ -45,19 +45,35 @@ export default function TransactionModal({ closeModal }) {
     isExpenses ? "text-red-light" : "text-green-light"
   )
 
+
+  const baseModalClasses = "fixed w-screen transition-all duration-300";
+
+  const overlayClasses = cn(
+    "h-screen bg-black",
+    baseModalClasses,
+    (isTransactionModalOpen && hasTransitioned) ? "opacity-50" : "opacity-0"
+  )
+
+  const formClasses = cn(
+    "h-[90%] rounded-t-lg bg-gray-light",
+    baseModalClasses,
+    (isTransactionModalOpen && hasTransitioned) ? "bottom-0" : "-bottom-full"
+  )
+
   return (
     <>
       {/* Overlay */}
       <div
         onClick={closeModal}
-        className="fixed inset-auto h-screen w-screen bg-black opacity-50">
+        className={overlayClasses}
+      >
       </div>
 
       {/* Modal */}
       <RouterForm
         method="post"
         action={dashboardAction}
-        className="fixed bottom-0 h-[90%] w-screen rounded-t-lg bg-gray-light"
+        className={formClasses}
       >
         <div className="py-10 page__wrapper flex items-end gap-4 w-full rounded-t-lg font-semibold tracking-wide bg-navy shadow">
           <label

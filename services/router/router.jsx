@@ -5,7 +5,7 @@ import {
 
 import { Login } from "@/pages/auth";
 import { AuthLayout, CreateAccount } from "@/pages/auth";
-import { AppLayout, Dashboard } from "@/pages/app";
+import { AppLayout, Dashboard, Wallets } from "@/pages/app";
 
 import { createAccountAction, dashboardAction, loginAction } from "./actions";
 import { appLoader, dashboardLoader, rootLoader, authLoader } from "./loaders";
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
       },
       {
         path: "wallets",
-        element: <h1>This will be the wallets page!</h1>
+        element: <Wallets />
       },
       {
         path: "reflect",
