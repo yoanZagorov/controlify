@@ -11,10 +11,6 @@ export default function CategoryModal({ closeModal, state }) {
 
   const { categories } = useRouteLoaderData("app");
 
-  function handleCategoryTypeChange() {
-    setCategoriesType(prev => prev === "expenses" ? "income" : "expenses");
-  }
-
   function handleCategoryChange({ name, id }) {
     closeModal();
     setCategory({ name, id });
@@ -42,12 +38,12 @@ export default function CategoryModal({ closeModal, state }) {
 
   const toggleSwitchOptions = {
     firstOption: {
-      name: "Expenses",
+      name: "expenses",
       className: "text-red-dark",
       activeClassName: "text-red-light"
     },
     secondOption: {
-      name: "Income",
+      name: "income",
       className: "text-green-dark",
       activeClassName: "text-green-light bg-navy"
     },
@@ -59,7 +55,11 @@ export default function CategoryModal({ closeModal, state }) {
     <div>
       <ToggleSwitch
         options={toggleSwitchOptions}
-        addHandleToggle={handleCategoryTypeChange}
+        state={{
+          value: categoriesType,
+          updateState: setCategoriesType
+
+        }}
         className="mt-3 border border-gray-dark bg-gray-light"
       />
 

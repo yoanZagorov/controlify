@@ -28,7 +28,7 @@ export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate
     }
 
     const dayClasses = cn(
-      "flex justify-center items-center p-1.5 text-sm rounded-full",
+      "w-8 h-8 flex justify-center items-center p-1.5 text-sm rounded-full",
       day.value === 1 && colStartMap[startOfMonthDayOfWeek],
       day.isCurrentDate && "bg-navy text-goldenrod"
     )
@@ -36,6 +36,7 @@ export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate
     return (
       <button
         key={i}
+        type="button"
         className={dayClasses}
         onClick={() => handleDayClick(day.value)}
       >
@@ -47,7 +48,7 @@ export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate
   const { month, year } = localDate;
 
   return (
-    <div className="flex flex-col items-center gap-6 p-6 bg-gray-light rounded-lg mt-6">
+    <div className="max-w-[300px] flex flex-col items-center gap-6 p-6 bg-gray-light rounded-lg mt-6">
       <div className="flex items-center gap-6 text-gray-dark font-semibold">
         <button type="button" onClick={handleMonthDecrement}>{"<"}</button>
         <span>{monthsMap[month]} {year}</span>

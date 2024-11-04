@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useTransaction } from "@/utils/hooks";
+import { useMountTransition, useTransaction } from "@/utils/hooks";
 import { capitalize } from "@/utils/generic";
 import { getDateBtnValue } from "./utils";
 
@@ -14,6 +14,7 @@ import { Button } from "@/components/Button";
 export default function TransactionFormField({ name }) {
   const { transactionData, updateTransactionData } = useTransaction();
   const [isSelectModalOpen, setSelectModalOpen] = useState(false);
+  const hasTransitioned = useMountTransition(isSelectModalOpen, 300)
   const { wallet, category, categoriesType, date } = transactionData;
 
   const formFields = {
@@ -104,11 +105,13 @@ export default function TransactionFormField({ name }) {
         <span>{">"}</span>
       </Button>
 
-      {isSelectModalOpen &&
+      {(isSelectModalOpen || hasTransitioned) &&
         <SelectModal
           name={name}
           modalHeight={modalHeight}
           closeModal={handleClose}
+          isSelectModalOpen={isSelectModalOpen}
+          hasTransitioned={hasTransitioned}
         >
           <Modal
             closeModal={handleClose}

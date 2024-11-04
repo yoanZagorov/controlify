@@ -21,7 +21,6 @@ export default function Dashboard() {
   const [flashMsg, setFlashMsg] = useState(null);
   const [isTransactionModalOpen, setTransactionModalOpen] = useScrollLock(false);
   const hasTransitioned = useMountTransition(isTransactionModalOpen, 300);
-  console.log("Dashboard rendered")
 
   const actionData = useActionData();
   const { success, msg, resetKey } = actionData ?? {};
@@ -88,14 +87,6 @@ export default function Dashboard() {
       </Widget>
     )
   })
-
-  const modalClasses = cn(
-    "w-full h-full transition-all duration-1000 fixed",
-    {
-      "-bottom-full": (isTransactionModalOpen && !hasTransitioned) || (!isTransactionModalOpen && hasTransitioned),
-      "bottom-0": isTransactionModalOpen && hasTransitioned
-    }
-  )
 
   return (
     <>

@@ -25,7 +25,7 @@ export default function DesktopHeader() {
   const navEls = createNavElsFromPages(pages, navElsClasses);
 
   return (
-    <div className="page__wrapper fixed top-0 left-0 w-screen h-16 lm:h-20 flex items-center bg-navy shadow">
+    <div className="page__wrapper fixed top-0 left-0 w-screen z-10 h-16 lm:h-20 flex items-center bg-navy shadow">
       <img src={logo} className="max-h-10 lm:max-h-12 cursor-pointer" onClick={() => navigate("..")} />
 
       <nav>

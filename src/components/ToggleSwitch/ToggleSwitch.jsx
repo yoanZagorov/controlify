@@ -1,14 +1,16 @@
 import { useState } from "react"
 import cn from "classnames";
+import { capitalize } from "@/utils/generic";
 
-export default function ToggleSwitch({ options, addHandleToggle, className }) {
+export default function ToggleSwitch({ options, state, className }) {
   const { firstOption, secondOption } = options;
   // To do: create the option for derived state to fix the bug
-  const [activeOption, setActiveOption] = useState(firstOption.name);
+  const { value, updateState } = state ?? {};
+
+  const [activeOption, setActiveOption] = [value, updateState] || useState(firstOption.name);
 
   function handleToggle() {
     setActiveOption(prev => prev === firstOption.name ? secondOption.name : firstOption.name);
-    addHandleToggle && addHandleToggle();
   }
 
   const toggleSwitchClasses = cn(className, "p-0.5 rounded-full flex items-center")
@@ -26,7 +28,7 @@ export default function ToggleSwitch({ options, addHandleToggle, className }) {
         className={optionClasses}
         onClick={handleToggle}
       >
-        {option.name}
+        {capitalize(option.name)}
       </button>
     )
   }

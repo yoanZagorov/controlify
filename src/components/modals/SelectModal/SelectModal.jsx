@@ -1,16 +1,32 @@
 import { capitalize } from "@/utils/generic";
+import cn from "classnames";
 
-export default function SelectModal({ name, modalHeight, closeModal, children }) {
+export default function SelectModal({ name, modalHeight, closeModal, isSelectModalOpen, hasTransitioned, children }) {
+  const baseModalClasses = "fixed left-0 w-screen transition-[bottom opacity] duration-300";
+
+  const overlayClasses = cn(
+    "top-0 h-screen bg-gray-light z-30",
+    baseModalClasses,
+    (isSelectModalOpen && hasTransitioned) ? "opacity-30" : "opacity-0"
+  )
+
+  const selectModalClasses = cn(
+    modalHeight,
+    "p-4 border-t border-gray-dark rounded-t-lg bg-gray-medium z-40",
+    baseModalClasses,
+    (isSelectModalOpen && hasTransitioned) ? "bottom-0" : "-bottom-full"
+  )
+
   return (
     <>
       {/* Overlay */}
       <div
         onClick={closeModal}
-        className="fixed bottom-0 left-0 h-screen w-screen border-gray-dark bg-gray-light opacity-30 z-10">
+        className={overlayClasses}>
       </div>
 
       {/* Modal */}
-      <div className={`fixed bottom-0 left-0 ${modalHeight} w-screen p-4 rounded-lg border-t bg-gray-medium z-20`}>
+      <div className={selectModalClasses}>
         <span className="text-gray-dark font-semibold">Select {capitalize(name)}</span>
         {children}
       </div>

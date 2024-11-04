@@ -2,12 +2,12 @@ import { Form as RouterForm, useActionData } from "react-router-dom";
 
 import { dashboardAction } from "services/router/actions";
 
-import { useTransaction } from "@/utils/hooks";
+import { useAutoFocus, useTransaction } from "@/utils/hooks";
 
 import { TransactionFormField } from "./components/TransactionFormField";
 import cn from "classnames";
 import { Button } from "@/components/Button";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export default function TransactionModal({ closeModal, isTransactionModalOpen, hasTransitioned }) {
   // To do - figure out how to close the modal on successful transaction
@@ -16,6 +16,8 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
 
   const { transactionData, updateTransactionData } = useTransaction();
   const { amount, currency, category, categoriesType } = transactionData;
+
+  const amountInputRef = useAutoFocus();
 
   function handleChange(e) {
     const value = e.target.value;
@@ -49,13 +51,13 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
   const baseModalClasses = "fixed w-screen transition-all duration-300";
 
   const overlayClasses = cn(
-    "h-screen bg-black",
+    "h-screen bg-black z-20",
     baseModalClasses,
     (isTransactionModalOpen && hasTransitioned) ? "opacity-50" : "opacity-0"
   )
 
   const formClasses = cn(
-    "h-[90%] rounded-t-lg bg-gray-light",
+    "h-[90%] rounded-t-lg bg-gray-light z-30",
     baseModalClasses,
     (isTransactionModalOpen && hasTransitioned) ? "bottom-0" : "-bottom-full"
   )
@@ -86,8 +88,9 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
           <div
             className={amountValueClasses}
           >
-            <span className="whitespace-nowrap">{isExpenses ? "-" : ""}{currency}</span>
+            <span className="whitespace-nowrap">{isExpenses ? "-" : "+"}{currency}</span>
             <input // To do: Auto-focus this input
+              ref={amountInputRef}
               name="amount"
               type="number"
               id="transactionAmount"

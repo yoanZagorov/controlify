@@ -17,8 +17,8 @@ export default function TransactionProvider({ children }) {
     currency: defaultWallet.currency, // Plan to give the ability to change currency at a later stage
     category: {
       name: "choose",
-      type: null,
-      id: null
+      type: "",
+      id: ""
     },
     categoriesType: "expenses",
     date: new Date()
