@@ -119,9 +119,10 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
           </div>
 
           <Button
-            size="m"
+            type="submit"
+            size="l"
             disabled={amount === "0" || category.name === "choose"}
-            className="mt-12 ml:text-xl ml:py-4 ml:px-8 mm:self-center"
+            className="mt-12 ll:py-4 ls:text-xl ml:text-xl ml:py-4 ml:px-8 mm:self-center focus:ring-4"
           >
             Complete Transaction
           </Button>

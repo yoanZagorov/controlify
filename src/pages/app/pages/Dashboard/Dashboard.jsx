@@ -145,9 +145,8 @@ export default function Dashboard() {
                 <p className="text-navy-dark text-center font-semibold max-w-[350px] min-[375px]:max-tab:self-center">Oops... It looks like you haven’t made any transactions yet today. Add one now!</p>
               )}
               <Button
-                size="s"
-                className="ll:rounded-xl min-[375px]:max-tab:w-[285px] min-[375px]:max-tab:self-center"
                 onClick={() => setTransactionModalOpen(true)}
+                className="ll:rounded-xl min-[375px]:max-tab:w-[285px] min-[375px]:max-tab:self-center focus:ring-2"
               >
                 Add Transaction
               </Button>

@@ -1,31 +1,36 @@
 import cn from "classnames";
 
-export default function Button({ size = "m", variant = "primary", className = "", disabled, children, ...props }) {
-  const btn = "transition-all shadow focus:outline-none";
+export default function Button({ type = "button", size = "m", variant = "primary", className = "", disabled, children, ...props }) {
+  const btnType = type === "submit" ? "submit" : "button";
 
-  const btnXS = "py-1 px-2 ll:py-2 text-sm ls:text-base rounded-md focus:ring"
-  const btnS = "py-2 px-4 ll:py-3 text-base ls:text-lg rounded-lg focus:ring-2";
-  const btnM = "py-3 px-6 ll:py-4 text-lg ls:text-xl rounded-lg focus:ring-4";
-  const btnL = "py-4 px-8 ll:py-5 text-xl ls:text-2xl rounded-lg focus:ring-4";
+  const btn = "transition-all shadow focus:outline-none focus:ring";
+  const btnDisabled = "opacity-75 cursor-not-allowed";
+
+  const btnS = "py-1 px-2 text-sm rounded-md"
+  const btnM = "py-2 px-4 text-base rounded-lg";
+  const btnL = "py-3 px-6 text-lg rounded-lg";
+  const btnXL = "py-4 px-8 text-xl rounded-lg";
 
   const btnPrimary = `font-bold uppercase text-goldenrod bg-navy focus:ring-goldenrod ${!disabled && "hover:bg-navy-dark active:bg-navy-dark"}`;
-  const btnSecondary = "font-semibold text-gray-dark border border-gray-dark bg-gray-medium focus:ring-gray-dark";
+  const btnSecondary = "font-semibold text-gray-dark border border-gray-dark bg-gray-medium focus:border-none focus:ring-gray-dark";
 
   const btnClasses = cn(
     btn,
-    disabled && "opacity-75 cursor-not-allowed",
-    size === "xs" ? btnXS
-      : size === "s" ? btnS
-        : size === "l" ? btnL
+    disabled && btnDisabled,
+    size === "s" ? btnS
+      : size === "l" ? btnL
+        : size === "xl" ? btnXL
           : btnM,
-    variant === "primary" ? btnPrimary : btnSecondary,
+    variant === "secondary" ? btnSecondary
+      : btnPrimary,
     className
   )
 
   return (
     <button
-      className={btnClasses}
+      type={btnType}
       disabled={disabled}
+      className={btnClasses}
       {...props}
     >
       {children}
