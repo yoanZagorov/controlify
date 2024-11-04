@@ -1,15 +1,15 @@
-// Consider extracting the inputs into a separate component
 import { Link, Form as RouterForm } from "react-router-dom";
 
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
+import cn from "classnames";
 
-export default function AuthForm({ isCreateAccount, action, btnText, path, msg, CTA }) {
+export default function AuthForm({ isCreateAccount, action, btnText, path, msg, CTA, className }) {
   return (
     <RouterForm
       method="post"
       action={action}
-      className="flex flex-col w-full max-w-[425px]"
+      className={className && className}
     >
       <div className="flex flex-col gap-5">
         <Input
@@ -19,7 +19,7 @@ export default function AuthForm({ isCreateAccount, action, btnText, path, msg, 
           placeholder="Email"
           minLength={2}
           required
-          className="tab:px-5 ll:py-3 ll:px-5 ll:text-xl"
+          className="ll:py-3 ll:px-5 ll:text-xl"
         />
         <Input
           size="l"
@@ -29,7 +29,7 @@ export default function AuthForm({ isCreateAccount, action, btnText, path, msg, 
           minLength={8}
           maxLength={12}
           required
-          className="tab:px-5 ll:py-3 ll:px-5 ll:text-xl"
+          className="ll:py-3 ll:px-5 ll:text-xl"
         />
         {isCreateAccount &&
           <Input
@@ -39,7 +39,7 @@ export default function AuthForm({ isCreateAccount, action, btnText, path, msg, 
             placeholder="Full name"
             minLength={5}
             required
-            className="tab:px-5 ll:py-3 ll:px-5 ll:text-xl"
+            className="ll:py-3 ll:px-5 ll:text-xl"
           />
         }
       </div>
@@ -47,16 +47,16 @@ export default function AuthForm({ isCreateAccount, action, btnText, path, msg, 
       <Button
         type="submit"
         size="xl"
-        className="mt-12 ll:py-5 ls:text-2xl focus:ring-4"
+        className="mt-12 w-full ll:py-5 ll:text-2xl focus:ring-4"
       >
         {btnText}
       </Button>
 
-      <p className="mt-2 text-navy text-sm ls:text-lg ll:text-xl">
+      <p className="mt-2 text-navy ll:text-lg">
         {msg}
         <Link
           to={path}
-          className="ml-1 text-gray-dark font-bold underline"
+          className="ml-1 font-bold underline text-gray-dark"
         >
           {CTA}
         </Link>

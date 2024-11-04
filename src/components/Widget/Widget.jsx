@@ -1,10 +1,14 @@
 import cn from "classnames";
 
-export default function Widget({ type = "base", icon, widgetTitle, className, children }) {
-  const widgetCn = cn("mt-2 flex flex-col p-4 bg-gray-medium rounded-lg shadow", className);
+export default function Widget({ type = "base", size = "m", icon, widgetTitle, className, children }) {
+  const widget = cn(
+    "flex flex-col rounded-lg shadow bg-gray-medium",
+    size === "s" ? "p-3"
+      : "p-4"
+  )
 
   return (
-    <div className={widgetCn}>
+    <div className={widget}>
       {type === "wrapper" ?
         children
         :

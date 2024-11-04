@@ -1,6 +1,6 @@
-import Widget from "./Widget"
+import { Widget } from "@/components/Widget";
 
-export default function WidgetSection({ title, containsWidget, icon=null, widgetTitle=null, className="", widgetClasses="", children }) {
+export default function WidgetSection({ title, containsWidget, icon = null, widgetTitle = null, className = "", widgetClasses = "", children }) {
   return (
     <div className={className}>
       <h2 className="text-3xl text-navy-dark font-semibold tracking-wide">{title}</h2>

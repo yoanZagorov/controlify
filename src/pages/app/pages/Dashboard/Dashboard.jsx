@@ -116,7 +116,7 @@ export default function Dashboard() {
 
               <Widget
                 type="wrapper"
-                className={`items-center`}
+                className={`items-center mt-2`}
               >
                 <h4 className="text-navy-dark text-lg font-bold">Add Wallet</h4>
                 {/* To do: make this button use the btn primary classes */}
