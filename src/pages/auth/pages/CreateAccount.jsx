@@ -11,7 +11,7 @@ export default function CreateAccount() {
 
   return (
     <div className="tab:w-1/2 flex flex-col gap-6 justify-center items-center">
-      {errorMsg && 
+      {errorMsg &&
         <p className="text-red-dark max-w-[425px] ml:text-lg tab:text-xl">{errorMsg}</p>
       }
 

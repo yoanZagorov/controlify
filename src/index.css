@@ -18,7 +18,7 @@
       py-2 px-3 tab:px-5 ll:py-3 ll:px-5
       bg-gray-medium
       text-gray-dark text-lg ll:text-xl placeholder-gray-dark placeholder-opacity-50
-      border border-gray-dark rounded-xl
+      border border-gray-dark rounded-lg
       focus:outline-none focus:border-none focus:ring focus:ring-goldenrod transition-all shadow;
   }
   

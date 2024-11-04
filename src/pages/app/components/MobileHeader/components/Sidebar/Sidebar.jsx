@@ -21,7 +21,7 @@ export default forwardRef(function Sidebar({ toggleSidebar, isSidebarOpen }, ref
     // To do: check for errors
     await logOutUser();
     // To do: createa global notifications context
-    navigate("/auth/login", { state: { "logOutMsg": "Successfully logged out!" } });
+    navigate("/login", { state: { "logOutMsg": "Successfully logged out!" } });
   }
 
   const sidebarWrapperCn = "px-4 w-full";

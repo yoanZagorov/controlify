@@ -3,10 +3,8 @@ import { Link, Form as RouterForm } from "react-router-dom";
 
 import { Button } from "@/components/Button";
 
-export default function AuthForm({ type, action, btnText, msg, CTA }) {
-  const isCreateAccount = type === "createAccount";
-
-  const path = isCreateAccount ? "../login" : "../create-account";
+export default function AuthForm({ isCreateAccount, action, btnText, path, msg, CTA }) {
+  console.log(isCreateAccount);
 
   return (
     <RouterForm
@@ -46,7 +44,7 @@ export default function AuthForm({ type, action, btnText, msg, CTA }) {
 
       <Button
         className="mt-12"
-        variant="l"
+        size="l"
       >
         {btnText}
       </Button>

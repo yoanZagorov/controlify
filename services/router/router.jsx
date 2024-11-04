@@ -1,11 +1,10 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
-import { Login } from "@/pages/auth";
-import { AuthLayout, CreateAccount } from "@/pages/auth";
+import { Auth } from "@/pages/auth";
 import { AppLayout, Dashboard, Wallets } from "@/pages/app";
 
 import { createAccountAction, dashboardAction, loginAction } from "./actions";
-import { appLoader, dashboardLoader, rootLoader, authLoader } from "./loaders";
+import { appLoader, dashboardLoader, rootLoader, loginLoader, createAccountLoader } from "./loaders";
 
 const router = createBrowserRouter([
   {
@@ -13,25 +12,16 @@ const router = createBrowserRouter([
     loader: rootLoader
   },
   {
-    path: "/auth",
-    element: <AuthLayout />,
-    loader: authLoader,
-    children: [
-      {
-        index: true,
-        element: <Navigate to="login" replace />
-      },
-      {
-        path: "login",
-        element: <Login />,
-        action: loginAction
-      },
-      {
-        path: "create-account",
-        element: <CreateAccount />,
-        action: createAccountAction
-      }
-    ]
+    path: "/login",
+    element: <Auth type="login" />,
+    action: loginAction,
+    loader: loginLoader
+  },
+  {
+    path: "/create-account",
+    element: <Auth type="createAccount" />,
+    action: createAccountAction,
+    loader: createAccountLoader
   },
   {
     path: "/app",
