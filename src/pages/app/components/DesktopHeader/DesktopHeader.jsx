@@ -1,19 +1,18 @@
 import cn from "classnames";
-
 import { useNavigate, useRouteLoaderData } from "react-router-dom";
 
-import { getFirstName } from "@/utils/user";
-import { createNavElsFromPages } from "@/utils/components";
+import { getFirstWord } from "@/utils/str";
+import { createNavElsFromPages } from "../../helpers";
 
-import UserIcon from "@/assets/icons/user-circle.svg?react";
 import logo from "@/assets/images/logos/logoNavyBg.png";
+import { SvgIcon } from "@/components/SvgIcon";
 
 export default function DesktopHeader() {
   const navigate = useNavigate();
 
   const { user } = useRouteLoaderData("app");
   const { fullName, profilePic } = user;
-  const displayName = getFirstName(fullName);
+  const displayName = getFirstWord(fullName);
 
   const pages = ["dashboard", "wallets", "reflect", "settings"];
 
@@ -40,7 +39,7 @@ export default function DesktopHeader() {
           {profilePic ?
             <img src={profilePic} className="w-full h-full" />
             :
-            <UserIcon className="w-full h-full fill-current" />
+            <SvgIcon iconName="user-circle" className="w-full h-full fill-current" />
           }
         </div>
       </div>

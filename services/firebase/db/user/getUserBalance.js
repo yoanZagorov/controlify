@@ -1,5 +1,5 @@
-import { formatUserBalance } from "@/utils/format";
-import getUserWallets from "../wallet/getUserWallets";
+import { formatUserBalance } from "@/utils/formatting";
+import { getUserWallets } from "../wallet";
 
 export default async function getUserBalance({ userId = null, wallets = null }) {
   let userWallets = wallets;

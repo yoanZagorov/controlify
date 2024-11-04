@@ -1,1 +1,1 @@
-export { default as formatBalance } from "./formatBalance.js";
+export { default as formatUserBalance } from "./formatUserBalance";

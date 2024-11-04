@@ -1,6 +1,7 @@
 import { useState } from "react"
 import cn from "classnames";
-import { capitalize } from "@/utils/generic";
+
+import { capitalize } from "@/utils/str";
 
 export default function ToggleSwitch({ options, state, className }) {
   const { firstOption, secondOption } = options;

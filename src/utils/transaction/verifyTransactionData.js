@@ -1,5 +1,5 @@
-import { checkCategoryExistense } from "../category";
-import { checkWalletExistense } from "../wallet";
+import { checkCategoryExistense } from "services/firebase/db/category";
+import { checkWalletExistense } from "services/firebase/db/wallet";
 
 export default async function verifyTransactionData(userId, amountString, walletId, categoryId, date) {
   // Amount checks

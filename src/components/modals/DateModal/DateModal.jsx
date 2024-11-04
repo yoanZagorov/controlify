@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useModalState } from "@/utils/hooks";
+
+import { useModalState } from "@/hooks";
 import { formatDateForCalendar, getNumDaysInMonth, getSpecificDay } from "@/utils/date";
 
 import { SelectedDay } from "./components/SelectedDay";

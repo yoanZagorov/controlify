@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom";
-import { getAuthUserId } from "@/utils/auth";
+import { getAuthUserId } from "services/firebase/db/user";
 
 export default async function authLoader() {
   const authUserId = await getAuthUserId();

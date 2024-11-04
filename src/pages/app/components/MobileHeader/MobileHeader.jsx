@@ -1,13 +1,11 @@
+import cn from "classnames";
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import cn from "classnames";
+import { getCurrentPage } from "../../helpers";
 
+import { SvgIcon } from "@/components/SvgIcon";
 import { Sidebar } from "./components/Sidebar";
-
-import { getCurrentPage } from "@/utils/generic";
-
-import Hamburger from "@/assets/icons/hamburger.svg?react";
 
 export default function MobileHeader() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -42,7 +40,7 @@ export default function MobileHeader() {
       <div
         className={isSidebarOpen ? topBarClosedCn : topBarOpenedCn}>
         <button onClick={toggleSidebar}>
-          <Hamburger className="w-8 h-8 fill-gray-light" />
+          <SvgIcon iconName="hamburger" className="w-8 h-8 fill-gray-light" />
         </button>
         <p className="text-lg tab:text-xl text-gray-light font-medium">{currentPage}</p>
       </div>

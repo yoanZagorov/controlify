@@ -1,6 +1,8 @@
-import { SvgIcon } from "@/components/SvgIcon";
-import { capitalize } from "@/utils/generic";
 import cn from "classnames";
+
+import { capitalize } from "@/utils/str";
+
+import { SvgIcon } from "@/components/SvgIcon";
 
 export default function CategoryItem({ category, isActive, handleCategoryChange }) {
   const btnClasses = cn("flex justify-center items-center w-12 h-12 rounded-full ",

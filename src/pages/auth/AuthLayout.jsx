@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
+
 import logo from "logos/logoGrayBg.png";
 
 export default function AuthLayout() {

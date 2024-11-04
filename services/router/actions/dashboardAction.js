@@ -1,4 +1,4 @@
-import { getAuthUserId } from "@/utils/auth";
+import { getAuthUserId } from "services/firebase/db/user";
 import { formatTransactionData, verifyTransactionData } from "@/utils/transaction";
 import { addTransaction } from "services/firebase/db/transaction";
 

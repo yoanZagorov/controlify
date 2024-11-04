@@ -1,13 +1,12 @@
+import cn from "classnames";
 import { Form as RouterForm, useActionData } from "react-router-dom";
 
 import { dashboardAction } from "services/router/actions";
 
-import { useAutoFocus, useTransaction } from "@/utils/hooks";
+import { useAutoFocus, useTransaction } from "@/hooks";
 
 import { TransactionFormField } from "./components/TransactionFormField";
-import cn from "classnames";
 import { Button } from "@/components/Button";
-import { useEffect, useRef } from "react";
 
 export default function TransactionModal({ closeModal, isTransactionModalOpen, hasTransitioned }) {
   // To do - figure out how to close the modal on successful transaction

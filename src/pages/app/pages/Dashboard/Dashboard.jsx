@@ -1,21 +1,18 @@
-import { useActionData, useRouteLoaderData } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useActionData, useRouteLoaderData } from "react-router-dom";
 
 import { TransactionProvider } from "@/contexts";
 
-import { capitalize } from "@/utils/generic";
-import { useMountTransition, useScrollLock } from "@/utils/hooks";
+import { useMountTransition, useScrollLock } from "@/hooks";
+import { capitalize } from "@/utils/str";
 
+import { Balance } from "@/components/Balance";
 import { Button } from "@/components/Button";
 import { LazySvg } from "@/components/LazySvg";
 import { SvgIcon } from "@/components/SvgIcon";
 import { TransactionModal } from "@/components/modals/TransactionModal";
 import { Transaction, Widget, WidgetSection } from "./components";
-
 import PlusCircleIcon from "./PlusCircle";
-import { formatBalance } from "@/utils/formatting";
-import { Balance } from "@/components/Balance";
-import cn from "classnames";
 
 export default function Dashboard() {
   const [flashMsg, setFlashMsg] = useState(null);

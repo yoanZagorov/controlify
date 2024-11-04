@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { DesktopHeader } from "./components/DesktopHeader";
 import { MobileHeader } from "./components/MobileHeader";
 
-import { useScreenWidth } from "@/utils/hooks";
+import { useScreenWidth } from "@/hooks";
 
 export default function AppLayout() {
   const screenWidth = useScreenWidth();
@@ -12,7 +12,7 @@ export default function AppLayout() {
   return (
     <>
       {isDesktop ? <DesktopHeader /> : <MobileHeader />}
-      
+
       <Outlet />
     </>
   )

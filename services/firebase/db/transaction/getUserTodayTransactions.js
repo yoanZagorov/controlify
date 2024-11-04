@@ -2,7 +2,6 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "services/firebase/firebase.config";
 
 import { getTodayStartAndEnd } from "@/utils/date";
-import { getCategoryTypeAndIcon } from "../category";
 
 export default async function getUserTodayTransactions(userId, wallets) {
   const { start, end } = getTodayStartAndEnd();

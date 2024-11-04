@@ -1,17 +1,14 @@
-import { useNavigate, useRouteLoaderData } from "react-router-dom";
-import { forwardRef } from "react";
-
 import cn from "classnames";
+import { forwardRef } from "react";
+import { useNavigate, useRouteLoaderData } from "react-router-dom";
+
+import { logOutUser } from "services/firebase/db/user";
+import { createNavElsFromPages } from "@/pages/app/helpers";
 
 import { mainNavPages, secNavPages } from "./data";
-
-import { logOutUser } from "@/utils/auth";
-import { createNavElsFromPages } from "@/utils/components";
-
 import logo from "@/assets/images/logos/logoNavyBg.png";
 
-import UserIcon from "@/assets/icons/user-circle.svg?react";
-import LogOutIcon from "@/assets/icons/log-out.svg?react";
+import { SvgIcon } from "@/components/SvgIcon";
 
 export default forwardRef(function Sidebar({ toggleSidebar, isSidebarOpen }, ref) {
   const navigate = useNavigate();
@@ -62,7 +59,7 @@ export default forwardRef(function Sidebar({ toggleSidebar, isSidebarOpen }, ref
         {profilePic ?
           <img src={profilePic} className="w-full h-full" />
           :
-          <UserIcon className="w-full h-full fill-current" />
+          <SvgIcon iconName="user-circle" className="w-full h-full fill-current" />
         }
       </div>
 
@@ -80,7 +77,7 @@ export default forwardRef(function Sidebar({ toggleSidebar, isSidebarOpen }, ref
           {secNavEls}
           <li>
             <button onClick={handleLogOut} className={cn(secNavElCn, "text-red-light")}>
-              <LogOutIcon className="w-4 h-4 tab:w-5 tab:h-5 fill-current"/>
+              <SvgIcon iconName="log-out" className="w-4 h-4 tab:w-5 tab:h-5 fill-current" />
               Log out
             </button>
           </li>

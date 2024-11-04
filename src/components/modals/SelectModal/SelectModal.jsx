@@ -1,5 +1,6 @@
-import { capitalize } from "@/utils/generic";
 import cn from "classnames";
+
+import { capitalize } from "@/utils/str";
 
 export default function SelectModal({ name, modalHeight, closeModal, isSelectModalOpen, hasTransitioned, children }) {
   const baseModalClasses = "fixed left-0 w-screen transition-[bottom opacity] duration-300";

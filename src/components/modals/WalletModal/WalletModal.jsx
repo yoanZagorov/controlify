@@ -1,6 +1,6 @@
 import { useRouteLoaderData } from "react-router-dom";
 
-import { capitalize } from "@/utils/generic";
+import { capitalize } from "@/utils/str";
 
 import { SvgIcon } from "@/components/SvgIcon";
 import { Balance } from "@/components/Balance";

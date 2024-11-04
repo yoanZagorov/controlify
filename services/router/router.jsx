@@ -1,7 +1,4 @@
-import {
-  createBrowserRouter,
-  Navigate,
-} from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { Login } from "@/pages/auth";
 import { AuthLayout, CreateAccount } from "@/pages/auth";

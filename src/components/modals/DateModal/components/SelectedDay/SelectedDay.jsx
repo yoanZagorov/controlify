@@ -1,4 +1,5 @@
 import cn from "classnames";
+
 import { SvgIcon } from "@/components/SvgIcon";
 
 export default function SelectedDay({ date, iconName, className = {} }) {

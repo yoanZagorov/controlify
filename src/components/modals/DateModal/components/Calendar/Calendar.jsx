@@ -1,4 +1,5 @@
 import cn from "classnames";
+
 import { monthsMap } from "@/utils/date/maps";
 
 export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate, clickHandlers, className = {} }) {

@@ -1,10 +1,15 @@
+// Header
+import HamburgerIcon from "@/assets/icons/hamburger.svg?react";
+import UserIcon from "@/assets/icons/user-circle.svg?react";
+import StatsIcon from "@/assets/icons/stats.svg?react";
+import SettingsIcon from "@/assets/icons/settings.svg?react";
+import CategoriesIcon from "@/assets/icons/categories.svg?react";
+import LogOutIcon from "@/assets/icons/log-out.svg?react";
+
 // Dashboard
 import ScaleIcon from "@/assets/icons/scale.svg?react";
 import WalletIcon from "@/assets/icons/wallet.svg?react";
 import CalendarIcon from "@/assets/icons/calendar.svg?react";
-
-// Transaction Modal
-import CategoriesIcon from "@/assets/icons/categories.svg?react";
 
 // Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
@@ -43,6 +48,11 @@ const iconComponentsMap = {
   "money-bill-stock-up": MoneyBillStockUpIcon,
   "scale": ScaleIcon,
   "clipboard-question": ClipboardQuestionIcon,
+  "hamburger": HamburgerIcon,
+  "user-circle": UserIcon,
+  "stats": StatsIcon,
+  "settings": SettingsIcon,
+  "log-out": LogOutIcon
 }
 
 export default function SvgIcon({ iconName, ...props }) {

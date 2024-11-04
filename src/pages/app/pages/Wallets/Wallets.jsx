@@ -1,6 +1,7 @@
-import { useMountTransition } from "@/utils/hooks";
 import cn from "classnames";
 import { useState } from "react";
+
+import { useMountTransition } from "@/hooks";
 
 export default function Wallets() {
   const [isVisible, setVisible] = useState(false);

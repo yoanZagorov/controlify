@@ -1,4 +1,4 @@
-import { capitalize } from "@/utils/generic";
+import { capitalize } from "@/utils/str";
 
 export default function Transaction({ type, category, wallet, amount, currency }) {
   const isExpense = type === "expense";
