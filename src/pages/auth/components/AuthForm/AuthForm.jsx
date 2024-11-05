@@ -2,9 +2,11 @@ import { Link, Form as RouterForm } from "react-router-dom";
 
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
-import cn from "classnames";
+import { useAutoFocus } from "@/hooks";
 
 export default function AuthForm({ isCreateAccount, action, btnText, path, msg, CTA, className }) {
+  const emailInputRef = useAutoFocus();
+
   return (
     <RouterForm
       method="post"
@@ -14,6 +16,7 @@ export default function AuthForm({ isCreateAccount, action, btnText, path, msg, 
       <div className="flex flex-col gap-5">
         <Input
           size="l"
+          inputRef={emailInputRef}
           type="email"
           name="email"
           placeholder="Email"

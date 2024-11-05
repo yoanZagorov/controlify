@@ -1,6 +1,6 @@
 import cn from "classnames";
 
-export default function Input({ size = "m", variant = "primary", className = "", ...props }) {
+export default function Input({ size = "m", variant = "primary", inputRef, className = "", ...props }) {
   const input = "border placeholder-opacity-50 transition-all shadow focus:outline-none focus:border-none focus:ring";
 
   const inputM = "py-1.5 px-2 text-base rounded-md";
@@ -20,6 +20,7 @@ export default function Input({ size = "m", variant = "primary", className = "",
 
   return (
     <input
+      ref={inputRef}
       className={classes}
       {...props}
     />

@@ -20,7 +20,7 @@ export default async function loginAction({ request }) {
     return redirect("/");
   } catch (error) {
     console.error(error);
-    
+
     if (error.code === "auth/invalid-credential") {
       error.message = "Invalid email and/or password";
     } else if (error.code === "auth/too-many-requests") {

@@ -21,19 +21,19 @@ export default function Auth({ type }) {
   const isCreateAccount = type === "createAccount";
 
   return (
-    <div className="page__wrapper mx-auto h-screen w-full max-w-screen-ml tab:max-w-6xl pt-12 flex flex-col"> {/* To do: increase max-w value when acquired higher res logo */}
-      <header className="mx-auto tab:max-w-lg">
+    <div className="page__wrapper mx-auto h-screen w-full max-w-screen-ml tab:max-w-6xl pt-12 flex flex-col text-center"> {/* To do: increase max-w value when acquired higher res logo */}
+      <header className="mx-auto w-full max-w-lg">
         <Widget type="wrapper" size="s">
           {logOutMsg ? (
-            <p className="text-center font-semibold text-lg text-green-dark">{logOutMsg}</p>
+            <p className="font-semibold text-lg text-green-dark">{logOutMsg}</p>
           ) : (
-            <Quote quote={getRandomItem(quotes)} />
+            <Quote quote={getRandomItem(quotes)} /> // To do: pull the quotes from an API/DB
           )}
         </Widget>
       </header>
 
       <main
-        className="my-auto flex flex-col tab:flex-row tab:items-center gap-12 ls:gap-20 text-center">
+        className="my-auto flex flex-col tab:flex-row tab:items-center gap-12 ls:gap-20">
         <div className="tab:w-1/2">
           <img src={logo} />
           <p className="text-lg fhd:text-xl text-gray-dark">Take control of your finances</p>
