@@ -1,28 +1,43 @@
-import { getAuthUserId } from "services/firebase/db/user";
-import { getUser, getUserBalance } from "services/firebase/db/user";
+// import { getAuthUserId } from "services/firebase/db/user";
+import { getAuthUserId, getUser, getUserBalance } from "services/firebase/db/user";
 import { getUserWallets } from "services/firebase/db/wallet";
 import { getUserTodayTransactions } from "services/firebase/db/transaction";
 import { getUserCategories } from "services/firebase/db/category";
+import { redirect } from "react-router-dom";
+import { createRedirectResponse, createSuccessResponse, createErrorResponse } from "../responses";
 
-export default async function appLoader() {
-  // To do: check if the repeated call can be evaded
-  const authUserId = await getAuthUserId();
+export default async function appLoader({ request }) {
+  const userId = await getAuthUserId();
 
-  const user = await getUser(authUserId);
+  if (!userId) {
+    const redirectData = {
+      originalPath: new URL(request.url).pathname,
+      flashMsg: "You must log in first",
+      msgType: "alert"
+    }
 
-  const wallets = await getUserWallets(authUserId);
+    localStorage.setItem("redirectData", JSON.stringify(redirectData));
+    return redirect("/login");
+  }
 
-  const categories = await getUserCategories(authUserId);
+  try {
+    const user = await getUser(userId);
 
-  const balance = await getUserBalance({ wallets });
+    const wallets = await getUserWallets(userId);
 
-  const todayTransactionsByWallet = await getUserTodayTransactions(authUserId, wallets);
+    const categories = await getUserCategories(userId);
 
-  return {
-    user,
-    wallets,
-    categories,
-    balance,
-    todayTransactionsByWallet
-  };
+    const balance = await getUserBalance({ wallets });
+
+    const todayTransactionsByWallet = await getUserTodayTransactions(userId, wallets);
+
+    return {
+      user,
+      wallets,
+      categories,
+      balance,
+      todayTransactionsByWallet
+    };
+  } catch (error) {
+  }
 }

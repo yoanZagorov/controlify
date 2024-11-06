@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { useActionData, useNavigation, useRouteLoaderData } from "react-router-dom";
+import { useActionData, useRouteLoaderData } from "react-router-dom";
 
 import { TransactionProvider } from "@/contexts";
 
-import { useMountTransition, useScrollLock } from "@/hooks";
+import { useMountTransition, useRedirectData, useScrollLock } from "@/hooks";
 import { capitalize } from "@/utils/str";
 
 import { Balance } from "@/components/Balance";
@@ -15,7 +15,6 @@ import { Transaction, Widget, WidgetSection } from "./components";
 import PlusCircleIcon from "./PlusCircle";
 
 export default function Dashboard() {
-  const [flashMsg, setFlashMsg] = useState(null);
   const [isTransactionModalOpen, setTransactionModalOpen] = useScrollLock(false);
   const hasTransitioned = useMountTransition(isTransactionModalOpen, 300);
 
@@ -26,18 +25,9 @@ export default function Dashboard() {
   const { defaultCurrency } = user;
 
   // To do: create a custom hook and/or context for notifications 
-  useEffect(() => {
-    const createAccountMsg = sessionStorage.getItem("createAccountMsg");
-    const loginMsg = sessionStorage.getItem("loginMsg");
+  const redirectData = useRedirectData();
 
-    if (createAccountMsg) {
-      setFlashMsg(createAccountMsg);
-      sessionStorage.removeItem("createAccountMsg");
-    } else if (loginMsg) {
-      setFlashMsg(loginMsg);
-      sessionStorage.removeItem("loginMsg");
-    }
-  }, []);
+  const { flashMsg, msgType } = redirectData;
 
   useEffect(() => {
     if (success) {
@@ -88,7 +78,7 @@ export default function Dashboard() {
   return (
     <>
       <div className="page__wrapper mt-24 lm:mt-32 self-center tab:max-w-[calc(theme('screens.lm')-2*2.5rem)]">
-        {flashMsg && <p className="text-lg text-green-light text-center">{flashMsg}</p>}
+        {flashMsg && <p className={`text-lg text-center ${msgType === "success" ? "text-green-dark" : "text-red-dark"}`}>{flashMsg}</p>}
         {msg && <p className="text-lg text-green-light text-center">{msg}</p>}
 
         <div className="grid grid-cols-1 tab:grid-cols-10 tab:grid-flow-col tab:grid-rows-[auto,1fr] gap-14 rounded-b-lg">

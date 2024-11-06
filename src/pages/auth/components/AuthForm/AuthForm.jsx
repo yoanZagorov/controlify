@@ -4,7 +4,7 @@ import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { useAutoFocus } from "@/hooks";
 
-export default function AuthForm({ isCreateAccount, action, btnText, path, msg, CTA, className }) {
+export default function AuthForm({ originalPath = "", isCreateAccount, action, btnText, path, msg, CTA, className }) {
   const emailInputRef = useAutoFocus();
 
   return (
@@ -13,6 +13,8 @@ export default function AuthForm({ isCreateAccount, action, btnText, path, msg, 
       action={action}
       className={className && className}
     >
+      <input type="hidden" name="originalPath" value={originalPath} />
+
       <div className="flex flex-col gap-5">
         <Input
           size="l"

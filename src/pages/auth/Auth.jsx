@@ -1,4 +1,4 @@
-import { useActionData, useLocation } from "react-router-dom";
+import { useActionData } from "react-router-dom";
 
 import { loginAction, createAccountAction } from "services/router/actions";
 
@@ -10,13 +10,14 @@ import { quotes } from "./data";
 import { AuthForm } from "./components/AuthForm";
 import { Widget } from "@/components/Widget";
 import { Quote } from "@/components/Quote";
+import { useRedirectData } from "@/hooks";
 
 export default function Auth({ type }) {
-  const location = useLocation();
-  const logOutMsg = location?.state?.logOutMsg;
-
   const actionData = useActionData();
   const errorMsg = actionData?.errorMsg;
+
+  const redirectData = useRedirectData();
+  const { originalPath, flashMsg, msgType } = redirectData;
 
   const isCreateAccount = type === "createAccount";
 
@@ -24,8 +25,8 @@ export default function Auth({ type }) {
     <div className="page__wrapper mx-auto h-screen w-full max-w-screen-ml tab:max-w-6xl pt-12 flex flex-col text-center"> {/* To do: increase max-w value when acquired higher res logo */}
       <header className="mx-auto w-full max-w-lg">
         <Widget type="wrapper" size="s">
-          {logOutMsg ? (
-            <p className="font-semibold text-lg text-green-dark">{logOutMsg}</p>
+          {flashMsg ? (
+            <p className={`font-semibold text-lg ${msgType === "success" ? "text-green-dark" : "text-red-dark"}`}>{flashMsg}</p>
           ) : (
             <Quote quote={getRandomItem(quotes)} /> // To do: pull the quotes from an API/DB
           )}
@@ -47,6 +48,7 @@ export default function Auth({ type }) {
           }
 
           <AuthForm
+            originalPath={originalPath}
             isCreateAccount={isCreateAccount}
             action={isCreateAccount ? createAccountAction : loginAction}
             btnText={isCreateAccount ? "Create account" : "Log in"}

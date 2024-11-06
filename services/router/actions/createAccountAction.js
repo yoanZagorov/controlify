@@ -9,22 +9,25 @@ import { verifyCredentials } from "@/utils/auth";
 
 export default async function createAccountAction({ request }) {
   try {
-    const formData = await request.formData();
-    const email = formData.get("email");
-    const password = formData.get("password");
-    const fullName = formData.get("fullName");
+    const formData = Object.fromEntries(await request.formData());
+    const { originalPath, email, password, fullName } = formData;
 
     const { verifiedEmail, verifiedPassword, verifiedFullName } = verifyCredentials({ email, password, fullName }, true);
 
     const userCredential = await createUserWithEmailAndPassword(auth, verifiedEmail, verifiedPassword);
     const userId = userCredential.user.uid;
-    
+
     await createUser(verifiedEmail, verifiedFullName, userId);
 
     // Message to display on successful account creation
-    sessionStorage.setItem("createAccountMsg", "Successfully created an account!");
+    const redirectData = {
+      originalPath: "",
+      flashMsg: "Successfully created an account!",
+      msgType: "success"
+    }
 
-    return redirect("/");
+    localStorage.setItem("redirectData", JSON.stringify(redirectData));
+    return redirect(originalPath || "/app");
   } catch (error) {
     console.error(error);
 

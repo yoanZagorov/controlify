@@ -1,12 +1,13 @@
-import { getAuthUserId } from "services/firebase/db/user";
 import { redirect } from "react-router-dom";
+import { getAuthUserId } from "services/firebase/db/user";
 
 export default async function rootLoader() {
-  const authUserId = await getAuthUserId();
+  console.log("rootLoader");
+  const userId = await getAuthUserId();
 
-  if (authUserId) {
-    return redirect("/app");
+  if (!userId) {
+    return redirect("/login");
   }
 
-  return redirect("/login");
+  return redirect("/app");
 }

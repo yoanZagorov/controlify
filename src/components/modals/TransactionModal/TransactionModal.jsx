@@ -46,7 +46,6 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
     isExpenses ? "text-red-light" : "text-green-light"
   )
 
-
   const baseModalClasses = "fixed w-screen transition-all duration-300";
 
   const overlayClasses = cn(
@@ -88,7 +87,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
             className={amountValueClasses}
           >
             <span className="whitespace-nowrap">{isExpenses ? "-" : "+"}{currency}</span>
-            <input // To do: Auto-focus this input
+            <input
               ref={amountInputRef}
               name="amount"
               type="number"

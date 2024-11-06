@@ -9,7 +9,7 @@ import { appLoader, dashboardLoader, rootLoader, loginLoader, createAccountLoade
 const router = createBrowserRouter([
   {
     path: "/",
-    loader: rootLoader
+    loader: rootLoader,
   },
   {
     path: "/login",

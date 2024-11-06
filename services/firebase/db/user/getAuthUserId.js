@@ -1,13 +1,15 @@
-import { onAuthStateChanged } from "firebase/auth"
-import { auth } from "services/firebase/firebase.config"
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "services/firebase/firebase.config";
 
 export default function getAuthUserId() {
   return new Promise((resolve) => {
-    onAuthStateChanged(auth, (authUser) => {
+    const unsubsribe = onAuthStateChanged(auth, (authUser) => {
+      unsubsribe();
+
       if (authUser) {
-        resolve(authUser.uid)
+        resolve(authUser.uid);
       } else {
-        resolve(false);
+        resolve(null);
       }
     })
   })

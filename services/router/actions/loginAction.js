@@ -7,17 +7,21 @@ import { verifyCredentials } from "@/utils/auth";
 
 export default async function loginAction({ request }) {
   try {
-    const formData = await request.formData();
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const formData = Object.fromEntries(await request.formData());
+    const { originalPath, email, password } = formData;
 
     const { verifiedEmail, verifiedPassword } = verifyCredentials({ email, password });
-
     await signInWithEmailAndPassword(auth, verifiedEmail, verifiedPassword);
 
     // Message to display on successful login
-    sessionStorage.setItem("loginMsg", "Successfully logged in!");
-    return redirect("/");
+    const redirectData = {
+      originalPath: "",
+      flashMsg: "Successfully logged in!",
+      msgType: "success"
+    }
+
+    localStorage.setItem("redirectData", JSON.stringify(redirectData));
+    return redirect(originalPath || "/app");
   } catch (error) {
     console.error(error);
 
