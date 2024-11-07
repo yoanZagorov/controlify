@@ -2,6 +2,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "services/firebase/firebase.config";
 import { getCategory } from "../category";
 import { getWallet } from "../wallet";
+import { AppError } from "@/utils/errors";
 
 export default async function addTransaction(userId, amount, walletId, categoryId, date) {
   const transactionsCollectionRef = collection(db, `users/${userId}/wallets/${walletId}/transactions`);
@@ -18,7 +19,6 @@ export default async function addTransaction(userId, amount, walletId, categoryI
       createdAt: new Date()
     })
   } catch (error) {
-    console.error(error);
-    throw new Error("Unable to add your transaction. Please try again");
+    throw new AppError(error.message, { cause: error });
   }
 }

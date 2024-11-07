@@ -8,7 +8,7 @@ export default function useRedirectData() {
 
     if (storedRedirectData) {
       setRedirectData(JSON.parse(storedRedirectData));
-      localStorage.removeItem("redirectData");
+      localStorage.removeItem("redirectData")
     }
   }, [])
 

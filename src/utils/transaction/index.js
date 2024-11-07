@@ -1,2 +1,2 @@
-export { default as verifyTransactionData } from "./verifyTransactionData";
+export { default as validateTransactionData } from "./validateTransactionData";
 export { default as formatTransactionData } from "./formatTransactionData";

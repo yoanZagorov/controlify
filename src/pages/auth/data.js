@@ -1,3 +1,5 @@
+// To do: pull the quotes from a real database
+
 export const quotes = [
   {
     body: "Financial peace isn't the acquisition of stuff. It's learning to live on less than you make.",

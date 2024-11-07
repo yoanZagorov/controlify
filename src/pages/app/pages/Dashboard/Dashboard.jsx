@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { useActionData, useRouteLoaderData } from "react-router-dom";
+import { useEffect } from "react";
+import { useActionData, useLoaderData, useRouteLoaderData } from "react-router-dom";
 
 import { TransactionProvider } from "@/contexts";
 
 import { useMountTransition, useRedirectData, useScrollLock } from "@/hooks";
-import { capitalize } from "@/utils/str";
+import { capitalize, getFirstWord } from "@/utils/str";
 
 import { Balance } from "@/components/Balance";
 import { Button } from "@/components/Button";
@@ -13,22 +13,25 @@ import { SvgIcon } from "@/components/SvgIcon";
 import { TransactionModal } from "@/components/modals/TransactionModal";
 import { Transaction, Widget, WidgetSection } from "./components";
 import PlusCircleIcon from "./PlusCircle";
+import { Notification } from "@/components/Notification";
+import { Quote } from "@/components/Quote";
 
 export default function Dashboard() {
   const [isTransactionModalOpen, setTransactionModalOpen] = useScrollLock(false);
   const hasTransitioned = useMountTransition(isTransactionModalOpen, 300);
 
-  const actionData = useActionData();
-  const { success, msg, resetKey } = actionData ?? {};
-
   const { user, wallets, balance, todayTransactionsByWallet } = useRouteLoaderData("app");
   const { defaultCurrency } = user;
 
-  // To do: create a custom hook and/or context for notifications 
-  const redirectData = useRedirectData();
+  const { redirectData, quote } = useLoaderData();
+  const { msg: redirectflashMsg, msgType: redirectMsgType } = redirectData ?? {};
 
-  const { flashMsg, msgType } = redirectData;
+  const { msg: actionMsg, msgType: actionMsgType, success, resetKey } = useActionData() ?? {};
 
+  const msg = redirectflashMsg || actionMsg || null;
+  const msgType = redirectMsgType || actionMsgType || null;
+
+  // To do: implement a better way to close the modal on transaction completion
   useEffect(() => {
     if (success) {
       setTransactionModalOpen(false);
@@ -78,10 +81,17 @@ export default function Dashboard() {
   return (
     <>
       <div className="page__wrapper mt-24 lm:mt-32 self-center tab:max-w-[calc(theme('screens.lm')-2*2.5rem)]">
-        {flashMsg && <p className={`text-lg text-center ${msgType === "success" ? "text-green-dark" : "text-red-dark"}`}>{flashMsg}</p>}
-        {msg && <p className="text-lg text-green-light text-center">{msg}</p>}
+        <Widget type="wrapper" size="s">
+          {msg ? (
+            <Notification type={msgType}>
+              {msg}
+            </Notification>
+          ) : (
+            <Quote quote={quote} />
+          )}
+        </Widget>
 
-        <div className="grid grid-cols-1 tab:grid-cols-10 tab:grid-flow-col tab:grid-rows-[auto,1fr] gap-14 rounded-b-lg">
+        <div className="mt-6 grid grid-cols-1 tab:grid-cols-10 tab:grid-flow-col tab:grid-rows-[auto,1fr] gap-14 rounded-b-lg">
           <WidgetSection
             title="Balance"
             containsWidget

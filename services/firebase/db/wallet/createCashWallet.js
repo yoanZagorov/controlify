@@ -1,5 +1,6 @@
 import { collection, addDoc } from "firebase/firestore";
 import { getDefaultCurrency } from "@/utils/user";
+import { AppError } from "@/utils/errors";
 
 export default async function createCashWallet(userDocRef) {
   // To do:
@@ -18,6 +19,6 @@ export default async function createCashWallet(userDocRef) {
     })
 
   } catch (error) {
-    console.error(error);
+    throw new AppError("Unable to create your default wallet. Please try again", { cause: error });
   }
 }

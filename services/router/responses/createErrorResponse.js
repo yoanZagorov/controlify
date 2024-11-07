@@ -1,15 +1,16 @@
-export default function createErrorResponse(statusCode, errorMessage) {
+export default function createErrorResponse(statusCode, msg) {
   return new Response(
-    JSON.stringify({
-      error: {
-        code: statusCode,
-        message: errorMessage,
-      },
-    }),
+    JSON.stringify(
+      {
+        msg,
+        msgType: "error",
+        statusCode,
+      }
+    ),
     {
       status: statusCode,
       headers: {
-        "Content-Type": "application/json", // Indicate that the response is JSON
+        "Content-Type": "application/json"
       },
     }
   );

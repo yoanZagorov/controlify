@@ -4,6 +4,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { getDefaultCurrency } from "@/utils/user";
 import { createCashWallet } from "../wallet";
 import { createCategories } from "../category";
+import { AppError } from "@/utils/errors";
 
 export default async function createUser(email, fullName, userId) {
   // To do:
@@ -23,6 +24,6 @@ export default async function createUser(email, fullName, userId) {
     await createCategories(userDocRef);
     await createCashWallet(userDocRef);
   } catch (error) {
-    console.error(error);
+    throw new AppError("Unable to create your account. Please try again", { cause: error });
   }
 }

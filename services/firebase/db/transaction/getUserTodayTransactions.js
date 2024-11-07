@@ -2,6 +2,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "services/firebase/firebase.config";
 
 import { getTodayStartAndEnd } from "@/utils/date";
+import { AppError } from "@/utils/errors";
 
 export default async function getUserTodayTransactions(userId, wallets) {
   const { start, end } = getTodayStartAndEnd();
@@ -17,6 +18,13 @@ export default async function getUserTodayTransactions(userId, wallets) {
     try {
       const querySnapshot = await getDocs(q);
 
+      if (querySnapshot.empty) {
+        return {
+          walletId: wallet.id,
+          transactions: []
+        }
+      }
+
       const transactions = querySnapshot.docs.map(doc => {
         return ({
           ...doc.data(),
@@ -29,8 +37,7 @@ export default async function getUserTodayTransactions(userId, wallets) {
         transactions
       }
     } catch (error) {
-      console.error(error);
-      error.message = `Unable to fetch transactions for wallet ${wallet.id}`;
+      throw new AppError("Error fetching transactions", { cause: error });
     }
   })
 
@@ -39,7 +46,6 @@ export default async function getUserTodayTransactions(userId, wallets) {
 
     return allTransactions;
   } catch (error) {
-    console.error(error);
-    error.message = "Unable to fetch today's transactions";
+    throw new AppError("Error fetching transactions", { cause: error });
   }
 }

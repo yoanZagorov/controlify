@@ -1,32 +1,41 @@
 import { getAuthUserId } from "services/firebase/db/user";
-import { formatTransactionData, verifyTransactionData } from "@/utils/transaction";
+import { formatTransactionData, validateTransactionData } from "@/utils/transaction";
 import { addTransaction } from "services/firebase/db/transaction";
+import { createErrorResponse, createSuccessResponse } from "../responses";
 
 export default async function dashboardAction({ request }) {
   try {
-    const authUserId = await getAuthUserId();
+    const userId = await getAuthUserId();
 
-    const formData = await request.formData();
+    const formData = Object.fromEntries(await request.formData());
+    const { amount, wallet: walletId, category: categoryId, date } = formData;
+    console.log(formData);
 
-    const amount = formData.get("amount");
-    const walletId = formData.get("wallet");
-    const categoryId = formData.get("category");
-    const date = formData.get("date");
-
-    await verifyTransactionData(authUserId, amount, walletId, categoryId, date);
+    await validateTransactionData(userId, amount, walletId, categoryId, date);
 
     const { formattedAmount, formattedDate } = formatTransactionData(amount, date);
 
-    await addTransaction(authUserId, formattedAmount, walletId, categoryId, formattedDate);
+    await addTransaction(userId, formattedAmount, walletId, categoryId, formattedDate);
 
-    console.log("Successfully added the transaction!");
-    return {
+    // To do: update the Wallet with the new balance 
+
+    return createSuccessResponse({
+      msg: "Transaction successful!",
+      msgType: "success",
       success: true,
-      msg: "Transaction successful",
-      resetKey: Date.now().toString()
-    };
+      resetKey: Date.now()
+    })
   } catch (error) {
     console.error(error);
-    return { errorMsg: error.message };
+
+    if (error.options?.cause) {
+      console.error(error.options.cause);
+    }
+
+    if (error instanceof ValidationError) {
+      return createErrorResponse(error.statusCode, error.message);
+    }
+
+    return createErrorResponse(500, "Couldn't complete your transaction. Please try again");
   }
 }

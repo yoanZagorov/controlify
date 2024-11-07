@@ -4,30 +4,33 @@ import { Auth } from "@/pages/auth";
 import { AppLayout, Dashboard, Wallets } from "@/pages/app";
 
 import { createAccountAction, dashboardAction, loginAction } from "./actions";
-import { appLoader, dashboardLoader, rootLoader, loginLoader, createAccountLoader } from "./loaders";
+import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader } from "./loaders";
+import { AppErrorComponent, RootError } from "@/components/errors";
 
 const router = createBrowserRouter([
   {
     path: "/",
     loader: rootLoader,
+    errorElement: <RootError />
   },
   {
     path: "/login",
     element: <Auth type="login" />,
     action: loginAction,
-    loader: loginLoader
+    loader: authLoader
   },
   {
     path: "/create-account",
     element: <Auth type="createAccount" />,
     action: createAccountAction,
-    loader: createAccountLoader
+    loader: authLoader
   },
   {
     path: "/app",
     element: <AppLayout />,
     id: "app",
     loader: appLoader,
+    errorElement: <AppErrorComponent />,
     children: [
       {
         index: true,
@@ -41,7 +44,8 @@ const router = createBrowserRouter([
       },
       {
         path: "wallets",
-        element: <Wallets />
+        element: <Wallets />,
+        loader: walletsLoader
       },
       {
         path: "reflect",

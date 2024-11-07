@@ -9,6 +9,7 @@ import { mainNavPages, secNavPages } from "./data";
 import logo from "@/assets/images/logos/logoNavyBg.png";
 
 import { SvgIcon } from "@/components/SvgIcon";
+import { storeRedirectData } from "@/utils/storage";
 
 export default forwardRef(function Sidebar({ toggleSidebar, isSidebarOpen }, ref) {
   const navigate = useNavigate();
@@ -16,18 +17,12 @@ export default forwardRef(function Sidebar({ toggleSidebar, isSidebarOpen }, ref
   const { user } = useRouteLoaderData("app");
   const { profilePic, email, fullName } = user;
 
-
+  // To do: use useFetcher instead
   async function handleLogOut() {
     // To do: check for errors
     await logOutUser();
-    // To do: createa global notifications context
-    const redirectData = {
-      originalPath: "",
-      flashMsg: "Successfully logged out",
-      msgType: "success"
-    }
 
-    localStorage.setItem("redirectData", JSON.stringify(redirectData));
+    storeRedirectData("Successfully logged out!", "success");
     navigate("/login");
   }
 

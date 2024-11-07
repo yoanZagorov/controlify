@@ -1,18 +1,21 @@
 import { redirect } from "react-router-dom";
-
 import { createUserWithEmailAndPassword } from "firebase/auth";
+
 import { auth } from "services/firebase/firebase.config";
 
 import { createUser } from "services/firebase/db/user";
 
-import { verifyCredentials } from "@/utils/auth";
+import { checkFirebaseError, validateSignupCredentials } from "@/utils/auth";
+import { createErrorResponse } from "../responses";
+import { ValidationError } from "@/utils/errors";
+import { storeRedirectData } from "@/utils/storage";
 
 export default async function createAccountAction({ request }) {
   try {
     const formData = Object.fromEntries(await request.formData());
     const { originalPath, email, password, fullName } = formData;
 
-    const { verifiedEmail, verifiedPassword, verifiedFullName } = verifyCredentials({ email, password, fullName }, true);
+    const { verifiedEmail, verifiedPassword, verifiedFullName } = validateSignupCredentials(email, password, fullName);
 
     const userCredential = await createUserWithEmailAndPassword(auth, verifiedEmail, verifiedPassword);
     const userId = userCredential.user.uid;
@@ -20,21 +23,26 @@ export default async function createAccountAction({ request }) {
     await createUser(verifiedEmail, verifiedFullName, userId);
 
     // Message to display on successful account creation
-    const redirectData = {
-      originalPath: "",
-      flashMsg: "Successfully created an account!",
-      msgType: "success"
-    }
+    storeRedirectData("Successfully created an account!", "success");
 
-    localStorage.setItem("redirectData", JSON.stringify(redirectData));
     return redirect(originalPath || "/app");
   } catch (error) {
     console.error(error);
 
-    if (error.code === "auth/email-already-in-use") {
-      error.message = "Email already in use";
+    if (error.options.cause) {
+      console.error("Cause:", error.options.cause);
     }
 
-    return { errorMsg: error.message };
+    if (error instanceof ValidationError) {
+      return createErrorResponse(error.statusCode, error.message);
+    }
+
+    const firebaseError = checkFirebaseError(error.code);
+
+    if (firebaseError) {
+      return createErrorResponse(firebaseError.status, firebaseError.message);
+    };
+
+    return createErrorResponse(500, "Couldn't create your account. Please try again");
   }
 }

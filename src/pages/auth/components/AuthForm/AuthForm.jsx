@@ -4,8 +4,10 @@ import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { useAutoFocus } from "@/hooks";
 
-export default function AuthForm({ originalPath = "", isCreateAccount, action, btnText, path, msg, CTA, className }) {
-  const emailInputRef = useAutoFocus();
+export default function AuthForm({ originalPath = "", isCreateAccount, authFormConfig, className }) {
+  const emailInputRef = useAutoFocus([isCreateAccount]);
+
+  const { action, btnText, path, msg, CTA } = authFormConfig;
 
   return (
     <RouterForm
@@ -57,7 +59,7 @@ export default function AuthForm({ originalPath = "", isCreateAccount, action, b
         {btnText}
       </Button>
 
-      <p className="mt-2 text-navy ll:text-lg">
+      <p className="mt-2 text-sm mm:text-base ll:text-lg text-navy">
         {msg}
         <Link
           to={path}

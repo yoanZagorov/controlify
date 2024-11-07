@@ -3,33 +3,37 @@ import { redirect } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "services/firebase/firebase.config";
 
-import { verifyCredentials } from "@/utils/auth";
+import { checkFirebaseError, checkLoginFields } from "@/utils/auth";
+import { createErrorResponse } from "../responses";
+import { ValidationError } from "@/utils/errors";
+import { storeRedirectData } from "@/utils/storage";
 
 export default async function loginAction({ request }) {
   try {
     const formData = Object.fromEntries(await request.formData());
     const { originalPath, email, password } = formData;
 
-    const { verifiedEmail, verifiedPassword } = verifyCredentials({ email, password });
-    await signInWithEmailAndPassword(auth, verifiedEmail, verifiedPassword);
+    checkLoginFields(email, password);
+
+    await signInWithEmailAndPassword(auth, email, password);
 
     // Message to display on successful login
-    const redirectData = {
-      originalPath: "",
-      flashMsg: "Successfully logged in!",
-      msgType: "success"
-    }
+    storeRedirectData("Successfully logged in!", "success");
 
-    localStorage.setItem("redirectData", JSON.stringify(redirectData));
     return redirect(originalPath || "/app");
   } catch (error) {
     console.error(error);
 
-    if (error.code === "auth/invalid-credential") {
-      error.message = "Invalid email and/or password";
-    } else if (error.code === "auth/too-many-requests") {
-      error.message = "Too many requests. Please try again later";
+    if (error instanceof ValidationError) {
+      return createErrorResponse(error.statusCode, error.message);
     }
-    return { errorMsg: error.message };
+
+    const firebaseError = checkFirebaseError(error.code);
+
+    if (firebaseError) {
+      return createErrorResponse(firebaseError.status, firebaseError.message);
+    };
+
+    return createErrorResponse(500, "Couldn't log you in. Please try again");
   }
 }

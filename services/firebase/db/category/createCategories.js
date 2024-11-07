@@ -1,3 +1,4 @@
+import { AppError } from "@/utils/errors";
 import { collection, addDoc } from "firebase/firestore";
 
 export default async function createCategories(userDocRef) {
@@ -39,6 +40,6 @@ export default async function createCategories(userDocRef) {
 
     await Promise.all(promises);
   } catch (error) {
-    console.error(error);
+    throw new AppError("Unable to create your default categories. Please try again", { cause: error });
   }
 }

@@ -1,3 +1,4 @@
+import { AppError } from "@/utils/errors";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "services/firebase/firebase.config";
 
@@ -13,14 +14,17 @@ export default async function getUserWallets(userId) {
   try {
     const querySnapshot = await getDocs(walletsQuery);
 
-    const wallets = querySnapshot.docs.map((doc) => ({
+    if (querySnapshot.empty) {
+      throw new AppError(404, "No wallets found");
+    };
+
+    const wallets = querySnapshot.docs.map(doc => ({
       ...doc.data(),
       id: doc.id,
     }));
 
     return wallets;
   } catch (error) {
-    console.error(error);
-    throw new Error("Unable to load your wallets. Please try refreshing the page");
+    throw new AppError("Error checking wallets existence", { cause: error }); // To do: Create a more user-friendly message and display it    
   }
 }

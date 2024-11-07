@@ -1,6 +1,11 @@
-export default function createSuccessResponse(data = null) {
+export default function createSuccessResponse(data, isStringified = false) {
   return new Response(
-    JSON.stringify(data), {
-    status: 200
+    isStringified
+      ? data
+      : JSON.stringify(data), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json; utf-8"
+    }
   });
 }

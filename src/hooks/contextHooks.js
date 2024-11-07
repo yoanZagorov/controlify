@@ -1,12 +1,8 @@
 import { useContext } from "react";
-import { TransactionContext, AuthContext, NotificationContext, UserContext } from "@/contexts";
+import { TransactionContext, NotificationContext, UserContext } from "@/contexts";
 
 export function useTransaction() {
   return useContext(TransactionContext);
-}
-
-export function useAuth() {
-  return useContext(AuthContext);
 }
 
 export function useNotification() {
