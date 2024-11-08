@@ -11,7 +11,14 @@ import { capitalize } from "@/utils/str";
 import { useLayout } from "@/hooks";
 
 export default function Sidebar() {
-  const { isSidebarExpanded, toggleSidebar, sidebarRef } = useLayout();
+  const {
+    sidebar: {
+      isExpanded: isSidebarExpanded,
+      toggle: toggleSidebar,
+      ref: sidebarRef
+    }
+  } = useLayout();
+
   const { user } = useRouteLoaderData("app");
 
   const mainNavEls = mainNavPages.map((page, index) => (

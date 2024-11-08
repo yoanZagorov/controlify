@@ -1,10 +1,9 @@
-import { useOutsideClick, useLayout } from "@/hooks";
+import { useLayout } from "@/hooks";
 import { Sidebar } from "../components/Sidebar";
 import { CollapsedSidebar } from "./components/CollapsedSidebar";
 
 export default function TabletHeader() {
-  const { isSidebarExpanded } = useLayout();
-  // const expandedSidebarRef = useOutsideClick(isSidebarExpanded, setSidebarExpanded);
+  const { sidebar: { isSidebarExpanded } } = useLayout();
 
   return (
     <header>

@@ -5,11 +5,16 @@ import { getCurrentPage } from "../../helpers";
 
 import { SvgIcon } from "@/components/SvgIcon";
 import { Sidebar } from "../components/Sidebar";
-import { useLayout, useOutsideClick } from "@/hooks";
+import { useLayout } from "@/hooks";
 import { capitalize } from "@/utils/str";
 
 export default function MobileHeader() {
-  const { isSidebarExpanded, toggleSidebar } = useLayout();
+  const {
+    sidebar: {
+      isExpanded: isSidebarExpanded,
+      toggle: toggleSidebar
+    }
+  } = useLayout();
 
   const location = useLocation();
   const currentPage = capitalize(getCurrentPage(location.pathname));

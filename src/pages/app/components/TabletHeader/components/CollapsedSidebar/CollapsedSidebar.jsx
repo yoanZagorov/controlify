@@ -5,7 +5,11 @@ import { NavEl } from "../../../components/NavEl";
 import { useLayout } from "@/hooks";
 
 export default function CollapsedSidebar() {
-  const { toggleSidebar } = useLayout();
+  const {
+    sidebar: {
+      toggle: toggleSidebar
+    }
+  } = useLayout();
 
   const mainNavEls = mainNavPages.map((page, index) => (
     <NavEl
