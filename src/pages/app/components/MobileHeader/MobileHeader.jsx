@@ -1,51 +1,48 @@
 import cn from "classnames";
 import { useState, useRef, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useMatch } from "react-router-dom";
 
 import { getCurrentPage } from "../../helpers";
 
 import { SvgIcon } from "@/components/SvgIcon";
-import { Sidebar } from "./components/Sidebar";
+import { Sidebar } from "../Sidebar";
+import { useOutsideClick } from "@/hooks";
+import { capitalize } from "@/utils/str";
 
 export default function MobileHeader() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const sidebarRef = useRef(null);
+  const sidebarRef = useOutsideClick(isSidebarOpen, setSidebarOpen);
+
   const location = useLocation();
+  const currentPage = capitalize(getCurrentPage(location.pathname));
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
-  }, [isSidebarOpen]);
-
-  const handleOutsideClick = (e) => {
-    if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
-      setSidebarOpen(false);
-    }
-  }
+  // To do: implement a real hook
+  const isTablet = false;
 
   function toggleSidebar() {
     setSidebarOpen(wasOpen => !wasOpen);
   }
 
-  const currentPage = getCurrentPage(location.pathname);
-
-  const topBarCn = "page__wrapper fixed left-0 h-16 lm:h-20 flex items-center bg-navy z-10 shadow gap-4 transition-[top] duration-500 tab:duration-700";
-
-  const topBarOpenedCn = cn(topBarCn, "top-0");
-  const topBarClosedCn = cn(topBarCn, "-top-[4.5rem] lm:-top-[5.5rem]");
+  const topBarClasses = cn(
+    "page__wrapper fixed h-16 flex items-center gap-4 bg-navy z-10 shadow transition-[top] duration-500",
+    isSidebarOpen ? "-top-20" : "top-0"
+  )
 
   return (
     <>
       <div
-        className={isSidebarOpen ? topBarClosedCn : topBarOpenedCn}>
+        className={topBarClasses}>
         <button onClick={toggleSidebar}>
-          <SvgIcon iconName="hamburger" className="w-8 h-8 fill-gray-light" />
+          <SvgIcon iconName="hamburger" className="size-8 fill-gray-light" />
         </button>
-        <p className="text-lg tab:text-xl text-gray-light font-medium">{currentPage}</p>
+        <p className="text-lg text-gray-light font-medium">{currentPage}</p>
       </div>
 
-      <Sidebar ref={sidebarRef} toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+      <Sidebar
+        ref={sidebarRef}
+        toggleSidebar={toggleSidebar}
+        isSidebarOpen={isSidebarOpen}
+      />
     </>
   )
 }

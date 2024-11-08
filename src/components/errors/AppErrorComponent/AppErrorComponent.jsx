@@ -2,6 +2,7 @@ import { useRouteError } from "react-router-dom";
 
 export default function AppErrorComponent() {
   const error = useRouteError();
+  console.error(error);
 
   return (
     <div className="text-center">
@@ -12,7 +13,7 @@ export default function AppErrorComponent() {
         Error status: {error.status}
       </p>
       <p>
-        {error.data.message}
+        {error?.data?.message}
       </p>
     </div>
   )

@@ -3,8 +3,8 @@ import { useActionData, useLoaderData, useRouteLoaderData } from "react-router-d
 
 import { TransactionProvider } from "@/contexts";
 
-import { useMountTransition, useRedirectData, useScrollLock } from "@/hooks";
-import { capitalize, getFirstWord } from "@/utils/str";
+import { useMountTransition, useScrollLock } from "@/hooks";
+import { capitalize } from "@/utils/str";
 
 import { Balance } from "@/components/Balance";
 import { Button } from "@/components/Button";
@@ -80,7 +80,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="page__wrapper mt-24 lm:mt-32 self-center tab:max-w-[calc(theme('screens.lm')-2*2.5rem)]">
+      <div className="page__wrapper mt-24 lm:mt-32 self-center tab:max-w-screen-lm">
         <Widget type="wrapper" size="s">
           {msg ? (
             <Notification type={msgType}>

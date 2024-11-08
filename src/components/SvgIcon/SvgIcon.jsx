@@ -1,6 +1,8 @@
 // Header
 import HamburgerIcon from "@/assets/icons/hamburger.svg?react";
 import UserIcon from "@/assets/icons/user-circle.svg?react";
+import HouseIcon from "@/assets/icons/house.svg?react";
+import WalletIcon from "@/assets/icons/wallet.svg?react";
 import StatsIcon from "@/assets/icons/stats.svg?react";
 import SettingsIcon from "@/assets/icons/settings.svg?react";
 import CategoriesIcon from "@/assets/icons/categories.svg?react";
@@ -8,13 +10,11 @@ import LogOutIcon from "@/assets/icons/log-out.svg?react";
 
 // Dashboard
 import ScaleIcon from "@/assets/icons/scale.svg?react";
-import WalletIcon from "@/assets/icons/wallet.svg?react";
 import CalendarIcon from "@/assets/icons/calendar.svg?react";
 
 // Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
 import ShoppingBagIcon from "@/assets/icons/shopping-bag.svg?react";
-import HouseIcon from "@/assets/icons/house.svg?react";
 import BusIcon from "@/assets/icons/bus.svg?react";
 import MasksTheaterIcon from "@/assets/icons/masks-theater.svg?react";
 import UtensilsIcon from "@/assets/icons/utensils.svg?react";
@@ -52,7 +52,7 @@ const iconComponentsMap = {
   "user-circle": UserIcon,
   "stats": StatsIcon,
   "settings": SettingsIcon,
-  "log-out": LogOutIcon
+  "logout": LogOutIcon
 }
 
 export default function SvgIcon({ iconName, ...props }) {

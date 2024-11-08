@@ -121,6 +121,8 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
             type="submit"
             size="l"
             disabled={amount === "0" || category.name === "choose"}
+            name="intent"
+            value="add-transaction"
             className="mt-12 ll:py-4 ls:text-xl ml:text-xl ml:py-4 ml:px-8 mm:self-center focus:ring-4"
           >
             Complete Transaction
