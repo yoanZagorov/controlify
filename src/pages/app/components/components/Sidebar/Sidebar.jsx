@@ -1,6 +1,5 @@
 import cn from "classnames";
-import { forwardRef } from "react";
-import { Form as RouterForm, useRouteLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 
 import logo from "@/assets/images/logos/logoNavyBg.png";
 
@@ -9,8 +8,10 @@ import { NavEl } from "../NavEl";
 import { mainNavPages, secNavPages } from "../../data";
 import { LogoutNavEl } from "../LogoutNavEl";
 import { capitalize } from "@/utils/str";
+import { useLayout } from "@/hooks";
 
-export default forwardRef(function Sidebar({ toggleSidebar = null, isSidebarOpen }, ref) {
+export default function Sidebar() {
+  const { isSidebarExpanded, toggleSidebar, sidebarRef } = useLayout();
   const { user } = useRouteLoaderData("app");
 
   const mainNavEls = mainNavPages.map((page, index) => (
@@ -54,12 +55,12 @@ export default forwardRef(function Sidebar({ toggleSidebar = null, isSidebarOpen
   ))
 
   const sidebar = cn(
-    "fixed h-screen w-4/5 max-w-72 py-5 flex flex-col items-center text-gray-light bg-navy z-10 transition-[left] duration-500",
-    isSidebarOpen ? "left-0" : "-left-80"
+    "fixed h-screen w-4/5 tab:w-80 max-w-72 tab:max-w-none py-5 flex flex-col items-center text-gray-light bg-navy z-10 transition-[left] duration-500",
+    isSidebarExpanded ? "left-0" : "-left-full"
   )
 
   return (
-    <div className={sidebar} ref={ref}>
+    <div className={sidebar} ref={sidebarRef}>
       <img src={logo} className="px-4" />
       <p className="text-sm mm:text-base tracking-wider font-light">Take control of your finances</p>
 
@@ -96,4 +97,4 @@ export default forwardRef(function Sidebar({ toggleSidebar = null, isSidebarOpen
       </nav>
     </div>
   )
-})
+}

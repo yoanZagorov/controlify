@@ -6,6 +6,7 @@ import { AppLayout, Dashboard, Wallets } from "@/pages/app";
 import { appAction, createAccountAction, dashboardAction, loginAction } from "./actions";
 import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader } from "./loaders";
 import { AppErrorComponent, RootError } from "@/components/errors";
+import { LayoutProvider } from "@/contexts";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/app",
-    element: <AppLayout />,
+    element:
+      <LayoutProvider>
+        <AppLayout />
+      </LayoutProvider>,
     id: "app",
     loader: appLoader,
     action: appAction,

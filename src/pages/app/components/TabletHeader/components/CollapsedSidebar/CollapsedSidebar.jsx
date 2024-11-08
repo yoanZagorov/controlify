@@ -2,8 +2,10 @@ import { SvgIcon } from "@/components/SvgIcon";
 import { mainNavPages, secNavPages } from "../../../data";
 import { LogoutNavEl } from "../../../components/LogoutNavEl";
 import { NavEl } from "../../../components/NavEl";
+import { useLayout } from "@/hooks";
 
 export default function CollapsedSidebar() {
+  const { toggleSidebar } = useLayout();
 
   const mainNavEls = mainNavPages.map((page, index) => (
     <NavEl
@@ -42,8 +44,10 @@ export default function CollapsedSidebar() {
   ))
 
   return (
-    <div className="h-screen w-20 py-10 px-3 flex flex-col items-center bg-navy text-gray-light">
-      <SvgIcon iconName="hamburger" className="size-8 fill-current" />
+    <div className="fixed h-full w-20 py-10 px-3 flex flex-col items-center bg-navy text-gray-light">
+      <button onClick={toggleSidebar}>
+        <SvgIcon iconName="hamburger" className="size-8 fill-current" />
+      </button>
       <ul className="mt-14">
         {mainNavEls}
       </ul>
