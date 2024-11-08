@@ -5,38 +5,51 @@ import { Form as RouterForm, useRouteLoaderData } from "react-router-dom";
 import logo from "@/assets/images/logos/logoNavyBg.png";
 
 import { SvgIcon } from "@/components/SvgIcon";
-import { dashboardAction } from "services/router/actions";
-import { NavEl } from "./components/NavEl";
+import { NavEl } from "../NavEl";
+import { mainNavPages, secNavPages } from "../../data";
+import { LogoutNavEl } from "../LogoutNavEl";
+import { capitalize } from "@/utils/str";
 
 export default forwardRef(function Sidebar({ toggleSidebar = null, isSidebarOpen }, ref) {
   const { user } = useRouteLoaderData("app");
 
-  const mainNavPages = [
-    { name: "dashboard", iconName: "house" },
-    { name: "wallets", iconName: "wallet" },
-    { name: "reflect", iconName: "stats" },
-  ]
-
-  const secNavPages = [
-    { name: "settings", iconName: "settings" },
-    { name: "categories", iconName: "categories" },
-  ]
-
   const mainNavEls = mainNavPages.map((page, index) => (
     <NavEl
       key={index}
-      type="main"
-      page={page}
-      toggleSidebar={toggleSidebar}
+      variant="iconWithText"
+      link={{
+        to: page.name,
+        className: {
+          base: "py-3.5 px-4 text-lg",
+          active: "bg-gray-medium text-gray-dark",
+        }
+      }}
+      text={capitalize(page.name)}
+      icon={{
+        name: page.iconName,
+        className: "size-6",
+      }}
+      handleClose={toggleSidebar}
     />
   ))
 
   const secNavEls = secNavPages.map((page, index) => (
     <NavEl
       key={index}
-      type="secondary"
-      page={page}
-      toggleSidebar={toggleSidebar}
+      variant="iconWithText"
+      link={{
+        to: page.name,
+        className: {
+          base: "py-1.5 px-4 text-gray-medium",
+          active: "underline",
+        }
+      }}
+      text={capitalize(page.name)}
+      icon={{
+        name: page.iconName,
+        className: "size-4",
+      }}
+      handleClose={toggleSidebar}
     />
   ))
 
@@ -70,20 +83,15 @@ export default forwardRef(function Sidebar({ toggleSidebar = null, isSidebarOpen
       <nav className="mt-auto self-start">
         <ul>
           {secNavEls}
-          <li>
-            <RouterForm method="post" action={dashboardAction}>
-              <button
-                type="submit"
-                name="intent" // use to differentiate between the different forms on the action
-                value="logout"
-                onClick={toggleSidebar}
-                className="px-4 py-1.5 flex items-center gap-3 text-red-light"
-              >
-                <SvgIcon iconName="logout" className="size-4 fill-current" />
-                Log out
-              </button>
-            </RouterForm>
-          </li>
+
+          <LogoutNavEl
+            variant="iconWithText"
+            handleClose={toggleSidebar}
+            className={{
+              btn: "px-4 py-1.5",
+              icon: "size-4"
+            }}
+          />
         </ul>
       </nav>
     </div>

@@ -23,10 +23,14 @@
   }
   
   .wrapper {
-    @apply w-screen px-4 tab:px-6 ll:px-10;
+    @apply px-4 tab:px-6 ll:px-10;
   }
 
   .page__wrapper {
-    @apply w-screen px-4 tab:px-6 ls:px-8 ll:px-10;
+    @apply wrapper w-screen;
+  }
+
+  .tablet__wrapper {
+    @apply wrapper;
   }
 }

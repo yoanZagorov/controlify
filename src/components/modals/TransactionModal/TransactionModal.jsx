@@ -1,8 +1,6 @@
 import cn from "classnames";
 import { Form as RouterForm, useActionData } from "react-router-dom";
 
-import { dashboardAction } from "services/router/actions";
-
 import { useAutoFocus, useTransaction } from "@/hooks";
 
 import { TransactionFormField } from "./components/TransactionFormField";
@@ -72,7 +70,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
       {/* Modal */}
       <RouterForm
         method="post"
-        action={dashboardAction}
+        action="/app/dashboard"
         className={formClasses}
       >
         <div className="py-10 page__wrapper flex items-end gap-4 w-full rounded-t-lg font-semibold tracking-wide bg-navy shadow">

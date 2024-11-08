@@ -3,7 +3,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { Auth } from "@/pages/auth";
 import { AppLayout, Dashboard, Wallets } from "@/pages/app";
 
-import { createAccountAction, dashboardAction, loginAction } from "./actions";
+import { appAction, createAccountAction, dashboardAction, loginAction } from "./actions";
 import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader } from "./loaders";
 import { AppErrorComponent, RootError } from "@/components/errors";
 
@@ -30,6 +30,7 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     id: "app",
     loader: appLoader,
+    action: appAction,
     errorElement: <AppErrorComponent />,
     children: [
       {

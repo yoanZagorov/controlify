@@ -15,6 +15,7 @@ import { Transaction, Widget, WidgetSection } from "./components";
 import PlusCircleIcon from "./PlusCircle";
 import { Notification } from "@/components/Notification";
 import { Quote } from "@/components/Quote";
+import cn from "classnames";
 
 export default function Dashboard() {
   const [isTransactionModalOpen, setTransactionModalOpen] = useScrollLock(false);
@@ -78,9 +79,16 @@ export default function Dashboard() {
     )
   })
 
+  const isTablet = true;
+
+  const page = cn(
+    "mt-24 lm:mt-32 ",
+    isTablet ? "tablet__wrapper" : "page__wrapper tab:max-w-screen-lm self-center"
+  )
+
   return (
     <>
-      <div className="page__wrapper mt-24 lm:mt-32 self-center tab:max-w-screen-lm">
+      <div className={page}>
         <Widget type="wrapper" size="s">
           {msg ? (
             <Notification type={msgType}>
@@ -89,7 +97,7 @@ export default function Dashboard() {
           ) : (
             <Quote quote={quote} />
           )}
-        </Widget>
+        </Widget >
 
         <div className="mt-6 grid grid-cols-1 tab:grid-cols-10 tab:grid-flow-col tab:grid-rows-[auto,1fr] gap-14 rounded-b-lg">
           <WidgetSection
@@ -153,7 +161,7 @@ export default function Dashboard() {
             </div>
           </WidgetSection>
         </div>
-      </div>
+      </div >
 
       {(isTransactionModalOpen || hasTransitioned) &&
         <TransactionProvider>

@@ -1,11 +1,11 @@
 import cn from "classnames";
-import { useState, useRef, useEffect } from "react";
-import { useLocation, useMatch } from "react-router-dom";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import { getCurrentPage } from "../../helpers";
 
 import { SvgIcon } from "@/components/SvgIcon";
-import { Sidebar } from "../Sidebar";
+import { Sidebar } from "../components/Sidebar";
 import { useOutsideClick } from "@/hooks";
 import { capitalize } from "@/utils/str";
 
@@ -15,9 +15,6 @@ export default function MobileHeader() {
 
   const location = useLocation();
   const currentPage = capitalize(getCurrentPage(location.pathname));
-
-  // To do: implement a real hook
-  const isTablet = false;
 
   function toggleSidebar() {
     setSidebarOpen(wasOpen => !wasOpen);
@@ -29,9 +26,8 @@ export default function MobileHeader() {
   )
 
   return (
-    <>
-      <div
-        className={topBarClasses}>
+    <header>
+      <div className={topBarClasses}>
         <button onClick={toggleSidebar}>
           <SvgIcon iconName="hamburger" className="size-8 fill-gray-light" />
         </button>
@@ -43,6 +39,6 @@ export default function MobileHeader() {
         toggleSidebar={toggleSidebar}
         isSidebarOpen={isSidebarOpen}
       />
-    </>
+    </header>
   )
 }
