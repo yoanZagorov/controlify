@@ -11,6 +11,8 @@ import { capitalize } from "@/utils/str";
 import { useLayout } from "@/hooks";
 
 export default function Sidebar() {
+  const { user } = useRouteLoaderData("app");
+
   const {
     sidebar: {
       isExpanded: isSidebarExpanded,
@@ -18,8 +20,6 @@ export default function Sidebar() {
       ref: sidebarRef
     }
   } = useLayout();
-
-  const { user } = useRouteLoaderData("app");
 
   const mainNavEls = mainNavPages.map((page, index) => (
     <NavEl
@@ -66,8 +66,15 @@ export default function Sidebar() {
     isSidebarExpanded ? "left-0" : "-left-full"
   )
 
+  const classes = {
+    sidebar: cn(
+      "fixed h-screen w-64 ml:w-72 tab:w-80 lm:w-96 tab:max-w-none py-5 flex flex-col items-center text-gray-light bg-navy z-10 transition-[left] duration-500",
+      isSidebarExpanded ? "left-0" : "-left-full"
+    )
+  }
+
   return (
-    <div className={sidebar} ref={sidebarRef}>
+    <div className={classes.sidebar} ref={sidebarRef}>
       <img src={logo} className="px-4" />
       <p className="text-sm mm:text-base tracking-wider font-light">Take control of your finances</p>
 

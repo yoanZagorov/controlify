@@ -4,15 +4,16 @@ import { createContext, useState } from "react";
 export const LayoutContext = createContext(null);
 
 export default function LayoutProvider({ children }) {
-  const [isSidebarExpanded, setSidebarExpanded] = useState(false);
-
   const currentBreakpoint = useCurrentBreakpointValue();
 
   const isMobile = currentBreakpoint === "mobile";
   const isTablet = currentBreakpoint === "tablet";
   const isDesktop = currentBreakpoint === "desktop";
 
-  const sidebarRef = useOutsideClick(isSidebarExpanded, setSidebarExpanded);
+  const [isSidebarExpanded, setSidebarExpanded] = useState(isDesktop ? true : false);
+
+
+  const sidebarRef = useOutsideClick(isSidebarExpanded, setSidebarExpanded, !isDesktop);
 
   function toggleSidebar() {
     setSidebarExpanded(wasExpanded => !wasExpanded)

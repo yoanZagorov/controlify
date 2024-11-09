@@ -15,7 +15,7 @@ export default function Transaction({ type, category, wallet, amount, currency }
         </div>
       </div>
 
-      <p className={`ml-auto ml:max-tab:text-lg ls:text-lg font-semibold ${isExpense ? "text-red-dark" : "text-green-light"}`}>{isExpense ? "-" : "+"}{amount} {currency}</p>
+      <p className={`ml-auto ml:max-tab:text-lg lm:text-lg font-semibold ${isExpense ? "text-red-dark" : "text-green-light"}`}>{isExpense ? "-" : "+"}{amount} {currency}</p>
     </div>
   )
 }

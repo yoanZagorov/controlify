@@ -18,13 +18,16 @@ import { Quote } from "@/components/Quote";
 import cn from "classnames";
 
 export default function Dashboard() {
-  const screenWidth = useScreenWidth();
-  const isMobile = screenWidth < 768;
-  const isTablet = screenWidth >= 768;
-  const isDesktop = screenWidth >= 1024;
-
-
-  const { isSidebarExpanded } = useLayout();
+  const {
+    sidebar: {
+      isExpanded: isSidebarExpanded
+    },
+    breakpoints: {
+      isMobile,
+      isTablet,
+      isDesktop
+    }
+  } = useLayout();
 
 
   const [isTransactionModalOpen, setTransactionModalOpen] = useScrollLock(false);
@@ -118,7 +121,7 @@ export default function Dashboard() {
             containsWidget
             icon={<SvgIcon iconName="scale" className={widgetIconClasses} />}
             widgetTitle="Current"
-            className="tab:col-span-6 tab:row-span-1"
+            className="tab:col-span-5 tab:row-span-1"
           >
             <Balance
               balance={balance}
@@ -130,7 +133,7 @@ export default function Dashboard() {
 
           <WidgetSection
             title="Wallets"
-            className="tab:col-span-6 tab:row-span-1"
+            className="tab:col-span-5 tab:row-span-1"
           >
             <div className="grid grid-cols-2 w-full gap-5">
               {walletWidgets}
@@ -153,7 +156,7 @@ export default function Dashboard() {
             containsWidget
             icon={<SvgIcon iconName="calendar" className={widgetIconClasses} />}
             widgetTitle="Today"
-            className="tab:col-span-4 tab:row-span-2 h-full flex flex-col"
+            className="tab:col-span-5 tab:row-span-2 h-full flex flex-col"
             widgetClasses="flex-grow"
           >
             <div className="flex-grow mt-2 p-3 bg-gray-light rounded-lg flex flex-col gap-6">

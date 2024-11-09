@@ -12,7 +12,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     loader: rootLoader,
-    errorElement: <RootError />
+    // errorElement: <RootError />
   },
   {
     path: "/login",
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     id: "app",
     loader: appLoader,
     action: appAction,
-    errorElement: <AppErrorComponent />,
+    // errorElement: <AppErrorComponent />,
     children: [
       {
         index: true,

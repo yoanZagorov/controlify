@@ -1,9 +1,19 @@
 import { SvgIcon } from "@/components/SvgIcon";
+import { useLayout } from "@/hooks";
 import cn from "classnames";
 import { NavLink } from "react-router-dom";
 
 export default function NavEl({ variant, link, icon, text = "", handleClose = null }) {
   const isIconWithText = variant === "iconWithText";
+
+  const {
+    sidebar: {
+      isExpanded: isSidebarExpanded
+    },
+    breakpoints: {
+      isDesktop
+    }
+  } = useLayout();
 
   // const isMain = type === "main";
   // const isExpanded = sidebarType === "expanded";
@@ -19,8 +29,8 @@ export default function NavEl({ variant, link, icon, text = "", handleClose = nu
   // ))
 
   const navElClasses = ({ isActive }) => cn(
-    "flex items-center",
-    isActive ? "opacity-100 font-bold" : "opacity-80",
+    "flex items-center p-4 text-lg",
+    isActive ? "opacity-100 font-bold" : "opacity-80 hover:opacity-100",
     isIconWithText ? "gap-3" : "justify-center",
     link.className.base,
     isActive && link.className.active
@@ -36,7 +46,7 @@ export default function NavEl({ variant, link, icon, text = "", handleClose = nu
       <NavLink
         to={link.to}
         className={navElClasses}
-        onClick={handleClose}
+        onClick={!isDesktop && handleClose}
       >
         <SvgIcon iconName={icon.name} className={iconClasses} />
         {isIconWithText && text}

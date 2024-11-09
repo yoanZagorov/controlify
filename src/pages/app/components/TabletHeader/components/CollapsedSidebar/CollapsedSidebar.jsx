@@ -3,10 +3,12 @@ import { mainNavPages, secNavPages } from "../../../data";
 import { LogoutNavEl } from "../../../components/LogoutNavEl";
 import { NavEl } from "../../../components/NavEl";
 import { useLayout } from "@/hooks";
+import cn from "classnames";
 
 export default function CollapsedSidebar() {
   const {
     sidebar: {
+      isExpanded: isSidebarExpanded,
       toggle: toggleSidebar
     }
   } = useLayout();
@@ -47,8 +49,15 @@ export default function CollapsedSidebar() {
     />
   ))
 
+  const classes = {
+    collapsedSidebar: cn(
+      "fixed h-full w-20 py-10 px-3 flex flex-col items-center bg-navy text-gray-light transition-[left] duration-500",
+      isSidebarExpanded ? "-left-full" : "left-0"
+    )
+  }
+
   return (
-    <div className="fixed h-full w-20 py-10 px-3 flex flex-col items-center bg-navy text-gray-light">
+    <div className={classes.collapsedSidebar}>
       <button onClick={toggleSidebar}>
         <SvgIcon iconName="hamburger" className="size-8 fill-current" />
       </button>

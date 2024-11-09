@@ -9,15 +9,20 @@ import cn from "classnames";
 
 export default function AppLayout() {
   const {
-    sidebar: { isSidebarExpanded },
-    breakpoints: { isTablet, isDesktop }
+    sidebar: { isExpanded: isSidebarExpanded },
+    breakpoints: { isMobile, isTablet, isDesktop }
   } = useLayout();
 
 
-  const page = cn(
-    "mt-24 tab:mt-8 px-4 tab:px-6",
-    isTablet && (isSidebarExpanded ? "ml-80" : "ml-20")
-  )
+
+  const classes = {
+    page: cn(
+      "mt-24 tab:mt-8 px-4 tab:px-6",
+      // isMobile && "ml:ml-72",
+      // isTablet && (isSidebarExpanded ? "ml-80" : "ml-20")
+      isSidebarExpanded ? "tab:ml-80 lm:ml-96" : "tab:ml-20"
+    )
+  }
 
   return (
     <>
@@ -25,7 +30,7 @@ export default function AppLayout() {
         : isDesktop ? <DesktopHeader />
           : <MobileHeader />
       }
-      <div className={page}>
+      <div className={classes.page}>
         <Outlet />
       </div>
     </>
