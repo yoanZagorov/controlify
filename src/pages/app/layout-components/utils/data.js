@@ -4,7 +4,7 @@ export const mainNavPages = [
   { name: "reflect", iconName: "stats" },
 ]
 
-export const secNavPages = [
+export const secondaryNavPages = [
   { name: "settings", iconName: "settings" },
   { name: "categories", iconName: "categories" },
 ]

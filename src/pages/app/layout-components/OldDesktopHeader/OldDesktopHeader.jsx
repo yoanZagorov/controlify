@@ -2,7 +2,7 @@ import cn from "classnames";
 import { useNavigate, useRouteLoaderData } from "react-router-dom";
 
 import { getFirstWord } from "@/utils/str";
-import { createNavElsFromPages } from "../../helpers";
+import createNavElsFromPages from "./createNavElsFromPages";
 
 import logo from "@/assets/images/logos/logoNavyBg.png";
 import { SvgIcon } from "@/components/SvgIcon";
