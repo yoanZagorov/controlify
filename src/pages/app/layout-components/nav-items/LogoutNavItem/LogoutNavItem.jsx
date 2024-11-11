@@ -11,7 +11,7 @@ export default function LogoutNavItem({ variant, handleClose = null }) {
 
   const classes = {
     btn: cn(
-      "mt-1 w-full flex items-center px-4 py-3 text-red-light focus:outline-none focus-visible:ring-2 focus-visible:ring-goldenrod",
+      "mt-1 w-full flex items-center px-4 py-2 text-red-light focus:outline-none focus-visible:ring-2 focus-visible:ring-goldenrod",
       variantClasses[variant]
     )
   }

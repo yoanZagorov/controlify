@@ -28,7 +28,7 @@ export default async function dashboardAction({ request }) {
     } catch (error) {
       console.error(error);
 
-      if (error.options?.cause) {
+      if (error?.options?.cause) {
         console.error(error.options.cause);
       }
 

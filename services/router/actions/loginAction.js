@@ -24,6 +24,10 @@ export default async function loginAction({ request }) {
   } catch (error) {
     console.error(error);
 
+    if (error?.options?.cause) {
+      console.error("Cause:", error.options.cause);
+    }
+
     if (error instanceof ValidationError) {
       return createErrorResponse(error.statusCode, error.message);
     }

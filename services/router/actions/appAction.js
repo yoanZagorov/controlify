@@ -2,6 +2,7 @@ import { signOut } from "firebase/auth";
 import { storeRedirectData } from "@/utils/storage";
 import { redirect } from "react-router-dom";
 import { auth } from "services/firebase/firebase.config";
+import { createErrorResponse } from "../responses";
 
 export default async function appAction({ request }) {
   const formData = Object.fromEntries(await request.formData());
@@ -10,6 +11,7 @@ export default async function appAction({ request }) {
 
   if (intent === "logout") {
     try {
+      throw new Error("Kaboom");
       await signOut(auth);
 
       storeRedirectData("Successfully logged out!", "success");

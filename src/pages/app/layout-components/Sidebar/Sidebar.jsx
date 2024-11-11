@@ -4,11 +4,12 @@ import { useRouteLoaderData } from "react-router-dom";
 import logo from "@/assets/images/logos/logoNavyBg.png";
 
 import { useLayout } from "@/hooks";
-import { mainNavPages, secondaryNavPages } from "../utils";
+import { primaryNavPages, secondaryNavPages } from "../utils";
 import { renderNavItems } from "../utils";
 
 import { SvgIcon } from "@/components/SvgIcon";
 import { LogoutNavItem } from "../nav-items/LogoutNavItem";
+import { NavItem } from "../nav-items/NavItem";
 
 export default function Sidebar() {
   const { user } = useRouteLoaderData("app");
@@ -21,12 +22,12 @@ export default function Sidebar() {
     }
   } = useLayout();
 
-  const mainNavItems = renderNavItems(mainNavPages, "iconWithText", "main", toggleSidebar);
+  const primaryNavItems = renderNavItems(primaryNavPages, "iconWithText", "primary", toggleSidebar);
   const secondaryNavItems = renderNavItems(secondaryNavPages, "iconWithText", "secondary", toggleSidebar);
 
   const classes = {
     sidebar: cn(
-      "fixed h-screen w-64 ml:w-72 tab:w-80 ll:w-96 py-6 flex flex-col items-center text-gray-light bg-navy z-10 transition-[left] duration-300 tab:duration-500",
+      "fixed h-screen w-64 ml:w-72 tab:w-80 ll:w-96 py-8 tab:pt-10 ll:pt-12 flex flex-col items-center text-gray-light bg-navy z-10 transition-[left] duration-300 tab:duration-500",
       isSidebarExpanded ? "left-0" : "-left-full"
     )
   }
@@ -49,7 +50,7 @@ export default function Sidebar() {
 
       <nav className="w-full mt-8">
         <ul>
-          {mainNavItems}
+          {primaryNavItems}
         </ul>
       </nav>
 
@@ -57,8 +58,9 @@ export default function Sidebar() {
         <ul>
           {secondaryNavItems}
 
-          <LogoutNavItem
-            variant="iconWithText"
+          <NavItem
+            variants={{ layout: "iconWithText", type: "secondary", purpose: "logout" }}
+            action="/app"
             handleClose={toggleSidebar}
           />
         </ul>

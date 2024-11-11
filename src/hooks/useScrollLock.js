@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-export default function useScrollLock(initialState) {
-  const [isLocked, setLocked] = useState(initialState);
-
+export default function useScrollLock(isLocked) {
   useEffect(() => {
     if (isLocked) {
       document.body.style.overflow = "hidden";
@@ -12,6 +10,4 @@ export default function useScrollLock(initialState) {
 
     return () => document.body.style.overflow = "auto";
   }, [isLocked]);
-
-  return [isLocked, setLocked];
 }

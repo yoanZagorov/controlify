@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useActionData, useLoaderData, useRouteLoaderData } from "react-router-dom";
 
 import { TransactionProvider } from "@/contexts";
@@ -29,17 +29,25 @@ export default function Dashboard() {
     }
   } = useLayout();
 
-
-  const [isTransactionModalOpen, setTransactionModalOpen] = useScrollLock(false);
-  const hasTransitioned = useMountTransition(isTransactionModalOpen, 300);
-
   const { user, wallets, balance, todayTransactionsByWallet } = useRouteLoaderData("app");
   const { defaultCurrency } = user;
 
-  const { redirectData, quote } = useLoaderData();
-  const { msg: redirectflashMsg, msgType: redirectMsgType } = redirectData ?? {};
+  const [isTransactionModalOpen, setTransactionModalOpen] = useState(false);
+  useScrollLock(isTransactionModalOpen);
+  const hasTransitioned = useMountTransition(isTransactionModalOpen, 300);
 
-  const { msg: actionMsg, msgType: actionMsgType, success, resetKey } = useActionData() ?? {};
+  const { redirectData, quote } = useLoaderData();
+  const {
+    msg: redirectflashMsg,
+    msgType: redirectMsgType
+  } = redirectData ?? {};
+
+  const {
+    msg: actionMsg,
+    msgType: actionMsgType,
+    success,
+    resetKey
+  } = useActionData() ?? {};
 
   const msg = redirectflashMsg || actionMsg || null;
   const msgType = redirectMsgType || actionMsgType || null;
@@ -58,7 +66,9 @@ export default function Dashboard() {
       <li key={transaction.id}>
         <Transaction
           type={transaction.category.type}
+          // To do: replace the icon with an icon name
           category={{ name: transaction.category.name, icon: <SvgIcon iconName={transaction.category.iconName} className="w-7 ml:w-8 h-7 ml:h-8 fill-navy" /> }}
+          // To do: replace the icon with an icon name
           wallet={{ name: transaction.wallet.name, icon: <SvgIcon iconName={transaction.wallet.iconName} className="w-2.5 ml:w-3 h-2.5 ml:h-3 fill-navy opacity-50" /> }}
           amount={transaction.amount}
           currency={transaction.wallet.currency}
@@ -91,12 +101,8 @@ export default function Dashboard() {
     )
   })
 
-  const page = cn(
-    "ml-auto mt-24 lm:mt-32 tab:max-w-screen-lm self-center",
-  )
-
   const gridClasses = cn(
-    "mt-6 grid  gap-14 rounded-b-lg",
+    "mt-6 grid gap-10 ll:gap-14 fhd:gap-16 rounded-b-lg",
     isMobile || (isTablet && isSidebarExpanded)
       ? "grid-cols-1"
       : "tab:grid-cols-10 tab:grid-flow-col tab:grid-rows-[auto,1fr]",

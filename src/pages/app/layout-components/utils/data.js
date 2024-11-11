@@ -1,4 +1,4 @@
-export const mainNavPages = [
+export const primaryNavPages = [
   { name: "dashboard", iconName: "house" },
   { name: "wallets", iconName: "wallet" },
   { name: "reflect", iconName: "stats" },

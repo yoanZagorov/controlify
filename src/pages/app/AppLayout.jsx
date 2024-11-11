@@ -14,7 +14,7 @@ export default function AppLayout() {
 
   const classes = {
     page: cn(
-      "mt-24 tab:mt-8 px-4 tab:px-6",
+      "h-screen pt-24 px-4 pb-8 tab:pt-10 ll:pt-12 ll:px-10", // calc: fhd breakpoint - sidebar width
       isSidebarExpanded ? "tab:ml-80 ll:ml-96" : "tab:ml-20"
     )
   }
@@ -38,7 +38,9 @@ export default function AppLayout() {
       </header>
 
       <main className={classes.page}>
-        <Outlet />
+        <div className="w-full max-w-[calc(1920px-384px)] mx-auto">
+          <Outlet />
+        </div>
       </main>
     </>
   )

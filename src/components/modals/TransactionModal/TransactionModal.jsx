@@ -11,8 +11,15 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
   const actionData = useActionData();
   const { errorMsg } = actionData ?? {};
 
-  const { transactionData, updateTransactionData } = useTransaction();
-  const { amount, currency, category, categoriesType } = transactionData;
+  const {
+    transactionData: {
+      amount,
+      currency,
+      category,
+      categoriesType
+    },
+    updateTransactionData
+  } = useTransaction();
 
   const amountInputRef = useAutoFocus();
 
@@ -98,7 +105,6 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
             />
           </div>
         </div>
-
 
         {errorMsg && <p className="page__wrapper text-center mt-12 text-lg text-red-dark font-bold">{errorMsg}</p>}
 
