@@ -14,9 +14,10 @@ export default async function authLoader() {
 
   const storedRedirectData = getStoredData("redirectData");
 
-  const loaderData = storedRedirectData
-    ? { redirectData: storedRedirectData }
-    : { quote: getRandomItem(quotes) }
+  const loaderData = {
+    quote: getRandomItem(quotes),
+    redirectData: storedRedirectData || {}
+  }
 
   return createSuccessResponse(loaderData);
 }

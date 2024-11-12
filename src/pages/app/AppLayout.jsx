@@ -13,36 +13,27 @@ import { useEffect, useState } from "react";
 export default function AppLayout() {
   const { isSidebarExpanded } = useLayout();
   const { isMobile, isTablet } = useBreakpoint();
-  const [fetcherData, setFetcherData] = useState(null);
-  // const addTransactionMsg = addTransactionFetcher.data?.msg;
-  // const addTransactionMsgType = addTransactionFetcher.data?.msgType;
+
   const fetcher = useFetcher({ key: "add-transaction" });
 
+  const { notificationData: { quote, redirectData } } = useLoaderData();
+
+  const { msg: redirectMsg, msgType: redirectMsgType } = redirectData;
+
+  const [flashMsg, setFlashMsg] = useState({
+    msg: fetcher.data?.msg || redirectMsg || null,
+    msgType: fetcher.data?.msgType || redirectMsgType || null
+  });
+
   useEffect(() => {
-    if (fetcher.state === "submitting" || fetcher.state === "loading") {
-      setFetcherData(null);
-    } else if (fetcher.state === "idle" && fetcher.data) {
-      setFetcherData(fetcher.data);
+    if (!flashMsg) {
+      if (fetcher.data?.msg) {
+        setFlashMsg({ msg: fetcher.data?.msg, msgType: fetcher.data?.msgType });
+      } else if (redirectMsg) {
+        setFlashMsg({ msg: redirectMsg, msgType: redirectMsgType });
+      }
     }
-  }, [fetcher.state, fetcher.data]);
-
-  const addTransactionMsg = fetcherData?.msg;
-  const addTransactionMsgType = fetcherData?.msgType;
-
-  const {
-    notificationData: {
-      redirectData,
-      quote
-    }
-  } = useLoaderData();
-
-  const {
-    msg: redirectflashMsg,
-    msgType: redirectMsgType
-  } = redirectData ?? {};
-
-  const msg = redirectflashMsg || addTransactionMsg || null;
-  const msgType = redirectMsgType || addTransactionMsgType || null;
+  }, [fetcher.data, redirectData])
 
   const classes = {
     page: cn(
@@ -72,9 +63,9 @@ export default function AppLayout() {
       <main className={classes.page}>
         <div className="w-full max-w-6xl mx-auto"> {/* calc: fhd breakpoint - sidebar width */}
           <Widget>
-            {msg ? (
-              <Notification type={msgType}>
-                {msg}
+            {flashMsg ? (
+              <Notification type={flashMsg.msgType} clearMsg={() => setFlashMsg(null)}>
+                {flashMsg.msg}
               </Notification>
             ) : (
               <Quote quote={quote} />

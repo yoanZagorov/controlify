@@ -38,9 +38,10 @@ export default async function appLoader({ request }) {
         balance,
         todayTransactionsByWallet,
       },
-      notificationData: storedRedirectData
-        ? { redirectData: storedRedirectData }
-        : { quote: getRandomItem(quotes) }
+      notificationData: {
+        quote: getRandomItem(quotes),
+        redirectData: storedRedirectData || {}
+      }
     }
 
     return createSuccessResponse(loaderData);

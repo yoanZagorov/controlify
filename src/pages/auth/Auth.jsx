@@ -8,15 +8,28 @@ import { AuthForm } from "./components/AuthForm";
 import { Widget } from "@/components/Widget";
 import { Quote } from "@/components/Quote";
 import { Notification } from "@/components/Notification";
+import { useEffect, useState } from "react";
 
 export default function Auth({ type }) {
   const { msg: errorMsg, msgType: errorMsgType } = useActionData() ?? {};
 
-  const { redirectData, quote } = useLoaderData();
-  const { originalPath, msg: redirectMsg, msgType: redirectMsgType } = redirectData ?? {};
+  const { quote, redirectData } = useLoaderData();
+  const { originalPath, msg: redirectMsg, msgType: redirectMsgType } = redirectData;
 
-  const msg = errorMsg || redirectMsg || null;
-  const msgType = errorMsgType || redirectMsgType || null;
+  const [flashMsg, setFlashMsg] = useState({
+    msg: errorMsg || redirectMsg || null,
+    msgType: errorMsgType || redirectMsgType || null
+  });
+
+  useEffect(() => {
+    if (!flashMsg) {
+      if (errorMsg) {
+        setFlashMsg({ msg: errorMsg, msgType: errorMsgType });
+      } else if (redirectMsg) {
+        setFlashMsg({ msg: redirectMsg, msgType: redirectMsgType });
+      }
+    }
+  }, [errorMsg, redirectData])
 
   const isCreateAccount = type === "createAccount";
 
@@ -32,9 +45,9 @@ export default function Auth({ type }) {
     <div className="page__wrapper mx-auto h-screen w-full max-w-screen-ml tab:max-w-6xl pt-12 flex flex-col text-center"> {/* To do: increase max-w value when acquired higher res logo */}
       <header className="mx-auto w-full max-w-lg">
         <Widget type="wrapper" size="s">
-          {msg ? (
-            <Notification type={msgType}>
-              {msg}
+          {flashMsg ? (
+            <Notification type={flashMsg.msgType} clearMsg={() => setFlashMsg(null)}>
+              {flashMsg.msg}
             </Notification>
           ) : (
             <Quote quote={quote} />

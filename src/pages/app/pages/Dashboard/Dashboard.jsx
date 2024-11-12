@@ -34,12 +34,6 @@ export default function Dashboard() {
   const hasTransitioned = useMountTransition(isTransactionModalOpen, 300);
   useScrollLock(isTransactionModalOpen);
 
-  // To do: implement a better way to close the modal on transaction completion
-  // useEffect(() => {
-  //   if (success) {
-  //     setTransactionModalOpen(false);
-  //   }
-  // }, [success, resetKey])
   const fetcher = useFetcher({ key: "add-transaction" });
 
   useEffect(() => {
