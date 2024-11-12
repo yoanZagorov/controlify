@@ -1,6 +1,6 @@
 import { Outlet, useActionData, useLoaderData } from "react-router-dom";
 
-import { useLayout } from "@/hooks";
+import { useBreakpoint, useLayout } from "@/hooks";
 import cn from "classnames";
 import { CollapsedSidebar } from "./layout-components/CollapsedSidebar";
 import { Sidebar } from "./layout-components/Sidebar";
@@ -10,10 +10,8 @@ import { Quote } from "@/components/Quote";
 import { Notification } from "@/components/Notification";
 
 export default function AppLayout() {
-  const {
-    sidebar: { isExpanded: isSidebarExpanded },
-    breakpoints: { isMobile, isTablet, isDesktop }
-  } = useLayout();
+  const { isSidebarExpanded } = useLayout();
+  const { isMobile, isTablet } = useBreakpoint();
 
   const {
     notificationData: {

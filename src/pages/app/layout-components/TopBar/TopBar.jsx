@@ -8,12 +8,7 @@ import { getCurrentPage } from "../utils"
 import { SvgIcon } from "@/components/SvgIcon";
 
 export default function TopBar() {
-  const {
-    sidebar: {
-      isExpanded: isSidebarExpanded,
-      toggle: toggleSidebar
-    }
-  } = useLayout();
+  const { isSidebarExpanded, toggleSidebar } = useLayout();
 
   const location = useLocation();
   const currentPage = capitalize(getCurrentPage(location.pathname));

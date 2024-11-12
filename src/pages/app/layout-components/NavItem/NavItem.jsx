@@ -13,7 +13,7 @@ export default function NavItem({
   iconName = "house",
   handleClose = null
 }) {
-  const { breakpoints: { isDesktop } } = useLayout();
+  const { isDesktop } = useLayout();
 
   const { layout: layoutVariant, type: typeVariant } = variants;
   const isLogout = variants.purpose === "logout";
@@ -43,9 +43,9 @@ export default function NavItem({
         icon: "size-7 ll:size-8"
       },
       secondary: {
-        base: cn("px-4 py-2.5 text-base", isLogout && colors.logout),
-        inactive: colors.primary.inactive,
-        active: colors.secondary.active,
+        base: cn("px-4 py-2.5 text-sm ll:text-base", isLogout && colors.logout),
+        inactive: colors.secondary.inactive,
+        active: `underline ${colors.secondary.active}`,
         icon: "size-5"
       }
     }

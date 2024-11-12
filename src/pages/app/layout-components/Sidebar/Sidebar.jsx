@@ -3,7 +3,7 @@ import { useRouteLoaderData } from "react-router-dom";
 
 import logo from "@/assets/images/logos/logoNavyBg.png";
 
-import { useLayout } from "@/hooks";
+import { useBreakpoint, useLayout } from "@/hooks";
 import { primaryNavPages, secondaryNavPages } from "../utils";
 import { renderNavItems } from "../utils";
 
@@ -12,17 +12,11 @@ import { NavItem } from "../NavItem";
 
 export default function Sidebar() {
   const { userData: { user } } = useRouteLoaderData("app");
+  const { isSidebarExpanded, toggleSidebar, sidebarRef } = useLayout();
+  const { isDesktop } = useBreakpoint();
 
-  const {
-    sidebar: {
-      isExpanded: isSidebarExpanded,
-      toggle: toggleSidebar,
-      ref: sidebarRef
-    }
-  } = useLayout();
-
-  const primaryNavItems = renderNavItems(primaryNavPages, "iconWithText", "primary", toggleSidebar);
-  const secondaryNavItems = renderNavItems(secondaryNavPages, "iconWithText", "secondary", toggleSidebar);
+  const primaryNavItems = renderNavItems(primaryNavPages, "iconWithText", "primary", !isDesktop ? toggleSidebar : null);
+  const secondaryNavItems = renderNavItems(secondaryNavPages, "iconWithText", "secondary", !isDesktop ? toggleSidebar : null);
 
   const classes = {
     sidebar: cn(
@@ -60,7 +54,7 @@ export default function Sidebar() {
           <NavItem
             variants={{ layout: "iconWithText", type: "secondary", purpose: "logout" }}
             action="/app"
-            handleClose={toggleSidebar}
+            handleClose={!isDesktop ? toggleSidebar : null}
           />
         </ul>
       </nav>

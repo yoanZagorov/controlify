@@ -8,12 +8,7 @@ import { SvgIcon } from "@/components/SvgIcon";
 import { NavItem } from "../NavItem";
 
 export default function CollapsedSidebar() {
-  const {
-    sidebar: {
-      isExpanded: isSidebarExpanded,
-      toggle: toggleSidebar
-    }
-  } = useLayout();
+  const { isSidebarExpanded, toggleSidebar } = useLayout();
 
   const primaryNavItems = renderNavItems(primaryNavPages, "iconOnly", "primary");
   const secondaryNavItems = renderNavItems(secondaryNavPages, "iconOnly", "secondary");

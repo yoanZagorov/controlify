@@ -1,34 +1,31 @@
-import { Amount } from "@/components/Amount";
-import { SvgIcon } from "@/components/SvgIcon";
-import { useLayout } from "@/hooks";
-import { categoryColorsMap } from "@/utils/category";
-import formatEntityName from "@/utils/formatting/formatEntityName";
-import { capitalize } from "@/utils/str";
 import cn from "classnames";
 
+import { useBreakpoint, useLayout } from "@/hooks";
+import { categoryColorsMap } from "@/utils/category";
+import formatEntityName from "@/utils/formatting/formatEntityName";
+
+import { Amount } from "@/components/Amount";
+import { SvgIcon } from "@/components/SvgIcon";
+
 export default function Transaction({ category, wallet, amount, currency }) {
-  const {
-    breakpoints: {
-      isMobile,
-      isTablet
-    }
-  } = useLayout();
+  const { isMobileS, isMobileM, isTablet, isLaptopS } = useBreakpoint();
+  const { isSidebarExpanded } = useLayout();
 
-
-  const circleWrapperClasses = cn(
-    "flex justify-center items-center size-10 rounded-full",
-    categoryColorsMap.background[category.color]
-  )
+  const isSpaceLimited = ((isMobileS || isMobileM) || (isTablet && !isSidebarExpanded) || isLaptopS);
 
   const classes = {
-    circleWrapper: cn(
-      "flex justify-center items-center size-10 rounded-full",
+    iconWrapper: cn(
+      "flex justify-center items-center rounded-full",
+      isSpaceLimited ? "min-h-8 min-w-8 max-h-8 max-w-8 " : "size-10",
       categoryColorsMap.background[category.color]
     ),
     categoryName: cn(
       "text-gray-dark font-semibold",
-      // To do: implement different text size, based on the breakpoint and sidebar state
-
+      isSpaceLimited ? "text-sm" : "text-base"
+    ),
+    amount: cn(
+      "basis-[90px] text-nowrap text-right font-semibold",
+      isSpaceLimited ? "text-sm" : "text-base"
     )
   }
 
@@ -38,16 +35,18 @@ export default function Transaction({ category, wallet, amount, currency }) {
   const correctSignAmount = category.type === "expense" ? -amount : amount;
 
   return (
-    <div className="flex items-center gap-3">
-      <div className={classes.circleWrapper}>
-        <SvgIcon iconName={category.iconName} className="size-5 fill-gray-light" />
-      </div>
+    <div className="flex justify-between items-center gap-5">
+      <div className="flex items-center gap-2.5">
+        <div className={classes.iconWrapper}>
+          <SvgIcon iconName={category.iconName} className="size-1/2 fill-gray-light" />
+        </div>
 
-      <div className="flex flex-col">
-        <span className="text-gray-dark text-xs mm:text-sm tab:max-ls:text-xs font-semibold">{formattedCategoryName}</span>
-        <div className="flex items-center gap-1 text-gray-dark opacity-50 font-bold">
-          <SvgIcon iconName={wallet.iconName} className="size-3 fill-current" />
-          <span className="text-xs">{formattedWalletName}</span>
+        <div className="flex flex-col">
+          <span className={classes.categoryName}>{formattedCategoryName}</span>
+          <div className="flex items-center gap-1 text-gray-dark opacity-50 font-bold">
+            <SvgIcon iconName={wallet.iconName} className="size-3 fill-current" />
+            <span className="text-xs">{formattedWalletName}</span>
+          </div>
         </div>
       </div>
 
@@ -56,7 +55,7 @@ export default function Transaction({ category, wallet, amount, currency }) {
         currency={currency}
         colorContext="light"
         displayPlusSign
-        className="text-nowrap ml-auto font-semibold text-right"
+        className={classes.amount}
       />
     </div>
   )

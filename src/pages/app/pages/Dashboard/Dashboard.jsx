@@ -4,7 +4,7 @@ import { useActionData, useLoaderData, useRouteLoaderData } from "react-router-d
 
 import { TransactionProvider } from "@/contexts";
 
-import { useLayout, useMountTransition, useScreenWidth, useScrollLock } from "@/hooks";
+import { useBreakpoint, useLayout, useMountTransition, useScreenWidth, useScrollLock } from "@/hooks";
 
 import { Amount } from "@/components/Amount";
 import { Widget } from "@/components/Widget";
@@ -17,15 +17,9 @@ import { Transaction } from "./components/Transaction";
 import { PlusCircleIcon } from "./components/PlusCircleIcon";
 
 export default function Dashboard() {
-  const {
-    sidebar: {
-      isExpanded: isSidebarExpanded
-    },
-    breakpoints: {
-      isMobile,
-      isTablet,
-    }
-  } = useLayout();
+  const { isSidebarExpanded } = useLayout();
+  const { isMobile, isTablet } = useBreakpoint();
+  const isSingleColLayout = isMobile || (isTablet && isSidebarExpanded);
 
   const {
     userData: {
@@ -79,7 +73,6 @@ export default function Dashboard() {
       ))
     ));
 
-  const isSingleColLayout = isMobile || (isTablet && isSidebarExpanded);
 
   const classes = {
     grid: cn(
