@@ -16,6 +16,7 @@ import CalendarIcon from "@/assets/icons/calendar.svg?react";
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
 import ShoppingBagIcon from "@/assets/icons/shopping-bag.svg?react";
 import BusIcon from "@/assets/icons/bus.svg?react";
+import PlaneIcon from "@/assets/icons/plane.svg?react";
 import MasksTheaterIcon from "@/assets/icons/masks-theater.svg?react";
 import UtensilsIcon from "@/assets/icons/utensils.svg?react";
 import HeartPulseIcon from "@/assets/icons/heart-pulse.svg?react";
@@ -52,7 +53,8 @@ const iconComponentsMap = {
   "user-circle": UserIcon,
   "stats": StatsIcon,
   "settings": SettingsIcon,
-  "logout": LogOutIcon
+  "logout": LogOutIcon,
+  "plane": PlaneIcon
 }
 
 export default function SvgIcon({ iconName, ...props }) {

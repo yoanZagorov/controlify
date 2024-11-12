@@ -3,38 +3,38 @@ import { collection, addDoc } from "firebase/firestore";
 
 export default async function createCategories(userDocRef) {
   // To do: pull the data from a root defaultCategories collection
-  // To do: add circles arround the icons with an option for a custom color and make the actual icons one color (like white)
-  // To do: normalize the names and create formatting functions
 
   const defaultCategories = [
-    { name: "Groceries", iconName: "shopping-cart", type: "expense" },
-    { name: "Shopping", iconName: "shopping-bag", type: "expense" },
-    { name: "House", iconName: "house", type: "expense" },
-    { name: "Transport", iconName: "bus", type: "expense" },
-    { name: "Entertainment", iconName: "masks-theater", type: "expense" },
-    { name: "Dining Out", iconName: "utensils", type: "expense" },
-    { name: "Health", iconName: "heart-pulse", type: "expense" },
-    { name: "Family & Friends", iconName: "family-group", type: "expense" },
-    { name: "Bills", iconName: "money-bill", type: "expense" },
-    { name: "Education", iconName: "graduation-cap", type: "expense" },
-    { name: "Sport & Hobbies", iconName: "football", type: "expense" },
-    { name: "Other", iconName: "clipboard-question", type: "expense" },
+    { name: "groceries", iconName: "shopping-cart", type: "expense", color: "#4CAF50" },
+    { name: "shopping", iconName: "shopping-bag", type: "expense", color: "#FF5722" },
+    { name: "house", iconName: "house", type: "expense", color: "#795548" },
+    { name: "transport", iconName: "bus", type: "expense", color: "#3F51B5" },
+    { name: "travel", iconName: "plane", type: "expense", color: "#009688" },
+    { name: "entertainment", iconName: "masks-theater", type: "expense", color: "#FFC107" },
+    { name: "dining-out", iconName: "utensils", type: "expense", color: "#FF9800" },
+    { name: "health", iconName: "heart-pulse", type: "expense", color: "#8BC34A" },
+    { name: "family-and-friends", iconName: "family-group", type: "expense", color: "#F44336" },
+    { name: "bills", iconName: "money-bill", type: "expense", color: "#9E9E9E" },
+    { name: "education", iconName: "graduation-cap", type: "expense", color: "#2196F3" },
+    { name: "sport-and-hobbies", iconName: "football", type: "expense", color: "#CDDC39" },
+    { name: "other", iconName: "clipboard-question", type: "expense", color: "#9C27B0" },
 
-    { name: "Salary", iconName: "briefcase", type: "income" },
-    { name: "Savings", iconName: "piggy-bank", type: "income" },
-    { name: "Investments", iconName: "money-bill-stock-up", type: "income" },
-    { name: "Other", iconName: "clipboard-question", type: "income" },
+    { name: "salary", iconName: "briefcase", type: "income", color: "#8BC34A" },
+    { name: "savings", iconName: "piggy-bank", type: "income", color: "#607D8B" },
+    { name: "investments", iconName: "money-bill-stock-up", type: "income", color: "#FF9800" },
+    { name: "other", iconName: "clipboard-question", type: "income", color: "#9C27B0" },
   ];
 
   const categoriesCollectionRef = collection(userDocRef, "categories");
 
   try {
     const promises = defaultCategories.map(async (category) => {
-      const { name, iconName, type } = category;
+      const { name, iconName, type, color } = category;
       return addDoc(categoriesCollectionRef, {
         name,
         iconName,
-        type
+        type,
+        color
       })
     })
 

@@ -6,9 +6,19 @@ export const LayoutContext = createContext(null);
 export default function LayoutProvider({ children }) {
   const currentBreakpoint = useCurrentBreakpointValue();
 
-  const isMobile = currentBreakpoint === "mobile";
+  const isMobile =
+    currentBreakpoint === "mobileS" ||
+    currentBreakpoint === "mobileM" ||
+    currentBreakpoint === "mobileL";
+
   const isTablet = currentBreakpoint === "tablet";
-  const isDesktop = currentBreakpoint === "desktop";
+
+  const isDesktop =
+    currentBreakpoint === "laptopS" ||
+    currentBreakpoint === "laptopM" ||
+    currentBreakpoint === "laptopL" ||
+    currentBreakpoint === "fullHD" ||
+    currentBreakpoint === "4K";
 
   const [isSidebarExpanded, setSidebarExpanded] = useState(isDesktop ? true : false);
 

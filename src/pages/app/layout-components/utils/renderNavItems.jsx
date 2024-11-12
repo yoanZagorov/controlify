@@ -1,4 +1,4 @@
-import { NavItem } from "../nav-items/NavItem";
+import { NavItem } from "../NavItem";
 
 const renderNavItems = (navPages, layout, type, handleClose) =>
   navPages.map((page, index) => (

@@ -8,11 +8,10 @@ import { primaryNavPages, secondaryNavPages } from "../utils";
 import { renderNavItems } from "../utils";
 
 import { SvgIcon } from "@/components/SvgIcon";
-import { LogoutNavItem } from "../nav-items/LogoutNavItem";
-import { NavItem } from "../nav-items/NavItem";
+import { NavItem } from "../NavItem";
 
 export default function Sidebar() {
-  const { user } = useRouteLoaderData("app");
+  const { userData: { user } } = useRouteLoaderData("app");
 
   const {
     sidebar: {

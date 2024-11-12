@@ -40,7 +40,7 @@ export default {
       "lm": "1280px",
       "ll": "1440px",
       "fhd": "1920px",
-      "4k": "3840px",
+      "4k": "2560px",
     },
     "boxShadow": {
       DEFAULT: "0 4px 4px rgba(0, 0, 0, 0.25)"

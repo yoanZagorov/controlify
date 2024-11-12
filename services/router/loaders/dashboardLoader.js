@@ -14,12 +14,12 @@ export default async function dashboardLoader() {
     return redirect("/login");
   }
 
-  const storedRedirectData = getStoredData("redirectData");
+  // const storedRedirectData = getStoredData("redirectData");
 
-  const loaderData = storedRedirectData
-    ? { redirectData: storedRedirectData }
-    : { quote: getRandomItem(quotes) };
+  // const loaderData = storedRedirectData
+  //   ? { redirectData: storedRedirectData }
+  //   : { quote: getRandomItem(quotes) };
 
-  return createSuccessResponse(loaderData);
+  return null;
 }
 

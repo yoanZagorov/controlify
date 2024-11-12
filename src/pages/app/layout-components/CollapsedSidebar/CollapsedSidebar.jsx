@@ -5,8 +5,7 @@ import { renderNavItems } from "../utils";
 import { primaryNavPages, secondaryNavPages } from "../utils";
 
 import { SvgIcon } from "@/components/SvgIcon";
-import { LogoutNavItem } from "../nav-items/LogoutNavItem";
-import { NavItem } from "../nav-items/NavItem";
+import { NavItem } from "../NavItem";
 
 export default function CollapsedSidebar() {
   const {

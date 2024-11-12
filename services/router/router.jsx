@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     id: "app",
     loader: appLoader,
     action: appAction,
-    // errorElement: <AppErrorComponent />,
+    errorElement: <AppErrorComponent />,
     children: [
       {
         index: true,

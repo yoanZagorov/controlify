@@ -9,7 +9,7 @@ export default function CategoryModal({ closeModal, state }) {
   const [category, setCategory] = [state.category.value, state.category.updateState];
   const [categoriesType, setCategoriesType] = [state.categoriesType.value, state.categoriesType.updateState];
 
-  const { categories } = useRouteLoaderData("app");
+  const { userData: { categories } } = useRouteLoaderData("app");
 
   function handleCategoryChange({ name, id }) {
     closeModal();
@@ -18,14 +18,21 @@ export default function CategoryModal({ closeModal, state }) {
 
   const { expenseCategories, incomeCategories } = getCategoriesByType(categories);
 
-  const expenseCategoriesEls = expenseCategories.map(expenseCategory => (
-    <CategoryItem
-      key={expenseCategory.id}
-      category={expenseCategory}
-      isActive={expenseCategory.id === category.id}
-      handleCategoryChange={handleCategoryChange}
-    />
-  ));
+  // console.log(expenseCategories.length)
+
+  const expenseCategoriesEls = expenseCategories.map(expenseCategory => {
+    // console.log(expenseCategory)
+    // console.log(category)
+
+    return (
+      <CategoryItem
+        key={expenseCategory.id}
+        category={expenseCategory}
+        isActive={expenseCategory.id === category.id}
+        handleCategoryChange={handleCategoryChange}
+      />
+    )
+  });
 
   const incomeCategoriesEls = incomeCategories.map(incomeCategory => (
     <CategoryItem

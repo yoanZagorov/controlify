@@ -4,7 +4,8 @@ import { useRouteLoaderData } from "react-router-dom";
 export const TransactionContext = createContext(null);
 
 export default function TransactionProvider({ children }) {
-  const { wallets } = useRouteLoaderData("app");
+  console.log(useRouteLoaderData("app"))
+  const { userData: { wallets } } = useRouteLoaderData("app");
 
   const defaultWallet = wallets.find(wallet => wallet.isDefault);
 

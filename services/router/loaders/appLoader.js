@@ -7,7 +7,9 @@ import { getUserCategories } from "services/firebase/db/category";
 
 import { createSuccessResponse, createErrorResponse } from "../responses";
 
-import { storeRedirectData } from "@/utils/storage";
+import { getStoredData, storeRedirectData } from "@/utils/storage";
+import { getRandomItem } from "@/utils/array";
+import { quotes } from "@/pages/auth/data";
 
 export default async function appLoader({ request }) {
   const userId = await getAuthUserId();
@@ -26,24 +28,33 @@ export default async function appLoader({ request }) {
     const balance = await getUserBalance("_", wallets);
     const todayTransactionsByWallet = await getUserTodayTransactions(userId, wallets); // To do: Order by createdOn
 
-    return createSuccessResponse({
-      user,
-      wallets,
-      categories,
-      balance,
-      todayTransactionsByWallet
-    });
+    const storedRedirectData = getStoredData("redirectData");
+
+    const loaderData = {
+      userData: {
+        user,
+        wallets,
+        categories,
+        balance,
+        todayTransactionsByWallet,
+      },
+      notificationData: storedRedirectData
+        ? { redirectData: storedRedirectData }
+        : { quote: getRandomItem(quotes) }
+    }
+
+    return createSuccessResponse(loaderData);
 
   } catch (error) {
     // To do: create more specific error messages
     console.error(error);
 
-    if (error.options.cause) {
+    if (error?.options?.cause) {
       console.error(error.options.cause)
     }
 
-    // To do: create a Firebase errors map
+    // To do: create a Firebase Firestore errors map
 
-    return createErrorResponse(500, "Sorry, we couldn't load your profile data. Please try again");
+    throw createErrorResponse(500, "Sorry, we couldn't load your profile data. Please try again");
   }
 }

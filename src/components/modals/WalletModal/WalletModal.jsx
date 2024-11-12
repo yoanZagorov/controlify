@@ -3,7 +3,7 @@ import { useRouteLoaderData } from "react-router-dom";
 import { capitalize } from "@/utils/str";
 
 import { SvgIcon } from "@/components/SvgIcon";
-import { Balance } from "@/components/Balance";
+import { Amount } from "@/components/Amount";
 
 export default function WalletModal({ closeModal, state }) {
   const [walletInState, setWalletInState] = [state.value, state.updateState];
@@ -27,10 +27,10 @@ export default function WalletModal({ closeModal, state }) {
 
           <div className="flex flex-col">
             <span className="text-lg text-gray-dark font-semibold">{capitalize(wallet.name)}</span>
-            <Balance
-              balance={wallet.balance}
+            <Amount
+              amount={wallet.balance}
               currency={wallet.currency}
-              type="dark"
+              colorContext="light"
               className="-mt-1 ml-[1px] text-xs font-semibold"
             />
           </div>

@@ -7,7 +7,7 @@ export default function getCategoriesByType(categories) {
   let incomeOtherCategory;
 
   for (const category of categories) {
-    if (category.name === "Other") {
+    if (category.name === "other") {
       if (category.type === "expense") {
         expenseOtherCategory = category;
       } else {
@@ -24,6 +24,9 @@ export default function getCategoriesByType(categories) {
 
   expenseCategories.push(expenseOtherCategory);
   incomeCategories.push(incomeOtherCategory);
+
+  console.log(expenseCategories);
+  console.log(incomeCategories);
 
   return { expenseCategories, incomeCategories };
 }
