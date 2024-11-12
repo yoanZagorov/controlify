@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { useEffect, useState } from "react";
-import { useActionData, useLoaderData, useRouteLoaderData } from "react-router-dom";
+import { useActionData, useFetcher, useLoaderData, useRouteLoaderData } from "react-router-dom";
 
 import { TransactionProvider } from "@/contexts";
 
@@ -40,6 +40,14 @@ export default function Dashboard() {
   //     setTransactionModalOpen(false);
   //   }
   // }, [success, resetKey])
+  const fetcher = useFetcher({ key: "add-transaction" });
+
+  useEffect(() => {
+    if (fetcher.state === "idle" && fetcher.data) {
+      setTransactionModalOpen(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [fetcher.data, fetcher.state, fetcher.data?.resetKey])
 
   const walletWidgets = wallets.map(wallet => (
     <DashboardWidget
@@ -128,7 +136,7 @@ export default function Dashboard() {
                     {transactionEls}
                   </ul>
                 ) : (
-                  <p className="self-center w-full max-w-80 text-navy-dark text-center font-semibold">
+                  <p className="self-center w-full max-w-80 text-navy-dark text-center text-balance font-semibold">
                     Oops... It looks like you haven't made any transactions yet today. Add one now!
                   </p>
                 )}

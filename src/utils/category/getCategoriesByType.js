@@ -25,8 +25,5 @@ export default function getCategoriesByType(categories) {
   expenseCategories.push(expenseOtherCategory);
   incomeCategories.push(incomeOtherCategory);
 
-  console.log(expenseCategories);
-  console.log(incomeCategories);
-
   return { expenseCategories, incomeCategories };
 }

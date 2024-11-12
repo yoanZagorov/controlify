@@ -1,4 +1,4 @@
-import { Outlet, useActionData, useLoaderData } from "react-router-dom";
+import { Outlet, useActionData, useFetcher, useLoaderData } from "react-router-dom";
 
 import { useBreakpoint, useLayout } from "@/hooks";
 import cn from "classnames";
@@ -8,10 +8,26 @@ import { TopBar } from "./layout-components/TopBar";
 import { Widget } from "@/components/Widget";
 import { Quote } from "@/components/Quote";
 import { Notification } from "@/components/Notification";
+import { useEffect, useState } from "react";
 
 export default function AppLayout() {
   const { isSidebarExpanded } = useLayout();
   const { isMobile, isTablet } = useBreakpoint();
+  const [fetcherData, setFetcherData] = useState(null);
+  // const addTransactionMsg = addTransactionFetcher.data?.msg;
+  // const addTransactionMsgType = addTransactionFetcher.data?.msgType;
+  const fetcher = useFetcher({ key: "add-transaction" });
+
+  useEffect(() => {
+    if (fetcher.state === "submitting" || fetcher.state === "loading") {
+      setFetcherData(null);
+    } else if (fetcher.state === "idle" && fetcher.data) {
+      setFetcherData(fetcher.data);
+    }
+  }, [fetcher.state, fetcher.data]);
+
+  const addTransactionMsg = fetcherData?.msg;
+  const addTransactionMsgType = fetcherData?.msgType;
 
   const {
     notificationData: {
@@ -25,15 +41,8 @@ export default function AppLayout() {
     msgType: redirectMsgType
   } = redirectData ?? {};
 
-  const {
-    msg: actionMsg,
-    msgType: actionMsgType,
-    success,
-    resetKey
-  } = useActionData() ?? {};
-
-  const msg = redirectflashMsg || actionMsg || null;
-  const msgType = redirectMsgType || actionMsgType || null;
+  const msg = redirectflashMsg || addTransactionMsg || null;
+  const msgType = redirectMsgType || addTransactionMsgType || null;
 
   const classes = {
     page: cn(

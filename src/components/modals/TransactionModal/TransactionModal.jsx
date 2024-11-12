@@ -1,10 +1,11 @@
 import cn from "classnames";
-import { Form as RouterForm, useActionData } from "react-router-dom";
+import { useActionData, useFetcher } from "react-router-dom";
 
 import { useAutoFocus, useTransaction } from "@/hooks";
 
 import { TransactionFormField } from "./components/TransactionFormField";
 import { Button } from "@/components/Button";
+import { useEffect } from "react";
 
 export default function TransactionModal({ closeModal, isTransactionModalOpen, hasTransitioned }) {
   // To do - figure out how to close the modal on successful transaction
@@ -22,6 +23,19 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
   } = useTransaction();
 
   const amountInputRef = useAutoFocus();
+
+  const fetcher = useFetcher({ key: "add-transaction" });
+  // console.log(fetcher);
+
+  // useEffect(() => {
+  //   if (fetcher.data) {
+  //     closeModal();
+  //   }
+  // }, [fetcher.data, fetcher.data.resetKey])
+
+  const isExpenses = categoriesType === "expenses";
+
+  const isUsingKeyboard = document.body.classList.contains("using-keyboard");
 
   function handleChange(e) {
     const value = e.target.value;
@@ -44,15 +58,6 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
     }
   }
 
-  const isExpenses = categoriesType === "expenses";
-
-  const isUsingKeyboard = document.body.classList.contains("using-keyboard");
-
-  const amountValueClasses = cn(
-    "flex gap-2 items-end text-xl",
-    isExpenses ? "text-red-light" : "text-green-light"
-  )
-
   const classes = {
     modal: "fixed left-0 w-screen transition-all duration-300",
     overlay: function () { // turned to method, in order to access the modal property
@@ -69,11 +74,16 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
         (isTransactionModalOpen && hasTransitioned) ? "bottom-0" : "-bottom-full"
       )
     },
+    amountValue: cn(
+      "flex gap-2 items-end text-xl",
+      isExpenses ? "text-red-light" : "text-green-light"
+    ),
     amountInput: cn(
-      "bg-navy focus:outline-none rounded w-full", //"focus-visible:ring focus-visible:ring-goldenrod"
+      "w-full rounded bg-navy focus:outline-none",
       isUsingKeyboard && "focus:ring focus:ring-goldenrod"
     )
   }
+
 
   return (
     <>
@@ -85,7 +95,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
       </div>
 
       {/* Modal */}
-      <RouterForm
+      <fetcher.Form
         method="post"
         action="/app/dashboard"
         className={classes.form()}
@@ -99,9 +109,9 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
           </label>
 
           <span
-            className={amountValueClasses}
+            className={classes.amountValue}
           >
-            <span className="whitespace-nowrap">{isExpenses ? "-" : "+"}{currency}</span>
+            <span className="text-nowrap">{isExpenses ? "-" : "+"}{currency}</span>
             <input
               ref={amountInputRef}
               name="amount"
@@ -139,10 +149,10 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
             value="add-transaction"
             className="mt-12 ll:py-4 ls:text-xl ml:text-xl ml:py-4 ml:px-8 mm:self-center focus:ring-4"
           >
-            Complete Transaction
+            {fetcher.state === "loading" || fetcher.state === "submitting" ? "Submitting..." : "Complete Transaction"}
           </Button>
         </div>
-      </RouterForm>
+      </fetcher.Form>
     </>
   )
 }
