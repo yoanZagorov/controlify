@@ -31,8 +31,8 @@ export default function Dashboard() {
   } = useRouteLoaderData("app");
 
   const [isTransactionModalOpen, setTransactionModalOpen] = useState(false);
-  useScrollLock(isTransactionModalOpen);
   const hasTransitioned = useMountTransition(isTransactionModalOpen, 300);
+  useScrollLock(isTransactionModalOpen);
 
   // To do: implement a better way to close the modal on transaction completion
   // useEffect(() => {
@@ -72,7 +72,6 @@ export default function Dashboard() {
         </li>
       ))
     ));
-
 
   const classes = {
     grid: cn(

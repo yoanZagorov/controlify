@@ -46,31 +46,41 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
 
   const isExpenses = categoriesType === "expenses";
 
+  const isUsingKeyboard = document.body.classList.contains("using-keyboard");
+
   const amountValueClasses = cn(
-    "w-full flex gap-2 items-end text-xl",
+    "flex gap-2 items-end text-xl",
     isExpenses ? "text-red-light" : "text-green-light"
   )
 
-  const baseModalClasses = "fixed w-screen transition-all duration-300";
-
-  const overlayClasses = cn(
-    "h-screen bg-black z-20",
-    baseModalClasses,
-    (isTransactionModalOpen && hasTransitioned) ? "opacity-50" : "opacity-0"
-  )
-
-  const formClasses = cn(
-    "h-[90%] rounded-t-lg bg-gray-light z-30",
-    baseModalClasses,
-    (isTransactionModalOpen && hasTransitioned) ? "bottom-0" : "-bottom-full"
-  )
+  const classes = {
+    modal: "fixed left-0 w-screen transition-all duration-300",
+    overlay: function () { // turned to method, in order to access the modal property
+      return cn(
+        "h-screen top-0 bg-black z-20",
+        this.modal,
+        (isTransactionModalOpen && hasTransitioned) ? "opacity-50" : "opacity-0"
+      )
+    },
+    form: function () { // turned to method, in order to access the modal property
+      return cn(
+        "h-[90%] rounded-t-lg bg-gray-light z-30",
+        this.modal,
+        (isTransactionModalOpen && hasTransitioned) ? "bottom-0" : "-bottom-full"
+      )
+    },
+    amountInput: cn(
+      "bg-navy focus:outline-none rounded w-full", //"focus-visible:ring focus-visible:ring-goldenrod"
+      isUsingKeyboard && "focus:ring focus:ring-goldenrod"
+    )
+  }
 
   return (
     <>
       {/* Overlay */}
       <div
         onClick={closeModal}
-        className={overlayClasses}
+        className={classes.overlay()}
       >
       </div>
 
@@ -78,9 +88,9 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
       <RouterForm
         method="post"
         action="/app/dashboard"
-        className={formClasses}
+        className={classes.form()}
       >
-        <div className="py-10 page__wrapper flex items-end gap-4 w-full rounded-t-lg font-semibold tracking-wide bg-navy shadow">
+        <div className="py-10 px-4 tab:px-6 flex items-end gap-4 rounded-t-lg font-semibold tracking-wide bg-navy shadow">
           <label
             htmlFor="transactionAmount"
             className="text-gray-light text-2xl"
@@ -88,7 +98,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
             Amount:
           </label>
 
-          <div
+          <span
             className={amountValueClasses}
           >
             <span className="whitespace-nowrap">{isExpenses ? "-" : "+"}{currency}</span>
@@ -101,9 +111,9 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
               min={1}
               onChange={handleChange}
               value={amount}
-              className="bg-navy border-none focus:outline-none w-full"
+              className={classes.amountInput}
             />
-          </div>
+          </span>
         </div>
 
         {errorMsg && <p className="page__wrapper text-center mt-12 text-lg text-red-dark font-bold">{errorMsg}</p>}
