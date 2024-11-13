@@ -5,7 +5,6 @@ export default function useCurrentBreakpointValue() {
     { name: "mobileS", query: "(max-width: 374px)" },
     { name: "mobileM", query: "(min-width: 375px) and (max-width: 424px)" },
     { name: "mobileL", query: "(min-width: 425px) and (max-width: 767px)" },
-    { name: "mobile", query: "(max-width: 767px)" },
     { name: "tablet", query: "(min-width: 768px) and (max-width: 1023px)" },
     { name: "laptopS", query: "(min-width: 1024px) and (max-width: 1279px)" },
     { name: "laptopM", query: "(min-width: 1280px) and (max-width: 1439px)" },
@@ -17,7 +16,7 @@ export default function useCurrentBreakpointValue() {
   const [breakpoint, setBreakpoint] = useState(getCurrentBreakpoint());
 
   function getCurrentBreakpoint() {
-    return breakpoints.find(breakpoint => window.matchMedia(breakpoint.query).matches).name;
+    return breakpoints.find(breakpoint => window.matchMedia(breakpoint.query).matches).name || "tablet";
   }
 
   useEffect(() => {

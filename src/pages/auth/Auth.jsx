@@ -5,10 +5,8 @@ import { loginAction, createAccountAction } from "services/router/actions";
 import logo from "logos/logoGrayBg.png";
 
 import { AuthForm } from "./components/AuthForm";
-import { Widget } from "@/components/Widget";
-import { Quote } from "@/components/Quote";
-import { Notification } from "@/components/Notification";
-import { useEffect, useState } from "react";
+import { useFlashMsg } from "@/hooks";
+import { InfoWidget } from "@/components/InfoWidget";
 
 export default function Auth({ type }) {
   const { msg: errorMsg, msgType: errorMsgType } = useActionData() ?? {};
@@ -16,20 +14,10 @@ export default function Auth({ type }) {
   const { quote, redirectData } = useLoaderData();
   const { originalPath, msg: redirectMsg, msgType: redirectMsgType } = redirectData;
 
-  const [flashMsg, setFlashMsg] = useState({
-    msg: errorMsg || redirectMsg || null,
-    msgType: errorMsgType || redirectMsgType || null
-  });
-
-  useEffect(() => {
-    if (!flashMsg) {
-      if (errorMsg) {
-        setFlashMsg({ msg: errorMsg, msgType: errorMsgType });
-      } else if (redirectMsg) {
-        setFlashMsg({ msg: redirectMsg, msgType: redirectMsgType });
-      }
-    }
-  }, [errorMsg, redirectData])
+  const { flashMsg, clearFlashMsg } = useFlashMsg([
+    { msg: errorMsg, msgType: errorMsgType, clearMsg: null },
+    { msg: redirectMsg, msgType: redirectMsgType, clearMsg: null },
+  ], [errorMsg, redirectMsg]);
 
   const isCreateAccount = type === "createAccount";
 
@@ -42,17 +30,9 @@ export default function Auth({ type }) {
   }
 
   return (
-    <div className="page__wrapper mx-auto h-screen w-full max-w-screen-ml tab:max-w-6xl pt-12 flex flex-col text-center"> {/* To do: increase max-w value when acquired higher res logo */}
+    <div className="px-4 tab:px-6 mx-auto h-screen w-full max-w-screen-ml tab:max-w-6xl pt-12 flex flex-col text-center"> {/* To do: increase max-w value when acquired higher res logo */}
       <header className="mx-auto w-full max-w-lg">
-        <Widget type="wrapper" size="s">
-          {flashMsg ? (
-            <Notification type={flashMsg.msgType} clearMsg={() => setFlashMsg(null)}>
-              {flashMsg.msg}
-            </Notification>
-          ) : (
-            <Quote quote={quote} />
-          )}
-        </Widget>
+        <InfoWidget flashMsg={flashMsg} clearFlashMsg={clearFlashMsg} quote={quote} />
       </header >
 
       <main

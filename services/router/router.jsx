@@ -3,7 +3,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { Auth } from "@/pages/auth";
 import { AppLayout, Dashboard, Wallets } from "@/pages/app";
 
-import { appAction, createAccountAction, dashboardAction, loginAction } from "./actions";
+import { appAction, createAccountAction, dashboardAction, loginAction, resetFetcherAction } from "./actions";
 import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader } from "./loaders";
 import { AppErrorComponent, RootError } from "@/components/errors";
 import { LayoutProvider } from "@/contexts";
@@ -65,6 +65,11 @@ const router = createBrowserRouter([
         element: <h1>This will be the categories page!</h1>
       },
     ]
+  },
+  {
+    path: "/data/reset-fetcher",
+    action: resetFetcherAction,
+    // element: To do: navigate to the Not Found page 
   }
 ])
 

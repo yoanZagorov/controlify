@@ -4,7 +4,7 @@ import { useActionData, useFetcher, useLoaderData, useRouteLoaderData } from "re
 
 import { TransactionProvider } from "@/contexts";
 
-import { useBreakpoint, useLayout, useMountTransition, useScreenWidth, useScrollLock } from "@/hooks";
+import { useBreakpoint, useFetcherReset, useLayout, useMountTransition, useScreenWidth, useScrollLock } from "@/hooks";
 
 import { Amount } from "@/components/Amount";
 import { Widget } from "@/components/Widget";
@@ -42,6 +42,8 @@ export default function Dashboard() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [fetcher.data, fetcher.state, fetcher.data?.resetKey])
+
+  useFetcherReset(fetcher);
 
   const walletWidgets = wallets.map(wallet => (
     <DashboardWidget

@@ -149,7 +149,8 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
             value="add-transaction"
             className="mt-12 ll:py-4 ls:text-xl ml:text-xl ml:py-4 ml:px-8 mm:self-center focus:ring-4"
           >
-            {fetcher.state === "loading" || fetcher.state === "submitting" ? "Submitting..." : "Complete Transaction"}
+            {/* {fetcher.state === "loading" || fetcher.state === "submitting" ? "Submitting..." : "Complete Transaction"} */}
+            Complete Transaction
           </Button>
         </div>
       </fetcher.Form>

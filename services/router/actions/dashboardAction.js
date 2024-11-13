@@ -10,7 +10,6 @@ export default async function dashboardAction({ request }) {
 
   const formData = Object.fromEntries(await request.formData());
   const { intent, amount, wallet: walletId, category: categoryId, date } = formData;
-  console.log(formData);
 
   if (intent === "add-transaction") {
     try {
