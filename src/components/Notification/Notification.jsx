@@ -2,10 +2,12 @@ import cn from "classnames";
 import { useEffect } from "react";
 
 export default function Notification({ msgType = "success", clearMsg, className, children }) {
+  const unmountDelay = msgType === "success" ? 5000 : 7000;
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       clearMsg();
-    }, 5000)
+    }, unmountDelay)
 
     return () => clearTimeout(timeoutId);
   }, [])

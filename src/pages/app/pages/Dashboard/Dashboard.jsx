@@ -1,10 +1,10 @@
 import cn from "classnames";
 import { useEffect, useState } from "react";
-import { useActionData, useFetcher, useLoaderData, useRouteLoaderData } from "react-router-dom";
+import { useFetcher, useRouteLoaderData } from "react-router-dom";
 
 import { TransactionProvider } from "@/contexts";
 
-import { useBreakpoint, useFetcherReset, useLayout, useMountTransition, useScreenWidth, useScrollLock } from "@/hooks";
+import { useBreakpoint, useLayout, useMountTransition, useScrollLock } from "@/hooks";
 
 import { Amount } from "@/components/Amount";
 import { Widget } from "@/components/Widget";
@@ -15,6 +15,7 @@ import { TransactionModal } from "@/components/modals/TransactionModal";
 import { DashboardWidget } from "./components/DashboardWidget";
 import { Transaction } from "./components/Transaction";
 import { PlusCircleIcon } from "./components/PlusCircleIcon";
+import { resetFetcher } from "services/router/utils";
 
 export default function Dashboard() {
   const { isSidebarExpanded } = useLayout();
@@ -40,10 +41,9 @@ export default function Dashboard() {
     if (fetcher.state === "idle" && fetcher.data) {
       setTransactionModalOpen(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      resetFetcher(fetcher);
     }
-  }, [fetcher.data, fetcher.state, fetcher.data?.resetKey])
-
-  useFetcherReset(fetcher);
+  }, [fetcher.data, fetcher.state])
 
   const walletWidgets = wallets.map(wallet => (
     <DashboardWidget

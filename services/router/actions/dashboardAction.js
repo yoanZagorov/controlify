@@ -2,34 +2,39 @@ import { getAuthUserId } from "services/firebase/db/user";
 import { formatTransactionData, validateTransactionData } from "@/utils/transaction";
 import { addTransaction } from "services/firebase/db/transaction";
 import { createErrorResponse, createSuccessResponse } from "../responses";
-import { json } from "react-router-dom";
 import { ValidationError } from "@/utils/errors";
+import { getCategory } from "services/firebase/db/category";
+import { getWallet } from "services/firebase/db/wallet";
+import updateWalletBalance from "services/firebase/db/wallet/updateWalletBalance";
+import { runTransaction, Timestamp } from "firebase/firestore";
+import { db } from "services/firebase/firebase.config";
 
 export default async function dashboardAction({ request }) {
   const userId = await getAuthUserId();
 
   const formData = Object.fromEntries(await request.formData());
-  const { intent, amount, wallet: walletId, category: categoryId, date } = formData;
+  const { intent, amount: strAmount, wallet: walletId, category: categoryId, date } = formData;
+
+  const amount = Number(strAmount);
 
   if (intent === "add-transaction") {
     try {
       // throw new Error("Kaboom");
       await validateTransactionData(userId, amount, walletId, categoryId, date);
 
-      const { formattedAmount, formattedDate } = formatTransactionData(amount, date);
+      const formattedDate = Timestamp.fromDate(new Date(date));
 
-      await addTransaction(userId, formattedAmount, walletId, categoryId, formattedDate);
+      const category = await getCategory(userId, categoryId);
+      const wallet = await getWallet(userId, walletId);
 
-      // To do: update the Wallet with the new balance 
-      // const msg = "Transaction successful!";
-      // console.log(msg);
-      // return json({ message: msg });
+      await runTransaction(db, async (dbTransaction) => {
+        await updateWalletBalance(dbTransaction, userId, walletId, amount, category.type);
+        addTransaction(dbTransaction, userId, amount, wallet, category, formattedDate);
+      })
 
       return createSuccessResponse({
         msg: "Transaction successful!",
         msgType: "success",
-        // success: true,
-        resetKey: Date.now()
       })
 
     } catch (error) {

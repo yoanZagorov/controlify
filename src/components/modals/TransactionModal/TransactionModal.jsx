@@ -116,6 +116,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
               ref={amountInputRef}
               name="amount"
               type="number"
+              step={0.01}
               id="transactionAmount"
               required
               min={1}

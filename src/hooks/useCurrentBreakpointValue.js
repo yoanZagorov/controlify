@@ -9,14 +9,14 @@ export default function useCurrentBreakpointValue() {
     { name: "laptopS", query: "(min-width: 1024px) and (max-width: 1279px)" },
     { name: "laptopM", query: "(min-width: 1280px) and (max-width: 1439px)" },
     { name: "laptopL", query: "(min-width: 1440px) and (max-width: 1919px)" },
-    { name: "fullHD", query: "(min-width: 1920px) and (max-width: 474px)" },
+    { name: "fullHD", query: "(min-width: 1920px) and (max-width: 2559px)" },
     { name: "4K", query: "(min-width: 2560px)" },
   ]
 
   const [breakpoint, setBreakpoint] = useState(getCurrentBreakpoint());
 
   function getCurrentBreakpoint() {
-    return breakpoints.find(breakpoint => window.matchMedia(breakpoint.query).matches).name || "tablet";
+    return breakpoints.find(breakpoint => window.matchMedia(breakpoint.query).matches)?.name;
   }
 
   useEffect(() => {

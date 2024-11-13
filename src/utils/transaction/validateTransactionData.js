@@ -2,15 +2,13 @@ import { checkCategoryExistense } from "services/firebase/db/category";
 import { checkWalletExistense } from "services/firebase/db/wallet";
 import { ValidationError, AppError } from "../errors";
 
-export default async function validateTransactionData(userId, amountString, walletId, categoryId, date) {
+export default async function validateTransactionData(userId, amount, walletId, categoryId, date) {
   // Amount checks
   const amountRegex = /^\d{1,7}(?:\.\d{1,2})?$/;
 
-  if (!amountString) {
+  if (!amount) {
     throw new ValidationError("Amount should not be empty");
   }
-
-  const amount = Number(amountString);
 
   if (isNaN(amount) || !amountRegex.test(amount)) {
     throw new ValidationError("Amount should be a valid monetary value (e.g., 100.00)");

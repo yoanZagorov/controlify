@@ -10,3 +10,4 @@ export { default as useOutsideClick } from "./useOutsideClick";
 export { default as useCurrentBreakpointValue } from "./useCurrentBreakpointValue";
 export { default as useFlashMsg } from "./useFlashMsg";
 export { default as useFetcherReset } from "./useFetcherReset";
+export { default as useKeyboardFocus } from "./useKeyboardFocus";

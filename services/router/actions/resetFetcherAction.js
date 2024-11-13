@@ -1,3 +1,3 @@
-export default async function resetFetcherAction(params) {
+export default async function resetFetcherAction() {
   return null;
 }

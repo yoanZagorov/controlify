@@ -21,7 +21,7 @@ export default async function createCategories(userDocRef) {
 
     { name: "salary", iconName: "briefcase", type: "income", color: "#8BC34A" },
     { name: "savings", iconName: "piggy-bank", type: "income", color: "#607D8B" },
-    { name: "investments", iconName: "money-bill-stock-up", type: "income", color: "#FF9800" },
+    { name: "investments", iconName: "money-bill-stock-up", type: "income", color: "#4169E1" },
     { name: "other", iconName: "clipboard-question", type: "income", color: "#9C27B0" },
   ];
 
