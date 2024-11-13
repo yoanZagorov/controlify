@@ -15,7 +15,7 @@ export default function TransactionFormField({ name }) {
   const { transactionData, updateTransactionData } = useTransaction();
   const [isSelectModalOpen, setSelectModalOpen] = useState(false);
   const hasTransitioned = useMountTransition(isSelectModalOpen, 300)
-  const { wallet, category, categoriesType, date } = transactionData;
+  const { wallet, category, date } = transactionData;
 
   const formFields = {
     "wallet": {
@@ -28,8 +28,8 @@ export default function TransactionFormField({ name }) {
         value: wallet,
         updateState: (newWallet) => updateTransactionData({
           wallet: {
-            name: newWallet.name,
-            id: newWallet.id
+            id: newWallet.id,
+            name: newWallet.name
           }
         })
       }
@@ -41,23 +41,14 @@ export default function TransactionFormField({ name }) {
       btnValue: capitalize(category.name),
       iconName: "categories",
       state: {
-        category: {
-          value: category,
-          updateState: (newCategory) => updateTransactionData({
-            category: {
-              name: newCategory.name,
-              id: newCategory.id
-            }
-          })
-        },
-        categoriesType: {
-          value: categoriesType,
-          updateState: (newCategoriesType) => updateTransactionData({
-            categoriesType: typeof newCategoriesType === "function"
-              ? newCategoriesType(transactionData.categoriesType)
-              : newCategoriesType
-          })
-        }
+        value: category,
+        updateState: (newCategory) => updateTransactionData({
+          category: {
+            id: newCategory.id,
+            name: newCategory.name,
+            type: newCategory.type
+          }
+        })
       }
     },
     "date": {

@@ -8,16 +8,11 @@ import { Button } from "@/components/Button";
 import { useEffect } from "react";
 
 export default function TransactionModal({ closeModal, isTransactionModalOpen, hasTransitioned }) {
-  // To do - figure out how to close the modal on successful transaction
-  const actionData = useActionData();
-  const { errorMsg } = actionData ?? {};
-
   const {
     transactionData: {
       amount,
       currency,
       category,
-      categoriesType
     },
     updateTransactionData
   } = useTransaction();
@@ -25,15 +20,9 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
   const amountInputRef = useAutoFocus();
 
   const fetcher = useFetcher({ key: "add-transaction" });
-  // console.log(fetcher);
 
-  // useEffect(() => {
-  //   if (fetcher.data) {
-  //     closeModal();
-  //   }
-  // }, [fetcher.data, fetcher.data.resetKey])
-
-  const isExpenses = categoriesType === "expenses";
+  const transactionType = category.type || "expense";
+  const isExpense = transactionType === "expense";
 
   const isUsingKeyboard = document.body.classList.contains("using-keyboard");
 
@@ -47,7 +36,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
       return;
     }
 
-    if (amount === "0" && /^0[1-9]$/.test(value)) {
+    if (amount === "0" && /^0[0-9]$/.test(value)) {
       updateTransactionData({ amount: value.replace("0", "") });;
       return;
     }
@@ -76,7 +65,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
     },
     amountValue: cn(
       "flex gap-2 items-end text-xl",
-      isExpenses ? "text-red-light" : "text-green-light"
+      isExpense ? "text-red-light" : "text-green-light"
     ),
     amountInput: cn(
       "w-full rounded bg-navy focus:outline-none",
@@ -111,7 +100,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
           <span
             className={classes.amountValue}
           >
-            <span className="text-nowrap">{isExpenses ? "-" : "+"}{currency}</span>
+            <span className="text-nowrap">{isExpense ? "-" : "+"}{currency}</span>
             <input
               ref={amountInputRef}
               name="amount"
@@ -126,8 +115,6 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
             />
           </span>
         </div>
-
-        {errorMsg && <p className="page__wrapper text-center mt-12 text-lg text-red-dark font-bold">{errorMsg}</p>}
 
         <div className="mt-16 page__wrapper flex flex-col">
           <div className="flex flex-col gap-8">

@@ -35,7 +35,7 @@ export default function AppLayout() {
 
   const classes = {
     page: cn(
-      "h-screen pt-24 px-4 pb-8 tab:pt-10 ll:pt-12 ll:px-10",
+      "min-h-screen pt-24 px-4 pb-8 tab:pt-10 ll:pt-12 ll:px-10",
       isSidebarExpanded ? "tab:ml-80 ll:ml-96" : "tab:ml-20"
     )
   }

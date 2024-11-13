@@ -20,8 +20,8 @@ export default function TransactionProvider({ children }) {
       type: "",
       id: ""
     },
-    categoriesType: "expenses",
-    date: new Date()
+    date: new Date(),
+    // hour: To do
   })
 
   function updateTransactionData(newTransactionData) {

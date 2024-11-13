@@ -1,4 +1,4 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "services/firebase/firebase.config";
 
 import { getTodayStartAndEnd } from "@/utils/date";
@@ -12,7 +12,8 @@ export default async function getUserTodayTransactions(userId, wallets) {
 
     const q = query(transactionsRef,
       where("createdAt", ">=", start),
-      where("createdAt", "<=", end)
+      where("createdAt", "<=", end),
+      orderBy("createdAt", "desc")
     );
 
     try {
