@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { useModalState } from "@/hooks";
-import { formatDateForCalendar, getNumDaysInMonth, getSpecificDay } from "@/utils/date";
+import { getNumDaysInMonth, getSpecificDay } from "@/utils/date";
 
 import { SelectedDay } from "./components/SelectedDay";
 import { Calendar } from "./components/Calendar";
@@ -9,7 +9,7 @@ import { Calendar } from "./components/Calendar";
 export default function DateModal({ closeModal, state }) {
   const today = getSpecificDay("today");
 
-  const [date, setDate] = useModalState(today, state);
+  const [date, setDate] = useModalState(state, today);
   const [localDate, setLocalDate] = useState({ // Keeping the month and day local, to prevent unnecessary rerenders of the provider
     month: date.getMonth(),
     year: date.getFullYear()
@@ -68,13 +68,11 @@ export default function DateModal({ closeModal, state }) {
     handleMonthIncrement
   }
 
-  const formattedDate = formatDateForCalendar(date);
-
   return (
     <div>
       <SelectedDay
-        date={formattedDate}
-        className={{ component: "mt-6" }}
+        date={date}
+        className={"mt-6"}
       />
 
       <Calendar

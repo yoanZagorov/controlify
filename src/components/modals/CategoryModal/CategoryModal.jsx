@@ -1,10 +1,10 @@
+import { useState } from "react";
 import { useRouteLoaderData } from "react-router-dom"
 
 import { getCategoriesByType } from "@/utils/category";
 
 import { CategoryItem } from "./components/CategoryItem";
 import { ToggleSwitch } from "@/components/ToggleSwitch";
-import { useState } from "react";
 
 export default function CategoryModal({ closeModal, state }) {
   const { userData: { categories } } = useRouteLoaderData("app");
@@ -12,9 +12,9 @@ export default function CategoryModal({ closeModal, state }) {
   const [category, setCategory] = [state.value, state.updateState];
   const [activeOption, setActiveOption] = useState(category.type || "expense");
 
-  function handleCategoryChange(id, name, type) {
+  function handleCategoryChange(selectedCategory) {
     closeModal();
-    setCategory({ id, name, type });
+    setCategory(selectedCategory);
   }
 
   const { expenseCategories, incomeCategories } = getCategoriesByType(categories);
@@ -25,7 +25,7 @@ export default function CategoryModal({ closeModal, state }) {
         key={currentCategory.id}
         category={currentCategory}
         isActive={currentCategory.id === category.id}
-        handleClick={() => handleCategoryChange(currentCategory.id, currentCategory.name, currentCategory.type)}
+        handleClick={() => handleCategoryChange(currentCategory)}
       />
     ))
 
@@ -41,9 +41,9 @@ export default function CategoryModal({ closeModal, state }) {
     secondOption: {
       name: "income",
       className: "text-green-dark",
-      activeClassName: "text-green-light bg-navy"
+      activeClassName: "text-green-light"
     },
-    baseOptionClasses: "w-1/2 rounded-full py-1 px-3 text-center font-medium",
+    baseOptionClasses: "w-1/2 rounded-full py-1 px-3 text-center font-medium focus-visible:outline-goldenrod transition-colors",
     baseActiveOptionClasses: "bg-navy"
   }
 

@@ -10,19 +10,29 @@ import { DateModal } from "@/components/modals/DateModal";
 import { WalletModal } from "@/components/modals/WalletModal";
 import { SvgIcon } from "@/components/SvgIcon";
 import { Button } from "@/components/Button";
+import formatEntityName from "@/utils/formatting/formatEntityName";
 
 export default function TransactionFormField({ name }) {
-  const { transactionData, updateTransactionData } = useTransaction();
+  const {
+    transactionData: {
+      wallet,
+      category,
+      date
+    },
+    updateTransactionData
+  } = useTransaction();
+
+  console.log(category);
+
   const [isSelectModalOpen, setSelectModalOpen] = useState(false);
   const hasTransitioned = useMountTransition(isSelectModalOpen, 300)
-  const { wallet, category, date } = transactionData;
 
   const formFields = {
     "wallet": {
       Modal: WalletModal,
       modalHeight: "h-1/3",
       inputValue: wallet.id,
-      btnValue: capitalize(wallet.name),
+      btnValue: formatEntityName(wallet.name),
       iconName: "wallet",
       state: {
         value: wallet,
@@ -36,9 +46,9 @@ export default function TransactionFormField({ name }) {
     },
     "category": {
       Modal: CategoryModal,
-      modalHeight: "h-3/5",
+      modalHeight: "h-[70%]",
       inputValue: category.id,
-      btnValue: capitalize(category.name),
+      btnValue: formatEntityName(category.name),
       iconName: "categories",
       state: {
         value: category,
@@ -53,7 +63,7 @@ export default function TransactionFormField({ name }) {
     },
     "date": {
       Modal: DateModal,
-      modalHeight: "h-3/5",
+      modalHeight: "h-[57%]",
       inputValue: date,
       btnValue: getDateBtnValue(date),
       iconName: "calendar",
@@ -82,14 +92,14 @@ export default function TransactionFormField({ name }) {
         value={inputValue}
       />
 
-      <SvgIcon iconName={iconName} className="w-8 h-8 fill-navy" />
+      <SvgIcon iconName={iconName} className="size-8 fill-navy" />
       <span className="text-navy font-semibold">{capitalize(name)}</span>
 
       <Button
         variant="secondary"
-        size="xs"
+        size="s"
         onClick={() => setSelectModalOpen(wasOpen => !wasOpen)}
-        className="ml-auto min-w-24 flex justify-between gap-2 items-center focus:ring-1"
+        className="ml-auto flex justify-between gap-2 items-center focus:ring"
         type="button"
       >
         <span>{btnValue}</span>

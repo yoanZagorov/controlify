@@ -73,7 +73,6 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
     )
   }
 
-
   return (
     <>
       {/* Overlay */}

@@ -2,7 +2,7 @@ import cn from "classnames";
 
 import { monthsMap } from "@/utils/date/maps";
 
-export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate, clickHandlers, className = {} }) {
+export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate, clickHandlers, className }) {
   const { handleDayClick, handleMonthDecrement, handleMonthIncrement } = clickHandlers;
 
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -29,7 +29,7 @@ export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate
     }
 
     const dayClasses = cn(
-      "w-8 h-8 flex justify-center items-center p-1.5 text-sm rounded-full",
+      "size-8 flex justify-center items-center p-1.5 text-sm rounded-full",
       day.value === 1 && colStartMap[startOfMonthDayOfWeek],
       day.isCurrentDate && "bg-navy text-goldenrod"
     )
@@ -49,7 +49,7 @@ export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate
   const { month, year } = localDate;
 
   return (
-    <div className="max-w-[300px] flex flex-col items-center gap-6 p-6 bg-gray-light rounded-lg mt-6">
+    <div className="max-w-80 flex flex-col items-center gap-6 p-6 bg-gray-light rounded-lg mt-6">
       <div className="flex items-center gap-6 text-gray-dark font-semibold">
         <button type="button" onClick={handleMonthDecrement}>{"<"}</button>
         <span>{monthsMap[month]} {year}</span>
