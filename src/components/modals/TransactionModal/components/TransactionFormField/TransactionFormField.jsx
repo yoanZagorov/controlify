@@ -22,15 +22,14 @@ export default function TransactionFormField({ name }) {
     updateTransactionData
   } = useTransaction();
 
-  console.log(category);
-
   const [isSelectModalOpen, setSelectModalOpen] = useState(false);
   const hasTransitioned = useMountTransition(isSelectModalOpen, 300)
 
   const formFields = {
     "wallet": {
       Modal: WalletModal,
-      modalHeight: "h-1/3",
+      modalHeight: "h-1/2",
+      contentMaxW: "max-w-none",
       inputValue: wallet.id,
       btnValue: formatEntityName(wallet.name),
       iconName: "wallet",
@@ -46,7 +45,8 @@ export default function TransactionFormField({ name }) {
     },
     "category": {
       Modal: CategoryModal,
-      modalHeight: "h-[70%]",
+      modalHeight: "h-4/5",
+      contentMaxW: "max-w-none",
       inputValue: category.id,
       btnValue: formatEntityName(category.name),
       iconName: "categories",
@@ -63,7 +63,8 @@ export default function TransactionFormField({ name }) {
     },
     "date": {
       Modal: DateModal,
-      modalHeight: "h-[57%]",
+      modalHeight: "h-[70%]",
+      contentMaxW: "max-w-80",
       inputValue: date,
       btnValue: getDateBtnValue(date),
       iconName: "calendar",
@@ -78,7 +79,7 @@ export default function TransactionFormField({ name }) {
     }
   };
 
-  const { Modal, modalHeight, inputValue, btnValue, iconName, state } = formFields[name];
+  const { Modal, modalHeight, contentMaxW, inputValue, btnValue, iconName, state } = formFields[name];
 
   function handleClose() {
     setSelectModalOpen(false);
@@ -110,6 +111,7 @@ export default function TransactionFormField({ name }) {
         <SelectModal
           name={name}
           modalHeight={modalHeight}
+          contentMaxW={contentMaxW}
           closeModal={handleClose}
           isSelectModalOpen={isSelectModalOpen}
           hasTransitioned={hasTransitioned}

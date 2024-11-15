@@ -8,10 +8,10 @@ export default function LayoutProvider({ children }) {
 
   const [isSidebarExpanded, setSidebarExpanded] = useState(isDesktop ? true : false);
 
-  const sidebarRef = useOutsideClick(isSidebarExpanded, setSidebarExpanded, !isDesktop);
+  const sidebarRef = useOutsideClick(isSidebarExpanded, () => setSidebarExpanded(false), { eventListenerCondition: !isDesktop });
 
   function toggleSidebar() {
-    setSidebarExpanded(wasExpanded => !wasExpanded)
+    setSidebarExpanded(wasExpanded => !wasExpanded);
   }
 
   return (

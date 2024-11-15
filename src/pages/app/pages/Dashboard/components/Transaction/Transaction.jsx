@@ -43,7 +43,7 @@ export default function Transaction({ category, wallet, amount, currency }) {
 
         <div className="flex flex-col">
           <span className={classes.categoryName}>{formattedCategoryName}</span>
-          <div className="flex items-center gap-1 text-gray-dark opacity-50 font-bold">
+          <div className="-mt-1 flex items-center gap-1 text-gray-dark opacity-50 font-bold">
             <SvgIcon iconName={wallet.iconName} className="size-3 fill-current" />
             <span className="text-xs">{formattedWalletName}</span>
           </div>

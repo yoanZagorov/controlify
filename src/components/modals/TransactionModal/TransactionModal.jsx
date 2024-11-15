@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { useActionData, useFetcher } from "react-router-dom";
 
-import { useAutoFocus, useTransaction } from "@/hooks";
+import { useAutoFocus, useOutsideClick, useTransaction } from "@/hooks";
 
 import { TransactionFormField } from "./components/TransactionFormField";
 import { Button } from "@/components/Button";
@@ -18,6 +18,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
   } = useTransaction();
 
   const amountInputRef = useAutoFocus();
+  const formRef = useOutsideClick(isTransactionModalOpen, closeModal);
 
   const fetcher = useFetcher({ key: "add-transaction" });
 
@@ -48,19 +49,19 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
   }
 
   const classes = {
-    modal: "fixed left-0 w-screen transition-all duration-300",
+    modal: "fixed left-0 rounded-lg duration-300",
     overlay: function () { // turned to method, in order to access the modal property
       return cn(
-        "h-screen top-0 bg-black z-20",
+        "h-screen w-screen top-0 bg-black z-20 transition-opacity",
         this.modal,
         (isTransactionModalOpen && hasTransitioned) ? "opacity-50" : "opacity-0"
       )
     },
-    form: function () { // turned to method, in order to access the modal property
+    form: function () { // turned to method, in order to access the modal property 
       return cn(
-        "h-[90%] rounded-t-lg bg-gray-light z-30",
+        "h-[90%] ml:w-[calc(425px-2*16px)] bottom-0 ml:inset-0 ml:m-auto bg-gray-light transition-transform z-30", // calc - ml breakpoint - padding
         this.modal,
-        (isTransactionModalOpen && hasTransitioned) ? "bottom-0" : "-bottom-full"
+        !(isTransactionModalOpen && hasTransitioned) && "translate-y-[100vh]"
       )
     },
     amountValue: cn(
@@ -76,69 +77,68 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
   return (
     <>
       {/* Overlay */}
-      <div
-        onClick={closeModal}
-        className={classes.overlay()}
-      >
-      </div>
+      <div className={classes.overlay()}></div>
 
       {/* Modal */}
       <fetcher.Form
         method="post"
         action="/app/dashboard"
         className={classes.form()}
+        ref={formRef}
       >
-        <div className="py-10 px-4 tab:px-6 flex items-end gap-4 rounded-t-lg font-semibold tracking-wide bg-navy shadow">
-          <label
-            htmlFor="transactionAmount"
-            className="text-gray-light text-2xl"
-          >
-            Amount:
-          </label>
+        <div className="relative w-full h-full">
+          <div className="py-10 px-4 tab:px-6 flex items-end gap-4 rounded-t-lg font-semibold tracking-wide bg-navy shadow">
+            <label
+              htmlFor="transactionAmount"
+              className="text-gray-light text-2xl"
+            >
+              Amount:
+            </label>
 
-          <span
-            className={classes.amountValue}
-          >
-            <span className="text-nowrap">{isExpense ? "-" : "+"}{currency}</span>
-            <input
-              ref={amountInputRef}
-              name="amount"
-              type="number"
-              step={0.01}
-              id="transactionAmount"
-              required
-              min={1}
-              onChange={handleChange}
-              value={amount}
-              className={classes.amountInput}
-            />
-          </span>
-        </div>
-
-        <div className="mt-16 page__wrapper flex flex-col">
-          <div className="flex flex-col gap-8">
-            <TransactionFormField
-              name="wallet"
-            />
-            <TransactionFormField
-              name="category"
-            />
-            <TransactionFormField
-              name="date"
-            />
+            <span
+              className={classes.amountValue}
+            >
+              <span className="text-nowrap">{isExpense ? "-" : "+"}{currency}</span>
+              <input
+                ref={amountInputRef}
+                name="amount"
+                type="number"
+                step={0.01}
+                id="transactionAmount"
+                required
+                min={1}
+                onChange={handleChange}
+                value={amount}
+                className={classes.amountInput}
+              />
+            </span>
           </div>
 
-          <Button
-            type="submit"
-            size="l"
-            disabled={amount === "0" || category.name === "choose"}
-            name="intent"
-            value="add-transaction"
-            className="mt-12 ll:py-4 ls:text-xl ml:text-xl ml:py-4 ml:px-8 mm:self-center focus:ring-4"
-          >
-            {/* {fetcher.state === "loading" || fetcher.state === "submitting" ? "Submitting..." : "Complete Transaction"} */}
-            Complete Transaction
-          </Button>
+          <div className="mt-16 px-4 tab:px-6 flex flex-col">
+            <div className="flex flex-col gap-8">
+              <TransactionFormField
+                name="wallet"
+              />
+              <TransactionFormField
+                name="category"
+              />
+              <TransactionFormField
+                name="date"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              size="l"
+              disabled={amount === "0" || category.name === "choose"}
+              name="intent"
+              value="add-transaction"
+              className="mt-12 ll:py-4 mm:self-center focus:ring-4"
+            >
+              {/* {fetcher.state === "loading" || fetcher.state === "submitting" ? "Submitting..." : "Complete Transaction"} */}
+              Complete Transaction
+            </Button>
+          </div>
         </div>
       </fetcher.Form>
     </>

@@ -5,6 +5,7 @@ export default function createErrorResponse(statusCode, msg) {
         msg,
         msgType: "error",
         statusCode,
+        resetKey: Date.now()
       }
     ),
     {

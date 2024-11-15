@@ -137,7 +137,7 @@ export default function Dashboard() {
                   </p>
                 )}
 
-                <Button onClick={() => setTransactionModalOpen(true)} className="self-center w-full max-w-64 lm:py-3 lm:text-lg focus:ring-4">
+                <Button onClick={() => setTransactionModalOpen(true)} className="self-center w-full max-w-64 lm:py-3 lm:text-lg focus-visible:ring-4">
                   Add Transaction
                 </Button>
               </div>

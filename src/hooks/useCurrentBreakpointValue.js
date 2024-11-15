@@ -16,7 +16,11 @@ export default function useCurrentBreakpointValue() {
   const [breakpoint, setBreakpoint] = useState(getCurrentBreakpoint());
 
   function getCurrentBreakpoint() {
-    return breakpoints.find(breakpoint => window.matchMedia(breakpoint.query).matches)?.name;
+    return breakpoints.find(breakpoint => {
+      console.log(breakpoint);
+      console.log(window.matchMedia(breakpoint.query));
+      return window.matchMedia(breakpoint.query).matches
+    })?.name
   }
 
   useEffect(() => {

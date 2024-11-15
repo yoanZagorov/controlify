@@ -29,7 +29,7 @@ export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate
     }
 
     const dayClasses = cn(
-      "size-8 flex justify-center items-center p-1.5 text-sm rounded-full",
+      "size-8 flex justify-center items-center p-1.5 text-sm rounded-full focus-goldenrod",
       day.value === 1 && colStartMap[startOfMonthDayOfWeek],
       day.isCurrentDate && "bg-navy text-goldenrod"
     )
@@ -49,17 +49,17 @@ export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate
   const { month, year } = localDate;
 
   return (
-    <div className="max-w-80 flex flex-col items-center gap-6 p-6 bg-gray-light rounded-lg mt-6">
-      <div className="flex items-center gap-6 text-gray-dark font-semibold">
-        <button type="button" onClick={handleMonthDecrement}>{"<"}</button>
+    <div className="flex flex-col items-center gap-6 p-6 bg-gray-light rounded-lg mt-6">
+      <div className="flex items-center gap-4 text-gray-dark font-semibold">
+        <button type="button" onClick={handleMonthDecrement} className="focus-goldenrod rounded">{"<"}</button>
         <span>{monthsMap[month]} {year}</span>
-        <button type="button" onClick={handleMonthIncrement}>{">"}</button>
+        <button type="button" onClick={handleMonthIncrement} className="focus-goldenrod rounded">{">"}</button>
       </div>
 
-      <div className="flex justify-between gap-4">
+      <div className="w-full grid grid-cols-7">
         {daysOfWeekEls}
       </div>
-      <div className="w-full grid grid-cols-7 gap-0.5">
+      <div className="w-full grid grid-cols-7 gap-y-2.5">
         {daysOfMonthEls}
       </div>
     </div>

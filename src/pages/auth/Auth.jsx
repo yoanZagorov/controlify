@@ -9,7 +9,7 @@ import { useFlashMsg } from "@/hooks";
 import { InfoWidget } from "@/components/InfoWidget";
 
 export default function Auth({ type }) {
-  const { msg: errorMsg, msgType: errorMsgType } = useActionData() ?? {};
+  const { msg: errorMsg, msgType: errorMsgType, resetKey } = useActionData() ?? {};
 
   const { quote, redirectData } = useLoaderData();
   const { originalPath, msg: redirectMsg, msgType: redirectMsgType } = redirectData;
@@ -17,7 +17,7 @@ export default function Auth({ type }) {
   const { flashMsg, clearFlashMsg } = useFlashMsg([
     { msg: errorMsg, msgType: errorMsgType, clearMsg: null },
     { msg: redirectMsg, msgType: redirectMsgType, clearMsg: null },
-  ], [errorMsg, redirectMsg]);
+  ], [errorMsg, redirectMsg, resetKey]);
 
   const isCreateAccount = type === "createAccount";
 

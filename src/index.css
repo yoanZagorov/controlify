@@ -33,4 +33,8 @@
   .tablet__wrapper {
     @apply wrapper;
   }
+
+  .focus-goldenrod {
+    @apply focus:outline-none focus-visible:ring focus-visible:ring-goldenrod;
+  }
 }

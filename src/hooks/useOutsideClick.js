@@ -1,31 +1,36 @@
 import { useEffect, useRef } from "react";
 
-export default function useOutsideClick(isOpen, setOpen, condition) {
+export default function useOutsideClick(isOpen, close, { eventListenerCondition = true, clickCondition = true } = {}) {
   const ref = useRef(null);
 
   useEffect(() => {
-    if (condition) {
+    if (eventListenerCondition) {
       document.addEventListener("mousedown", handleMouseOutsideClick);
       document.addEventListener("keydown", handleKeyboardOutsideClick);
 
       return () => {
-        document.removeEventListener("mousedown", handleMouseOutsideClick)
-        document.removeEventListener("keydown", handleKeyboardOutsideClick)
+        document.removeEventListener("mousedown", handleMouseOutsideClick);
+        document.removeEventListener("keydown", handleKeyboardOutsideClick);
       }
     }
-  }, [isOpen, condition]);
+  }, [isOpen, eventListenerCondition]);
 
   function handleMouseOutsideClick(e) {
-    if (ref.current && (!ref.current.contains(e.target))) {
-      setOpen(false);
+    if (ref.current && (!ref.current.contains(e.target)) && clickCondition) {
+      if (e.target.tagName === "BUTTON" && isOpen) {
+        e.target.click(); // ensures the click handler is executed
+      }
+
+      close();
     }
   }
 
   function handleKeyboardOutsideClick(e) {
-    if (e.key === "Escape") {
-      setOpen(false);
+    if (e.key === "Escape" && clickCondition) {
+      close();
     }
   }
+
 
   return ref;
 }

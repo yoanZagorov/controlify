@@ -35,6 +35,7 @@ export default async function loginAction({ request }) {
     const firebaseError = checkFirebaseError(error.code);
 
     if (firebaseError) {
+      console.log("firebaseError:", firebaseError);
       return createErrorResponse(firebaseError.status, firebaseError.message);
     };
 

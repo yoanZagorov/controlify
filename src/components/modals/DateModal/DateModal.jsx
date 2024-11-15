@@ -69,11 +69,8 @@ export default function DateModal({ closeModal, state }) {
   }
 
   return (
-    <div>
-      <SelectedDay
-        date={date}
-        className={"mt-6"}
-      />
+    <div className="mt-6 mx-auto max-w-80">
+      <SelectedDay date={date} />
 
       <Calendar
         daysOfMonth={daysOfMonth}
