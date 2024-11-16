@@ -19,7 +19,10 @@ export default async function getUser(userId) {
       id: userId
     }
   } catch (error) {
-
-    throw new AppError("Error checking user existence", { cause: error }); // To do: Create a more user-friendly message and display it    
+    if (error instanceof AppError) {
+      throw new AppError(error.statusCode, error.message);
+    } else {
+      throw new Error("Error fetching user", { cause: error }); // To do: Create a more user-friendly message and display it    
+    }
   }
 }

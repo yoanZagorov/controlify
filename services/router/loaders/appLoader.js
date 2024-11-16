@@ -1,15 +1,19 @@
 import { redirect } from "react-router-dom";
 
-import { getAuthUserId, getUser, getUserBalance } from "services/firebase/db/user";
-import { getUserWallets } from "services/firebase/db/wallet";
-import { getUserTodayTransactions } from "services/firebase/db/transaction";
-import { getUserCategories } from "services/firebase/db/category";
+import { getAuthUserId, getUser, getCurrentBalance } from "services/firebase/db/user";
+import { getWallets } from "services/firebase/db/wallet";
+import { getCategories } from "services/firebase/db/category";
+import { getTransactions } from "services/firebase/db/transaction";
 
 import { createSuccessResponse, createErrorResponse } from "../responses";
 
 import { getStoredData, storeRedirectData } from "@/utils/storage";
 import { getRandomItem } from "@/utils/array";
 import { quotes } from "@/pages/auth/data";
+import { getBalanceChartData } from "@/utils/transaction";
+import { orderBy, where } from "firebase/firestore";
+import { AppError } from "@/utils/errors";
+import { getTodayStartAndEnd } from "@/utils/date";
 
 export default async function appLoader({ request }) {
   const userId = await getAuthUserId();
@@ -21,12 +25,26 @@ export default async function appLoader({ request }) {
     return redirect("/login");
   }
 
+  const walletsQuery = [
+    where("deletedAt", "==", null),
+    orderBy("isDefault", "desc"),
+    orderBy("createdAt", "desc")
+  ];
+
+  const { start, end } = getTodayStartAndEnd();
+  const transactionsQuery = [
+    where("createdAt", ">=", start),
+    where("createdAt", "<=", end),
+    orderBy("createdAt", "desc")
+  ];
+
   try {
     const user = await getUser(userId);
-    const wallets = await getUserWallets(userId);
-    const categories = await getUserCategories(userId);
-    const balance = await getUserBalance("_", wallets);
-    const todayTransactionsByWallet = await getUserTodayTransactions(userId, wallets); // To do: Order by createdOn
+    const wallets = await getWallets(userId, walletsQuery);
+    const categories = await getCategories(userId);
+    const balance = await getCurrentBalance("_", wallets);
+    const todayTransactionsByWallet = await getTransactions(userId, wallets, transactionsQuery);
+    const balanceChartData = getBalanceChartData(userId);
 
     const storedRedirectData = getStoredData("redirectData");
 
@@ -48,10 +66,10 @@ export default async function appLoader({ request }) {
 
   } catch (error) {
     // To do: create more specific error messages
-    console.error(error);
-
-    if (error?.options?.cause) {
-      console.error(error.options.cause)
+    if (error instanceof AppError) {
+      console.error(error.statusCode, error);
+    } else {
+      console.error(error);
     }
 
     // To do: create a Firebase Firestore errors map

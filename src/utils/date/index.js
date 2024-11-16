@@ -4,3 +4,4 @@ export { default as getNumDaysInMonth } from "./getNumDaysInMonth";
 export { default as formatDateForCalendar } from "./formatDateForCalendar";
 export { default as getSpecificDay } from "./getSpecificDay";
 export { default as compareDatesByDay } from "./compareDatesByDay";
+export { default as getLastThirthyDaysStartandEnd } from "./getLastThirthyDaysStartandEnd";

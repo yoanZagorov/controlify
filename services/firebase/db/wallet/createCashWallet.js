@@ -1,4 +1,4 @@
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { getDefaultCurrency } from "@/utils/user";
 import { AppError } from "@/utils/errors";
 
@@ -15,7 +15,8 @@ export default async function createCashWallet(userDocRef) {
       currency,
       iconName: "wallet",
       isDefault: true,
-      createdAt: new Date()
+      createdAt: serverTimestamp(),
+      deletedAt: null, // Will be used when implement the ability to delete wallets with soft deletion
     })
 
   } catch (error) {

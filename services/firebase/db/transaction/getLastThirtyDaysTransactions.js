@@ -1,19 +1,17 @@
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { getLastThirthyDaysStartandEnd } from "@/utils/date";
+import { collection, doc, getDocs, query } from "firebase/firestore";
 import { db } from "services/firebase/firebase.config";
-
-import { getTodayStartAndEnd } from "@/utils/date";
 import { AppError } from "@/utils/errors";
 
-export default async function getUserTodayTransactions(userId, wallets) {
-  const { start, end } = getTodayStartAndEnd();
+export default async function getLastThirtyDaysTransactions(userId, wallets) {
+  const { start, end } = getLastThirthyDaysStartandEnd();
 
   const promises = wallets.map(async (wallet) => {
     const transactionsRef = collection(db, `users/${userId}/wallets/${wallet.id}/transactions`);
 
     const q = query(transactionsRef,
       where("createdAt", ">=", start),
-      where("createdAt", "<=", end),
-      orderBy("createdAt", "desc")
+      where("createdAt", "<=", end)
     );
 
     try {

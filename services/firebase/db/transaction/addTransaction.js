@@ -1,7 +1,5 @@
-import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
+import { collection, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "services/firebase/firebase.config";
-import { getCategory } from "../category";
-import { getWallet } from "../wallet";
 import { AppError } from "@/utils/errors";
 
 export default function addTransaction(dbTransaction, userId, amount, wallet, category, date) {
