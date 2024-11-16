@@ -19,7 +19,7 @@ export default async function getBalanceChartData(userId) {
   const lastThirtyDaysTransactions = lastThirtyDaysTransactionsByWallet.flatMap(wallet => wallet.transactions);
 
   const transactionsByDayMap = lastThirtyDaysTransactions.reduce((acc, transaction) => {
-    const dateKey = transaction.date.toDate().getDate();
+    const dateKey = transaction.date.toDate().toISOString().split("T")[0];
 
     if (!acc[dateKey]) acc[dateKey] = [];
     acc[dateKey].push(transaction);
@@ -31,13 +31,16 @@ export default async function getBalanceChartData(userId) {
     const day = new Date();
     day.setDate(day.getDate() - (30 - i));
 
-    return { date: day.getDate(), balance: 0 };
+    const presentationKey = `${day.getDate()}/${day.getMonth() + 1}`;
+    const dateKey = day.toISOString().split("T")[0];
+
+    return { dateKey, presentationKey, balance: 0 };
   });
 
   let accumulatedBalance = initialBalance;
 
   days.forEach(day => {
-    const currentDayTransactions = transactionsByDayMap[day.date] || [];
+    const currentDayTransactions = transactionsByDayMap[day.dateKey] || [];
 
     if (currentDayTransactions.length) {
       const dayBalance = currentDayTransactions.reduce((acc, transaction) => {
