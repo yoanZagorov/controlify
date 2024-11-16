@@ -44,7 +44,7 @@ export default async function appLoader({ request }) {
     const categories = await getCategories(userId);
     const balance = await getCurrentBalance("_", wallets);
     const todayTransactionsByWallet = await getTransactions(userId, wallets, transactionsQuery);
-    const balanceChartData = getBalanceChartData(userId);
+    const balanceChartData = await getBalanceChartData(userId);
 
     const storedRedirectData = getStoredData("redirectData");
 
@@ -55,6 +55,7 @@ export default async function appLoader({ request }) {
         categories,
         balance,
         todayTransactionsByWallet,
+        balanceChartData
       },
       notificationData: {
         quote: getRandomItem(quotes),

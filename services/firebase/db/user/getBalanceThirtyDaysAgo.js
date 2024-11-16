@@ -1,18 +1,15 @@
 import { Timestamp, where } from "firebase/firestore";
 import { getTransactions } from "../transaction";
-import { getWallets } from "../wallet";
 import { performDecimalCalculation } from "@/utils/number";
+import { getLastThirtyDaysStartandEnd } from "@/utils/date";
 
-export default async function getBalanceThirtyDaysAgo(userId) {
-  const dateThirtyDaysAgo = new Date();
-  dateThirtyDaysAgo.setDate(dateThirtyDaysAgo.getDate() - 30);
-  const timestamp = Timestamp.fromDate(dateThirtyDaysAgo);
+export default async function getBalanceThirtyDaysAgo(userId, allWallets) {
+  const { start } = getLastThirtyDaysStartandEnd();
 
   const q = [
-    where("date", "<", timestamp)
+    where("date", "<", start)
   ];
 
-  const allWallets = await getWallets(userId);
   const transactionsByWallet = await getTransactions(userId, allWallets, q);
 
   const walletBalances = transactionsByWallet.map(wallet => {

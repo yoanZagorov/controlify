@@ -16,6 +16,7 @@ import { DashboardWidget } from "./components/DashboardWidget";
 import { Transaction } from "./components/Transaction";
 import { PlusCircleIcon } from "./components/PlusCircleIcon";
 import { resetFetcher } from "services/router/utils";
+import { BalanceLineChart } from "@/components/charts/BalanceLineChart";
 
 export default function Dashboard() {
   const { isSidebarExpanded } = useLayout();
@@ -27,7 +28,8 @@ export default function Dashboard() {
       user,
       wallets,
       balance,
-      todayTransactionsByWallet
+      todayTransactionsByWallet,
+      balanceChartData
     }
   } = useRouteLoaderData("app");
 
@@ -102,6 +104,7 @@ export default function Dashboard() {
               colorContext="light"
               className="mt-3 text-2xl font-bold"
             />
+            <BalanceLineChart data={balanceChartData} />
           </DashboardWidget>
         </Section>
 

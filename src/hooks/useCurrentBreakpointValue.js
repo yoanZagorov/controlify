@@ -17,8 +17,8 @@ export default function useCurrentBreakpointValue() {
 
   function getCurrentBreakpoint() {
     return breakpoints.find(breakpoint => {
-      console.log(breakpoint);
-      console.log(window.matchMedia(breakpoint.query));
+      // console.log(breakpoint);
+      // console.log(window.matchMedia(breakpoint.query));
       return window.matchMedia(breakpoint.query).matches
     })?.name
   }
