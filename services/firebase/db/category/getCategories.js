@@ -2,7 +2,7 @@ import { AppError } from "@/utils/errors";
 import { collection, getDocs, query as firebaseQuery } from "firebase/firestore";
 import { db } from "services/firebase/firebase.config";
 
-export default async function getCategories(userId, query = null) {
+export default async function getCategories(userId, query = []) {
   const categoriesRef = collection(db, `users/${userId}/categories`);
 
   const categoriesQuery = query

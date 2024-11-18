@@ -12,6 +12,9 @@ import LogOutIcon from "@/assets/icons/log-out.svg?react";
 import ScaleIcon from "@/assets/icons/scale.svg?react";
 import CalendarIcon from "@/assets/icons/calendar.svg?react";
 
+// Wallets
+import HistoryIcon from "@/assets/icons/clock-rotate-left-solid.svg?react";
+
 // Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
 import ShoppingBagIcon from "@/assets/icons/shopping-bag.svg?react";
@@ -56,7 +59,8 @@ const iconComponentsMap = {
   "settings": SettingsIcon,
   "logout": LogOutIcon,
   "plane": PlaneIcon,
-  "mortgage": MortgageIcon
+  "mortgage": MortgageIcon,
+  "history": HistoryIcon
 }
 
 export default function SvgIcon({ iconName, ...props }) {

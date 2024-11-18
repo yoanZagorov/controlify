@@ -2,7 +2,7 @@ import { AppError } from "@/utils/errors";
 import { collection, getDocs, query as firebaseQuery } from "firebase/firestore";
 import { db } from "services/firebase/firebase.config";
 
-export default async function getTransactions(userId, wallets, query) {
+export default async function getTransactions(userId, wallets, query = []) {
   const promises = wallets.map(async (wallet) => {
     const transactionsRef = collection(db, `users/${userId}/wallets/${wallet.id}/transactions`);
 

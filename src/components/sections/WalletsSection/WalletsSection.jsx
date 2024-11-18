@@ -13,7 +13,7 @@ export default function WalletsSection({ section, wallets }) {
   ))
 
   return (
-    <Section title={section.title} className={section.className}>
+    <Section title={section.title} className={section.className || ""}>
       <div className="mt-3 grid grid-cols-2 w-full gap-5">
         {walletWidgets}
 

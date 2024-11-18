@@ -47,7 +47,7 @@ export default function Dashboard() {
 
   const classes = {
     grid: cn(
-      "mt-16 grid gap-10 ll:gap-x-16 fhd:gap-x-24",
+      "grid gap-10 ll:gap-x-16 fhd:gap-x-24",
       isSingleColLayout
         ? "grid-cols-1"
         : "grid-cols-12 grid-flow-col",

@@ -44,7 +44,7 @@ export default async function getBalanceChartData(userId) {
 
     if (currentDayTransactions.length) {
       const dayBalance = currentDayTransactions.reduce((acc, transaction) => {
-        const operator = transaction.type === "expense" ? "-" : "+";
+        const operator = transaction.category.type === "expense" ? "-" : "+";
 
         return performDecimalCalculation(acc, transaction.amount, operator);
       }, 0)

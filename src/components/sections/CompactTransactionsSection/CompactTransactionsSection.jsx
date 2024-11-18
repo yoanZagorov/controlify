@@ -24,7 +24,7 @@ export default function CompactTransactionsSection({ sectionClassName, widget, o
     <Section title="Transactions" className={sectionClassName}>
       <ContentWidget iconName={widget.iconName} title={widget.title} className="mt-3 flex-1">
         <div className="mt-2 flex-1 p-3 rounded-lg bg-gray-light">
-          <div className="mx-auto flex flex-col gap-10">
+          <div className="mx-auto flex flex-col gap-8">
             {hasTransactions ? (
               <ul className="flex flex-col gap-5">
                 {transactionEls}

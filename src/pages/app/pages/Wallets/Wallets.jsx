@@ -1,28 +1,38 @@
 import cn from "classnames";
-import { useState } from "react";
 
-import { useMountTransition } from "@/hooks";
+import { useBreakpoint, useMountTransition } from "@/hooks";
+import { WalletsSection } from "@/components/sections/WalletsSection";
+import { useLoaderData, useRouteLoaderData } from "react-router-dom";
+import { Section } from "@/components/sections/Section";
+import { CompactTransactionsSection } from "@/components/sections/CompactTransactionsSection";
 
 export default function Wallets() {
-  const [isVisible, setVisible] = useState(false);
-  const hasTransitioned = useMountTransition(isVisible, 3000);
+  // const { userData: { wallets } } = useRouteLoaderData("app");
+  const { transactions, wallets } = useLoaderData();
 
-  // Deferred animation logic
-  const classes = cn(
-    "mt-4 p-6 h-1/2 w-full text-gray-medium transition-all duration-[3000ms] bg-goldenrod fixed",
-    {
-      "-bottom-full": (isVisible && !hasTransitioned) || (!isVisible && hasTransitioned),
-      "bottom-0": isVisible && hasTransitioned
-    }
-  )
+  const { isMobile } = useBreakpoint(); // To do: use this value to render and ExpandedTransactionsSection on ml/tab
 
   return (
-    <div className="mt-24">
-      <button className="border" onClick={() => setVisible(prev => !prev)}>Set visible</button>
-      {(isVisible || hasTransitioned) &&
-        <div className={classes}>I am hidden!</div>
-        // <div className={`element ${hasMounted && "hidden"}`}>I am hidden!</div>
-      }
+    <div className="grid gap-16">
+      <WalletsSection
+        section={{
+          title: "All"
+        }}
+        wallets={wallets}
+      />
+
+      <Section title="Spending" className="">
+      </Section>
+
+      <CompactTransactionsSection
+        sectionClassName=""
+        widget={{
+          iconName: "history",
+          title: "All"
+        }}
+        // openModal={}
+        transactions={transactions}
+      />
     </div>
   )
 }
