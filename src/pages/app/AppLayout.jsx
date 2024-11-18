@@ -6,7 +6,7 @@ import { CollapsedSidebar } from "./layout-components/CollapsedSidebar";
 import { Sidebar } from "./layout-components/Sidebar";
 import { TopBar } from "./layout-components/TopBar";
 import { useState } from "react";
-import { InfoWidget } from "@/components/InfoWidget";
+import { InfoWidget } from "@/components/widgets/InfoWidget";
 
 export default function AppLayout() {
   const { isSidebarExpanded } = useLayout();

@@ -1,49 +1,6 @@
-import cn from "classnames";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-
-function CustomizedXAxisTick({ x, y, payload }) {
-  return (
-    <g transform={`translate(${x},${y})`}>
-      <text
-        x={0}
-        y={0}
-        dy={16}
-        textAnchor="end"
-        className="font-bold fill-navy"
-        transform="rotate(-35)"
-      >
-        {payload.value}
-      </text>
-    </g>
-  )
-}
-
-function CustomizedYAxisTick({ x, y, payload }) {
-  const isPositive = payload.value >= 0;
-  const absAmount = Math.abs(payload.value);
-  const sign = isPositive ? "" : "-";
-
-  const textClasses = cn(
-    "font-bold",
-    isPositive ? "fill-green-dark" : "fill-red-dark"
-  )
-
-  return (
-    <g >
-      <text
-        x={x}
-        y={y}
-        dx={-5}
-        textAnchor="end"
-        dominantBaseline="middle"
-        className={textClasses}
-      >
-        {sign}BGN {absAmount}
-      </text>
-    </g>
-  )
-}
-
+import { CustomizedXAxisTick } from "./components/CustomizedXAxisTick";
+import { CustomizedYAxisTick } from "./components/CustomizedYAxisTick";
 
 export default function BalanceLineChart({ data }) {
   return (

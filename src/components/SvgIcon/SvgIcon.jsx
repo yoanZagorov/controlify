@@ -28,6 +28,7 @@ import BriefcaseIcon from "@/assets/icons/briefcase.svg?react";
 import PiggyBankIcon from "@/assets/icons/piggy-bank.svg?react";
 import MoneyBillStockUpIcon from "@/assets/icons/money-bill-stock-up.svg?react";
 import ClipboardQuestionIcon from "@/assets/icons/clipboard-question.svg?react";
+import MortgageIcon from "@/assets/icons/house-circle-check.svg?react";
 
 const iconComponentsMap = {
   "wallet": WalletIcon,
@@ -54,7 +55,8 @@ const iconComponentsMap = {
   "stats": StatsIcon,
   "settings": SettingsIcon,
   "logout": LogOutIcon,
-  "plane": PlaneIcon
+  "plane": PlaneIcon,
+  "mortgage": MortgageIcon
 }
 
 export default function SvgIcon({ iconName, ...props }) {

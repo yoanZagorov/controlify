@@ -1,6 +1,6 @@
 import { useMountTransition } from "@/hooks";
-import { Notification } from "../Notification";
-import { Quote } from "../Quote";
+import { Notification } from "../../Notification";
+import { Quote } from "../../Quote";
 import { Widget } from "../Widget";
 import cn from "classnames";
 

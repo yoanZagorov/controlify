@@ -1,9 +1,9 @@
 import cn from "classnames"
 
 import { SvgIcon } from "@/components/SvgIcon"
-import { Widget } from "@/components/Widget"
+import { Widget } from "@/components/widgets/Widget"
 
-export default function DashboardWidget({ iconName, title, className = "", children }) {
+export default function ContentWidget({ iconName, title, className = "", children }) {
   const classes = {
     widget: cn(
       "flex flex-col",

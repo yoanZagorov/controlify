@@ -17,9 +17,10 @@ export default async function createCategories(userDocRef) {
     { name: "bills", iconName: "money-bill", type: "expense", color: "#9E9E9E" },
     { name: "education", iconName: "graduation-cap", type: "expense", color: "#2196F3" },
     { name: "sport-and-hobbies", iconName: "football", type: "expense", color: "#CDDC39" },
+    { name: "mortgage", iconName: "mortgage", type: "expense", color: "#D4AF37" },
     { name: "other", iconName: "clipboard-question", type: "expense", color: "#9C27B0" },
 
-    { name: "salary", iconName: "briefcase", type: "income", color: "#8BC34A" },
+    { name: "salary", iconName: "briefcase", type: "income", color: "#FFD700" },
     { name: "savings", iconName: "piggy-bank", type: "income", color: "#607D8B" },
     { name: "investments", iconName: "money-bill-stock-up", type: "income", color: "#4169E1" },
     { name: "other", iconName: "clipboard-question", type: "income", color: "#9C27B0" },

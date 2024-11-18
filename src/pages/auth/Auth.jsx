@@ -6,7 +6,7 @@ import logo from "logos/logoGrayBg.png";
 
 import { AuthForm } from "./components/AuthForm";
 import { useFlashMsg } from "@/hooks";
-import { InfoWidget } from "@/components/InfoWidget";
+import { InfoWidget } from "@/components/widgets/InfoWidget";
 
 export default function Auth({ type }) {
   const { msg: errorMsg, msgType: errorMsgType, resetKey } = useActionData() ?? {};

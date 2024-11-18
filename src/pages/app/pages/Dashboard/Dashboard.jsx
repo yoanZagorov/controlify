@@ -5,18 +5,16 @@ import { useFetcher, useRouteLoaderData } from "react-router-dom";
 import { TransactionProvider } from "@/contexts";
 
 import { useBreakpoint, useLayout, useMountTransition, useScrollLock } from "@/hooks";
+import { resetFetcher } from "services/router/utils";
 
 import { Amount } from "@/components/Amount";
-import { Widget } from "@/components/Widget";
-import { Button } from "@/components/Button";
-import { Section } from "@/components/Section";
+import { Section } from "@/components/sections/Section";
 import { TransactionModal } from "@/components/modals/TransactionModal";
 
-import { DashboardWidget } from "./components/DashboardWidget";
-import { Transaction } from "./components/Transaction";
-import { PlusCircleIcon } from "./components/PlusCircleIcon";
-import { resetFetcher } from "services/router/utils";
+import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { BalanceLineChart } from "@/components/charts/BalanceLineChart";
+import { CompactTransactionsSection } from "@/components/sections/CompactTransactionsSection";
+import { WalletsSection } from "@/components/sections/WalletsSection";
 
 export default function Dashboard() {
   const { isSidebarExpanded } = useLayout();
@@ -47,38 +45,6 @@ export default function Dashboard() {
     }
   }, [fetcher.data, fetcher.state])
 
-  const walletWidgets = wallets.map(wallet => (
-    <DashboardWidget
-      key={wallet.id}
-      iconName={wallet.iconName}
-      title={wallet.name}
-      className="h-full"
-    >
-      <Amount
-        amount={wallet.balance}
-        currency={wallet.currency}
-        colorContext="light"
-        className="text-lg font-bold"
-      />
-    </DashboardWidget>
-  ))
-
-  const hasTransactions = todayTransactionsByWallet.find(wallet => wallet.transactions.length > 0);
-  const transactionEls = hasTransactions &&
-    todayTransactionsByWallet.map(wallet => (
-      wallet.transactions.map(transaction => (
-        <li key={transaction.id}>
-          <Transaction
-            category={transaction.category}
-            wallet={transaction.wallet}
-            amount={transaction.amount}
-            currency={transaction.wallet.currency}
-          >
-          </Transaction>
-        </li>
-      ))
-    ));
-
   const classes = {
     grid: cn(
       "mt-16 grid gap-10 ll:gap-x-16 fhd:gap-x-24",
@@ -97,7 +63,7 @@ export default function Dashboard() {
     <>
       <div className={classes.grid}>
         <Section title="Balance" className={classes.gridItem}>
-          <DashboardWidget iconName="scale" title="current" className="mt-3">
+          <ContentWidget iconName="scale" title="current" className="mt-3">
             <Amount
               amount={balance}
               currency={user.defaultCurrency}
@@ -105,48 +71,26 @@ export default function Dashboard() {
               className="mt-3 text-2xl font-bold"
             />
             <BalanceLineChart data={balanceChartData} />
-          </DashboardWidget>
+          </ContentWidget>
         </Section>
 
-        <Section title="Wallets" className={classes.gridItem}>
-          <div className="mt-3 grid grid-cols-2 w-full gap-5">
-            {walletWidgets}
+        <WalletsSection
+          section={{
+            title: "Wallets",
+            className: classes.gridItem
+          }}
+          wallets={wallets}
+        />
 
-            <Widget className="h-full flex flex-col justify-center items-center gap-3">
-              <h4 className="text-lg font-bold text-navy">Add Wallet</h4>
-
-              <button className="size-12 rounded-full focus:outline-none focus-visible:ring focus-visible:ring-goldenrod">
-                <PlusCircleIcon
-                  className="size-full"
-                  circleColor="fill-navy"
-                  plusColor="fill-goldenrod"
-                />
-              </button>
-            </Widget>
-          </div>
-        </Section>
-
-        <Section title="Transactions" className={classes.transactionSection}>
-          <DashboardWidget iconName="calendar" title="today" className="mt-3 flex-1">
-            <div className="mt-2 flex-1 p-3 rounded-lg bg-gray-light">
-              <div className="mx-auto flex flex-col gap-10">
-                {hasTransactions ? (
-                  <ul className="flex flex-col gap-5">
-                    {transactionEls}
-                  </ul>
-                ) : (
-                  <p className="self-center w-full max-w-80 text-navy-dark text-center text-balance font-semibold">
-                    Oops... It looks like you haven't made any transactions yet today. Add one now!
-                  </p>
-                )}
-
-                <Button onClick={() => setTransactionModalOpen(true)} className="self-center w-full max-w-64 lm:py-3 lm:text-lg focus-visible:ring-4">
-                  Add Transaction
-                </Button>
-              </div>
-            </div>
-          </DashboardWidget>
-        </Section>
+        <CompactTransactionsSection
+          sectionClassName={classes.transactionSection}
+          widget={{
+            iconName: "calendar",
+            title: "today"
+          }}
+          transactions={todayTransactionsByWallet}
+          openModal={() => setTransactionModalOpen(true)}
+        />
       </div>
 
       {(isTransactionModalOpen || hasTransitioned) &&
