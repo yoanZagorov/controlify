@@ -21,24 +21,27 @@ export default function CompactTransactionsSection({ sectionClassName, widget, o
     ));
 
   return (
-    <Section title="Transactions" className={sectionClassName}>
-      <ContentWidget iconName={widget.iconName} title={widget.title} className="mt-3 flex-1">
-        <div className="mt-2 flex-1 p-3 rounded-lg bg-gray-light">
-          <div className="mx-auto flex flex-col gap-8">
-            {hasTransactions ? (
-              <ul className="flex flex-col gap-5">
-                {transactionEls}
-              </ul>
-            ) : (
-              <p className="self-center w-full max-w-80 text-navy-dark text-center text-balance font-semibold">
-                Oops... It looks like you haven't made any transactions yet today. Add one now!
-              </p>
-            )}
+    <Section title="Transactions" className={sectionClassName} contentClassName="flex-1">
+      <ContentWidget
+        iconName={widget.iconName}
+        title={widget.title}
+        className="h-full"
+        content={{ className: "flex-1" }}
+      >
+        <div className="mx-auto flex flex-col gap-8">
+          {hasTransactions ? (
+            <ul className="flex flex-col gap-5">
+              {transactionEls}
+            </ul>
+          ) : (
+            <p className="self-center w-full max-w-80 text-navy-dark text-center text-balance font-semibold">
+              Oops... It looks like you haven't made any transactions yet today. Add one now!
+            </p>
+          )}
 
-            <Button onClick={openModal} className="self-center w-full max-w-64 lm:py-3 lm:text-lg focus-visible:ring-4">
-              Add Transaction
-            </Button>
-          </div>
+          <Button onClick={openModal} className="self-center w-full max-w-64 lm:py-3 lm:text-lg focus-visible:ring-4">
+            Add Transaction
+          </Button>
         </div>
       </ContentWidget>
     </Section>

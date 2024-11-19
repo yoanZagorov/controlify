@@ -3,7 +3,7 @@ import { CustomPieChartLabel } from "../CustomPieChartLabel";
 import { CustomPieChartLabelLine } from "../CustomPieChartLabelLine";
 import { CustomLegend } from "../CustomLegend";
 
-export default function ExpensesByWalletPieChart({ data }) {
+export default function ExpensesByWalletPieChart({ data, showChartLabel = false }) {
   return (
     <ResponsiveContainer className="w-full h-full">
       <PieChart>
@@ -11,8 +11,8 @@ export default function ExpensesByWalletPieChart({ data }) {
           data={data}
           dataKey="expenses"
           outerRadius={75}
-          label={<CustomPieChartLabel />}
-          labelLine={<CustomPieChartLabelLine />}
+          label={<CustomPieChartLabel showChartLabel={showChartLabel} />}
+          labelLine={showChartLabel && <CustomPieChartLabelLine />}
         />
         <Legend
           wrapperStyle={{ width: "100%", left: "50%", transform: "translateX(-50%)" }}

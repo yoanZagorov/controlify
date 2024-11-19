@@ -10,10 +10,9 @@ import { Widget } from "@/components/widgets/Widget";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 
 export default function Wallets() {
-  // const { userData: { wallets } } = useRouteLoaderData("app");
   const { transactions, wallets, expensesByWalletChartData } = useLoaderData();
 
-  const { isMobile } = useBreakpoint(); // To do: use this value to render and ExpandedTransactionsSection on ml/tab
+  const { isMobileS, isMobile } = useBreakpoint(); // To do: use this value to render and ExpandedTransactionsSection on ml/tab
 
   return (
     <div className="grid gap-16">
@@ -24,18 +23,15 @@ export default function Wallets() {
         wallets={wallets}
       />
 
-      <Section title="Spending" className="">
-        <ContentWidget iconName="calendar-months" title="Last 30 Days" className="mt-4">
-          <div className="mt-4 rounded-lg bg-gray-light p-4">
-            <div className="mx-auto w-80 h-72">
-              <ExpensesByWalletPieChart data={expensesByWalletChartData} />
-            </div>
+      <Section title="Spending">
+        <ContentWidget iconName="calendar-months" title="last 30 days">
+          <div className="mx-auto max-w-80 h-72">
+            <ExpensesByWalletPieChart data={expensesByWalletChartData} showChartLabel={!isMobileS} />
           </div>
         </ContentWidget>
       </Section>
 
       <CompactTransactionsSection
-        sectionClassName=""
         widget={{
           iconName: "history",
           title: "All"

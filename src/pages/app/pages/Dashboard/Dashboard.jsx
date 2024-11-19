@@ -53,6 +53,12 @@ export default function Dashboard() {
         : "grid-cols-12 grid-flow-col",
     ),
     gridItem: isSingleColLayout ? "" : "col-span-6",
+    // balanceSection: function () {
+    //   return cn(
+    //     this.gridItem,
+    //     "flex flex-col gap-x-5 gap-y-12"
+    //   )
+    // },
     transactionSection: cn(
       isSingleColLayout ? "" : "col-span-6 row-span-2",
       "h-full flex flex-col"
@@ -62,14 +68,25 @@ export default function Dashboard() {
   return (
     <>
       <div className={classes.grid}>
-        <Section title="Balance" className={classes.gridItem}>
-          <ContentWidget iconName="scale" title="current" className="mt-3">
+        <Section
+          title="Balance"
+          className={classes.gridItem}
+          contentClassName="flex flex-col gap-6"
+        >
+          <ContentWidget
+            iconName="scale"
+            title="current"
+            content={{ hasBackground: false, className: "mt-2" }}
+          >
             <Amount
               amount={balance}
               currency={user.defaultCurrency}
               colorContext="light"
-              className="mt-3 text-2xl font-bold"
+              className="text-2xl font-bold"
             />
+          </ContentWidget>
+
+          <ContentWidget iconName="calendar-months" title="last 30 days" >
             <BalanceLineChart data={balanceChartData} />
           </ContentWidget>
         </Section>
@@ -91,7 +108,7 @@ export default function Dashboard() {
           transactions={todayTransactionsByWallet}
           openModal={() => setTransactionModalOpen(true)}
         />
-      </div>
+      </div >
 
       {(isTransactionModalOpen || hasTransitioned) &&
         <TransactionProvider>

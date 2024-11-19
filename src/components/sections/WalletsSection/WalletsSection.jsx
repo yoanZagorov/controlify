@@ -1,9 +1,15 @@
-import { Section } from "../Section";
+import cn from "classnames";
+
+import { useBreakpoint } from "@/hooks";
+
 import { Widget } from "@/components/widgets/Widget";
+import { Section } from "../Section";
 import { PlusCircleIcon } from "./components/PlusCircleIcon";
 import { WalletWidget } from "./components/WalletWidget";
 
 export default function WalletsSection({ section, wallets }) {
+  const { isMobileS } = useBreakpoint();
+
   const walletWidgets = wallets.map(wallet => (
     <WalletWidget
       key={wallet.id}
@@ -12,9 +18,14 @@ export default function WalletsSection({ section, wallets }) {
     />
   ))
 
+  const gridClasses = cn(
+    "grid w-full gap-5",
+    !isMobileS && "grid-cols-2"
+  )
+
   return (
     <Section title={section.title} className={section.className || ""}>
-      <div className="mt-3 grid grid-cols-2 w-full gap-5">
+      <div className={gridClasses}>
         {walletWidgets}
 
         <Widget className="h-full flex flex-col justify-center items-center gap-1.5">

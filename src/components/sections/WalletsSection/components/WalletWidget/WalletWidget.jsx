@@ -1,15 +1,15 @@
-import { Amount } from "@/components/Amount";
-import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { formatEntityName } from "@/utils/formatting";
 
-export default function WalletWidget({ wallet, className }) {
-  const widgetClasses = className ? className : "";
+import { Amount } from "@/components/Amount";
+import { ContentWidget } from "@/components/widgets/ContentWidget";
 
+export default function WalletWidget({ wallet, className }) {
   return (
     <ContentWidget
       iconName={wallet.iconName}
       title={formatEntityName(wallet.name)}
-      className={widgetClasses}
+      className={className ? className : ""}
+      content={{ hasBackground: false }}
     >
       <Amount
         amount={wallet.balance}
@@ -18,5 +18,6 @@ export default function WalletWidget({ wallet, className }) {
         className="text-lg font-bold"
       />
     </ContentWidget>
+
   )
 }
