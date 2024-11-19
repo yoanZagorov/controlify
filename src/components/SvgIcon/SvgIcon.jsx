@@ -13,6 +13,7 @@ import ScaleIcon from "@/assets/icons/scale.svg?react";
 import CalendarIcon from "@/assets/icons/calendar.svg?react";
 
 // Wallets
+import CalendarMonthsIcon from "@/assets/icons/calendar-days.svg?react";
 import HistoryIcon from "@/assets/icons/clock-rotate-left-solid.svg?react";
 
 // Categories
@@ -60,7 +61,8 @@ const iconComponentsMap = {
   "logout": LogOutIcon,
   "plane": PlaneIcon,
   "mortgage": MortgageIcon,
-  "history": HistoryIcon
+  "history": HistoryIcon,
+  "calendar-months": CalendarMonthsIcon
 }
 
 export default function SvgIcon({ iconName, ...props }) {

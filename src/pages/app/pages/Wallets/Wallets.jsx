@@ -5,10 +5,13 @@ import { WalletsSection } from "@/components/sections/WalletsSection";
 import { useLoaderData, useRouteLoaderData } from "react-router-dom";
 import { Section } from "@/components/sections/Section";
 import { CompactTransactionsSection } from "@/components/sections/CompactTransactionsSection";
+import { ExpensesByWalletPieChart } from "@/components/charts/ExpensesByWalletPieChart";
+import { Widget } from "@/components/widgets/Widget";
+import { ContentWidget } from "@/components/widgets/ContentWidget";
 
 export default function Wallets() {
   // const { userData: { wallets } } = useRouteLoaderData("app");
-  const { transactions, wallets } = useLoaderData();
+  const { transactions, wallets, expensesByWalletChartData } = useLoaderData();
 
   const { isMobile } = useBreakpoint(); // To do: use this value to render and ExpandedTransactionsSection on ml/tab
 
@@ -22,6 +25,13 @@ export default function Wallets() {
       />
 
       <Section title="Spending" className="">
+        <ContentWidget iconName="calendar-months" title="Last 30 Days" className="mt-4">
+          <div className="mt-4 rounded-lg bg-gray-light p-4">
+            <div className="mx-auto w-80 h-72">
+              <ExpensesByWalletPieChart data={expensesByWalletChartData} />
+            </div>
+          </div>
+        </ContentWidget>
       </Section>
 
       <CompactTransactionsSection

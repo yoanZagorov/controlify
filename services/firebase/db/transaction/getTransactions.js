@@ -13,7 +13,7 @@ export default async function getTransactions(userId, wallets, query = []) {
 
       if (querySnapshot.empty) {
         return {
-          walletId: wallet.id,
+          ...wallet,
           transactions: []
         }
       }
@@ -26,10 +26,11 @@ export default async function getTransactions(userId, wallets, query = []) {
       });
 
       return {
-        walletId: wallet.id,
+        ...wallet,
         transactions
       }
     } catch (error) {
+      console.error(error);
       throw new Error("Error fetching transactions", { cause: error });
     }
   })

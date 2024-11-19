@@ -1,5 +1,6 @@
 import { Amount } from "@/components/Amount";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
+import { formatEntityName } from "@/utils/formatting";
 
 export default function WalletWidget({ wallet, className }) {
   const widgetClasses = className ? className : "";
@@ -7,7 +8,7 @@ export default function WalletWidget({ wallet, className }) {
   return (
     <ContentWidget
       iconName={wallet.iconName}
-      title={wallet.name}
+      title={formatEntityName(wallet.name)}
       className={widgetClasses}
     >
       <Amount

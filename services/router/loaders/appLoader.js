@@ -33,8 +33,8 @@ export default async function appLoader({ request }) {
 
   const { start, end } = getTodayStartAndEnd();
   const transactionsQuery = [
-    where("createdAt", ">=", start),
-    where("createdAt", "<=", end),
+    where("date", ">=", start),
+    where("date", "<=", end),
     orderBy("createdAt", "desc")
   ];
 

@@ -4,6 +4,7 @@ import { createErrorResponse, createSuccessResponse } from "../responses";
 import { getTransactions } from "services/firebase/db/transaction";
 import { getWallets } from "services/firebase/db/wallet";
 import { orderBy, where } from "firebase/firestore";
+import { getExpensesByWalletChartData } from "@/utils/wallet";
 
 export default async function walletsLoader() {
   const userId = await getAuthUserId();
@@ -21,12 +22,16 @@ export default async function walletsLoader() {
     orderBy("createdAt", "desc")
   ];
 
+  const transactionsQuery = [
+    orderBy("createdAt", "desc")
+  ];
+
   try {
     const allWallets = await getWallets(userId, walletsQuery);
-    const allTransactions = await getTransactions(userId, allWallets); // To do: limit the data and implement pagination
-    // const expensesByWalletChartData = await getExpensesByWalletChartData
+    const allTransactions = await getTransactions(userId, allWallets, transactionsQuery); // To do: limit the data and implement pagination
+    const expensesByWalletChartData = await getExpensesByWalletChartData(userId, allWallets);
 
-    const loaderData = { wallets: allWallets, transactions: allTransactions };
+    const loaderData = { wallets: allWallets, transactions: allTransactions, expensesByWalletChartData };
 
     return createSuccessResponse(loaderData);
   } catch (error) {
