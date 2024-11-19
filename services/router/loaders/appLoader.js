@@ -10,7 +10,7 @@ import { createSuccessResponse, createErrorResponse } from "../responses";
 import { getStoredData, storeRedirectData } from "@/utils/storage";
 import { getRandomItem } from "@/utils/array";
 import { quotes } from "@/pages/auth/data";
-import { getBalanceChartData } from "@/utils/transaction";
+import { getBalanceLineChartData } from "@/utils/transaction";
 import { orderBy, where } from "firebase/firestore";
 import { AppError } from "@/utils/errors";
 import { getTodayStartAndEnd } from "@/utils/date";
@@ -44,7 +44,7 @@ export default async function appLoader({ request }) {
     const categories = await getCategories(userId);
     const balance = await getCurrentBalance("_", wallets);
     const todayTransactionsByWallet = await getTransactions(userId, wallets, transactionsQuery);
-    const balanceChartData = await getBalanceChartData(userId);
+    const balanceChartData = await getBalanceLineChartData(userId);
 
     const storedRedirectData = getStoredData("redirectData");
 

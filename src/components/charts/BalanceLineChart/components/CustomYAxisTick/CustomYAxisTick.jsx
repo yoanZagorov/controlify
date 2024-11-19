@@ -1,26 +1,25 @@
 import cn from "classnames";
 
-export default function CustomizedYAxisTick({ x, y, payload }) {
+export default function CustomYAxisTick({ x, y, payload, currency }) {
   const isPositive = payload.value >= 0;
   const absAmount = Math.abs(payload.value);
   const sign = isPositive ? "" : "-";
 
   const textClasses = cn(
-    "font-bold",
+    "text-xs font-bold",
     isPositive ? "fill-green-dark" : "fill-red-dark"
   )
 
   return (
-    <g >
+    <g>
       <text
-        x={x}
+        x={x - 5}
         y={y}
-        dx={-5}
         textAnchor="end"
         dominantBaseline="middle"
         className={textClasses}
       >
-        {sign}BGN {absAmount}
+        {sign}{currency} {absAmount}
       </text>
     </g>
   )

@@ -5,7 +5,7 @@ import { getTransactions } from "services/firebase/db/transaction";
 import { getWallets } from "services/firebase/db/wallet";
 import { performDecimalCalculation } from "../number";
 
-export default async function getBalanceChartData(userId) {
+export default async function getBalanceLineChartData(userId) {
   const allWallets = await getWallets(userId);
 
   const initialBalance = await getBalanceThirtyDaysAgo(userId, allWallets);

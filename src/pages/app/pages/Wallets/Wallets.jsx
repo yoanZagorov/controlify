@@ -1,12 +1,12 @@
 import cn from "classnames";
-
-import { useBreakpoint, useMountTransition } from "@/hooks";
-import { WalletsSection } from "@/components/sections/WalletsSection";
 import { useLoaderData, useRouteLoaderData } from "react-router-dom";
+
+import { useBreakpoint } from "@/hooks";
+
+import { WalletsSection } from "@/components/sections/WalletsSection";
 import { Section } from "@/components/sections/Section";
 import { CompactTransactionsSection } from "@/components/sections/CompactTransactionsSection";
 import { ExpensesByWalletPieChart } from "@/components/charts/ExpensesByWalletPieChart";
-import { Widget } from "@/components/widgets/Widget";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 
 export default function Wallets() {

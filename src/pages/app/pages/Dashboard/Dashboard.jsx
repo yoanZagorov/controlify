@@ -87,7 +87,9 @@ export default function Dashboard() {
           </ContentWidget>
 
           <ContentWidget iconName="calendar-months" title="last 30 days" >
-            <BalanceLineChart data={balanceChartData} />
+            <div className="h-48 ml:h-56">
+              <BalanceLineChart data={balanceChartData} currency={user.defaultCurrency} />
+            </div>
           </ContentWidget>
         </Section>
 
