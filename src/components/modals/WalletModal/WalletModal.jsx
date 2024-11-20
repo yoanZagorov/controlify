@@ -32,8 +32,8 @@ export default function WalletModal({ closeModal, state }) {
       >
         <SvgIcon iconName={wallet.iconName} className="size-7 fill-gray-dark" />
 
-        <div className="flex flex-col">
-          <span className="text-left  text-gray-dark font-semibold">{formatEntityName(wallet.name)}</span>
+        <div className="flex flex-col text-left">
+          <span className="text-gray-dark font-semibold">{formatEntityName(wallet.name)}</span>
           <Amount
             amount={wallet.balance}
             currency={wallet.currency}

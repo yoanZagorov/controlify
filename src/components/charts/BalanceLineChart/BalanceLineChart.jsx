@@ -4,8 +4,6 @@ import { CustomYAxisTick } from "./components/CustomYAxisTick";
 import { CustomTooltip } from "./components/CustomTooltip";
 
 export default function BalanceLineChart({ data, currency }) {
-  console.log(data);
-
   return (
     <ResponsiveContainer className="w-full h-full">
       <LineChart data={data} >

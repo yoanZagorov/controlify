@@ -1,7 +1,7 @@
 import { AppError } from "@/utils/errors";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc } from "firebase/firestore";
 
-export default async function createCategories(userDocRef) {
+export default function createCategories(userDocRef, batch) {
   // To do: pull the data from a root defaultCategories collection
 
   const defaultCategories = [
@@ -28,19 +28,8 @@ export default async function createCategories(userDocRef) {
 
   const categoriesCollectionRef = collection(userDocRef, "categories");
 
-  try {
-    const promises = defaultCategories.map(async (category) => {
-      const { name, iconName, type, color } = category;
-      return addDoc(categoriesCollectionRef, {
-        name,
-        iconName,
-        type,
-        color
-      })
-    })
-
-    await Promise.all(promises);
-  } catch (error) {
-    throw new AppError("Unable to create your default categories. Please try again", { cause: error });
-  }
+  defaultCategories.forEach(category => {
+    const categoryDocRef = doc(categoriesCollectionRef);
+    batch.set(categoryDocRef, { ...category })
+  })
 }

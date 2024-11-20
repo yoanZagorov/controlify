@@ -4,7 +4,7 @@ import { useFetcher, useRouteLoaderData } from "react-router-dom";
 
 import { TransactionProvider } from "@/contexts";
 
-import { useBreakpoint, useLayout, useMountTransition, useScrollLock } from "@/hooks";
+import { useBreakpoint, useLayout, useModal, useMountTransition, useScrollLock, useScrollToTop } from "@/hooks";
 import { resetFetcher } from "services/router/utils";
 
 import { Amount } from "@/components/Amount";
@@ -17,6 +17,8 @@ import { CompactTransactionsSection } from "@/components/sections/CompactTransac
 import { WalletsSection } from "@/components/sections/WalletsSection";
 
 export default function Dashboard() {
+  useScrollToTop();
+
   const { isSidebarExpanded } = useLayout();
   const { isMobile, isTablet } = useBreakpoint();
   const isSingleColLayout = isMobile || (isTablet && isSidebarExpanded);
@@ -26,39 +28,23 @@ export default function Dashboard() {
       user,
       wallets,
       balance,
-      todayTransactionsByWallet,
+      todayTransactions,
       balanceChartData
     }
   } = useRouteLoaderData("app");
 
-  const [isTransactionModalOpen, setTransactionModalOpen] = useState(false);
-  const hasTransitioned = useMountTransition(isTransactionModalOpen, 300);
-  useScrollLock(isTransactionModalOpen);
-
   const fetcher = useFetcher({ key: "add-transaction" });
 
-  useEffect(() => {
-    if (fetcher.state === "idle" && fetcher.data) {
-      setTransactionModalOpen(false);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      resetFetcher(fetcher);
-    }
-  }, [fetcher.data, fetcher.state])
+  const [isTransactionModalOpen, setTransactionModalOpen, hasTransitioned] = useModal(fetcher, 300);
 
   const classes = {
     grid: cn(
-      "grid gap-10 ll:gap-x-16 fhd:gap-x-24",
+      "grid gap-16 ll:gap-x-20 fhd:gap-x-24",
       isSingleColLayout
         ? "grid-cols-1"
-        : "grid-cols-12 grid-flow-col",
+        : "grid-cols-12 grid-flow-col gap-x-12",
     ),
     gridItem: isSingleColLayout ? "" : "col-span-6",
-    // balanceSection: function () {
-    //   return cn(
-    //     this.gridItem,
-    //     "flex flex-col gap-x-5 gap-y-12"
-    //   )
-    // },
     transactionSection: cn(
       isSingleColLayout ? "" : "col-span-6 row-span-2",
       "h-full flex flex-col"
@@ -107,8 +93,9 @@ export default function Dashboard() {
             iconName: "calendar",
             title: "today"
           }}
-          transactions={todayTransactionsByWallet}
+          transactions={todayTransactions}
           openModal={() => setTransactionModalOpen(true)}
+          period="today"
         />
       </div >
 

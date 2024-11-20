@@ -22,13 +22,13 @@ export default async function walletsLoader() {
     orderBy("createdAt", "desc")
   ];
 
-  const transactionsQuery = [
-    orderBy("createdAt", "desc")
-  ];
-
   try {
     const allWallets = await getWallets(userId, walletsQuery);
-    const allTransactions = await getTransactions(userId, allWallets, transactionsQuery); // To do: limit the data and implement pagination
+
+    const allTransactionsByWallet = await getTransactions(userId, allWallets); // To do: limit the data and implement pagination
+    const allTransactions = allTransactionsByWallet.flatMap(wallet => wallet.transactions);
+    allTransactions.sort((a, b) => b.date - a.date);
+
     const expensesByWalletChartData = await getExpensesByWalletChartData(userId, allWallets);
 
     const loaderData = { wallets: allWallets, transactions: allTransactions, expensesByWalletChartData };

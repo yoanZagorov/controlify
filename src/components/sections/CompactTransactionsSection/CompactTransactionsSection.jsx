@@ -2,22 +2,21 @@ import Section from "@/components/sections/Section/Section";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { Transaction } from "./components/Transaction";
 import { Button } from "@/components/Button";
+import { Notification } from "@/components/Notification";
 
-export default function CompactTransactionsSection({ sectionClassName, widget, openModal, transactions }) {
-  const hasTransactions = transactions.find(wallet => wallet.transactions.length > 0);
+export default function CompactTransactionsSection({ sectionClassName, widget, openModal, transactions, period }) {
+  const hasTransactions = transactions.length > 0;
 
   const transactionEls = hasTransactions &&
-    transactions.map(wallet => (
-      wallet.transactions.map(transaction => (
-        <li key={transaction.id}>
-          <Transaction
-            category={transaction.category}
-            wallet={transaction.wallet}
-            amount={transaction.amount}
-            currency={transaction.wallet.currency}
-          />
-        </li>
-      ))
+    transactions.map(transaction => (
+      <li key={transaction.id}>
+        <Transaction
+          category={transaction.category}
+          wallet={transaction.wallet}
+          amount={transaction.amount}
+          currency={transaction.wallet.currency}
+        />
+      </li>
     ));
 
   return (
@@ -34,9 +33,9 @@ export default function CompactTransactionsSection({ sectionClassName, widget, o
               {transactionEls}
             </ul>
           ) : (
-            <p className="self-center w-full max-w-80 text-navy-dark text-center text-balance font-semibold">
-              Oops... It looks like you haven't made any transactions yet today. Add one now!
-            </p>
+            <Notification msgType="notification" className="self-center w-full max-w-80">
+              Oops... It looks like you haven't made any transactions yet{period === "today" && " today"}. Add one now!
+            </Notification>
           )}
 
           <Button onClick={openModal} className="self-center w-full max-w-64 lm:py-3 lm:text-lg focus-visible:ring-4">

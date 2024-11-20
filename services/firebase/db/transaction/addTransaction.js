@@ -8,7 +8,10 @@ export default function addTransaction(dbTransaction, userId, amount, wallet, ca
   const newTransaction = {
     amount,
     category,
-    wallet,
+    wallet: {
+      name: wallet.name,
+      iconName: wallet.iconName
+    },
     date,
     createdAt: serverTimestamp()
   }

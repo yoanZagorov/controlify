@@ -19,7 +19,7 @@ export default async function getExpensesByWalletChartData(userId, allWallets) {
     const totalExpenses = expenseTransactions.reduce((acc, transaction) =>
       performDecimalCalculation(acc, transaction.amount, "+"), 0);
 
-    return { wallet, name: wallet.name, expenses: totalExpenses, fill: wallet.color };
+    return { name: wallet.name, expenses: totalExpenses, wallet: { id: wallet.id, iconName: wallet.iconName }, fill: wallet.color };
   })
 
   return expensesByWallet;

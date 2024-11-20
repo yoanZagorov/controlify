@@ -35,15 +35,21 @@ export default async function appLoader({ request }) {
   const transactionsQuery = [
     where("date", ">=", start),
     where("date", "<=", end),
-    orderBy("createdAt", "desc")
   ];
 
   try {
     const user = await getUser(userId);
+
     const wallets = await getWallets(userId, walletsQuery);
+
     const categories = await getCategories(userId);
+
     const balance = await getCurrentBalance("_", wallets);
+
     const todayTransactionsByWallet = await getTransactions(userId, wallets, transactionsQuery);
+    const todayTransactions = todayTransactionsByWallet.flatMap(wallet => wallet.transactions);
+    todayTransactions.sort((a, b) => b.date - a.date);
+
     const balanceChartData = await getBalanceLineChartData(userId);
 
     const storedRedirectData = getStoredData("redirectData");
@@ -54,7 +60,7 @@ export default async function appLoader({ request }) {
         wallets,
         categories,
         balance,
-        todayTransactionsByWallet,
+        todayTransactions,
         balanceChartData
       },
       notificationData: {

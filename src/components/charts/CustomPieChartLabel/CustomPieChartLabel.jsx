@@ -21,10 +21,10 @@ export default function CustomPieChartLabel({ cx, cy, midAngle, outerRadius, nam
   }, [showChartLabel])
 
   const radiusTextLabel = outerRadius + textLabelMargin;
-  const xTextLabel = cx + (radiusTextLabel * Math.cos(-midAngle * RADIAN));
-  const yTextLabel = cy + (radiusTextLabel * Math.sin(-midAngle * RADIAN));
+  const xRect = cx + (radiusTextLabel * Math.cos(-midAngle * RADIAN));
+  const yRect = (cy + (radiusTextLabel * Math.sin(-midAngle * RADIAN))) - (0.5 * rectHeight);
 
-  const isLeftSide = midAngle > 90 && midAngle < 180;
+  const isLeftSide = midAngle > 90 && midAngle < 270;
 
   // Percentage label 
   const radiusPercentageLabel = outerRadius * 0.5; // Right between the center and the edge
@@ -36,8 +36,8 @@ export default function CustomPieChartLabel({ cx, cy, midAngle, outerRadius, nam
       {showChartLabel &&
         <>
           <rect
-            x={isLeftSide ? xTextLabel - rectWidth : xTextLabel}
-            y={isLeftSide ? yTextLabel - rectHeight : yTextLabel}
+            x={isLeftSide ? xRect - rectWidth : xRect}
+            y={yRect}
             width={rectWidth}
             height={rectHeight}
             rx={5}
@@ -46,11 +46,11 @@ export default function CustomPieChartLabel({ cx, cy, midAngle, outerRadius, nam
           </rect>
           <text
             ref={textRef}
-            x={isLeftSide ? xTextLabel - rectWidth / 2 : xTextLabel + rectWidth / 2}
-            y={isLeftSide ? yTextLabel - rectHeight / 2 : yTextLabel + rectHeight / 2}
+            x={isLeftSide ? xRect - rectWidth / 2 : xRect + rectWidth / 2}
+            y={yRect + (0.5 * rectHeight)}
             textAnchor="middle"
             dominantBaseline="central"
-            className="fill-gray-light font-semibold text-shadow"
+            className="text-sm fill-gray-light font-semibold text-shadow"
           >
             {formatEntityName(name)}
           </text>
@@ -59,7 +59,7 @@ export default function CustomPieChartLabel({ cx, cy, midAngle, outerRadius, nam
       <text
         x={xPercentageLabel}
         y={yPercentageLabel}
-        className="text-xs fill-black font-bold"
+        className="text-xs fill-gray-light font-bold"
         textAnchor="middle"
         dominantBaseline="central"
       >

@@ -11,3 +11,5 @@ export { default as useCurrentBreakpointValue } from "./useCurrentBreakpointValu
 export { default as useFlashMsg } from "./useFlashMsg";
 export { default as useFetcherReset } from "./useFetcherReset";
 export { default as useKeyboardFocus } from "./useKeyboardFocus";
+export { default as useModal } from "./useModal";
+export { default as useScrollToTop } from "./useScrollToTop";

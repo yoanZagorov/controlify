@@ -15,7 +15,7 @@ export default async function getTransactions(userId, wallets, query = []) {
         return {
           ...wallet,
           transactions: []
-        }
+        };
       }
 
       const transactions = querySnapshot.docs.map(doc => {
@@ -28,7 +28,7 @@ export default async function getTransactions(userId, wallets, query = []) {
       return {
         ...wallet,
         transactions
-      }
+      };
     } catch (error) {
       console.error(error);
       throw new Error("Error fetching transactions", { cause: error });
@@ -36,9 +36,8 @@ export default async function getTransactions(userId, wallets, query = []) {
   })
 
   try {
-    const allTransactions = await Promise.all(promises);
-
-    return allTransactions;
+    const allTransactionsByWallet = await Promise.all(promises);
+    return allTransactionsByWallet;
   } catch (error) {
     throw new Error(error.message, { cause: error });
   }
