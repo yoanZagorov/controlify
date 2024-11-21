@@ -13,15 +13,11 @@ import { TransactionModal } from "@/components/modals/TransactionModal";
 
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { BalanceLineChart } from "@/components/charts/BalanceLineChart";
-import { CompactTransactionsSection } from "@/components/sections/CompactTransactionsSection";
+import { TransactionsSection } from "@/components/sections/TransactionsSection";
 import { WalletsSection } from "@/components/sections/WalletsSection";
 
 export default function Dashboard() {
   useScrollToTop();
-
-  const { isSidebarExpanded } = useLayout();
-  const { isMobile, isTablet } = useBreakpoint();
-  const isSingleColLayout = isMobile || (isTablet && isSidebarExpanded);
 
   const {
     userData: {
@@ -36,6 +32,10 @@ export default function Dashboard() {
   const fetcher = useFetcher({ key: "add-transaction" });
 
   const [isTransactionModalOpen, setTransactionModalOpen, hasTransitioned] = useModal(fetcher, 300);
+
+  const { isSidebarExpanded } = useLayout();
+  const { isMobile, isTablet, isLaptopS } = useBreakpoint();
+  const isSingleColLayout = isMobile || isTablet || (isLaptopS && isSidebarExpanded);
 
   const classes = {
     grid: cn(
@@ -72,10 +72,8 @@ export default function Dashboard() {
             />
           </ContentWidget>
 
-          <ContentWidget iconName="calendar-months" title="last 30 days" >
-            <div className="h-48 ml:h-56">
-              <BalanceLineChart data={balanceChartData} currency={user.defaultCurrency} />
-            </div>
+          <ContentWidget iconName="calendar-months" title="last 30 days" content={{ className: "h-48 ml:h-56" }} >
+            <BalanceLineChart data={balanceChartData} currency={user.defaultCurrency} />
           </ContentWidget>
         </Section>
 
@@ -87,8 +85,13 @@ export default function Dashboard() {
           wallets={wallets}
         />
 
-        <CompactTransactionsSection
-          sectionClassName={classes.transactionSection}
+        <TransactionsSection
+          hasFilter={false}
+          section={{
+            title: "Transactions",
+            className: classes.transactionSection,
+            contentClassName: "flex-1"
+          }}
           widget={{
             iconName: "calendar",
             title: "today"
@@ -96,6 +99,7 @@ export default function Dashboard() {
           transactions={todayTransactions}
           openModal={() => setTransactionModalOpen(true)}
           period="today"
+          showDate={false}
         />
       </div >
 

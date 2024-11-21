@@ -7,6 +7,7 @@ import { appAction, createAccountAction, dashboardAction, loginAction, resetFetc
 import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader } from "./loaders";
 import { AppErrorComponent, RootError } from "@/components/errors";
 import { LayoutProvider } from "@/contexts";
+import { NotFound } from "@/components/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -69,7 +70,10 @@ const router = createBrowserRouter([
   {
     path: "/data/reset-fetcher",
     action: resetFetcherAction,
-    // element: To do: navigate to the Not Found page 
+  },
+  {
+    path: "*",
+    element: <NotFound />
   }
 ])
 

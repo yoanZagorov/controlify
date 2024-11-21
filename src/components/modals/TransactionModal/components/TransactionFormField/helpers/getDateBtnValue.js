@@ -1,4 +1,4 @@
-import { compareDatesByDay, formatDateForCalendar, getSpecificDay } from "@/utils/date";
+import { compareDatesByDay, formatDateLong, getSpecificDay } from "@/utils/date";
 
 export default function getDateBtnValue(date) {
   const today = getSpecificDay("today");
@@ -12,6 +12,6 @@ export default function getDateBtnValue(date) {
   } else if (compareDatesByDay(date, tomorrow)) {
     return "Tomorrow";
   } else {
-    return formatDateForCalendar(date);
+    return formatDateLong(date);
   }
 }

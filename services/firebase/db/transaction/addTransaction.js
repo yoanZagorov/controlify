@@ -10,7 +10,9 @@ export default function addTransaction(dbTransaction, userId, amount, wallet, ca
     category,
     wallet: {
       name: wallet.name,
-      iconName: wallet.iconName
+      iconName: wallet.iconName,
+      color: wallet.color,
+      currency: wallet.currency
     },
     date,
     createdAt: serverTimestamp()

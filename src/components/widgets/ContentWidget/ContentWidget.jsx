@@ -13,7 +13,7 @@ export default function ContentWidget({ iconName, title, className = "", content
       className
     ),
     content: cn(
-      contentProps.hasBackground && "mt-3 p-3 rounded-lg bg-gray-light",
+      contentProps.hasBackground && "mt-4 p-3 rounded-lg bg-gray-light",
       contentProps.className
     )
   }

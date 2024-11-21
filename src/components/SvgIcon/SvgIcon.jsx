@@ -15,6 +15,9 @@ import CalendarIcon from "@/assets/icons/calendar.svg?react";
 // Wallets
 import CalendarMonthsIcon from "@/assets/icons/calendar-days.svg?react";
 import HistoryIcon from "@/assets/icons/clock-rotate-left-solid.svg?react";
+import StackedCoinsIcon from "@/assets/icons/stacked-coins.svg?react";
+import FilterIcon from "@/assets/icons/filter.svg?react";
+import ArrowsRotateIcon from "@/assets/icons/arrows-rotate.svg?react";
 
 // Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
@@ -62,7 +65,10 @@ const iconComponentsMap = {
   "plane": PlaneIcon,
   "mortgage": MortgageIcon,
   "history": HistoryIcon,
-  "calendar-months": CalendarMonthsIcon
+  "calendar-months": CalendarMonthsIcon,
+  "stacked-coins": StackedCoinsIcon,
+  "filter": FilterIcon,
+  "arrows-rotate": ArrowsRotateIcon,
 }
 
 export default function SvgIcon({ iconName, ...props }) {

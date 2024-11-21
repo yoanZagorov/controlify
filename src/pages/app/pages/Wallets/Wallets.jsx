@@ -5,7 +5,7 @@ import { useBreakpoint, useLayout, useModal, useScrollToTop } from "@/hooks";
 
 import { WalletsSection } from "@/components/sections/WalletsSection";
 import { Section } from "@/components/sections/Section";
-import { CompactTransactionsSection } from "@/components/sections/CompactTransactionsSection";
+import { TransactionsSection } from "@/components/sections/TransactionsSection";
 import { ExpensesByWalletPieChart } from "@/components/charts/ExpensesByWalletPieChart";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { Notification } from "@/components/Notification";
@@ -22,12 +22,20 @@ export default function Wallets() {
   const hasExpenses = expensesByWalletChartData.find(entry => entry.expenses !== 0);
 
   const { isSidebarExpanded } = useLayout();
-  const { isMobileS, isMobileM, isMobile, isTablet } = useBreakpoint(); // To do: use this value to render and ExpandedTransactionsSection on ml/tab
-  const isSingleColLayout = isMobile || (isTablet && isSidebarExpanded);
+  const { isMobileS, isMobileM, isMobile, isTablet, isLaptopS, isDesktop } = useBreakpoint(); // To do: use this value to render and ExpandedTransactionsSection on ml/tab
+  const isSingleColLayout = isMobile || isTablet || (isLaptopS && isSidebarExpanded);
 
   const classes = {
     grid: cn(
-      "grid gap-16",
+      "grid gap-16 ll:gap-x-20 fhd:gap-x-24",
+      isSingleColLayout
+        ? "grid-cols-1"
+        : "grid-cols-12 gap-x-12",
+    ),
+    gridItem: isSingleColLayout ? "" : "col-span-6",
+    transactionSection: cn(
+      "overflow-auto",
+      isSingleColLayout ? "" : "col-span-12",
     )
   }
 
@@ -36,12 +44,13 @@ export default function Wallets() {
       <div className={classes.grid}>
         <WalletsSection
           section={{
-            title: "All"
+            title: "All Wallets",
+            className: classes.gridItem
           }}
           wallets={wallets}
         />
 
-        <Section title="Spending">
+        <Section title="Spending" className={classes.gridItem}>
           <ContentWidget iconName="calendar-months" title="last 30 days">
             {hasExpenses ? (
               <div className="mx-auto max-w-80 h-80">
@@ -51,17 +60,23 @@ export default function Wallets() {
                 />
               </div>
             ) : (
-              <Notification className="max-w-80 mx-auto">
+              <Notification className="max-w-64 mx-auto">
                 Not enough data available to create the chart yet. Add a few transactions to get started!
               </Notification>
             )}
           </ContentWidget>
         </Section>
 
-        <CompactTransactionsSection
+        <TransactionsSection
+          transactionType={isDesktop || (isLaptopS && !isSidebarExpanded) ? "expanded" : "compact"}
+          section={{
+            title: "All Transactions",
+            className: classes.transactionSection,
+            contentClassName: "flex-1"
+          }}
           widget={{
-            iconName: "history",
-            title: "All"
+            iconName: "arrows-rotate",
+            title: "activity overview"
           }}
           openModal={() => setTransactionModalOpen(true)}
           transactions={transactions}

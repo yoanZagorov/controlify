@@ -14,7 +14,7 @@ export default function BreakpointProvider({ children }) {
     currentBreakpoint === "mobileM" ||
     currentBreakpoint === "mobileL";
 
-  const isTablet = currentBreakpoint === "tablet";
+  const isTablet = currentBreakpoint === "tablet"
 
   const isLaptopS = currentBreakpoint === "laptopS";
   const isLaptopM = currentBreakpoint === "laptopM";
@@ -23,7 +23,6 @@ export default function BreakpointProvider({ children }) {
   const is4K = currentBreakpoint === "4K";
 
   const isDesktop =
-    currentBreakpoint === "laptopS" ||
     currentBreakpoint === "laptopM" ||
     currentBreakpoint === "laptopL" ||
     currentBreakpoint === "fullHD" ||

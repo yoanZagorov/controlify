@@ -20,9 +20,10 @@ export default function Notification({ msgType = "notification", size = "m", cle
         : msgType === "success" ? "text-green-dark"
           : "text-navy",
     size:
-      size === "s" ? "font-sm"
-        : size === "m" ? "font-base"
-          : "font-lg",
+      size === "s" ? "text-sm"
+        : size === "m" ? "text-base"
+          : size === "l" ? "text-lg"
+            : "text-xl",
     notification: function () {
       return cn(
         "text-center text-balanced font-semibold",

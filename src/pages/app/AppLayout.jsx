@@ -10,7 +10,7 @@ import { InfoWidget } from "@/components/widgets/InfoWidget";
 
 export default function AppLayout() {
   const { isSidebarExpanded } = useLayout();
-  const { isMobile, isTablet } = useBreakpoint();
+  const { isMobile, isTablet, isLaptopS, isDesktop } = useBreakpoint();
 
   const fetcher = useFetcher({ key: "add-transaction" });
   const addTransactionMsg = fetcher.data?.msg;
@@ -35,8 +35,14 @@ export default function AppLayout() {
 
   const classes = {
     page: cn(
-      "min-h-screen pt-24 px-4 pb-8 tab:pt-10 ll:pt-12 ll:px-10",
+      "min-h-screen pt-24 px-4 pb-8 tab:pt-10 ll:pt-12 ls:px-8 ll:px-10",
       isSidebarExpanded ? "tab:ml-80 ll:ml-96" : "tab:ml-20"
+    ),
+    content: cn(
+      "w-full mx-auto",
+      isDesktop || (isLaptopS && !isSidebarExpanded)
+        ? "max-w-6xl"
+        : "max-w-lg"
     )
   }
 
@@ -48,7 +54,7 @@ export default function AppLayout() {
             <TopBar />
             <Sidebar />
           </>
-        ) : isTablet ? (
+        ) : (isTablet || isLaptopS) ? (
           <>
             <CollapsedSidebar />
             <Sidebar />
@@ -59,7 +65,7 @@ export default function AppLayout() {
       </header>
 
       <main className={classes.page}>
-        <div className="w-full max-w-6xl mx-auto">
+        <div className={classes.content}>
           <InfoWidget
             flashMsg={flashMsg}
             clearFlashMsg={clearFlashMsg}

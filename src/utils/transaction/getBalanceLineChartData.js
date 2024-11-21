@@ -19,7 +19,7 @@ export default async function getBalanceLineChartData(userId) {
   const lastThirtyDaysTransactions = lastThirtyDaysTransactionsByWallet.flatMap(wallet => wallet.transactions);
 
   const transactionsByDayMap = lastThirtyDaysTransactions.reduce((acc, transaction) => {
-    const dateKey = transaction.date.toDate().toDateString();
+    const dateKey = transaction.date.toDateString();
 
     if (!acc[dateKey]) acc[dateKey] = [];
     acc[dateKey].push(transaction);

@@ -1,10 +1,10 @@
 import cn from "classnames";
 
-import { formatDateForCalendar } from "@/utils/date";
+import { formatDateLong } from "@/utils/date";
 import { SvgIcon } from "@/components/SvgIcon";
 
 export default function SelectedDay({ date, iconName, className }) {
-  const formattedDate = formatDateForCalendar(date);
+  const formattedDate = formatDateLong(date);
 
   const componentClasses = cn(
     "flex items-end gap-4 p-3 rounded-lg bg-gray-light",
