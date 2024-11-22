@@ -6,7 +6,7 @@ import { CustomTooltip } from "./components/CustomTooltip";
 export default function BalanceLineChart({ data, currency }) {
   return (
     <ResponsiveContainer className="w-full h-full">
-      <LineChart data={data} >
+      <LineChart data={data} margin={{ left: 15 }}>
         <CartesianGrid className="stroke-gray-medium" strokeDasharray="3 3" />
         <XAxis dataKey="presentationKey" tick={<CustomXAxisTick />} />
         <YAxis tick={<CustomYAxisTick currency={currency} />} />

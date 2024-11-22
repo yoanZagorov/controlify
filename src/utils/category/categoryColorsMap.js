@@ -38,8 +38,27 @@ const categoryColorsMap = {
     "#4169E1": "text-[#4169E1]",
     "#D4AF37": "text-[#D4AF37]",
     "#FFD700": "text-[#FFD700]",
+  },
+  fill: {
+    "#4CAF50": "fill-[#4CAF50]",
+    "#FF5722": "fill-[#FF5722]",
+    "#795548": "fill-[#795548]",
+    "#3F51B5": "fill-[#3F51B5]",
+    "#009688": "fill-[#009688]",
+    "#FFC107": "fill-[#FFC107]",
+    "#FF9800": "fill-[#FF9800]",
+    "#8BC34A": "fill-[#8BC34A]",
+    "#F44336": "fill-[#F44336]",
+    "#9E9E9E": "fill-[#9E9E9E]",
+    "#2196F3": "fill-[#2196F3]",
+    "#CDDC39": "fill-[#CDDC39]",
+    "#9C27B0": "fill-[#9C27B0]",
+    "#8BC34A": "fill-[#8BC34A]",
+    "#607D8B": "fill-[#607D8B]",
+    "#4169E1": "fill-[#4169E1]",
+    "#D4AF37": "fill-[#D4AF37]",
+    "#FFD700": "fill-[#FFD700]",
   }
-
 }
 
 export default categoryColorsMap;

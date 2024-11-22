@@ -1,4 +1,4 @@
-export default function CustomPieChartLabelLine({ cx, cy, midAngle, percent, outerRadius, stroke }) {
+export default function CustomLabelLine({ cx, cy, midAngle, percent, outerRadius, stroke }) {
   if (percent === 0) return null;
 
   const lineLength = 25;

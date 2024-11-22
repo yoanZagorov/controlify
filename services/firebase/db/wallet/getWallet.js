@@ -9,7 +9,7 @@ export default async function getWallet(userId, walletId) {
     const docSnap = await getDoc(walletDocRef);
 
     if (!docSnap.exists()) {
-      throw new AppError(`A wallet with the id ${walletId} doesn't seem to exist`);
+      throw new AppError(404, `A wallet with the id ${walletId} doesn't seem to exist`);
     }
 
     return ({
@@ -17,6 +17,10 @@ export default async function getWallet(userId, walletId) {
       id: docSnap.id
     });
   } catch (error) {
-    throw new AppError(error.message, { cause: error })
+    if (error instanceof AppError) {
+      throw new AppError(error.statusCode, error.message, { cause: error })
+    } else {
+      throw new Error(error.message, { cause: error });
+    }
   }
 }

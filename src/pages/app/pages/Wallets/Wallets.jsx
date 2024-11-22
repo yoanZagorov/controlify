@@ -6,11 +6,11 @@ import { useBreakpoint, useLayout, useModal, useScrollToTop } from "@/hooks";
 import { WalletsSection } from "@/components/sections/WalletsSection";
 import { Section } from "@/components/sections/Section";
 import { TransactionsSection } from "@/components/sections/TransactionsSection";
-import { ExpensesByWalletPieChart } from "@/components/charts/ExpensesByWalletPieChart";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { Notification } from "@/components/Notification";
 import { TransactionProvider } from "@/contexts";
 import { TransactionModal } from "@/components/modals/TransactionModal";
+import { CustomPieChart } from "@/components/charts/CustomPieChart";
 
 export default function Wallets() {
   useScrollToTop();
@@ -53,10 +53,10 @@ export default function Wallets() {
         <Section title="Spending" className={classes.gridItem}>
           <ContentWidget iconName="calendar-months" title="last 30 days">
             {hasExpenses ? (
-              <div className="mx-auto max-w-80 h-80">
-                <ExpensesByWalletPieChart
+              <div className="mx-auto h-72 mm:h-96">
+                <CustomPieChart
+                  type="expensesByWallet"
                   data={expensesByWalletChartData}
-                  showChartLabel={!(isMobileS || isMobileM)}
                 />
               </div>
             ) : (

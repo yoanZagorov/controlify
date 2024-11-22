@@ -50,7 +50,7 @@ export default function TransactionsSection({ transactionType = "compact", hasFi
           </Notification>
         )}
 
-        <Button onClick={openModal} className={classes.openModalBtn}>
+        <Button onClick={openModal} className={classes.openModalBtn} data-actionable="true">
           Add Transaction
         </Button>
 

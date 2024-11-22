@@ -1,10 +1,10 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate, redirect } from "react-router-dom";
 
 import { Auth } from "@/pages/auth";
-import { AppLayout, Dashboard, Wallets } from "@/pages/app";
+import { AppLayout, Dashboard, Wallets, Wallet, WalletOverview, WalletTransactions, WalletSettings } from "@/pages/app";
 
 import { appAction, createAccountAction, dashboardAction, loginAction, resetFetcherAction } from "./actions";
-import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader } from "./loaders";
+import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader, walletLoader } from "./loaders";
 import { AppErrorComponent, RootError } from "@/components/errors";
 import { LayoutProvider } from "@/contexts";
 import { NotFound } from "@/components/NotFound";
@@ -52,6 +52,31 @@ const router = createBrowserRouter([
         path: "wallets",
         element: <Wallets />,
         loader: walletsLoader
+      },
+      {
+        path: "wallets/:walletId",
+        element: <Wallet />,
+        id: "wallet",
+        loader: walletLoader,
+        children: [
+          {
+            index: true,
+            loader: () => redirect("overview")
+          },
+          {
+            path: "overview",
+            index: true,
+            element: <WalletOverview />
+          },
+          {
+            path: "transactions",
+            element: <WalletTransactions />
+          },
+          {
+            path: "settings",
+            element: <WalletSettings />
+          },
+        ]
       },
       {
         path: "reflect",

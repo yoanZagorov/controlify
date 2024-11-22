@@ -6,16 +6,18 @@ import { Widget } from "@/components/widgets/Widget";
 import { Section } from "../Section";
 import { PlusCircleIcon } from "./components/PlusCircleIcon";
 import { WalletWidget } from "./components/WalletWidget";
+import { Link } from "react-router-dom";
 
 export default function WalletsSection({ section, wallets }) {
   const { isMobileS } = useBreakpoint();
 
   const walletWidgets = wallets.map(wallet => (
-    <WalletWidget
-      key={wallet.id}
-      wallet={wallet}
-      className="h-full"
-    />
+    <Link key={wallet.id} to={wallet.id} data-actionable="true">
+      <WalletWidget
+        wallet={wallet}
+        className="h-full"
+      />
+    </Link>
   ))
 
   const gridClasses = cn(

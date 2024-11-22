@@ -17,11 +17,12 @@ export default function useOutsideClick(isOpen, close, { eventListenerCondition 
 
   function handleMouseOutsideClick(e) {
     if (ref.current && (!ref.current.contains(e.target)) && clickCondition) {
-      if (e.target.tagName === "BUTTON" && isOpen) {
-        e.target.click(); // ensures the click handler is executed
-      }
+      const actionableElement = e.target.closest("[data-actionable='true']");
+      const shouldSidebarStayOpen = e.target.closest("[data-close='false']");
 
-      close();
+      if (actionableElement && isOpen) e.target.click(); // ensures the click handler is executed
+
+      if (!shouldSidebarStayOpen) close();
     }
   }
 

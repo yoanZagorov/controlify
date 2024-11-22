@@ -14,12 +14,22 @@ export default async function getExpensesByWalletChartData(userId, allWallets) {
   const lastThirtyDaysTransactionsByWallet = await getTransactions(userId, allWallets, transactionsQuery);
 
   const expensesByWallet = lastThirtyDaysTransactionsByWallet.map(wallet => {
-    const expenseTransactions = wallet.transactions.filter(transaction => transaction.category.type === "expense");
+    const { id, name, iconName, transactions, color } = wallet;
+
+    const expenseTransactions = transactions.filter(transaction => transaction.category.type === "expense");
 
     const totalExpenses = expenseTransactions.reduce((acc, transaction) =>
       performDecimalCalculation(acc, transaction.amount, "+"), 0);
 
-    return { name: wallet.name, expenses: totalExpenses, wallet: { id: wallet.id, iconName: wallet.iconName }, fill: wallet.color };
+    return {
+      name,
+      amount: totalExpenses,
+      fill: color,
+      wallet: {
+        id,
+        iconName
+      }
+    };
   })
 
   return expensesByWallet;

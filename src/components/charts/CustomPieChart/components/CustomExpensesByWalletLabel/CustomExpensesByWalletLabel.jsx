@@ -1,15 +1,17 @@
+import { useBreakpoint } from "@/hooks";
 import { formatEntityName } from "@/utils/formatting";
 import { useEffect, useRef, useState } from "react";
 
-export default function CustomPieChartLabel({ cx, cy, midAngle, outerRadius, name, percent, fill, showChartLabel }) {
+export default function CustomExpensesByWalletLabel({ cx, cy, midAngle, outerRadius, name, percent, fill, showChartLabel }) {
   if (percent === 0) return null;
 
   const RADIAN = Math.PI / 180;
 
+  const { isMobileS, isMobileM } = useBreakpoint();
   // Text label
   const textLabelMargin = 30;
-  const rectPadding = 20;
-  const rectHeight = 30;
+  const rectPadding = (isMobileS || isMobileM) ? 16 : 20;
+  const rectHeight = (isMobileS || isMobileM) ? 26 : 30;
 
   const textRef = useRef(null);
   const [rectWidth, setRectWidth] = useState(0);
@@ -50,7 +52,7 @@ export default function CustomPieChartLabel({ cx, cy, midAngle, outerRadius, nam
             y={yRect + (0.5 * rectHeight)}
             textAnchor="middle"
             dominantBaseline="central"
-            className="text-sm fill-gray-light font-semibold text-shadow"
+            className="text-xs ml:text-sm fill-gray-light font-semibold text-shadow"
           >
             {formatEntityName(name)}
           </text>

@@ -15,6 +15,7 @@ import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { BalanceLineChart } from "@/components/charts/BalanceLineChart";
 import { TransactionsSection } from "@/components/sections/TransactionsSection";
 import { WalletsSection } from "@/components/sections/WalletsSection";
+import { BalanceSection } from "@/components/sections/BalanceSection";
 
 export default function Dashboard() {
   useScrollToTop();
@@ -54,28 +55,16 @@ export default function Dashboard() {
   return (
     <>
       <div className={classes.grid}>
-        <Section
-          title="Balance"
-          className={classes.gridItem}
-          contentClassName="flex flex-col gap-6"
-        >
-          <ContentWidget
-            iconName="scale"
-            title="current"
-            content={{ hasBackground: false, className: "mt-2" }}
-          >
-            <Amount
-              amount={balance}
-              currency={user.defaultCurrency}
-              colorContext="light"
-              className="text-2xl font-bold"
-            />
-          </ContentWidget>
-
-          <ContentWidget iconName="calendar-months" title="last 30 days" content={{ className: "h-48 ml:h-56" }} >
-            <BalanceLineChart data={balanceChartData} currency={user.defaultCurrency} />
-          </ContentWidget>
-        </Section>
+        <BalanceSection
+          section={{
+            className: classes.gridItem
+          }}
+          balance={{
+            amount: balance,
+            chartData: balanceChartData
+          }}
+          currency={user.defaultCurrency}
+        />
 
         <WalletsSection
           section={{
