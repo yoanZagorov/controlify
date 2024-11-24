@@ -1,6 +1,7 @@
 import { formatEntityName } from "@/utils/formatting";
 import { Link, Outlet, useLoaderData } from "react-router-dom"
 import { NavItem } from "./layout-components/NavItem";
+import BackArrow from "@/assets/icons/arrow-back.png";
 
 export default function Wallet() {
   const { wallet } = useLoaderData();
@@ -16,10 +17,10 @@ export default function Wallet() {
 
   return (
     <>
-      <Link to=".." relative="path" className="text-gray-dark opacity-50 underline font-medium">
-        &larr; Back to all wallets
+      <Link to=".." relative="path">
+        <img src={BackArrow} />
       </Link>
-      <h1 className="mt-2 text-5xl text-navy-dark font-bold">{formattedName} Wallet</h1>
+      <h1 className="mt-5 text-5xl text-navy-dark font-bold">{formattedName} Wallet</h1>
       <nav className="mt-6 w-full">
         <ul className="flex">
           {navElements}

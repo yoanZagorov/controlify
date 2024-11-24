@@ -20,10 +20,10 @@ export default async function walletLoader({ params, request }) {
 
   try {
     const wallet = await getWallet(userId, walletId);
-    const balanceChartData = await getBalanceLineChartData(userId, [wallet]);
+    const { balanceThirtyDaysAgo, balanceChartData } = await getBalanceLineChartData(userId, [wallet]);
     const expensesByCategoryChartData = await getExpensesByCategoryPieChartData(userId, [wallet]);
 
-    return createSuccessResponse({ wallet, balanceChartData, expensesByCategoryChartData });
+    return createSuccessResponse({ wallet, balanceThirtyDaysAgo, balanceChartData, expensesByCategoryChartData });
   } catch (error) {
     console.error(error);
 

@@ -18,6 +18,10 @@ import HistoryIcon from "@/assets/icons/clock-rotate-left-solid.svg?react";
 import StackedCoinsIcon from "@/assets/icons/stacked-coins.svg?react";
 import FilterIcon from "@/assets/icons/filter.svg?react";
 import ArrowsRotateIcon from "@/assets/icons/arrows-rotate.svg?react";
+import ArrowUpIcon from "@/assets/icons/arrow-up.svg?react";
+import ArrowDownIcon from "@/assets/icons/arrow-down.svg?react";
+import AnglesLeftIcon from "@/assets/icons/angles-left.svg?react";
+import AnglesRightIcon from "@/assets/icons/angles-right.svg?react";
 
 // Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
@@ -69,6 +73,10 @@ const iconComponentsMap = {
   "stacked-coins": StackedCoinsIcon,
   "filter": FilterIcon,
   "arrows-rotate": ArrowsRotateIcon,
+  "arrow-up": ArrowUpIcon,
+  "arrow-down": ArrowDownIcon,
+  "angles-left": AnglesLeftIcon,
+  "angles-right": AnglesRightIcon,
 }
 
 export default function SvgIcon({ iconName, ...props }) {

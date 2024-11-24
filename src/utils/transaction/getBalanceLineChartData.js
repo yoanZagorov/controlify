@@ -60,5 +60,5 @@ export default async function getBalanceLineChartData(userId, wallets = []) {
     day.balance = accumulatedBalance;
   })
 
-  return days;
+  return { balanceThirtyDaysAgo: initialBalance, balanceChartData: days };
 }

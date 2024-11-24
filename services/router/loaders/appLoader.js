@@ -50,7 +50,7 @@ export default async function appLoader({ request }) {
     const todayTransactions = todayTransactionsByWallet.flatMap(wallet => wallet.transactions);
     todayTransactions.sort((a, b) => b.date - a.date);
 
-    const balanceChartData = await getBalanceLineChartData(userId);
+    const { balanceChartData } = await getBalanceLineChartData(userId);
 
     const storedRedirectData = getStoredData("redirectData");
 

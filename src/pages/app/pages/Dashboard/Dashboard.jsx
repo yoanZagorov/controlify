@@ -60,7 +60,9 @@ export default function Dashboard() {
             className: classes.gridItem
           }}
           balance={{
-            amount: balance,
+            amount: {
+              current: balance
+            },
             chartData: balanceChartData
           }}
           currency={user.defaultCurrency}
