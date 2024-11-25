@@ -16,7 +16,9 @@ export default async function getExpensesByCategoryPieChartData(userId, wallets)
 
   const expenseTransactions = lastThirtyDaysTransactions.filter(transaction => transaction.category.type === "expense");
 
-  let expensesByCategoryMap = new Map();
+  if (!expenseTransactions.length) return [];
+
+  const expensesByCategoryMap = new Map();
 
   expenseTransactions.forEach(transaction => {
     const { category: { id, name, iconName, color }, amount } = transaction;

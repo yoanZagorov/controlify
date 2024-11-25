@@ -11,6 +11,7 @@ import { Notification } from "@/components/Notification";
 import { TransactionProvider } from "@/contexts";
 import { TransactionModal } from "@/components/modals/TransactionModal";
 import { CustomPieChart } from "@/components/charts/CustomPieChart";
+import { SpendingSection } from "@/components/sections/SpendingSection";
 
 export default function Wallets() {
   useScrollToTop();
@@ -19,7 +20,7 @@ export default function Wallets() {
   const [isTransactionModalOpen, setTransactionModalOpen, hasTransitioned] = useModal(fetcher, 300);
 
   const { transactions, wallets, expensesByWalletChartData } = useLoaderData();
-  const hasExpenses = expensesByWalletChartData.find(entry => entry.expenses !== 0);
+  // const hasExpenses = expensesByWalletChartData.find(entry => entry !== null);
 
   const { isSidebarExpanded } = useLayout();
   const { isMobileS, isMobileM, isMobile, isTablet, isLaptopS, isDesktop } = useBreakpoint(); // To do: use this value to render and ExpandedTransactionsSection on ml/tab
@@ -49,7 +50,7 @@ export default function Wallets() {
           }}
           wallets={wallets}
         />
-
+        {/* 
         <Section title="Spending" className={classes.gridItem}>
           <ContentWidget iconName="calendar-months" title="last 30 days">
             {hasExpenses ? (
@@ -65,7 +66,22 @@ export default function Wallets() {
               </Notification>
             )}
           </ContentWidget>
-        </Section>
+        </Section> */}
+
+        <SpendingSection
+          section={{
+            title: "Spending",
+            className: classes.gridItem
+          }}
+          widget={{
+            iconName: "calendar-months",
+            title: "last 30 days"
+          }}
+          chart={{
+            type: "expensesByWallet",
+            data: expensesByWalletChartData
+          }}
+        />
 
         <TransactionsSection
           transactionType={isDesktop || (isLaptopS && !isSidebarExpanded) ? "expanded" : "compact"}

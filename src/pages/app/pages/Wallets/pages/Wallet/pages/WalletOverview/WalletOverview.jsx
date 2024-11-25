@@ -1,10 +1,13 @@
 import { CustomPieChart } from "@/components/charts/CustomPieChart";
+import { Notification } from "@/components/Notification";
 import { BalanceSection } from "@/components/sections/BalanceSection";
 import { Section } from "@/components/sections/Section";
+import { SpendingSection } from "@/components/sections/SpendingSection";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
+import { Widget } from "@/components/widgets/Widget";
 import { useBreakpoint, useLayout } from "@/hooks";
 import cn from "classnames";
-import { useRouteLoaderData } from "react-router";
+import { data, useRouteLoaderData } from "react-router";
 
 export default function WalletOverview() {
   const { wallet, balanceThirtyDaysAgo, balanceChartData, expensesByCategoryChartData } = useRouteLoaderData("wallet");
@@ -43,30 +46,22 @@ export default function WalletOverview() {
         currency={wallet.currency}
       />
 
-      <Section
-        title="Wallet Spending"
-        className={classes.gridItem}
-        contentClassName="mt-3"
-      >
-        {/* <div className="flex gap-3 text-navy-dark opacity-50 font-semibold">
-          <button>{"<"}</button>
-          <span>Last 30 Days</span>
-          <button>{">"}</button>
-        </div> */}
-
-        <ContentWidget
-          iconName="categories"
-          title="by category"
-        >
-          <div className="mx-auto h-80 mm:h-[420px]">
-            <CustomPieChart
-              type="expensesByCategory"
-              data={expensesByCategoryChartData}
-            />
-          </div>
-        </ContentWidget>
-      </Section>
-    </div>
+      <SpendingSection
+        section={{
+          title: "Wallet Spending",
+          subtitle: "Last 30 Days",
+          className: classes.gridItem
+        }}
+        widget={{
+          iconName: "categories",
+          title: "by category"
+        }}
+        chart={{
+          type: "expensesByCategory",
+          data: expensesByCategoryChartData
+        }}
+      />
+    </div >
 
   )
 }

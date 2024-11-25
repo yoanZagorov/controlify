@@ -16,6 +16,8 @@ export default async function getExpensesByWalletChartData(userId, allWallets) {
   const expensesByWallet = lastThirtyDaysTransactionsByWallet.map(wallet => {
     const { id, name, iconName, transactions, color } = wallet;
 
+    if (!transactions.length) return null;
+
     const expenseTransactions = transactions.filter(transaction => transaction.category.type === "expense");
 
     const totalExpenses = expenseTransactions.reduce((acc, transaction) =>
