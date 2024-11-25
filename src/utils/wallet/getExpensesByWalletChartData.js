@@ -1,19 +1,21 @@
 import { where } from "firebase/firestore";
-import { getLastThirtyDaysStartandEnd } from "../date";
 import { performDecimalCalculation } from "../number";
 import { getTransactions } from "@/services/firebase/db/transaction";
+import { getPeriodInfo } from "@/services/router/utils";
 
-export default async function getExpensesByWalletChartData(userId, allWallets) {
-  const { start, end } = getLastThirtyDaysStartandEnd();
+export default async function getExpensesByWalletChartData(userId, wallets, period) {
+  const { start, end } = getPeriodInfo(period);
 
-  const transactionsQuery = [
+  const query = [
     where("date", ">=", start),
     where("date", "<=", end)
   ];
 
-  const lastThirtyDaysTransactionsByWallet = await getTransactions(userId, allWallets, transactionsQuery);
+  const periodTransactionsByWallet = await getTransactions({ userId, wallets, query, dataFormat: "structured" });
 
-  const expensesByWallet = lastThirtyDaysTransactionsByWallet.map(wallet => {
+  console.log(periodTransactionsByWallet);
+
+  const expensesByWallet = periodTransactionsByWallet.map(wallet => {
     const { id, name, iconName, transactions, color } = wallet;
 
     if (!transactions.length) return null;

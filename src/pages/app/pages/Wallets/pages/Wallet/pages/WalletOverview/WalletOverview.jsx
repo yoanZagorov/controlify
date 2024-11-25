@@ -10,7 +10,7 @@ import cn from "classnames";
 import { data, useRouteLoaderData } from "react-router";
 
 export default function WalletOverview() {
-  const { wallet, balanceThirtyDaysAgo, balanceChartData, expensesByCategoryChartData } = useRouteLoaderData("wallet");
+  const { wallet, openingBalance, chartData } = useRouteLoaderData("wallet");
 
   const { isSidebarExpanded } = useLayout();
   const { isMobile, isTablet, isLaptopS } = useBreakpoint(); // To do: use this value to render and ExpandedTransactionsSection on ml/tab
@@ -38,10 +38,10 @@ export default function WalletOverview() {
         balance={{
           amount: {
             current: wallet.balance,
-            prev: balanceThirtyDaysAgo
+            prev: openingBalance
           },
           amountWidgetType: "carousel",
-          chartData: balanceChartData
+          chartData: chartData.balance
         }}
         currency={wallet.currency}
       />
@@ -58,7 +58,7 @@ export default function WalletOverview() {
         }}
         chart={{
           type: "expensesByCategory",
-          data: expensesByCategoryChartData
+          data: chartData.expensesByCategory
         }}
       />
     </div >

@@ -2,7 +2,7 @@ import { AppError } from "@/utils/errors";
 import { collection, getDocs, query as firebaseQuery } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
 
-export default async function getTransactions(userId, wallets, query = []) {
+export default async function getTransactions({ userId, wallets, query = [], dataFormat = "flat" }) {
   const promises = wallets.map(async (wallet) => {
     const transactionsRef = collection(db, `users/${userId}/wallets/${wallet.id}/transactions`);
 
@@ -39,7 +39,12 @@ export default async function getTransactions(userId, wallets, query = []) {
 
   try {
     const allTransactionsByWallet = await Promise.all(promises);
-    return allTransactionsByWallet;
+
+    if (dataFormat === "flat") {
+      return allTransactionsByWallet.flatMap(wallet => wallet.transactions);
+    } else {
+      return allTransactionsByWallet;
+    }
   } catch (error) {
     throw new Error(error.message, { cause: error });
   }

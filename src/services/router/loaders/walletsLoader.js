@@ -16,6 +16,8 @@ export default async function walletsLoader() {
     return redirect("/login");
   }
 
+  const period = "lastThirtyDays"; // To do: get this from the params
+
   const walletsQuery = [
     where("deletedAt", "==", null),
     orderBy("isDefault", "desc"),
@@ -25,11 +27,10 @@ export default async function walletsLoader() {
   try {
     const allWallets = await getWallets(userId, walletsQuery);
 
-    const allTransactionsByWallet = await getTransactions(userId, allWallets); // To do: limit the data and implement pagination
-    const allTransactions = allTransactionsByWallet.flatMap(wallet => wallet.transactions);
+    const allTransactions = await getTransactions({ userId, wallets: allWallets }); // To do: limit the data and implement pagination
     allTransactions.sort((a, b) => b.date - a.date);
 
-    const expensesByWalletChartData = await getExpensesByWalletChartData(userId, allWallets);
+    const expensesByWalletChartData = await getExpensesByWalletChartData(userId, allWallets, period);
 
     const loaderData = { wallets: allWallets, transactions: allTransactions, expensesByWalletChartData };
 

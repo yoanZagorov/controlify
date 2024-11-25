@@ -12,7 +12,7 @@ export default function WalletsSection({ section, wallets }) {
   const { isMobileS } = useBreakpoint();
 
   const walletWidgets = wallets.map(wallet => (
-    <Link key={wallet.id} to={wallet.id} data-actionable="true">
+    <Link key={wallet.id} to={`/app/wallets/${wallet.id}`} data-actionable="true">
       <WalletWidget
         wallet={wallet}
         className="h-full"

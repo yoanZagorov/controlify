@@ -1,20 +1,22 @@
 import { where } from "firebase/firestore";
-import { getLastThirtyDaysStartandEnd } from "../date";
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { performDecimalCalculation } from "../number";
 
-export default async function getExpensesByCategoryPieChartData(userId, wallets) {
-  const { start, end } = getLastThirtyDaysStartandEnd();
+export default async function getExpensesByCategoryChartData({ userId, wallets, period, transactions }) {
+  let periodTransactions = transactions;
 
-  const transactionsQuery = [
-    where("date", ">=", start),
-    where("date", "<=", end)
-  ];
+  if (!periodTransactions) {
+    const { start, end } = period;
 
-  const lastThirtyDaysTransactionsByWallet = await getTransactions(userId, wallets, transactionsQuery);
-  const lastThirtyDaysTransactions = lastThirtyDaysTransactionsByWallet.flatMap(wallet => wallet.transactions);
+    const transactionsQuery = [
+      where("date", ">=", start),
+      where("date", "<=", end)
+    ];
 
-  const expenseTransactions = lastThirtyDaysTransactions.filter(transaction => transaction.category.type === "expense");
+    periodTransactions = await getTransactions({ userId, wallets, query: transactionsQuery });
+  }
+
+  const expenseTransactions = periodTransactions.filter(transaction => transaction.category.type === "expense");
 
   if (!expenseTransactions.length) return [];
 

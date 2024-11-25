@@ -1,10 +1,14 @@
 import { getWallet } from "@/services/firebase/db/wallet";
 import { createErrorResponse, createSuccessResponse } from "../responses";
-import { getAuthUserId } from "@/services/firebase/db/user";
+import { getAuthUserId, getBalance } from "@/services/firebase/db/user";
 import { storeRedirectData } from "@/utils/storage";
 import { redirect } from "react-router";
-import { getBalanceLineChartData } from "@/utils/transaction";
-import getExpensesByCategoryPieChartData from "@/utils/category/getExpensesByCategoryPieChartData";
+import { getBalanceChartData } from "@/utils/transaction";
+
+import { where } from "firebase/firestore";
+import { getTransactions } from "@/services/firebase/db/transaction";
+import { getExpensesByCategoryChartData } from "@/utils/category";
+import { getPeriodInfo } from "../utils";
 
 export default async function walletLoader({ params, request }) {
   const userId = await getAuthUserId();
@@ -17,13 +21,34 @@ export default async function walletLoader({ params, request }) {
   }
 
   const walletId = params.walletId;
+  const period = "lastThirtyDays"; // To do: get this from the params
+
+  const { start, end } = getPeriodInfo(period);
+
+  const transactionsQuery = [
+    where("date", ">=", start),
+    where("date", "<=", end)
+  ];
 
   try {
     const wallet = await getWallet(userId, walletId);
-    const { balanceThirtyDaysAgo, balanceChartData } = await getBalanceLineChartData(userId, [wallet]);
-    const expensesByCategoryChartData = await getExpensesByCategoryPieChartData(userId, [wallet]);
 
-    return createSuccessResponse({ wallet, balanceThirtyDaysAgo, balanceChartData, expensesByCategoryChartData });
+    const periodTransactions = await getTransactions({ userId, wallets: [wallet], query: transactionsQuery }); // use for both functions below
+
+    const { openingBalance, balanceChartData } = await getBalanceChartData({ userId, wallets: [wallet], period, transactions: periodTransactions });
+
+    const expensesByCategoryChartData = await getExpensesByCategoryChartData({ transactions: periodTransactions });
+    const expensesVsIncomeChartData = null; // To do 
+
+    return createSuccessResponse({
+      wallet,
+      openingBalance,
+      chartData: {
+        balance: balanceChartData,
+        expensesByCategory: expensesByCategoryChartData,
+        expensesVsIncome: expensesVsIncomeChartData
+      }
+    });
   } catch (error) {
     console.error(error);
 

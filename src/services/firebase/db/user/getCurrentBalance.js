@@ -1,16 +1,14 @@
 import { formatUserBalance } from "@/utils/formatting";
 import { getWallets } from "../wallet";
 import { performDecimalCalculation } from "@/utils/number";
-import { orderBy, where } from "firebase/firestore";
+import { where } from "firebase/firestore";
 
-export default async function getCurrentBalance(userId, wallets) {
+export default async function getCurrentBalance({ userId, wallets }) {
   let userWallets = wallets;
 
   if (!userWallets) {
     const q = [
       where("deletedAt", "==", null),
-      orderBy("isDefault", "desc"),
-      orderBy("createdAt", "desc")
     ];
 
     userWallets = await getWallets(userId, q);

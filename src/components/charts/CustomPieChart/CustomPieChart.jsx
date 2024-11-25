@@ -6,7 +6,6 @@ import { useBreakpoint } from "@/hooks";
 import { CustomExpensesByCategoryLabel } from "./components/CustomExpensesByCategoryLabel";
 
 export default function CustomPieChart({ type, data }) {
-  console.log(data);
   const { isMobileS, isMobileM } = useBreakpoint();
 
   const isExpensesByWallet = type === "expensesByWallet";
