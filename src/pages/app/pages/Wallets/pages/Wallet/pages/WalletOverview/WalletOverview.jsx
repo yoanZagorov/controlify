@@ -1,3 +1,4 @@
+import { CustomBarChart } from "@/components/charts/CustomBarChart";
 import { CustomPieChart } from "@/components/charts/CustomPieChart";
 import { Notification } from "@/components/Notification";
 import { BalanceSection } from "@/components/sections/BalanceSection";
@@ -8,6 +9,7 @@ import { Widget } from "@/components/widgets/Widget";
 import { useBreakpoint, useLayout } from "@/hooks";
 import cn from "classnames";
 import { data, useRouteLoaderData } from "react-router";
+import { XAxis, YAxis } from "recharts";
 
 export default function WalletOverview() {
   const { wallet, openingBalance, chartData } = useRouteLoaderData("wallet");
@@ -61,6 +63,15 @@ export default function WalletOverview() {
           data: chartData.expensesByCategory
         }}
       />
+
+      <ContentWidget iconName="categories" title="expenses vs income">
+        <div className="mx-auto h-48">
+          <CustomBarChart
+            data={chartData.expensesVsIncome}
+            currency={wallet.currency}
+          />
+        </div>
+      </ContentWidget>
     </div >
 
   )

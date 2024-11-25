@@ -9,6 +9,7 @@ import { where } from "firebase/firestore";
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { getExpensesByCategoryChartData } from "@/utils/category";
 import { getPeriodInfo } from "../utils";
+import { getExpensesVsIncomeChartData } from "@/utils/wallet";
 
 export default async function walletLoader({ params, request }) {
   const userId = await getAuthUserId();
@@ -38,7 +39,7 @@ export default async function walletLoader({ params, request }) {
     const { openingBalance, balanceChartData } = await getBalanceChartData({ userId, wallets: [wallet], period, transactions: periodTransactions });
 
     const expensesByCategoryChartData = await getExpensesByCategoryChartData({ transactions: periodTransactions });
-    const expensesVsIncomeChartData = null; // To do 
+    const expensesVsIncomeChartData = await getExpensesVsIncomeChartData({ transactions: periodTransactions }); // To do 
 
     return createSuccessResponse({
       wallet,

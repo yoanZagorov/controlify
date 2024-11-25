@@ -13,8 +13,6 @@ export default async function getExpensesByWalletChartData(userId, wallets, peri
 
   const periodTransactionsByWallet = await getTransactions({ userId, wallets, query, dataFormat: "structured" });
 
-  console.log(periodTransactionsByWallet);
-
   const expensesByWallet = periodTransactionsByWallet.map(wallet => {
     const { id, name, iconName, transactions, color } = wallet;
 
