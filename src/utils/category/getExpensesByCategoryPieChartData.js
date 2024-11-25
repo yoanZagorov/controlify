@@ -1,6 +1,6 @@
 import { where } from "firebase/firestore";
 import { getLastThirtyDaysStartandEnd } from "../date";
-import { getTransactions } from "services/firebase/db/transaction";
+import { getTransactions } from "@/services/firebase/db/transaction";
 import { performDecimalCalculation } from "../number";
 
 export default async function getExpensesByCategoryPieChartData(userId, wallets) {

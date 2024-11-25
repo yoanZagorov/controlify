@@ -1,7 +1,7 @@
 import logo from "logos/logoGrayBg.png";
 import { Widget } from "../widgets/Widget";
 import { Button } from "../Button";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function NotFound() {
   return (

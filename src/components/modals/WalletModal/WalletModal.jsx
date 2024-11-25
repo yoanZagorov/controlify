@@ -1,4 +1,4 @@
-import { useRouteLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router";
 import cn from "classnames";
 
 import formatEntityName from "@/utils/formatting/formatEntityName";

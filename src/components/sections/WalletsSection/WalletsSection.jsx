@@ -6,7 +6,7 @@ import { Widget } from "@/components/widgets/Widget";
 import { Section } from "../Section";
 import { PlusCircleIcon } from "./components/PlusCircleIcon";
 import { WalletWidget } from "./components/WalletWidget";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function WalletsSection({ section, wallets }) {
   const { isMobileS } = useBreakpoint();

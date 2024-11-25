@@ -1,6 +1,6 @@
-import { RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router";
 
-import router from "services/router/router";
+import router from "@/services/router/router";
 import { BreakpointProvider } from "./contexts";
 import { useKeyboardFocus } from "./hooks";
 
@@ -10,7 +10,12 @@ export default function App() {
 
   return (
     <BreakpointProvider>
-      <RouterProvider router={router} />
+      <RouterProvider
+        router={router}
+        future={{
+          v7_startTransition: true,
+        }}
+      />
     </BreakpointProvider>
   )
 }

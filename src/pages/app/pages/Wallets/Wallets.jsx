@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { useFetcher, useLoaderData, useRouteLoaderData } from "react-router-dom";
+import { useFetcher, useLoaderData, useRouteLoaderData } from "react-router";
 
 import { useBreakpoint, useLayout, useModal, useScrollToTop } from "@/hooks";
 

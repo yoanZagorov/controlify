@@ -1,6 +1,6 @@
-import { useActionData, useLoaderData } from "react-router-dom";
+import { useActionData, useLoaderData } from "react-router";
 
-import { loginAction, createAccountAction } from "services/router/actions";
+import { loginAction, createAccountAction } from "@/services/router/actions";
 
 import logo from "logos/logoGrayBg.png";
 

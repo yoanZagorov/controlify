@@ -1,5 +1,5 @@
 import { formatEntityName } from "@/utils/formatting";
-import { Link, Outlet, useLoaderData } from "react-router-dom"
+import { Link, Outlet, useLoaderData } from "react-router"
 import { NavItem } from "./layout-components/NavItem";
 import BackArrow from "@/assets/icons/arrow-back.png";
 
@@ -26,7 +26,9 @@ export default function Wallet() {
           {navElements}
         </ul>
       </nav>
-      <Outlet />
+      <div className="mt-12">
+        <Outlet />
+      </div>
     </>
   )
 }

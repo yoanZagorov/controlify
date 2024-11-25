@@ -1,4 +1,4 @@
-import { NavLink, Form as RouterForm } from "react-router-dom";
+import { NavLink, Form as RouterForm } from "react-router";
 import cn from "classnames";
 
 import { useLayout } from "@/hooks";

@@ -1,4 +1,4 @@
-import { Link, Form as RouterForm } from "react-router-dom";
+import { Link, Form as RouterForm } from "react-router";
 
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";

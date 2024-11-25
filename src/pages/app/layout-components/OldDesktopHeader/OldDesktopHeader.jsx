@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { useNavigate, useRouteLoaderData } from "react-router-dom";
+import { useNavigate, useRouteLoaderData } from "react-router";
 
 import { getFirstWord } from "@/utils/str";
 import createNavElsFromPages from "./createNavElsFromPages";

@@ -1,4 +1,4 @@
-import { Outlet, useFetcher, useLoaderData } from "react-router-dom";
+import { Outlet, useFetcher, useLoaderData } from "react-router";
 
 import { useBreakpoint, useLayout, useFlashMsg } from "@/hooks";
 import cn from "classnames";

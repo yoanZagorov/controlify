@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useScrollLock from "./useScrollLock";
 import useMountTransition from "./useMountTransition";
-import { resetFetcher } from "services/router/utils";
+import { resetFetcher } from "@/services/router/utils";
 
 export default function useModal(fetcher, unmountDelay = 300) {
   const [isModalOpen, setModalOpen] = useState(false);

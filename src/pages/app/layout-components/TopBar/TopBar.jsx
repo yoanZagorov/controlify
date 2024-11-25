@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 import { useLayout } from "@/hooks"
 import { capitalize } from "@/utils/str";

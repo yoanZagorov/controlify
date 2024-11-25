@@ -1,6 +1,6 @@
 import { capitalize } from "@/utils/str";
 import cn from "classnames";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 export default function NavItem({ page, index }) {
   const linkClasses = ({ isActive }) => cn(

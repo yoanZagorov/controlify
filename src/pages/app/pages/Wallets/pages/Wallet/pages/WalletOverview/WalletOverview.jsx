@@ -4,7 +4,7 @@ import { Section } from "@/components/sections/Section";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { useBreakpoint, useLayout } from "@/hooks";
 import cn from "classnames";
-import { useRouteLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router";
 
 export default function WalletOverview() {
   const { wallet, balanceThirtyDaysAgo, balanceChartData, expensesByCategoryChartData } = useRouteLoaderData("wallet");
@@ -15,7 +15,7 @@ export default function WalletOverview() {
 
   const classes = {
     grid: cn(
-      "mt-16 grid gap-16 ll:gap-x-20 fhd:gap-x-24 grid-cols-1",
+      "grid gap-16 ll:gap-x-20 fhd:gap-x-24 grid-cols-1",
       // isSingleColLayout
       //   ? "grid-cols-1"
       //   : "grid-cols-12 gap-x-12",

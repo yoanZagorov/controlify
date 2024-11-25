@@ -1,8 +1,8 @@
-import { getBalanceThirtyDaysAgo } from "services/firebase/db/user";
+import { getBalanceThirtyDaysAgo } from "@/services/firebase/db/user";
 import { getLastThirtyDaysStartandEnd } from "../date";
 import { where } from "firebase/firestore";
-import { getTransactions } from "services/firebase/db/transaction";
-import { getWallets } from "services/firebase/db/wallet";
+import { getTransactions } from "@/services/firebase/db/transaction";
+import { getWallets } from "@/services/firebase/db/wallet";
 import { performDecimalCalculation } from "../number";
 
 export default async function getBalanceLineChartData(userId, wallets = []) {

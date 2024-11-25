@@ -1,7 +1,7 @@
 import { where } from "firebase/firestore";
 import { getLastThirtyDaysStartandEnd } from "../date";
 import { performDecimalCalculation } from "../number";
-import { getTransactions } from "services/firebase/db/transaction";
+import { getTransactions } from "@/services/firebase/db/transaction";
 
 export default async function getExpensesByWalletChartData(userId, allWallets) {
   const { start, end } = getLastThirtyDaysStartandEnd();

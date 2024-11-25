@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { useRouteLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router";
 
 import logo from "@/assets/images/logos/logoNavyBg.png";
 
