@@ -49,29 +49,32 @@ export default function WalletOverview() {
       />
 
       <SpendingSection
+        type="carousel"
         section={{
           title: "Wallet Spending",
           subtitle: "Last 30 Days",
           className: classes.gridItem
         }}
-        widget={{
-          iconName: "categories",
-          title: "by category"
-        }}
-        chart={{
-          type: "expensesByCategory",
-          data: chartData.expensesByCategory
-        }}
+        charts={[
+          {
+            type: "expensesByCategory",
+            data: chartData.expensesByCategory
+          },
+          {
+            type: "expensesVsIncome",
+            data: chartData.expensesVsIncome
+          }
+        ]}
       />
 
-      <ContentWidget iconName="categories" title="expenses vs income">
+      {/* <ContentWidget iconName="categories" title="expenses vs income">
         <div className="mx-auto h-48">
           <CustomBarChart
             data={chartData.expensesVsIncome}
             currency={wallet.currency}
           />
         </div>
-      </ContentWidget>
+      </ContentWidget> */}
     </div >
 
   )

@@ -71,16 +71,15 @@ export default function Wallets() {
         <SpendingSection
           section={{
             title: "Spending",
+            subtitle: "Last 30 Days",
             className: classes.gridItem
           }}
-          widget={{
-            iconName: "calendar-months",
-            title: "last 30 days"
-          }}
-          chart={{
-            type: "expensesByWallet",
-            data: expensesByWalletChartData
-          }}
+          charts={[
+            {
+              type: "expensesByWallet",
+              data: expensesByWalletChartData
+            },
+          ]}
         />
 
         <TransactionsSection

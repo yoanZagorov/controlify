@@ -35,7 +35,7 @@ export default function Carousel({ items, className }) {
       const isBefore = activeItemIndex > itemIndex;
 
       return cn(
-        "w-full shadow transition-transform",
+        "w-full transition-transform",
         isActive ? "" : `absolute ${isBefore ? "translate-x-[-100vw]" : "translate-x-[100vw]"}`
       )
     }
