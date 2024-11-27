@@ -17,6 +17,7 @@ export default function NavItem({ page, index }) {
     <NavLink
       to={page}
       className={linkClasses}
+      preventScrollReset={true}
     >
       <span>{capitalize(page)}</span>
     </NavLink>

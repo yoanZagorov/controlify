@@ -35,7 +35,6 @@ export default function Wallets() {
     ),
     gridItem: isSingleColLayout ? "" : "col-span-6",
     transactionSection: cn(
-      "overflow-auto",
       isSingleColLayout ? "" : "col-span-12",
     )
   }

@@ -10,18 +10,23 @@ export default function CustomPieChart({ type, data }) {
 
   const isExpensesByWallet = type === "expensesByWallet";
 
+  const outerRadius =
+    isMobileS ? 55
+      : isMobileM ? 65
+        : 75;
+
   return (
     <ResponsiveContainer className="w-full h-full">
       <PieChart>
         <Pie
           data={data}
           dataKey="amount"
-          outerRadius={(isExpensesByWallet && isMobileM) ? 70 : 75}
+          outerRadius={outerRadius}
           label={isExpensesByWallet
             ? <CustomExpensesByWalletLabel showChartLabel={!isMobileS} />
-            : <CustomExpensesByCategoryLabel showChartLabel={!isMobileS} />
+            : <CustomExpensesByCategoryLabel />
           }
-          labelLine={!isMobileS && <CustomLabelLine />}
+          labelLine={!(isExpensesByWallet && isMobileS) && <CustomLabelLine isExpensesByWallet={isExpensesByWallet} />}
         />
         <Legend
           wrapperStyle={{ width: "100%", left: "50%", transform: "translateX(-50%)" }}

@@ -1,7 +1,24 @@
-export default function CustomLabelLine({ cx, cy, midAngle, percent, outerRadius, stroke }) {
+import { useBreakpoint } from "@/hooks";
+
+export default function CustomLabelLine({ cx, cy, midAngle, percent, outerRadius, stroke, isExpensesByWallet }) {
+  const { isMobileS, isMobileM } = useBreakpoint();
+
   if (percent === 0) return null;
 
-  const lineLength = 25;
+  const lineLengthByCategory =
+    isMobileS ? 20
+      : isMobileM ? 22.5
+        : 25;
+
+  const lineLengthByWallet =
+    isMobileS ? 10
+      : isMobileM ? 12.5
+        : 15;
+
+  const lineLength = isExpensesByWallet
+    ? lineLengthByWallet
+    : lineLengthByCategory;
+
   const RADIAN = Math.PI / 180;
 
   const x1 = cx + outerRadius * Math.cos(-midAngle * RADIAN);

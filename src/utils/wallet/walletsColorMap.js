@@ -5,6 +5,7 @@ const walletsColorMap = {
     "#CDDC39": "bg-[#CDDC39]",
     "#35647F": "bg-[#35647F]",
     "#002B5B": "bg-[#002B5B]",
+    "#004D40": "bg-[#004D40]",
 
   },
   text: {
@@ -13,7 +14,7 @@ const walletsColorMap = {
     "#CDDC39": "text-[#CDDC39]",
     "#35647F": "text-[#35647F]",
     "#002B5B": "text-[#002B5B]",
-
+    "#004D40": "text-[#004D40]",
   },
   fill: {
     "#F44336": "fill-[#F44336]",
@@ -21,7 +22,7 @@ const walletsColorMap = {
     "#CDDC39": "fill-[#CDDC39]",
     "#35647F": "fill-[#35647F]",
     "#002B5B": "fill-[#002B5B]",
-
+    "#004D40": "fill-[#004D40]",
   }
 }
 

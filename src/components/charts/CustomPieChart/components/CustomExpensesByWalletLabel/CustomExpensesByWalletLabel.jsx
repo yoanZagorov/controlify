@@ -1,30 +1,49 @@
 import { useBreakpoint } from "@/hooks";
 import { formatEntityName } from "@/utils/formatting";
+import { walletsColorMap } from "@/utils/wallet";
 import { useEffect, useRef, useState } from "react";
 
-export default function CustomExpensesByWalletLabel({ cx, cy, midAngle, outerRadius, name, percent, fill, showChartLabel }) {
+export default function CustomExpensesByWalletLabel(props) {
+  const { cx, cy, midAngle, outerRadius, name, percent, fill, showChartLabel } = props;
+
   if (percent === 0) return null;
 
-  const RADIAN = Math.PI / 180;
-
   const { isMobileS, isMobileM } = useBreakpoint();
-  // Text label
-  const textLabelMargin = 30;
-  const rectPadding = (isMobileS || isMobileM) ? 16 : 20;
-  const rectHeight = (isMobileS || isMobileM) ? 26 : 30;
 
   const textRef = useRef(null);
-  const [rectWidth, setRectWidth] = useState(0);
+
+  const [textDimensions, setTextDimensions] = useState({
+    width: 0,
+    height: 0
+  });
 
   useEffect(() => {
     if (textRef.current) {
-      setRectWidth(textRef.current.getComputedTextLength() + rectPadding);
-    }
-  }, [showChartLabel])
+      const textDimensions = textRef.current.getBoundingClientRect();
 
-  const radiusTextLabel = outerRadius + textLabelMargin;
-  const xRect = cx + (radiusTextLabel * Math.cos(-midAngle * RADIAN));
-  const yRect = (cy + (radiusTextLabel * Math.sin(-midAngle * RADIAN))) - (0.5 * rectHeight);
+      const { width: textWidth, height: textHeight } = textDimensions;
+
+      setTextDimensions({
+        width: textWidth,
+        height: textHeight
+      });
+    }
+  }, []);
+
+  const RADIAN = Math.PI / 180;
+
+  // Text label
+  const lineLength =
+    isMobileS ? 10
+      : isMobileM ? 12.5
+        : 15;
+
+  const textLabelMargin = 10;
+
+
+  const radiusTextLabel = outerRadius + lineLength + textLabelMargin;
+  const xText = cx + radiusTextLabel * Math.cos(-midAngle * RADIAN);
+  const yText = cy + radiusTextLabel * Math.sin(-midAngle * RADIAN);
 
   const isLeftSide = midAngle > 90 && midAngle < 270;
 
@@ -33,31 +52,38 @@ export default function CustomExpensesByWalletLabel({ cx, cy, midAngle, outerRad
   const xPercentageLabel = cx + radiusPercentageLabel * Math.cos(-midAngle * RADIAN);
   const yPercentageLabel = cy + radiusPercentageLabel * Math.sin(-midAngle * RADIAN);
 
+  const words = formatEntityName(name).split(" ");
+
+  const lineSpacing = 20;
+
+  const textEls = words.map((word, index) => (
+    <tspan
+      key={index}
+      x={isLeftSide ? xText - textDimensions.width : xText + textDimensions.width}
+      dy={index === 0 ? 0 : lineSpacing}
+    >
+      {word}
+    </tspan>
+  ))
+
   return (
     <>
       {showChartLabel &&
-        <>
-          <rect
-            x={isLeftSide ? xRect - rectWidth : xRect}
-            y={yRect}
-            width={rectWidth}
-            height={rectHeight}
-            rx={5}
-            fill={fill}
-          >
-          </rect>
-          <text
-            ref={textRef}
-            x={isLeftSide ? xRect - rectWidth / 2 : xRect + rectWidth / 2}
-            y={yRect + (0.5 * rectHeight)}
-            textAnchor="middle"
-            dominantBaseline="central"
-            className="text-xs ml:text-sm fill-gray-light font-semibold text-shadow"
-          >
-            {formatEntityName(name)}
-          </text>
-        </>
+        <text
+          ref={textRef}
+          // x={isLeftSide ? xText - textDimensions.width : xText + textDimensions.width}
+          x={xText}
+          y={yText}
+          // textAnchor="middle"
+          dominantBaseline="hanging"
+          className="text-xs ml:text-sm font-black"
+          fill={fill}
+          transform={`translate(0, ${-textDimensions.height / 2})`}
+        >
+          {textEls}
+        </text>
       }
+
       <text
         x={xPercentageLabel}
         y={yPercentageLabel}

@@ -35,11 +35,11 @@ export default function AppLayout() {
 
   const classes = {
     page: cn(
-      "min-h-screen pt-24 px-4 pb-8 tab:pt-10 ll:pt-12 ls:px-8 ll:px-10 overflow-x-hidden",
+      "min-h-screen pt-24 px-4 pb-8 tab:pt-10 ll:pt-12 ls:px-8 ll:px-10 overflow-x-hidden rounded-b-lg",
       isSidebarExpanded ? "tab:ml-80 ll:ml-96" : "tab:ml-20"
     ),
     content: cn(
-      "w-full mx-auto",
+      "w-full mx-auto rounded-b-lg",
       isDesktop || (isLaptopS && !isSidebarExpanded)
         ? "max-w-6xl"
         : "max-w-lg"

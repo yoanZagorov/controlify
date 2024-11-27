@@ -7,14 +7,6 @@ import { Carousel } from "@/components/Carousel";
 import { CustomBarChart } from "@/components/charts/CustomBarChart";
 
 export default function SpendingSection({ type = "single", section, charts }) {
-  // const hasData =
-  //   chart.type === "expensesByWallet" ? chart.data.find(entry => entry !== null) ? true : false
-  //     : chart.type === "expensesByCategory" ? chart.data.length ? true : false
-  //       : chart.data.find(entry => entry.amount) ? true : false;
-
-
-  // To do: turn the charts into an array and create a loop to check the data for each chart
-
   const isCarousel = type === "carousel";
 
   const chartsData = {
@@ -33,16 +25,16 @@ export default function SpendingSection({ type = "single", section, charts }) {
         iconName: "categories",
         title: "by category"
       },
-      componentWrapperClassName: "mx-auto h-80 mm:h-[420px]",
+      componentWrapperClassName: "mx-auto h-80 mm:h-96 ml:h-[420px]",
       Component: CustomPieChart
     },
     expensesVsIncome: {
       check: (chart) => chart.data.find(entry => entry.amount) ? true : false,
       widget: {
-        iconName: "wallet",
+        iconName: "stats",
         title: "expenses vs income"
       },
-      componentWrapperClassName: "mx-auto h-80 mm:h-[420px]",
+      componentWrapperClassName: "mx-auto h-80 mm:h-96 ml:h-[420px]",
       Component: CustomBarChart
     },
   };
