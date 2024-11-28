@@ -20,7 +20,7 @@ export default function Wallet() {
       <Link to=".." relative="path">
         <img src={BackArrow} />
       </Link>
-      <h1 className="mt-5 text-5xl text-navy-dark font-bold">{formattedName} Wallet</h1>
+      <h1 className="mt-5 text-5xl text-navy-dark font-bold">{formattedName}</h1>
       <nav className="mt-6 w-full">
         <ul className="flex">
           {navElements}

@@ -33,16 +33,19 @@ export default async function walletLoader({ params, request }) {
 
   try {
     const wallet = await getWallet(userId, walletId);
+    const transactions = await getTransactions({ userId, wallets: [wallet] })
+    transactions.sort((a, b) => b.date - a.date);
 
     const periodTransactions = await getTransactions({ userId, wallets: [wallet], query: transactionsQuery }); // use for both functions below
 
     const { openingBalance, balanceChartData } = await getBalanceChartData({ userId, wallets: [wallet], period, transactions: periodTransactions });
 
     const expensesByCategoryChartData = await getExpensesByCategoryChartData({ transactions: periodTransactions });
-    const expensesVsIncomeChartData = await getExpensesVsIncomeChartData({ transactions: periodTransactions }); // To do 
+    const expensesVsIncomeChartData = await getExpensesVsIncomeChartData({ transactions: periodTransactions });
 
     return createSuccessResponse({
       wallet,
+      transactions,
       openingBalance,
       chartData: {
         balance: balanceChartData,

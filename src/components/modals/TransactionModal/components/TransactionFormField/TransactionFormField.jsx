@@ -97,11 +97,12 @@ export default function TransactionFormField({ name }) {
       <span className="text-navy font-semibold">{capitalize(name)}</span>
 
       <Button
-        variant="secondary"
+        type="button"
         size="s"
+        disabled={name === "wallet" && wallet.isPreselected}
+        colorPalette="secondaryDark"
         onClick={() => setSelectModalOpen(wasOpen => !wasOpen)}
         className="ml-auto flex justify-between gap-2 items-center focus:ring"
-        type="button"
       >
         <span>{btnValue}</span>
         <span>{">"}</span>

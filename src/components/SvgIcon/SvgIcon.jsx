@@ -22,6 +22,9 @@ import ArrowUpIcon from "@/assets/icons/arrow-up.svg?react";
 import ArrowDownIcon from "@/assets/icons/arrow-down.svg?react";
 import AnglesLeftIcon from "@/assets/icons/angles-left.svg?react";
 import AnglesRightIcon from "@/assets/icons/angles-right.svg?react";
+import HeadingIcon from "@/assets/icons/heading.svg?react";
+import CoinsStackedIcon from "@/assets/icons/coins-stacked.svg?react";
+import PaintRollerIcon from "@/assets/icons/paint-roller.svg?react";
 
 // Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
@@ -77,6 +80,9 @@ const iconComponentsMap = {
   "arrow-down": ArrowDownIcon,
   "angles-left": AnglesLeftIcon,
   "angles-right": AnglesRightIcon,
+  "heading": HeadingIcon,
+  "coins-stacked": CoinsStackedIcon,
+  "paint-roller": PaintRollerIcon,
 }
 
 export default function SvgIcon({ iconName, ...props }) {
