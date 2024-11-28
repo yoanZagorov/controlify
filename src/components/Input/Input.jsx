@@ -2,7 +2,7 @@ import cn from "classnames";
 
 export default function Input({ size = "m", variant = "solid", colorPalette = "primaryDark", inputRef = null, className = "", ...props }) {
   const input = cn(
-    "placeholder-opacity-50 transition-[box-shadow] border focus:border-none focus:outline-none focus:ring",
+    "placeholder-opacity-50 transition-[box-shadow] border focus:border-opacity-0 focus:outline-none focus:ring",
   )
 
   const inputM = "py-1.5 px-2 text-base rounded-md";

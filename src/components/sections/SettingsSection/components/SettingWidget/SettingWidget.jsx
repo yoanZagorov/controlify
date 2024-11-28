@@ -6,8 +6,9 @@ import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { useEffect, useRef } from "react";
 import { useBreakpoint } from "@/hooks";
+import { Select } from "@/components/Select";
 
-export default function SettingWidget({ type = "select", iconName, title, defaultValue, handleClick }) {
+export default function SettingWidget({ name, type = "select", iconName, valueData, handleClick }) {
   // const {isMobileS} = useBreakpoint();
   const inputRef = useRef(null);
   useEffect(() => {
@@ -29,9 +30,9 @@ export default function SettingWidget({ type = "select", iconName, title, defaul
   const isInput = type === "input";
 
   return (
-    <Widget className="py-5 px-4 flex items-center gap-3 text-gray-dark">
+    <Widget className="flex items-center gap-3 text-gray-dark">
       <SvgIcon iconName={iconName} className="size-6 fill-current" />
-      <span className="text-xs font-bold">{capitalize(title)}</span>
+      <span className="text-xs font-bold">{capitalize(name)}</span>
 
       {isInput ? (
         <Input
@@ -39,14 +40,22 @@ export default function SettingWidget({ type = "select", iconName, title, defaul
           size="l"
           variant="outline"
           type="text"
-          defaultValue={defaultValue}
+          defaultValue={valueData.displayValue}
+          name={name}
           className="ml-auto w-full max-w-44 text-right font-semibold"
         />
       ) : (
-        <Button colorPalette="secondaryLight" className="ml-auto flex items-center gap-3 border-0 bg-gray-light" onClick={handleClick}>
-          <span>{defaultValue}</span>
-          <span>{">"}</span>
-        </Button>
+        <>
+          <input type="hidden" name={name} value={valueData.value} />
+          <Select
+            btnProps={{
+              colorPalette: "secondaryLight",
+              className: "ml-auto border-0 bg-gray-light",
+              onClick: handleClick
+            }}
+            value={valueData.displayValue}
+          />
+        </>
       )
       }
     </Widget>

@@ -3,7 +3,7 @@ import { createBrowserRouter, Navigate, redirect } from "react-router";
 import { Auth } from "@/pages/auth";
 import { AppLayout, Dashboard, Wallets, Wallet, WalletOverview, WalletTransactions, WalletSettings } from "@/pages/app";
 
-import { appAction, createAccountAction, dashboardAction, loginAction, resetFetcherAction } from "./actions";
+import { appAction, createAccountAction, dashboardAction, loginAction, resetFetcherAction, walletAction } from "./actions";
 import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader, walletLoader } from "./loaders";
 import { AppErrorComponent, RootError } from "@/components/errors";
 import { LayoutProvider } from "@/contexts";
@@ -58,6 +58,7 @@ const routes = [
         element: <Wallet />,
         id: "wallet",
         loader: walletLoader,
+        action: walletAction,
         children: [
           {
             index: true,

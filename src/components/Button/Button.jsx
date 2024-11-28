@@ -19,7 +19,7 @@ export default function Button({ type = "button", size = "m", variant = "solid",
     !disabled && "hover:bg-navy-dark active:bg-navy-dark"
   )
 
-  const btnSecondary = "font-semibold text-gray-dark border border-gray-dark focus:border-none focus:ring-gray-dark";
+  const btnSecondary = "font-semibold text-gray-dark border border-gray-dark focus:border-opacity-0 focus:ring-gray-dark";
   const btnSecondaryLight = `${btnSecondary} bg-gray-light`;
   const btnSecondaryDark = `${btnSecondary} bg-gray-medium`;
 

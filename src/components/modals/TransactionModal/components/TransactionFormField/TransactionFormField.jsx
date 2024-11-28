@@ -11,6 +11,7 @@ import { WalletModal } from "@/components/modals/WalletModal";
 import { SvgIcon } from "@/components/SvgIcon";
 import { Button } from "@/components/Button";
 import formatEntityName from "@/utils/formatting/formatEntityName";
+import { Select } from "@/components/Select";
 
 export default function TransactionFormField({ name }) {
   const {
@@ -96,7 +97,7 @@ export default function TransactionFormField({ name }) {
       <SvgIcon iconName={iconName} className="size-8 fill-navy" />
       <span className="text-navy font-semibold">{capitalize(name)}</span>
 
-      <Button
+      {/* <Button
         type="button"
         size="s"
         disabled={name === "wallet" && wallet.isPreselected}
@@ -106,7 +107,16 @@ export default function TransactionFormField({ name }) {
       >
         <span>{btnValue}</span>
         <span>{">"}</span>
-      </Button>
+      </Button> */}
+      <Select
+        btnProps={{
+          disabled: name === "wallet" && wallet.isPreselected,
+          colorPalette: "secondaryDark",
+          onClick: () => setSelectModalOpen(wasOpen => !wasOpen),
+          className: "ml-auto flex justify-between gap-2 items-center focus:ring"
+        }}
+        value={btnValue}
+      />
 
       {(isSelectModalOpen || hasTransitioned) &&
         <SelectModal
