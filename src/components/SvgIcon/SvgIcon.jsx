@@ -25,6 +25,10 @@ import AnglesRightIcon from "@/assets/icons/angles-right.svg?react";
 import HeadingIcon from "@/assets/icons/heading.svg?react";
 import CoinsStackedIcon from "@/assets/icons/coins-stacked.svg?react";
 import PaintRollerIcon from "@/assets/icons/paint-roller.svg?react";
+import BulgariaFlagIcon from "@/assets/icons/flag-bulgaria.svg?react";
+import USAFlagIcon from "@/assets/icons/flag-usa.svg?react";
+import EUFlagIcon from "@/assets/icons/flag-eu.svg?react";
+import UKFlagIcon from "@/assets/icons/flag-uk.svg?react";
 
 // Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
@@ -83,6 +87,10 @@ const iconComponentsMap = {
   "heading": HeadingIcon,
   "coins-stacked": CoinsStackedIcon,
   "paint-roller": PaintRollerIcon,
+  "flag-bulgaria": BulgariaFlagIcon,
+  "flag-usa": USAFlagIcon,
+  "flag-eu": EUFlagIcon,
+  "flag-uk": UKFlagIcon,
 }
 
 export default function SvgIcon({ iconName, ...props }) {

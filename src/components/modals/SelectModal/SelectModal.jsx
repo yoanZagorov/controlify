@@ -3,7 +3,7 @@ import cn from "classnames";
 import { capitalize } from "@/utils/str";
 import { useOutsideClick } from "@/hooks";
 
-export default function SelectModal({ name, modalHeight, contentMaxW, closeModal, isSelectModalOpen, hasTransitioned, children }) {
+export default function SelectModal({ name, modalHeight, contentMaxW = "", closeModal, isSelectModalOpen, hasTransitioned, children }) {
   const selectModalRef = useOutsideClick(isSelectModalOpen, closeModal);
 
   const classes = {

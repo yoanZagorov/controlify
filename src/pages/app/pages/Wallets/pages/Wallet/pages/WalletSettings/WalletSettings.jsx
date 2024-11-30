@@ -1,3 +1,5 @@
+import { CurrencyModal } from "@/components/modals/CurrencyModal";
+import { DateModal } from "@/components/modals/DateModal";
 import { SettingsSection } from "@/components/sections/SettingsSection";
 import { formatEntityName } from "@/utils/formatting";
 import { walletsColorMap } from "@/utils/wallet";
@@ -26,43 +28,84 @@ export default function WalletSettings() {
     <SettingsSection
       action={`/app/wallets/${id}`}
       section={{
-        title: "Wallet Settings"
+        title: "Wallet Settings",
       }}
       settings={[
         {
-          name: "name",
-          type: "input",
-          iconName: "heading",
-          valueData: {
-            value: settings.name,
-            displayValue: formatEntityName(settings.name)
+          settingWidgetProps: {
+            name: "name",
+            type: "input",
+            iconName: "heading",
+            valueData: {
+              value: settings.name,
+              displayValue: formatEntityName(settings.name)
+            },
           }
         },
         {
-          name: "currency",
-          type: "select",
-          iconName: "coins-stacked",
-          valueData: {
-            value: settings.currency,
-            displayValue: settings.currency
+          settingWidgetProps: {
+            name: "currency",
+            type: "select",
+            iconName: "coins-stacked",
+            valueData: {
+              value: settings.currency,
+              displayValue: settings.currency
+            },
+          },
+          modal: {
+            Component: CurrencyModal,
+            props: {
+              name: "currency",
+              modalHeight: "h-1/2",
+            },
+            state: {
+              value: settings.currency,
+              updateState: (newCurrencyName) => updateSettings({ currency: newCurrencyName })
+            }
           }
         },
         {
-          name: "color",
-          type: "select",
-          iconName: "paint-roller",
-          valueData: {
-            value: settings.color,
-            displayValue: <div className={`size-6 rounded-full ${walletsColorMap.background[settings.color]}`}></div>
+          settingWidgetProps: {
+            name: "color",
+            type: "select",
+            iconName: "paint-roller",
+            valueData: {
+              value: settings.color,
+              displayValue: <div className={`size-6 rounded-full ${walletsColorMap.background[settings.color]}`}></div>
+            },
+          },
+          modal: {
+            Component: DateModal,
+            props: {
+              name: "color",
+              modalHeight: "h-1/3",
+            },
+            state: {
+              value: settings.currency,
+              updateState: ""
+            }
           }
         },
         {
-          name: "categories",
-          type: "select",
-          iconName: "categories",
-          valueData: {
-            value: JSON.stringify(settings.categories.map(category => category.id)),
-            displayValue: settings.categories.length
+          settingWidgetProps: {
+            name: "categories",
+            type: "select",
+            iconName: "categories",
+            valueData: {
+              value: JSON.stringify(settings.categories.map(category => category.id)),
+              displayValue: settings.categories.length
+            },
+          },
+          modal: {
+            Component: DateModal,
+            props: {
+              name: "categories",
+              modalHeight: "h-[90%]",
+            },
+            state: {
+              value: settings.currency,
+              updateState: ""
+            }
           }
         },
       ]}

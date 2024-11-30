@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useMountTransition, useTransaction } from "@/hooks";
+import { useInnerModal, useMountTransition, useTransaction } from "@/hooks";
 import { capitalize } from "@/utils/str";
 import { getDateBtnValue } from "./helpers";
 
@@ -23,8 +23,7 @@ export default function TransactionFormField({ name }) {
     updateTransactionData
   } = useTransaction();
 
-  const [isSelectModalOpen, setSelectModalOpen] = useState(false);
-  const hasTransitioned = useMountTransition(isSelectModalOpen, 300)
+  const [isSelectModalOpen, setSelectModalOpen, hasTransitioned] = useInnerModal(300);
 
   const formFields = {
     "wallet": {
