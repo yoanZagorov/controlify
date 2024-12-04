@@ -56,7 +56,6 @@ export default function WalletSettings() {
             Component: CurrencyModal,
             props: {
               name: "currency",
-              modalHeight: "h-1/2",
             },
             state: {
               value: settings.currency,
@@ -78,7 +77,6 @@ export default function WalletSettings() {
             Component: DateModal,
             props: {
               name: "color",
-              modalHeight: "h-1/3",
             },
             state: {
               value: settings.currency,
@@ -100,7 +98,6 @@ export default function WalletSettings() {
             Component: DateModal,
             props: {
               name: "categories",
-              modalHeight: "h-[90%]",
             },
             state: {
               value: settings.currency,

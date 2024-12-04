@@ -21,6 +21,7 @@ export default function SettingsSection({ action, section, settings }) {
     <Section
       title="Settings"
       {...section}
+      className="relative"
     >
       <fetcher.Form method="post" className="flex flex-col gap-8 relative" action={action}>
         {settingEls}
@@ -32,7 +33,7 @@ export default function SettingsSection({ action, section, settings }) {
         >
           Save Changes
         </Button>
-        <SvgIcon iconName="flag-eu" className="" />
+        {/* <SvgIcon iconName="flag-eu" className="w-[90px] h-[54px]" /> */}
 
       </fetcher.Form>
     </Section>

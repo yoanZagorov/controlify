@@ -2,8 +2,6 @@ import { SvgIcon } from "@/components/SvgIcon"
 import { Widget } from "@/components/widgets/Widget"
 
 export default function CurrencyModal({ closeModal, state }) {
-  console.log(state);
-
   const currencies = [
     {
       name: "BGN",
@@ -33,9 +31,9 @@ export default function CurrencyModal({ closeModal, state }) {
     const isActive = name === state.value;
 
     return (
-      <button onClick={() => handleClick(name)}>
-        <Widget key={index} colorPalette="secondary" className="flex items-center gap-4">
-          <SvgIcon iconName={iconName} className="w-10 h-5" />
+      <button key={index} onClick={() => handleClick(name)}>
+        <Widget colorPalette="secondary" className="flex items-center gap-4">
+          <SvgIcon iconName={iconName} className="w-[50px] h-[30px]" />
           <span className="text-lg text-gray-dark font-semibold">{name}</span>
 
           <div className="ml-auto flex justify-center items-center size-6 rounded-full bg-navy">

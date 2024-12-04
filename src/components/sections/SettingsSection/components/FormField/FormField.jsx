@@ -1,23 +1,26 @@
 import { SelectModal } from "@/components/modals/SelectModal";
-import { useInnerModal } from "@/hooks";
+import { useInnerModal, useOutsideClick } from "@/hooks";
 import { SettingWidget } from "../SettingWidget";
+import { ModalWrapper } from "@/components/modals/ModalWrapper";
 
 export default function FormField({ modal, settingWidgetProps }) {
   const [isSelectModalOpen, setSelectModalOpen, hasTransitioned] = useInnerModal(300);
+  const modalRef = useOutsideClick(isSelectModalOpen, () => setSelectModalOpen(false));
 
   return modal ? (
     <>
       <SettingWidget {...settingWidgetProps} handleClick={() => setSelectModalOpen(true)} />
 
       {(isSelectModalOpen || hasTransitioned) &&
-        <SelectModal
-          isSelectModalOpen={isSelectModalOpen}
-          closeModal={() => setSelectModalOpen(false)}
+        <ModalWrapper
+          isModalOpen={isSelectModalOpen}
           hasTransitioned={hasTransitioned}
-          {...modal.props}
+          ref={modalRef}
         >
-          <modal.Component closeModal={() => setSelectModalOpen(false)} state={modal.state} />
-        </SelectModal>
+          <SelectModal {...modal.props}>
+            <modal.Component closeModal={() => setSelectModalOpen(false)} state={modal.state} />
+          </SelectModal>
+        </ModalWrapper>
       }
     </>
   ) : (

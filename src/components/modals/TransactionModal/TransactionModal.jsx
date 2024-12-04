@@ -6,6 +6,7 @@ import { useAutoFocus, useOutsideClick, useTransaction } from "@/hooks";
 import { TransactionFormField } from "./components/TransactionFormField";
 import { Button } from "@/components/Button";
 import { useEffect } from "react";
+import { ModalWrapper } from "../ModalWrapper"
 
 export default function TransactionModal({ closeModal, isTransactionModalOpen, hasTransitioned }) {
   const {
@@ -18,7 +19,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
   } = useTransaction();
 
   const amountInputRef = useAutoFocus();
-  const formRef = useOutsideClick(isTransactionModalOpen, closeModal);
+  const modalRef = useOutsideClick(isTransactionModalOpen, closeModal);
 
   const fetcher = useFetcher({ key: "add-transaction" });
 
@@ -49,21 +50,6 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
   }
 
   const classes = {
-    modal: "fixed left-0 rounded-lg duration-300",
-    overlay: function () { // turned to method, in order to access the modal property
-      return cn(
-        "h-screen w-screen top-0 bg-black z-20 transition-opacity",
-        this.modal,
-        (isTransactionModalOpen && hasTransitioned) ? "opacity-50" : "opacity-0"
-      )
-    },
-    form: function () { // turned to method, in order to access the modal property 
-      return cn(
-        "h-[90%] ml:w-[calc(425px-2*16px)] bottom-0 ml:inset-0 ml:m-auto bg-gray-light transition-transform z-30", // calc - ml breakpoint - padding
-        this.modal,
-        !(isTransactionModalOpen && hasTransitioned) && "translate-y-[100vh]"
-      )
-    },
     amountValue: cn(
       "flex gap-2 items-end text-xl",
       isExpense ? "text-red-light" : "text-green-light"
@@ -75,16 +61,15 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
   }
 
   return (
-    <>
-      {/* Overlay */}
-      <div className={classes.overlay()}></div>
-
-      {/* Modal */}
+    <ModalWrapper
+      ref={modalRef}
+      isModalOpen={isTransactionModalOpen}
+      hasTransitioned={hasTransitioned}
+    >
       <fetcher.Form
         method="post"
         action="/app/dashboard"
-        className={classes.form()}
-        ref={formRef}
+        className="h-full"
       >
         <div className="relative w-full h-full">
           <div className="py-10 px-4 tab:px-6 flex items-end gap-4 rounded-t-lg font-semibold tracking-wide bg-navy shadow">
@@ -141,6 +126,6 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
           </div>
         </div>
       </fetcher.Form>
-    </>
+    </ModalWrapper>
   )
 }

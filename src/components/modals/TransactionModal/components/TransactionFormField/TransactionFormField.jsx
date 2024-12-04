@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useInnerModal, useMountTransition, useTransaction } from "@/hooks";
+import { useInnerModal, useMountTransition, useOutsideClick, useTransaction } from "@/hooks";
 import { capitalize } from "@/utils/str";
 import { getDateBtnValue } from "./helpers";
 
@@ -12,6 +12,7 @@ import { SvgIcon } from "@/components/SvgIcon";
 import { Button } from "@/components/Button";
 import formatEntityName from "@/utils/formatting/formatEntityName";
 import { Select } from "@/components/Select";
+import { ModalWrapper } from "@/components/modals/ModalWrapper";
 
 export default function TransactionFormField({ name }) {
   const {
@@ -24,6 +25,8 @@ export default function TransactionFormField({ name }) {
   } = useTransaction();
 
   const [isSelectModalOpen, setSelectModalOpen, hasTransitioned] = useInnerModal(300);
+
+  const modalRef = useOutsideClick(isSelectModalOpen, () => setSelectModalOpen(false));
 
   const formFields = {
     "wallet": {
@@ -118,19 +121,25 @@ export default function TransactionFormField({ name }) {
       />
 
       {(isSelectModalOpen || hasTransitioned) &&
-        <SelectModal
-          name={name}
-          modalHeight={modalHeight}
-          contentMaxW={contentMaxW}
-          closeModal={handleClose}
-          isSelectModalOpen={isSelectModalOpen}
+        <ModalWrapper
+          type="nested"
+          isModalOpen={isSelectModalOpen}
           hasTransitioned={hasTransitioned}
+          modalHeight={modalHeight}
+          ref={modalRef}
         >
-          <Modal
-            closeModal={handleClose}
-            state={state}
-          />
-        </SelectModal>
+
+          <SelectModal
+            type="nested"
+            name={name}
+            contentMaxW={contentMaxW}
+          >
+            <Modal
+              closeModal={handleClose}
+              state={state}
+            />
+          </SelectModal>
+        </ModalWrapper>
       }
     </div>
   )
