@@ -8,7 +8,7 @@ import { Button } from "@/components/Button";
 import { useEffect } from "react";
 import { ModalWrapper } from "../ModalWrapper"
 
-export default function TransactionModal({ closeModal, isTransactionModalOpen, hasTransitioned }) {
+export default function TransactionModal({ closeModal, isTransactionModalOpen, hasTransitioned, modalRef }) {
   const {
     transactionData: {
       amount,
@@ -19,7 +19,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
   } = useTransaction();
 
   const amountInputRef = useAutoFocus();
-  const modalRef = useOutsideClick(isTransactionModalOpen, closeModal);
+  // const modalRef = useOutsideClick(isTransactionModalOpen, closeModal);
 
   const fetcher = useFetcher({ key: "add-transaction" });
 
@@ -71,7 +71,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
         action="/app/dashboard"
         className="h-full"
       >
-        <div className="relative w-full h-full">
+        <div className="relative w-full h-full rounded-t-lg ml:rounded-lg bg-gray-light">
           <div className="py-10 px-4 tab:px-6 flex items-end gap-4 rounded-t-lg font-semibold tracking-wide bg-navy shadow">
             <label
               htmlFor="transactionAmount"
@@ -99,7 +99,7 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
             </span>
           </div>
 
-          <div className="mt-16 px-4 tab:px-6 flex flex-col">
+          <div className="mt-16 px-4 pb-4 tab:px-6 flex flex-col">
             <div className="flex flex-col gap-8">
               <TransactionFormField
                 name="wallet"

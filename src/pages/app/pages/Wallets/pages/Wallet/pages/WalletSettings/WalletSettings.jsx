@@ -15,7 +15,7 @@ export default function WalletSettings() {
     currency,
     color,
     categories
-  })
+  }) // To do: wallet settings context (eventually)
 
   function updateSettings(newSettings) {
     setSettings(prev => ({

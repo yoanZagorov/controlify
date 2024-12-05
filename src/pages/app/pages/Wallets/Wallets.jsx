@@ -17,7 +17,7 @@ export default function Wallets() {
   useScrollToTop();
 
   const fetcher = useFetcher({ key: "add-transaction" });
-  const [isTransactionModalOpen, setTransactionModalOpen, hasTransitioned] = useModal(fetcher, 300);
+  const { modalState: [isTransactionModalOpen, setTransactionModalOpen], hasTransitioned } = useModal({ fetcher });
 
   const { transactions, wallets, expensesByWalletChartData } = useLoaderData();
   // const hasExpenses = expensesByWalletChartData.find(entry => entry !== null);

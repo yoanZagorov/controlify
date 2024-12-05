@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useInnerModal, useMountTransition, useOutsideClick, useTransaction } from "@/hooks";
+import { useInnerModal, useModal, useMountTransition, useOutsideClick, useTransaction } from "@/hooks";
 import { capitalize } from "@/utils/str";
 import { getDateBtnValue } from "./helpers";
 
@@ -24,15 +24,18 @@ export default function TransactionFormField({ name }) {
     updateTransactionData
   } = useTransaction();
 
-  const [isSelectModalOpen, setSelectModalOpen, hasTransitioned] = useInnerModal(300);
+  const {
+    modalState: [isSelectModalOpen, setSelectModalOpen],
+    hasTransitioned,
+    modalRef
+  } = useModal({ type: "non-blocking" });
 
-  const modalRef = useOutsideClick(isSelectModalOpen, () => setSelectModalOpen(false));
+  // const modalRef = useOutsideClick(isSelectModalOpen, () => setSelectModalOpen(false));
 
   const formFields = {
     "wallet": {
       Modal: WalletModal,
-      modalHeight: "h-1/2",
-      contentMaxW: "max-w-none",
+      minHeight: "min-h-[50%]",
       inputValue: wallet.id,
       btnValue: formatEntityName(wallet.name),
       iconName: "wallet",
@@ -48,8 +51,7 @@ export default function TransactionFormField({ name }) {
     },
     "category": {
       Modal: CategoryModal,
-      modalHeight: "h-4/5",
-      contentMaxW: "max-w-none",
+      minHeight: "min-h-[75%]",
       inputValue: category.id,
       btnValue: formatEntityName(category.name),
       iconName: "categories",
@@ -66,8 +68,7 @@ export default function TransactionFormField({ name }) {
     },
     "date": {
       Modal: DateModal,
-      modalHeight: "h-[70%]",
-      contentMaxW: "max-w-80",
+      contentMaxWidth: "max-w-80",
       inputValue: date,
       btnValue: getDateBtnValue(date),
       iconName: "calendar",
@@ -82,7 +83,7 @@ export default function TransactionFormField({ name }) {
     }
   };
 
-  const { Modal, modalHeight, contentMaxW, inputValue, btnValue, iconName, state } = formFields[name];
+  const { Modal, minHeight, contentMaxWidth, inputValue, btnValue, iconName, state } = formFields[name];
 
   function handleClose() {
     setSelectModalOpen(false);
@@ -122,17 +123,20 @@ export default function TransactionFormField({ name }) {
 
       {(isSelectModalOpen || hasTransitioned) &&
         <ModalWrapper
-          type="nested"
+          type={{
+            layout: "nested",
+            blocking: false
+          }}
           isModalOpen={isSelectModalOpen}
           hasTransitioned={hasTransitioned}
-          modalHeight={modalHeight}
+          minHeight={minHeight}
           ref={modalRef}
         >
 
           <SelectModal
             type="nested"
             name={name}
-            contentMaxW={contentMaxW}
+            contentMaxWidth={contentMaxWidth}
           >
             <Modal
               closeModal={handleClose}

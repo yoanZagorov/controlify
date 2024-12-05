@@ -31,7 +31,7 @@ export default function CurrencyModal({ closeModal, state }) {
     const isActive = name === state.value;
 
     return (
-      <button key={index} onClick={() => handleClick(name)}>
+      <button key={index} type="button" onClick={() => handleClick(name)}>
         <Widget colorPalette="secondary" className="flex items-center gap-4">
           <SvgIcon iconName={iconName} className="w-[50px] h-[30px]" />
           <span className="text-lg text-gray-dark font-semibold">{name}</span>

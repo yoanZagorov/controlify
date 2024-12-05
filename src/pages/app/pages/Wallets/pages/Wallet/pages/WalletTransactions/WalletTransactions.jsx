@@ -12,7 +12,11 @@ export default function WalletTransactions() {
 
   const fetcher = useFetcher({ key: "add-transaction" });
 
-  const [isTransactionModalOpen, setTransactionModalOpen, hasTransitioned] = useModal(fetcher, 300);
+  const {
+    modalState: [isTransactionModalOpen, setTransactionModalOpen],
+    hasTransitioned,
+    modalRef
+  } = useModal({ fetcher });
 
   return (
     <>
@@ -36,6 +40,7 @@ export default function WalletTransactions() {
             closeModal={() => setTransactionModalOpen(false)}
             isTransactionModalOpen={isTransactionModalOpen}
             hasTransitioned={hasTransitioned}
+            modalRef={modalRef}
           />
         </TransactionProvider>
       }

@@ -32,6 +32,5 @@ export default function useOutsideClick(isOpen, close, { eventListenerCondition 
     }
   }
 
-
   return ref;
 }

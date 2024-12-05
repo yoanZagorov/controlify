@@ -32,7 +32,11 @@ export default function Dashboard() {
 
   const fetcher = useFetcher({ key: "add-transaction" });
 
-  const [isTransactionModalOpen, setTransactionModalOpen, hasTransitioned] = useModal(fetcher, 300);
+  const {
+    modalState: [isTransactionModalOpen, setTransactionModalOpen],
+    hasTransitioned,
+    modalRef
+  } = useModal({ fetcher });
 
   const { isSidebarExpanded } = useLayout();
   const { isMobile, isTablet, isLaptopS } = useBreakpoint();
@@ -100,6 +104,7 @@ export default function Dashboard() {
             closeModal={() => setTransactionModalOpen(false)}
             isTransactionModalOpen={isTransactionModalOpen}
             hasTransitioned={hasTransitioned}
+            modalRef={modalRef}
           />
         </TransactionProvider>
       }
