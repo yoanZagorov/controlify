@@ -1,8 +1,9 @@
+import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { DateModal } from "@/components/modals/DateModal";
 import { SettingsSection } from "@/components/sections/SettingsSection";
 import { formatEntityName } from "@/utils/formatting";
-import { walletsColorMap } from "@/utils/wallet";
+import { walletsColorMap, walletsColors } from "@/utils/wallet";
 import { useState } from "react";
 import { useRouteLoaderData } from "react-router";
 
@@ -53,9 +54,12 @@ export default function WalletSettings() {
             },
           },
           modal: {
-            Component: CurrencyModal,
-            props: {
+            selectModalProps: {
               name: "currency",
+            },
+            innerModal: {
+              Component: CurrencyModal,
+              props: [],
             },
             state: {
               value: settings.currency,
@@ -70,17 +74,20 @@ export default function WalletSettings() {
             iconName: "paint-roller",
             valueData: {
               value: settings.color,
-              displayValue: <div className={`size-6 rounded-full ${walletsColorMap.background[settings.color]}`}></div>
+              displayValue: <div className="size-6 rounded-full" style={{ backgroundColor: settings.color }}></div>
             },
           },
           modal: {
-            Component: DateModal,
-            props: {
+            selectModalProps: {
               name: "color",
             },
+            innerModal: {
+              Component: ColorModal,
+              props: { colors: walletsColors },
+            },
             state: {
-              value: settings.currency,
-              updateState: ""
+              value: settings.color,
+              updateState: (newColorCode) => updateSettings({ color: newColorCode })
             }
           }
         },
@@ -95,9 +102,12 @@ export default function WalletSettings() {
             },
           },
           modal: {
-            Component: DateModal,
-            props: {
+            selectModalProps: {
               name: "categories",
+            },
+            innerModal: {
+              Component: DateModal,
+              props: [],
             },
             state: {
               value: settings.currency,

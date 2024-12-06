@@ -29,6 +29,7 @@ import BulgariaFlagIcon from "@/assets/icons/flag-bulgaria.svg?react";
 import USAFlagIcon from "@/assets/icons/flag-usa.svg?react";
 import EUFlagIcon from "@/assets/icons/flag-eu.svg?react";
 import UKFlagIcon from "@/assets/icons/flag-uk.svg?react";
+import CheckIcon from "@/assets/icons/check.svg?react";
 
 // Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
@@ -91,6 +92,7 @@ const iconComponentsMap = {
   "flag-usa": USAFlagIcon,
   "flag-eu": EUFlagIcon,
   "flag-uk": UKFlagIcon,
+  "check": CheckIcon,
 }
 
 export default function SvgIcon({ iconName, ...props }) {

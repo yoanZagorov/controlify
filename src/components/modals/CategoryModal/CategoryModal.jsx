@@ -60,10 +60,10 @@ export default function CategoryModal({ closeModal, state }) {
         options={toggleSwitchOptions}
         activeOption={activeOption}
         handleToggle={handleToggle}
-        className="mt-3 border border-gray-dark bg-gray-light"
+        className="border border-gray-dark bg-gray-light"
       />
 
-      <ul className="mt-6 grid grid-cols-3 gap-x-10 gap-y-4">
+      <ul className="mt-6 grid grid-cols-[repeat(auto-fit,80px)] justify-between items-start gap-6">
         {activeOption === "expense"
           ? expenseCategoriesEls
           : incomeCategoriesEls

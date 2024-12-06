@@ -45,6 +45,6 @@ export default function CurrencyModal({ closeModal, state }) {
   })
 
   return (
-    <div className="mt-7 flex flex-col gap-5">{currencyEls}</div>
+    <div className="flex flex-col gap-5">{currencyEls}</div>
   )
 }

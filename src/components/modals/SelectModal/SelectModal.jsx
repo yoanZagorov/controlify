@@ -14,7 +14,9 @@ export default function SelectModal({ type = "fullscreen", name, contentMaxWidth
     <div className={modalClassName}>
       <div className={`mx-auto ${contentMaxWidth}`}>
         <span className="text-gray-dark font-semibold">Select {capitalize(name)}</span>
-        {children}
+        <div className="mt-6">
+          {children}
+        </div>
       </div>
     </div>
   )

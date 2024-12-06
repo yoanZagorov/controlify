@@ -27,8 +27,12 @@ export default function FormField({ modal, settingWidgetProps }) {
           minHeight={modal.minHeight}
           ref={modalRef}
         >
-          <SelectModal {...modal.props}>
-            <modal.Component closeModal={() => setSelectModalOpen(false)} state={modal.state} />
+          <SelectModal {...modal.selectModalProps}>
+            <modal.innerModal.Component
+              closeModal={() => setSelectModalOpen(false)}
+              state={modal.state}
+              {...modal.innerModal.props}
+            />
           </SelectModal>
         </ModalWrapper>
       }

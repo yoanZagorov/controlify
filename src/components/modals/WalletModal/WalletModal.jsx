@@ -50,7 +50,7 @@ export default function WalletModal({ closeModal, state }) {
   ))
 
   return (
-    <ul className="mt-3 flex flex-col gap-4">
+    <ul className="flex flex-col gap-4">
       {walletsEls}
     </ul>
   )
