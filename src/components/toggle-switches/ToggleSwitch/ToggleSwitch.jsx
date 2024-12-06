@@ -9,7 +9,7 @@ export default function ToggleSwitch({ options, activeOption, handleToggle, clas
     const optionClasses = cn(
       options.baseOptionClasses,
       activeOption === option.name && options.baseActiveOptionClasses,
-      activeOption === option.name ? option.activeClassName : option.className
+      activeOption === option.name ? option.className.active : option.className.base
     );
 
     return (

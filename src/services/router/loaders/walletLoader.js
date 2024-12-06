@@ -10,6 +10,7 @@ import { getTransactions } from "@/services/firebase/db/transaction";
 import { getExpensesByCategoryChartData } from "@/utils/category";
 import { getPeriodInfo } from "../utils";
 import { getExpensesVsIncomeChartData } from "@/utils/wallet";
+import { getCategory } from "@/services/firebase/db/category";
 
 export default async function walletLoader({ params, request }) {
   const userId = await getAuthUserId();
@@ -33,6 +34,10 @@ export default async function walletLoader({ params, request }) {
 
   try {
     const wallet = await getWallet(userId, walletId);
+
+    // const categoryPromises = wallet.categories.map(category => getCategory(userId, category.id));
+    // const categories = await Promise.all(categoryPromises);
+
     const transactions = await getTransactions({ userId, wallets: [wallet] })
     transactions.sort((a, b) => b.date - a.date);
 

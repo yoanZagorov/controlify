@@ -3,7 +3,7 @@ import { getDefaultCurrency } from "@/utils/user";
 import { AppError } from "@/utils/errors";
 import { defaultCategories } from "../category";
 
-export default function createDefaultWallet(userDocRef, batch, categoriesIds) {
+export default function createDefaultWallet(userDocRef, batch, categories) {
   // To do:
   const currency = getDefaultCurrency() || "BGN";
 
@@ -19,7 +19,7 @@ export default function createDefaultWallet(userDocRef, batch, categoriesIds) {
     iconName: "wallet",
     isDefault: true,
     color: "#004D40",
-    visibleCategories: categoriesIds,
+    categories,
     createdAt: serverTimestamp(),
     deletedAt: null, // Will be used when implement the ability to delete wallets with soft deletion
   })

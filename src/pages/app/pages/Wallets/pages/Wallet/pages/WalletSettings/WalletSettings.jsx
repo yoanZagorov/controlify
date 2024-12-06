@@ -1,6 +1,6 @@
+import { CategoriesVisibilityModal } from "@/components/modals/CategoriesVisibilityModal";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
-import { DateModal } from "@/components/modals/DateModal";
 import { SettingsSection } from "@/components/sections/SettingsSection";
 import { formatEntityName } from "@/utils/formatting";
 import { walletsColorMap, walletsColors } from "@/utils/wallet";
@@ -8,8 +8,17 @@ import { useState } from "react";
 import { useRouteLoaderData } from "react-router";
 
 export default function WalletSettings() {
-  const { wallet: { id, name, currency, color } } = useRouteLoaderData("wallet");
-  const { userData: { categories } } = useRouteLoaderData("app"); // To do: create a visibleCategories collection on the wallet itself
+  const { wallet: { id, name, currency, color, categories: walletCategories } } = useRouteLoaderData("wallet");
+  const { userData: { categories: userCategories } } = useRouteLoaderData("app");
+
+  const categories = userCategories.map((userCategory, index) => {
+    const currentWalletCategory = walletCategories.find(walletCategory => walletCategory.id === userCategory.id);
+
+    return {
+      ...userCategory,
+      ...currentWalletCategory
+    }
+  })
 
   const [settings, setSettings] = useState({
     name,
@@ -59,7 +68,6 @@ export default function WalletSettings() {
             },
             innerModal: {
               Component: CurrencyModal,
-              props: [],
             },
             state: {
               value: settings.currency,
@@ -106,12 +114,12 @@ export default function WalletSettings() {
               name: "categories",
             },
             innerModal: {
-              Component: DateModal,
-              props: [],
+              Component: CategoriesVisibilityModal,
+              props: { categories }
             },
             state: {
-              value: settings.currency,
-              updateState: ""
+              value: settings.categories.length,
+              updateState: (newCategories) => updateSettings({ categories: newCategories })
             }
           }
         },

@@ -20,8 +20,8 @@ export default async function createUser(email, fullName, userId) {
     createdAt: serverTimestamp()
   });
 
-  const categoriesIds = createCategories(userDocRef, batch);
-  createDefaultWallet(userDocRef, batch, categoriesIds);
+  const walletCategories = createCategories(userDocRef, batch);
+  createDefaultWallet(userDocRef, batch, walletCategories);
 
   try {
     await batch.commit();

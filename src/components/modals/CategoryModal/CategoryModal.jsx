@@ -4,7 +4,8 @@ import { useRouteLoaderData } from "react-router"
 import { getCategoriesByType } from "@/utils/category";
 
 import { CategoryItem } from "./components/CategoryItem";
-import { ToggleSwitch } from "@/components/ToggleSwitch";
+import { ToggleSwitch } from "@/components/toggle-switches/ToggleSwitch";
+import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
 
 export default function CategoryModal({ closeModal, state }) {
   const { userData: { categories } } = useRouteLoaderData("app");
@@ -32,35 +33,11 @@ export default function CategoryModal({ closeModal, state }) {
   const expenseCategoriesEls = createCategoryEls(expenseCategories);
   const incomeCategoriesEls = createCategoryEls(incomeCategories);
 
-  const toggleSwitchOptions = {
-    firstOption: {
-      name: "expense",
-      className: "text-red-dark",
-      activeClassName: "text-red-light"
-    },
-    secondOption: {
-      name: "income",
-      className: "text-green-dark",
-      activeClassName: "text-green-light"
-    },
-    baseOptionClasses: "w-1/2 rounded-full py-1 px-3 text-center font-medium focus-visible:outline-goldenrod transition-colors",
-    baseActiveOptionClasses: "bg-navy"
-  }
-
-  function handleToggle() {
-    setActiveOption(prev =>
-      prev === toggleSwitchOptions.firstOption.name
-        ? toggleSwitchOptions.secondOption.name
-        : toggleSwitchOptions.firstOption.name);
-  }
-
   return (
     <div>
-      <ToggleSwitch
-        options={toggleSwitchOptions}
+      <CategoriesTypeToggleSwitch
         activeOption={activeOption}
-        handleToggle={handleToggle}
-        className="border border-gray-dark bg-gray-light"
+        handleToggle={() => setActiveOption(prev => prev === "expense" ? "income" : "expense")}
       />
 
       <ul className="mt-6 grid grid-cols-[repeat(auto-fit,80px)] justify-between items-start gap-6">

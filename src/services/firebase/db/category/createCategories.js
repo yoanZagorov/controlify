@@ -11,7 +11,7 @@ export default function createCategories(userDocRef, batch) {
   defaultCategories.forEach(category => {
     const categoryDocRef = doc(categoriesCollectionRef);
     batch.set(categoryDocRef, { ...category })
-    categoriesIds.push(categoryDocRef.id);
+    categoriesIds.push({ id: categoryDocRef.id, isVisible: true });
   })
 
   return categoriesIds;
