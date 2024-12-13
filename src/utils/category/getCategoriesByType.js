@@ -22,8 +22,8 @@ export default function getCategoriesByType(categories) {
     }
   }
 
-  expenseCategories.push(expenseOtherCategory);
-  incomeCategories.push(incomeOtherCategory);
+  expenseOtherCategory && expenseCategories.push(expenseOtherCategory);
+  incomeOtherCategory && incomeCategories.push(incomeOtherCategory);
 
   return { expenseCategories, incomeCategories };
 }

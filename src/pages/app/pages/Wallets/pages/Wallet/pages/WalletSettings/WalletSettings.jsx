@@ -4,28 +4,38 @@ import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { SettingsSection } from "@/components/sections/SettingsSection";
 import { formatEntityName } from "@/utils/formatting";
 import { walletsColorMap, walletsColors } from "@/utils/wallet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouteLoaderData } from "react-router";
 
 export default function WalletSettings() {
   const { wallet: { id, name, currency, color, categories: walletCategories } } = useRouteLoaderData("wallet");
   const { userData: { categories: userCategories } } = useRouteLoaderData("app");
 
-  const categories = userCategories.map((userCategory, index) => {
-    const currentWalletCategory = walletCategories.find(walletCategory => walletCategory.id === userCategory.id);
+  function getCurrentCategories() {
+    const currentCategories = userCategories.map(userCategory => {
+      const currentWalletCategory = walletCategories.find(walletCategory => walletCategory.id === userCategory.id);
 
-    return {
-      ...userCategory,
-      ...currentWalletCategory
-    }
-  })
+      return {
+        ...userCategory,
+        ...currentWalletCategory
+      }
+    })
+
+    return currentCategories;
+  }
 
   const [settings, setSettings] = useState({
     name,
     currency,
     color,
-    categories
+    categories: getCurrentCategories()
   }) // To do: wallet settings context (eventually)
+
+  // useEffect(() => {
+  //   updateSettings({ categories: getCurrentCategories() });
+  // }, [settings.categories])
+
+  console.log(settings);
 
   function updateSettings(newSettings) {
     setSettings(prev => ({
@@ -106,7 +116,7 @@ export default function WalletSettings() {
             iconName: "categories",
             valueData: {
               value: JSON.stringify(settings.categories.map(category => category.id)),
-              displayValue: settings.categories.length
+              displayValue: settings.categories.filter(category => category.isVisible).length
             },
           },
           modal: {
@@ -115,12 +125,13 @@ export default function WalletSettings() {
             },
             innerModal: {
               Component: CategoriesVisibilityModal,
-              props: { categories }
+              props: { categories: settings.categories }
             },
             state: {
               value: settings.categories.length,
               updateState: (newCategories) => updateSettings({ categories: newCategories })
-            }
+            },
+            minHeight: "min-h-[90%]"
           }
         },
       ]}
