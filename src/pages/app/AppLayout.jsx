@@ -5,20 +5,24 @@ import cn from "classnames";
 import { CollapsedSidebar } from "./layout-components/CollapsedSidebar";
 import { Sidebar } from "./layout-components/Sidebar";
 import { TopBar } from "./layout-components/TopBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InfoWidget } from "@/components/widgets/InfoWidget";
 
 export default function AppLayout() {
   const { isSidebarExpanded } = useLayout();
   const { isMobile, isTablet, isLaptopS, isDesktop } = useBreakpoint();
 
-  const fetcher = useFetcher({ key: "add-transaction" });
-  const addTransactionMsg = fetcher.data?.msg;
-  const addTransactionMsgType = fetcher.data?.msgType;
+  const addTransactionFetcher = useFetcher({ key: "add-transaction" });
+  const addTransactionMsg = addTransactionFetcher.data?.msg;
+  const addTransactionMsgType = addTransactionFetcher.data?.msgType;
 
   const { notificationData: { quote, redirectData } } = useLoaderData();
 
   const [redirectMsg, setRedirectMsg] = useState({ msg: redirectData.msg, msgType: redirectData.msgType }); // need to use local state to ensure no stale data
+
+  // useEffect(() => {
+  //   setRedirectMsg({ msg: redirectData?.msg, msgType: redirectData?.msgType })
+  // }, [redirectData]);
 
   const { flashMsg, clearFlashMsg } = useFlashMsg([
     {

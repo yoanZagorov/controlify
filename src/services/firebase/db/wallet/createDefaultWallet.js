@@ -13,7 +13,7 @@ export default function createDefaultWallet(userDocRef, batch, categories) {
   // const visibleCategories = categoriesIds.map(categoryId => ({ categoryId, isVisible: true })); // Use if you need to keep all the categories
 
   batch.set(walletDocRef, {
-    name: "cash",
+    name: "default",
     balance: 0,
     currency,
     iconName: "wallet",

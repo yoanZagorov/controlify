@@ -2,9 +2,11 @@ import { formatEntityName } from "@/utils/formatting";
 import { Link, Outlet, useLoaderData } from "react-router"
 import { NavItem } from "./layout-components/NavItem";
 import BackArrow from "@/assets/icons/arrow-back.png";
+import { useScrollToTop } from "@/hooks";
 
 export default function Wallet() {
   const { wallet } = useLoaderData();
+  useScrollToTop();
 
   const formattedName = formatEntityName(wallet.name);
 

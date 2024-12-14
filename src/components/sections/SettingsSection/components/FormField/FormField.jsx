@@ -5,10 +5,12 @@ import { ModalWrapper } from "@/components/modals/ModalWrapper";
 
 export default function FormField({ modal, settingWidgetProps }) {
   const {
-    modalState: [isSelectModalOpen, setSelectModalOpen],
+    modalState: [isSelectModalOpen, setSelectModalOpen] = [undefined, undefined],
     hasTransitioned,
     modalRef
-  } = useModal({ type: "non-blocking" });
+  } = modal
+      ? useModal({ type: modal.type })
+      : {};
 
   return (
     <>
@@ -20,7 +22,7 @@ export default function FormField({ modal, settingWidgetProps }) {
       {modal && (isSelectModalOpen || hasTransitioned) &&
         <ModalWrapper
           type={{
-            blocking: false
+            blocking: modal.type === "blocking"
           }}
           isModalOpen={isSelectModalOpen}
           hasTransitioned={hasTransitioned}

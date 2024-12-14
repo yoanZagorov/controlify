@@ -5,11 +5,13 @@ import { SettingsSection } from "@/components/sections/SettingsSection";
 import { formatEntityName } from "@/utils/formatting";
 import { walletsColorMap, walletsColors } from "@/utils/wallet";
 import { useEffect, useState } from "react";
-import { useRouteLoaderData } from "react-router";
+import { useFetcher, useRouteLoaderData } from "react-router";
 
 export default function WalletSettings() {
   const { wallet: { id, name, currency, color, categories: walletCategories } } = useRouteLoaderData("wallet");
   const { userData: { categories: userCategories } } = useRouteLoaderData("app");
+
+  const fetcher = useFetcher({ key: "updateWallet" });
 
   function getCurrentCategories() {
     const currentCategories = userCategories.map(userCategory => {
@@ -31,12 +33,6 @@ export default function WalletSettings() {
     categories: getCurrentCategories()
   }) // To do: wallet settings context (eventually)
 
-  // useEffect(() => {
-  //   updateSettings({ categories: getCurrentCategories() });
-  // }, [settings.categories])
-
-  console.log(settings);
-
   function updateSettings(newSettings) {
     setSettings(prev => ({
       ...prev,
@@ -46,6 +42,7 @@ export default function WalletSettings() {
 
   return (
     <SettingsSection
+      fetcher={fetcher}
       action={`/app/wallets/${id}`}
       section={{
         title: "Wallet Settings",
@@ -73,6 +70,7 @@ export default function WalletSettings() {
             },
           },
           modal: {
+            type: "non-blocking",
             selectModalProps: {
               name: "currency",
             },
@@ -96,6 +94,7 @@ export default function WalletSettings() {
             },
           },
           modal: {
+            type: "non-blocking",
             selectModalProps: {
               name: "color",
             },
@@ -115,11 +114,12 @@ export default function WalletSettings() {
             type: "select",
             iconName: "categories",
             valueData: {
-              value: JSON.stringify(settings.categories.map(category => category.id)),
+              value: JSON.stringify(settings.categories.map(({ id, isVisible }) => ({ id, isVisible }))),
               displayValue: settings.categories.filter(category => category.isVisible).length
             },
           },
           modal: {
+            type: "blocking",
             selectModalProps: {
               name: "categories",
             },

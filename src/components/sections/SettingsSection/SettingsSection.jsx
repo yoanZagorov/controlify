@@ -5,6 +5,7 @@ import { useFetcher } from "react-router";
 import { SelectModal } from "@/components/modals/SelectModal";
 import { FormField } from "./components/FormField";
 import { SvgIcon } from "@/components/SvgIcon";
+import { Form } from "react-router";
 
 export default function SettingsSection({ action, section, settings }) {
   const settingEls = settings.map((setting, index) => (
@@ -15,14 +16,12 @@ export default function SettingsSection({ action, section, settings }) {
     />
   ))
 
-  const fetcher = useFetcher({ key: "updateWalletSettings" });
-
   return (
     <Section
       title="Settings"
       {...section}
     >
-      <fetcher.Form method="post" className="flex flex-col gap-8" action={action}>
+      <Form method="post" className="flex flex-col gap-8" action={action}>
         {settingEls}
 
         <Button
@@ -32,7 +31,7 @@ export default function SettingsSection({ action, section, settings }) {
         >
           Save Changes
         </Button>
-      </fetcher.Form>
+      </Form>
     </Section>
   )
 }
