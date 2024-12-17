@@ -1,14 +1,18 @@
+import cn from "classnames";
+
 import Section from "@/components/sections/Section/Section";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { Transaction } from "./components/Transaction";
 import { Button } from "@/components/Button";
 import { Notification } from "@/components/Notification";
 import { SvgIcon } from "@/components/SvgIcon";
-import cn from "classnames";
 
-export default function TransactionsSection({ transactionType = "compact", hasFilter = true, section, widget, openModal, transactions, period, showDate = true }) {
+export default function TransactionsSection({ type = "compact", hasFilter = true, openModal, transactions, period, section, widget, display }) {
+  // To do: add filtering logic
+
   const hasTransactions = transactions.length > 0;
-  const isExpanded = transactionType === "expanded";
+  const isExpanded = type === "expanded";
+  const displayProps = { date: true, wallet: true, ...display };
 
   const transactionEls = hasTransactions ?
     transactions.map(transaction => (
@@ -16,7 +20,7 @@ export default function TransactionsSection({ transactionType = "compact", hasFi
         <Transaction
           isExpanded={isExpanded}
           transaction={transaction}
-          showDate={showDate}
+          display={displayProps}
         />
       </li>
     )) : null;

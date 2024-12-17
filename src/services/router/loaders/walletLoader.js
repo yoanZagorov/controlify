@@ -1,16 +1,17 @@
-import { getWallet } from "@/services/firebase/db/wallet";
-import { createErrorResponse, createSuccessResponse } from "../responses";
-import { getAuthUserId, getBalance } from "@/services/firebase/db/user";
-import { storeRedirectData } from "@/utils/storage";
-import { redirect } from "react-router";
-import { getBalanceChartData } from "@/utils/transaction";
-
 import { where } from "firebase/firestore";
+import { redirect } from "react-router";
+
 import { getTransactions } from "@/services/firebase/db/transaction";
+import { getWallet } from "@/services/firebase/db/wallet";
+import { getAuthUserId } from "@/services/firebase/db/user";
+
+import { storeRedirectData } from "@/utils/storage";
+import { getBalanceChartData } from "@/utils/transaction";
 import { getExpensesByCategoryChartData } from "@/utils/category";
-import { getPeriodInfo } from "../utils";
 import { getExpensesVsIncomeChartData } from "@/utils/wallet";
-import { getCategory } from "@/services/firebase/db/category";
+
+import { getPeriodInfo } from "../utils";
+import { createErrorResponse, createSuccessResponse } from "../responses";
 
 export default async function walletLoader({ params, request }) {
   const userId = await getAuthUserId();
@@ -35,13 +36,10 @@ export default async function walletLoader({ params, request }) {
   try {
     const wallet = await getWallet(userId, walletId);
 
-    // const categoryPromises = wallet.categories.map(category => getCategory(userId, category.id));
-    // const categories = await Promise.all(categoryPromises);
-
     const transactions = await getTransactions({ userId, wallets: [wallet] })
     transactions.sort((a, b) => b.date - a.date);
 
-    const periodTransactions = await getTransactions({ userId, wallets: [wallet], query: transactionsQuery }); // use for both functions below
+    const periodTransactions = await getTransactions({ userId, wallets: [wallet], query: transactionsQuery }); // used for both functions below
 
     const { openingBalance, balanceChartData } = await getBalanceChartData({ userId, wallets: [wallet], period, transactions: periodTransactions });
 

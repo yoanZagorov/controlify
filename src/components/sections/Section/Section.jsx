@@ -2,7 +2,7 @@ import cn from "classnames"
 
 export default function Section({ title, subtitle = "", className, contentClassName, children }) {
   const classes = {
-    section: className ? className : "",
+    section: cn(className),
     content: cn(
       "mt-4",
       contentClassName

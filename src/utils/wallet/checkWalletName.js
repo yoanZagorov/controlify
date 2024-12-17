@@ -3,7 +3,7 @@ import { ValidationError } from "../errors";
 export default function checkWalletName(untrimmedName) {
   const nameRegex = /^[a-zA-Z0-9 _.-]+$/;
 
-  const reservedWords = ["deleted, updated, system, all, none, deleted, archived, unknown, admin, root, user, account, balance, null, undefined, true, false, select, insert,"]
+  const reservedWords = ["deleted, updated, system, all, none, deleted, archived, unknown, admin, root, user, account, balance, null, undefined, true, false, select, insert,"];
 
   const name = untrimmedName.trim();
 

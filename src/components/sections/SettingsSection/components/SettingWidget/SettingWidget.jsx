@@ -1,16 +1,15 @@
+import { useEffect, useRef } from "react";
+
 import { capitalize } from "@/utils/str";
 
 import { SvgIcon } from "@/components/SvgIcon";
 import { Widget } from "@/components/widgets/Widget";
-import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
-import { useEffect, useRef } from "react";
-import { useBreakpoint } from "@/hooks";
 import { Select } from "@/components/Select";
 
 export default function SettingWidget({ name, type = "select", iconName, valueData, handleClick }) {
-  // const {isMobileS} = useBreakpoint();
   const inputRef = useRef(null);
+
   useEffect(() => {
     function selectInput() {
       inputRef.current.select();

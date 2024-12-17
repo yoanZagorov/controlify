@@ -1,16 +1,18 @@
-import { TransactionModal } from "@/components/modals/TransactionModal";
-import { TransactionsSection } from "@/components/sections/TransactionsSection";
-import { TransactionProvider } from "@/contexts";
-import { useBreakpoint, useLayout, useModal } from "@/hooks";
 import { useFetcher, useRouteLoaderData } from "react-router"
 
+import { TransactionProvider } from "@/contexts";
+
+import { useLayout, useModal } from "@/hooks";
+
+import { TransactionModal } from "@/components/modals/TransactionModal";
+import { TransactionsSection } from "@/components/sections/TransactionsSection";
+
 export default function WalletTransactions() {
-  const { isDesktop, isLaptopS } = useBreakpoint();
-  const { isSidebarExpanded } = useLayout();
+  const { isSingleColLayout } = useLayout();
 
   const { wallet, transactions } = useRouteLoaderData("wallet");
 
-  const fetcher = useFetcher({ key: "add-transaction" });
+  const fetcher = useFetcher({ key: "addTransaction" });
 
   const {
     modalState: [isTransactionModalOpen, setTransactionModalOpen],
@@ -21,7 +23,10 @@ export default function WalletTransactions() {
   return (
     <>
       <TransactionsSection
-        transactionType={isDesktop || (isLaptopS && !isSidebarExpanded) ? "expanded" : "compact"}
+        type={isSingleColLayout ? "compact" : "expanded"}
+        openModal={() => setTransactionModalOpen(true)}
+        transactions={transactions}
+        period="all-time"
         section={{
           title: "Wallet Transactions"
         }}
@@ -29,15 +34,14 @@ export default function WalletTransactions() {
           iconName: "arrows-rotate",
           title: "activity overview"
         }}
-        openModal={() => setTransactionModalOpen(true)}
-        transactions={transactions}
-        period="all-time"
+        display={{
+          wallet: false
+        }}
       />
 
       {(isTransactionModalOpen || hasTransitioned) &&
         <TransactionProvider wallet={wallet}>
           <TransactionModal
-            closeModal={() => setTransactionModalOpen(false)}
             isTransactionModalOpen={isTransactionModalOpen}
             hasTransitioned={hasTransitioned}
             modalRef={modalRef}

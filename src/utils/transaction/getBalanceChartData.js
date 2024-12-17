@@ -1,9 +1,11 @@
-import { getBalance } from "@/services/firebase/db/user";
 import { where } from "firebase/firestore";
+
+import { getBalance } from "@/services/firebase/db/user";
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { getWallets } from "@/services/firebase/db/wallet";
-import { performDecimalCalculation } from "../number";
 import { getPeriodInfo } from "@/services/router/utils";
+
+import { performDecimalCalculation } from "../number";
 
 export default async function getBalanceChartData({ userId, wallets = [], period, transactions = [] }) {
   const { start, end, periodLength } = getPeriodInfo(period);
@@ -28,7 +30,7 @@ export default async function getBalanceChartData({ userId, wallets = [], period
     where("date", "<", start)
   ];
 
-  const openingBalance = await getBalance(userId, wallets, balanceQuery);
+  const openingBalance = await getBalance(userId, allWallets, balanceQuery);
 
   const transactionsByDayMap = periodTransactions.reduce((acc, transaction) => {
     const dateKey = transaction.date.toDateString();

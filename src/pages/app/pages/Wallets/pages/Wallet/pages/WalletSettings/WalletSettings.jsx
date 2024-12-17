@@ -1,17 +1,30 @@
+import { useEffect, useState } from "react";
+import { useFetcher, useRouteLoaderData } from "react-router";
+
+import { resetFetcher } from "@/services/router/utils";
+import { formatEntityName } from "@/utils/formatting";
+import { walletsColors } from "@/utils/wallet";
+
 import { CategoriesVisibilityModal } from "@/components/modals/CategoriesVisibilityModal";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { SettingsSection } from "@/components/sections/SettingsSection";
-import { formatEntityName } from "@/utils/formatting";
-import { walletsColorMap, walletsColors } from "@/utils/wallet";
-import { useEffect, useState } from "react";
-import { useFetcher, useRouteLoaderData } from "react-router";
+import { useLayout } from "@/hooks";
 
 export default function WalletSettings() {
   const { wallet: { id, name, currency, color, categories: walletCategories } } = useRouteLoaderData("wallet");
   const { userData: { categories: userCategories } } = useRouteLoaderData("app");
 
+  const { isSingleColLayout } = useLayout();
+
   const fetcher = useFetcher({ key: "updateWallet" });
+
+  useEffect(() => {
+    if (fetcher.state === "idle" && fetcher.data) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      resetFetcher(fetcher);
+    }
+  }, [fetcher.data, fetcher.state])
 
   function getCurrentCategories() {
     const currentCategories = userCategories.map(userCategory => {
@@ -31,7 +44,7 @@ export default function WalletSettings() {
     currency,
     color,
     categories: getCurrentCategories()
-  }) // To do: wallet settings context (eventually)
+  })
 
   function updateSettings(newSettings) {
     setSettings(prev => ({
@@ -47,6 +60,7 @@ export default function WalletSettings() {
       section={{
         title: "Wallet Settings",
       }}
+      isSpaceLimited={isSingleColLayout}
       settings={[
         {
           settingWidgetProps: {
@@ -114,7 +128,7 @@ export default function WalletSettings() {
             type: "select",
             iconName: "categories",
             valueData: {
-              value: JSON.stringify(settings.categories.map(({ id, isVisible }) => ({ id, isVisible }))),
+              value: JSON.stringify(settings.categories.map(category => ({ id: category.id, isVisible: category.isVisible }))),
               displayValue: settings.categories.filter(category => category.isVisible).length
             },
           },

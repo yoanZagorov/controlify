@@ -1,14 +1,13 @@
 import cn from "classnames";
-import { useActionData, useFetcher } from "react-router";
+import { useFetcher } from "react-router";
 
-import { useAutoFocus, useOutsideClick, useTransaction } from "@/hooks";
+import { useAutoFocus, useTransaction } from "@/hooks";
 
 import { TransactionFormField } from "./components/TransactionFormField";
 import { Button } from "@/components/Button";
-import { useEffect } from "react";
 import { ModalWrapper } from "../ModalWrapper"
 
-export default function TransactionModal({ closeModal, isTransactionModalOpen, hasTransitioned, modalRef }) {
+export default function TransactionModal({ isTransactionModalOpen, hasTransitioned, modalRef }) {
   const {
     transactionData: {
       amount,
@@ -19,9 +18,8 @@ export default function TransactionModal({ closeModal, isTransactionModalOpen, h
   } = useTransaction();
 
   const amountInputRef = useAutoFocus();
-  // const modalRef = useOutsideClick(isTransactionModalOpen, closeModal);
 
-  const fetcher = useFetcher({ key: "add-transaction" });
+  const fetcher = useFetcher({ key: "addTransaction" });
 
   const transactionType = category.type || "expense";
   const isExpense = transactionType === "expense";

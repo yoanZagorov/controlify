@@ -1,14 +1,20 @@
 import { Amount } from "@/components/Amount";
 import { SvgIcon } from "@/components/SvgIcon";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
+import cn from "classnames";
 
-export default function BalanceAmountWidget({ iconName, title, amount, currency, balanceChange = null }) {
+export default function BalanceAmountWidget({ iconName, title, amount, currency, balanceChange = null, className }) {
   const isBalanceChangePositive = balanceChange >= 0;
+
+  const widgetClasses = cn(
+    balanceChange !== null && "relative",
+    className
+  )
 
   return (
     <ContentWidget
       iconName={iconName}
-      className={balanceChange !== null ? "relative" : ""}
+      className={widgetClasses}
       title={title}
       content={{ hasBackground: false, className: "mt-2" }}
     >

@@ -1,10 +1,13 @@
+import { doc, runTransaction } from "firebase/firestore";
+
+import { db } from "@/services/firebase/firebase.config";
 import { getAuthUserId } from "@/services/firebase/db/user";
-import { updateWallet } from "@/services/firebase/db/wallet";
+
 import { formatEntityNameForFirebase } from "@/utils/formatting";
-import { storeRedirectData } from "@/utils/storage";
 import { checkWalletName, checkWalletNameDuplicate } from "@/utils/wallet";
-import { redirect } from "react-router";
-import { createErrorResponse } from "../responses";
+import { ValidationError } from "@/utils/errors";
+
+import { createErrorResponse, createSuccessResponse } from "../responses";
 
 export default async function walletAction({ request, params }) {
   const userId = await getAuthUserId();
@@ -12,20 +15,60 @@ export default async function walletAction({ request, params }) {
 
   const formData = Object.fromEntries(await request.formData());
 
-  const { name, currency, color, categories: unparsedCategories } = formData;
-  const categories = JSON.parse(unparsedCategories);
+  const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
 
   try {
-    checkWalletName(name);
-    const formattedName = formatEntityNameForFirebase(name);
-    await checkWalletNameDuplicate(userId, formattedName)
+    checkWalletName(formData.name);
+    const formattedName = formatEntityNameForFirebase(formData.name);
 
-    await updateWallet(userId, walletId, { name: formattedName, currency, color, categories });
+    const formattedFormData = {
+      ...formData,
+      name: formattedName,
+      categories: JSON.parse(formData.categories)
+    }
 
-    storeRedirectData("Successfully updated wallet settings data!", "success");
-    return redirect(`/app/wallets/${walletId}`);
+    const { name, currency, color, categories } = formattedFormData;
+
+    await runTransaction(db, async (transaction) => {
+      const currentWalletState = (await transaction.get(walletDocRef)).data();
+
+      const hasDataChanged = {
+        name: currentWalletState.name !== name,
+        currency: currentWalletState.currency !== currency,
+        color: currentWalletState.color !== color,
+        categories: true // To do: do a real array comparison. This doesn't work (compared by reference): currentWalletState.categories === categories
+      }
+
+      if (hasDataChanged.name) {
+        await checkWalletNameDuplicate(userId, formattedName);
+      }
+
+      const dataToChange = {};
+
+      for (const property in hasDataChanged) {
+        if (hasDataChanged[property]) {
+          dataToChange[property] = formattedFormData[property];
+        };
+      }
+
+      if (Object.keys(dataToChange).length === 0) throw new Error("You haven't performed any changes");
+
+      transaction.update(walletDocRef, {
+        ...dataToChange
+      })
+    })
+
+    return createSuccessResponse({
+      msg: "Successfully updated wallet settings data!",
+      msgType: "success",
+    })
   } catch (error) {
     console.error(error);
-    createErrorResponse(error.statusCode, error.message);
+
+    if (error instanceof ValidationError) {
+      return createErrorResponse(error.statusCode, error.message);
+    }
+
+    return createErrorResponse(500, error.message);
   }
 }

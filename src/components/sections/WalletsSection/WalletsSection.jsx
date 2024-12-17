@@ -26,7 +26,7 @@ export default function WalletsSection({ section, wallets }) {
   )
 
   return (
-    <Section title={section.title} className={section.className || ""}>
+    <Section {...section}>
       <div className={gridClasses}>
         {walletWidgets}
 

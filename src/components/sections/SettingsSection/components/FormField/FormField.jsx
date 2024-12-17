@@ -1,16 +1,15 @@
+import { useModal } from "@/hooks";
+
 import { SelectModal } from "@/components/modals/SelectModal";
-import { useInnerModal, useModal, useOutsideClick } from "@/hooks";
-import { SettingWidget } from "../SettingWidget";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
+import { SettingWidget } from "../SettingWidget";
 
 export default function FormField({ modal, settingWidgetProps }) {
   const {
-    modalState: [isSelectModalOpen, setSelectModalOpen] = [undefined, undefined],
+    modalState: [isSelectModalOpen, setSelectModalOpen] = [undefined, undefined], // Accounting for cases where modal is null
     hasTransitioned,
     modalRef
-  } = modal
-      ? useModal({ type: modal.type })
-      : {};
+  } = modal ? useModal({ type: modal.type }) : {};
 
   return (
     <>

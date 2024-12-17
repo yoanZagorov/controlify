@@ -15,7 +15,7 @@ import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { BalanceLineChart } from "@/components/charts/BalanceLineChart";
 import { TransactionsSection } from "@/components/sections/TransactionsSection";
 import { WalletsSection } from "@/components/sections/WalletsSection";
-import { BalanceSection } from "@/components/sections/BalanceSection";
+import { BalanceSection } from "./sections/BalanceSection";
 
 export default function Dashboard() {
   useScrollToTop();
@@ -82,6 +82,9 @@ export default function Dashboard() {
 
         <TransactionsSection
           hasFilter={false}
+          openModal={() => setTransactionModalOpen(true)}
+          transactions={todayTransactions}
+          period="today"
           section={{
             title: "Transactions",
             className: classes.transactionSection,
@@ -91,10 +94,9 @@ export default function Dashboard() {
             iconName: "calendar",
             title: "today"
           }}
-          transactions={todayTransactions}
-          openModal={() => setTransactionModalOpen(true)}
-          period="today"
-          showDate={false}
+          display={{
+            date: false
+          }}
         />
       </div >
 

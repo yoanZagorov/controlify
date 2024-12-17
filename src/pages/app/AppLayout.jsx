@@ -12,9 +12,13 @@ export default function AppLayout() {
   const { isSidebarExpanded } = useLayout();
   const { isMobile, isTablet, isLaptopS, isDesktop } = useBreakpoint();
 
-  const addTransactionFetcher = useFetcher({ key: "add-transaction" });
+  const addTransactionFetcher = useFetcher({ key: "addTransaction" });
   const addTransactionMsg = addTransactionFetcher.data?.msg;
   const addTransactionMsgType = addTransactionFetcher.data?.msgType;
+
+  const updateWalletFetcher = useFetcher({ key: "updateWallet" });
+  const updateWalletMsg = updateWalletFetcher.data?.msg;
+  const updateWalletMsgType = updateWalletFetcher.data?.msgType;
 
   const { notificationData: { quote, redirectData } } = useLoaderData();
 
@@ -31,11 +35,16 @@ export default function AppLayout() {
       clearMsg: null
     },
     {
+      msg: updateWalletMsg,
+      msgType: updateWalletMsgType,
+      clearMsg: null
+    },
+    {
       msg: redirectMsg.msg,
       msgType: redirectMsg.msgType,
       clearMsg: () => setRedirectMsg({ msg: null, msgType: null })
     },
-  ], [addTransactionMsg, redirectMsg]);
+  ], [addTransactionMsg, updateWalletMsg, redirectMsg]);
 
   const classes = {
     page: cn(

@@ -1,4 +1,5 @@
 import { redirect } from "react-router";
+import { orderBy, where } from "firebase/firestore";
 
 import { getAuthUserId, getUser, getCurrentBalance } from "@/services/firebase/db/user";
 import { getWallets } from "@/services/firebase/db/wallet";
@@ -11,7 +12,6 @@ import { getStoredData, storeRedirectData } from "@/utils/storage";
 import { getRandomItem } from "@/utils/array";
 import { quotes } from "@/pages/auth/data";
 import { getBalanceChartData } from "@/utils/transaction";
-import { orderBy, where } from "firebase/firestore";
 import { AppError } from "@/utils/errors";
 import { getTodayStartAndEnd } from "@/utils/date";
 
@@ -46,7 +46,7 @@ export default async function appLoader({ request }) {
 
     const balance = await getCurrentBalance({ wallets });
 
-    const todayTransactions = await getTransactions({ userId, wallets, transactionsQuery });
+    const todayTransactions = await getTransactions({ userId, wallets, query: transactionsQuery });
     todayTransactions.sort((a, b) => b.date - a.date);
 
     const { balanceChartData } = await getBalanceChartData({ userId, period: "lastThirtyDays" });

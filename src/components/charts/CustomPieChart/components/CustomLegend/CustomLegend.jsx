@@ -1,8 +1,8 @@
-import { SvgIcon } from "@/components/SvgIcon";
-import { walletsColorMap } from "@/utils/wallet";
 import cn from "classnames";
+
 import { formatEntityName } from "@/utils/formatting";
-import { categoryColorsMap } from "@/utils/category";
+
+import { SvgIcon } from "@/components/SvgIcon";
 
 export default function CustomLegend({ payload, entity }) {
   const legendEls = payload.map(entry => {
@@ -12,16 +12,9 @@ export default function CustomLegend({ payload, entity }) {
       payload: { [entity]: { iconName, id } }
     } = entry;
 
-    const iconClasses = cn(
-      "size-4",
-      entity === "wallet"
-        ? walletsColorMap.fill[color]
-        : categoryColorsMap.fill[color]
-    )
-
     return (
       <li key={id} className="flex items-center gap-1.5 text-sm text-gray-dark">
-        <SvgIcon iconName={iconName} className={iconClasses} />
+        <SvgIcon iconName={iconName} className="size-4" fill={color} />
         <span className="font-semibold">{formatEntityName(value)}</span>
       </li>
     )

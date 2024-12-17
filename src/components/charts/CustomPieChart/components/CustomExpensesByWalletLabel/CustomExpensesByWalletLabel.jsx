@@ -1,7 +1,7 @@
+import { useEffect, useRef, useState } from "react";
+
 import { useBreakpoint } from "@/hooks";
 import { formatEntityName } from "@/utils/formatting";
-import { walletsColorMap } from "@/utils/wallet";
-import { useEffect, useRef, useState } from "react";
 
 export default function CustomExpensesByWalletLabel(props) {
   const { cx, cy, midAngle, outerRadius, name, percent, fill, showChartLabel } = props;

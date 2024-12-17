@@ -1,6 +1,7 @@
-import { capitalize } from "@/utils/str";
-import cn from "classnames";
 import { NavLink } from "react-router";
+import cn from "classnames";
+
+import { capitalize } from "@/utils/str";
 
 export default function NavItem({ page, index }) {
   const linkClasses = ({ isActive }) => cn(
@@ -14,12 +15,10 @@ export default function NavItem({ page, index }) {
   );
 
   return (
-    <NavLink
-      to={page}
-      className={linkClasses}
-      preventScrollReset={true}
-    >
-      <span>{capitalize(page)}</span>
-    </NavLink>
+    <li data-actionable="true" data-close="false">
+      <NavLink to={page} className={linkClasses}>
+        <span>{capitalize(page)}</span>
+      </NavLink>
+    </li>
   )
 }

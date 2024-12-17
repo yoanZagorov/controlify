@@ -1,4 +1,3 @@
-import { AppError } from "@/utils/errors";
 import { collection, getDocs, query as firebaseQuery } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
 

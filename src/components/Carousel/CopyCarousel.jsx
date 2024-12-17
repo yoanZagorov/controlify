@@ -1,11 +1,12 @@
 import cn from "classnames";
-import { nanoid } from "nanoid";
-import { useState } from "react";
+import { useState } from "react"
 
 import { SlideButton } from "./components/SlideButton";
 
-export default function Carousel({ items, className }) {
-  const [activeItemIndex, setActiveItemIndex] = useState(0);
+export default function CopyCarousel({ items, className }) {
+  const [activeItem, setActiveItem] = useState(items[0].name);
+
+  const activeItemIndex = items.findIndex(item => item.name === activeItem);
 
   const isFirst = activeItemIndex === 0;
   const isDecrementBtnDisabled = isFirst;
@@ -15,12 +16,12 @@ export default function Carousel({ items, className }) {
 
   function handleIncrement() {
     const newActiveItemIndex = activeItemIndex + 1;
-    setActiveItemIndex(newActiveItemIndex);
+    setActiveItem(items[newActiveItemIndex].name);
   }
 
   function handleDecrement() {
     const newActiveItemIndex = activeItemIndex - 1;
-    setActiveItemIndex(newActiveItemIndex);
+    setActiveItem(items[newActiveItemIndex].name);
   }
 
   const classes = {
@@ -28,19 +29,20 @@ export default function Carousel({ items, className }) {
       "rounded-b-lg",
       className
     ),
-    itemClasses: function (itemIndex) {
-      const isActive = itemIndex === activeItemIndex;
+    itemClasses: function (itemName) {
+      const isActive = itemName === activeItem;
+      const itemIndex = items.findIndex(item => item.name === itemName);
       const isBefore = activeItemIndex > itemIndex;
 
       return cn(
         "w-full transition-transform",
-        !isActive && `absolute ${isBefore ? "translate-x-[-100vw]" : "translate-x-[100vw]"}`
+        isActive ? "" : `absolute ${isBefore ? "translate-x-[-100vw]" : "translate-x-[100vw]"}`
       )
     }
   }
 
   const itemEls = items.map((item, index) => (
-    <li key={index} className={classes.itemClasses(index)}>
+    <li key={index} className={classes.itemClasses(item.name)}>
       {item.component}
     </li>
   ))

@@ -1,20 +1,20 @@
-import { formatEntityName } from "@/utils/formatting";
 import { Link, Outlet, useLoaderData } from "react-router"
-import { NavItem } from "./layout-components/NavItem";
+import { nanoid } from "nanoid";
+
 import BackArrow from "@/assets/icons/arrow-back.png";
+
 import { useScrollToTop } from "@/hooks";
+import { formatEntityName } from "@/utils/formatting";
+
+import { NavItem } from "./layout-components/NavItem";
 
 export default function Wallet() {
   const { wallet } = useLoaderData();
   useScrollToTop();
 
-  const formattedName = formatEntityName(wallet.name);
-
   const pages = ["overview", "transactions", "settings"];
   const navElements = pages.map((page, index) => (
-    <li key={index} data-actionable="true" data-close="false">
-      <NavItem key={index} page={page} index={index} />
-    </li>
+    <NavItem key={nanoid()} page={page} index={index} />
   ))
 
   return (
@@ -23,7 +23,7 @@ export default function Wallet() {
         <img src={BackArrow} />
       </Link>
 
-      <h1 className="mt-5 text-5xl text-navy-dark font-bold">{formattedName}</h1>
+      <h1 className="mt-5 text-5xl text-navy-dark font-bold">{formatEntityName(wallet.name)}</h1>
       <nav className="mt-6 w-full">
         <ul className="flex">
           {navElements}

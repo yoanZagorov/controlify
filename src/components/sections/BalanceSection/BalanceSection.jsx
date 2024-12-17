@@ -7,12 +7,11 @@ import { BalanceAmountWidget } from "./components/BalanceAmountWidget";
 import { performDecimalCalculation } from "@/utils/number";
 import { Carousel } from "@/components/Carousel";
 
-export default function BalanceSection({ section, balance, currency }) {
+export default function BalanceSection({ section, showsPreviousBalance = false, isSpaceLimited, balance, currency }) {
   const sectionProps = { title: "Balance", ...section };
   const balanceProps = { amountWidgetType: "single", ...balance };
 
-  const isCarousel = balanceProps.amountWidgetType === "carousel";
-  const balanceChange = isCarousel
+  const balanceChange = showsPreviousBalance
     ? performDecimalCalculation(balance.amount.current, balance.amount.prev, "-")
     : null;
 
@@ -26,43 +25,65 @@ export default function BalanceSection({ section, balance, currency }) {
   return (
     <Section
       title={sectionProps.title}
-      className={sectionProps.className ? sectionProps.className : ""}
+      className={cn(sectionProps.className)}
       contentClassName={classes.sectionContent}
     >
-      {isCarousel ? (
-        <Carousel
-          items={[
-            {
-              name: "widgetOne",
-              component:
-                <BalanceAmountWidget
-                  iconName="scale"
-                  title="current"
-                  amount={balanceProps.amount.current}
-                  currency={currency}
-                  balanceChange={balanceChange}
-                />
-            },
-            {
-              name: "widgetTwo",
-              component:
-                <BalanceAmountWidget
-                  iconName="history"
-                  title="30 days ago"
-                  amount={balanceProps.amount.prev}
-                  currency={currency}
-                />
+      {showsPreviousBalance ?
+        isSpaceLimited ? (
+          <Carousel
+            items={
+              [
+                {
+                  name: "widgetOne",
+                  component:
+                    <BalanceAmountWidget
+                      iconName="scale"
+                      title="current"
+                      amount={balanceProps.amount.current}
+                      currency={currency}
+                      balanceChange={balanceChange}
+                    />
+                },
+                {
+                  name: "widgetTwo",
+                  component:
+                    <BalanceAmountWidget
+                      iconName="history"
+                      title="30 days ago"
+                      amount={balanceProps.amount.prev}
+                      currency={currency}
+                    />
+                }
+              ]
             }
-          ]}
-        />
-      ) : (
-        <BalanceAmountWidget
-          iconName="scale"
-          title="current"
-          amount={balanceProps.amount.current}
-          currency={currency}
-        />
-      )
+          />
+        ) : (
+          <div className="flex gap-6">
+            <BalanceAmountWidget
+              iconName="scale"
+              title="current"
+              amount={balanceProps.amount.current}
+              currency={currency}
+              balanceChange={balanceChange}
+              className="w-full"
+            />
+
+            <BalanceAmountWidget
+              iconName="history"
+              title="30 days ago"
+              amount={balanceProps.amount.prev}
+              currency={currency}
+              className="w-full"
+            />
+          </div>
+        ) : (
+          <BalanceAmountWidget
+            iconName="scale"
+            title="current"
+            amount={balanceProps.amount.current}
+            currency={currency}
+          />
+        )
       }
 
       <ContentWidget iconName="calendar-months" title="last 30 days" content={{ className: "h-56" }} >

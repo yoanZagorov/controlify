@@ -1,30 +1,28 @@
 import cn from "classnames";
-import { useFetcher, useLoaderData, useRouteLoaderData } from "react-router";
+import { useFetcher, useLoaderData } from "react-router";
 
-import { useBreakpoint, useLayout, useModal, useScrollToTop } from "@/hooks";
+import { useLayout, useModal, useScrollToTop } from "@/hooks";
 
 import { WalletsSection } from "@/components/sections/WalletsSection";
-import { Section } from "@/components/sections/Section";
 import { TransactionsSection } from "@/components/sections/TransactionsSection";
-import { ContentWidget } from "@/components/widgets/ContentWidget";
-import { Notification } from "@/components/Notification";
 import { TransactionProvider } from "@/contexts";
 import { TransactionModal } from "@/components/modals/TransactionModal";
-import { CustomPieChart } from "@/components/charts/CustomPieChart";
-import { SpendingSection } from "@/components/sections/SpendingSection";
+import { SpendingSection } from "./sections/SpendingSection";
 
 export default function Wallets() {
   useScrollToTop();
 
-  const fetcher = useFetcher({ key: "add-transaction" });
-  const { modalState: [isTransactionModalOpen, setTransactionModalOpen], hasTransitioned } = useModal({ fetcher });
+  const fetcher = useFetcher({ key: "addTransaction" });
+
+  const {
+    modalState: [isTransactionModalOpen, setTransactionModalOpen],
+    hasTransitioned,
+    modalRef
+  } = useModal({ fetcher });
 
   const { transactions, wallets, expensesByWalletChartData } = useLoaderData();
-  // const hasExpenses = expensesByWalletChartData.find(entry => entry !== null);
 
-  const { isSidebarExpanded } = useLayout();
-  const { isMobileS, isMobileM, isMobile, isTablet, isLaptopS, isDesktop } = useBreakpoint(); // To do: use this value to render and ExpandedTransactionsSection on ml/tab
-  const isSingleColLayout = isMobile || isTablet || (isLaptopS && isSidebarExpanded);
+  const { isSingleColLayout } = useLayout();
 
   const classes = {
     grid: cn(
@@ -45,44 +43,26 @@ export default function Wallets() {
         <WalletsSection
           section={{
             title: "All Wallets",
-            className: classes.gridItem
+            subtitle: "Overview",
+            className: cn(classes.gridItem)
           }}
           wallets={wallets}
         />
-        {/* 
-        <Section title="Spending" className={classes.gridItem}>
-          <ContentWidget iconName="calendar-months" title="last 30 days">
-            {hasExpenses ? (
-              <div className="mx-auto h-72 mm:h-96">
-                <CustomPieChart
-                  type="expensesByWallet"
-                  data={expensesByWalletChartData}
-                />
-              </div>
-            ) : (
-              <Notification className="max-w-64 mx-auto">
-                Not enough data available to create the chart yet. Add a few transactions to get started!
-              </Notification>
-            )}
-          </ContentWidget>
-        </Section> */}
 
         <SpendingSection
           section={{
-            title: "Spending",
-            subtitle: "Last 30 Days",
             className: classes.gridItem
           }}
-          charts={[
-            {
-              type: "expensesByWallet",
-              data: expensesByWalletChartData
-            },
-          ]}
+          chart={{
+            type: "expensesByWallet",
+            data: expensesByWalletChartData
+          }}
         />
 
         <TransactionsSection
-          transactionType={isDesktop || (isLaptopS && !isSidebarExpanded) ? "expanded" : "compact"}
+          type={isSingleColLayout ? "compact" : "expanded"}
+          openModal={() => setTransactionModalOpen(true)}
+          transactions={transactions}
           section={{
             title: "All Transactions",
             className: classes.transactionSection,
@@ -92,8 +72,6 @@ export default function Wallets() {
             iconName: "arrows-rotate",
             title: "activity overview"
           }}
-          openModal={() => setTransactionModalOpen(true)}
-          transactions={transactions}
           period="all-time"
         />
       </div>
@@ -101,9 +79,9 @@ export default function Wallets() {
       {(isTransactionModalOpen || hasTransitioned) &&
         <TransactionProvider>
           <TransactionModal
-            closeModal={() => setTransactionModalOpen(false)}
             isTransactionModalOpen={isTransactionModalOpen}
             hasTransitioned={hasTransitioned}
+            modalRef={modalRef}
           />
         </TransactionProvider>
       }
