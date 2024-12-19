@@ -69,7 +69,7 @@ export default function Dashboard() {
             },
             chartData: balanceChartData
           }}
-          currency={user.defaultCurrency}
+          currency={user.currency}
         />
 
         <WalletsSection

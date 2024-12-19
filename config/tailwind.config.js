@@ -9,6 +9,7 @@ export default {
       "black": "#000000",
       "white": "#FFFFFF",
       "current": "currentColor",
+      "transparent": "transparent",
       "gray": {
         "light": "#F5F5F5",
         "medium": "#E0E0E0",

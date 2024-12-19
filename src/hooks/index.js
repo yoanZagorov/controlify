@@ -14,3 +14,4 @@ export { default as useKeyboardFocus } from "./useKeyboardFocus";
 export { default as useModal } from "./useModal";
 export { default as useScrollToTop } from "./useScrollToTop";
 export { default as useInnerModal } from "./useInnerModal";
+export { default as useSelectInput } from "./useSelectInput";

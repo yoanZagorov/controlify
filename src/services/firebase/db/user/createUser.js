@@ -16,7 +16,7 @@ export default async function createUser(email, fullName, userId) {
     email,
     fullName,
     profilePic: null,
-    defaultCurrency,
+    currency: defaultCurrency,
     createdAt: serverTimestamp()
   });
 

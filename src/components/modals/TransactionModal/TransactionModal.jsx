@@ -6,6 +6,8 @@ import { useAutoFocus, useTransaction } from "@/hooks";
 import { TransactionFormField } from "./components/TransactionFormField";
 import { Button } from "@/components/Button";
 import { ModalWrapper } from "../ModalWrapper"
+import { HeaderModal } from "../HeaderModal";
+import { useRef } from "react";
 
 export default function TransactionModal({ isTransactionModalOpen, hasTransitioned, modalRef }) {
   const {
@@ -17,7 +19,8 @@ export default function TransactionModal({ isTransactionModalOpen, hasTransition
     updateTransactionData
   } = useTransaction();
 
-  const amountInputRef = useAutoFocus();
+  const amountInputRef = useRef(null);
+  useAutoFocus(amountInputRef);
 
   const fetcher = useFetcher({ key: "addTransaction" });
 
@@ -118,11 +121,11 @@ export default function TransactionModal({ isTransactionModalOpen, hasTransition
               value="add-transaction"
               className="mt-12 ll:py-4 mm:self-center focus:ring-4"
             >
-              {/* {fetcher.state === "loading" || fetcher.state === "submitting" ? "Submitting..." : "Complete Transaction"} */}
               Complete Transaction
             </Button>
           </div>
         </div>
+        {/* <HeaderModal /> */}
       </fetcher.Form>
     </ModalWrapper>
   )

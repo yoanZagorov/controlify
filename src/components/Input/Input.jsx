@@ -9,11 +9,19 @@ export default function Input({ size = "m", variant = "solid", colorPalette = "p
   const inputL = "py-2 px-3 text-lg rounded-lg";
 
   const inputSolid = "shadow";
-  const inputOutline = "";
+  const inputOutline = "bg-transparent";
 
   const inputPrimary = `border-gray-dark text-gray-dark placeholder-gray-dark focus:ring-goldenrod`;
-  const inputPrimaryLight = `${inputPrimary} bg-gray-light`;
-  const inputPrimaryDark = `${inputPrimary} bg-gray-medium`;
+
+  const inputPrimaryLight = cn(
+    inputPrimary,
+    variant === "solid" && "bg-gray-light"
+  );
+
+  const inputPrimaryDark = cn(
+    inputPrimary,
+    variant === "solid" && "bg-gray-medium"
+  );
 
   const classes = cn(
     input,

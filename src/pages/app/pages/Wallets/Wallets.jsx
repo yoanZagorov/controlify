@@ -12,13 +12,21 @@ import { SpendingSection } from "./sections/SpendingSection";
 export default function Wallets() {
   useScrollToTop();
 
-  const fetcher = useFetcher({ key: "addTransaction" });
+  const addTransactionFetcher = useFetcher({ key: "addTransaction" });
+  // const addWalletFetcher = useFetcher({ key: "addWallet" });
 
   const {
     modalState: [isTransactionModalOpen, setTransactionModalOpen],
-    hasTransitioned,
-    modalRef
-  } = useModal({ fetcher });
+    hasTransitioned: hasTransactionModalTransitioned,
+    modalRef: transactionModalRef
+  } = useModal({ addTransactionFetcher });
+
+  // const {
+  //   modalState: [isWalletModalOpen, setWalletModalOpen],
+  //   hasTransitioned: hasWalletModalTransitioned,
+  //   modalRef: walletModalRef
+  // } = useModal({ addWalletFetcher });
+
 
   const { transactions, wallets, expensesByWalletChartData } = useLoaderData();
 
@@ -76,12 +84,12 @@ export default function Wallets() {
         />
       </div>
 
-      {(isTransactionModalOpen || hasTransitioned) &&
+      {(isTransactionModalOpen || hasTransactionModalTransitioned) &&
         <TransactionProvider>
           <TransactionModal
             isTransactionModalOpen={isTransactionModalOpen}
-            hasTransitioned={hasTransitioned}
-            modalRef={modalRef}
+            hasTransitioned={hasTransactionModalTransitioned}
+            modalRef={transactionModalRef}
           />
         </TransactionProvider>
       }
