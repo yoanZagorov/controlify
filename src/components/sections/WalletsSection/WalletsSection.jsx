@@ -14,8 +14,10 @@ import { useState } from "react";
 import { CategoriesVisibilityModal } from "@/components/modals/CategoriesVisibilityModal";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
+import { walletsColors } from "@/utils/wallet";
+import { handleAmountInputChange } from "@/utils/input";
 
-export default function WalletsSection({ section, wallets }) {
+export default function WalletsSection({ action, section, wallets }) {
   const DEFAULT_WALLET_COLOR = "#004D40";
 
   const { isMobileS } = useBreakpoint();
@@ -29,12 +31,11 @@ export default function WalletsSection({ section, wallets }) {
     modalRef
   } = useModal({ fetcher });;
 
-
   const [walletData, setWalletData] = useState({
     name: "New Wallet",
-    initialBalance: "0.00",
+    initialBalance: "0",
     currency: user.currency,
-    categories: userCategories.map(category => ({ id: category.id, isVisible: true })),
+    categories: userCategories.map(category => ({ ...category, isVisible: true })),
     color: DEFAULT_WALLET_COLOR
   })
 
@@ -45,7 +46,34 @@ export default function WalletsSection({ section, wallets }) {
     }))
   }
 
-  const areAllCategoriesVisible = userCategories.length === walletData.categories.length;
+  const visibleWalletCategories = walletData.categories.filter(category => category.isVisible);
+
+  const areAllCategoriesVisible = userCategories.length === visibleWalletCategories.length;
+
+  function handleNameInputChange(e) {
+    const value = e.target.value;
+
+    const regex = /^[a-zA-Z0-9 _.-]+$/;
+
+    if (value === "") updateWalletData({ name: value })
+
+    if (value.length > 30) return;
+
+    if (regex.test(value)) updateWalletData({ name: value });
+  }
+
+  function handleInitialBalanceInputChange(e) {
+    handleAmountInputChange({
+      state: {
+        updateState: updateWalletData,
+        value: walletData.initialBalance,
+        prop: "initialBalance"
+      },
+      value: e.target.value
+    })
+  }
+
+
 
   const walletDataConfig = [
     {
@@ -57,7 +85,7 @@ export default function WalletsSection({ section, wallets }) {
     {
       formData: {
         name: "initialBalance",
-        value: walletData.currency
+        value: walletData.initialBalance
       },
       field: {
         name: "initial balance",
@@ -65,7 +93,11 @@ export default function WalletsSection({ section, wallets }) {
           iconName: "scale",
           type: "input",
           displayValue: walletData.initialBalance,
-          handleChange: (e) => updateWalletData({ initialBalance: e.target.value })
+          inputProps: {
+            onChange: handleInitialBalanceInputChange,
+            type: "number",
+            step: 0.01,
+          }
         }
       }
     },
@@ -82,7 +114,6 @@ export default function WalletsSection({ section, wallets }) {
           displayValue: walletData.currency,
         },
         modal: {
-          type: "non-blocking",
           innerModal: {
             Component: CurrencyModal,
           },
@@ -103,10 +134,9 @@ export default function WalletsSection({ section, wallets }) {
         props: {
           iconName: "categories",
           type: "select",
-          displayValue: areAllCategoriesVisible ? "All" : walletData.categories.length,
+          displayValue: areAllCategoriesVisible ? "All" : visibleWalletCategories.length,
         },
         modal: {
-          type: "blocking",
           innerModal: {
             Component: CategoriesVisibilityModal,
             props: { categories: walletData.categories },
@@ -114,7 +144,8 @@ export default function WalletsSection({ section, wallets }) {
           state: {
             value: walletData.categories,
             updateState: (newCategories) => updateWalletData({ categories: newCategories })
-          }
+          },
+          minHeight: "min-h-[75%]"
         }
       }
     },
@@ -131,10 +162,9 @@ export default function WalletsSection({ section, wallets }) {
           displayValue: <div className="size-6 rounded-full" style={{ backgroundColor: walletData.color }}></div>,
         },
         modal: {
-          type: "non-blocking",
           innerModal: {
             Component: ColorModal,
-            props: { color: walletData.color },
+            props: { colors: walletsColors },
           },
           state: {
             value: walletData.color,
@@ -172,6 +202,7 @@ export default function WalletsSection({ section, wallets }) {
             <button
               onClick={() => setModalOpen(true)}
               className="size-12 rounded-full focus:outline-none focus-visible:ring focus-visible:ring-goldenrod"
+              data-actionable="true"
             >
               <PlusCircleIcon
                 className="size-full"
@@ -191,26 +222,28 @@ export default function WalletsSection({ section, wallets }) {
         >
           <Form
             fetcher={fetcher}
-            action="/app/wallets"
+            action={action}
             className="h-full"
             fields={walletDataConfig.map(option => option.formData)}
           >
             <HeaderModal
               header={{
-                content: {
-                  input: {
+                input: {
+                  props: {
                     value: walletData.name,
-                    handleChange: (e) => updateWalletData({ name: e.target.value })
+                    onChange: handleNameInputChange,
+                    min: 2,
+                    max: 50
                   }
                 }
               }}
+              fields={walletDataConfig.filter(option => option.field).map(option => option.field)}
               btn={{
                 disabled: false,
                 value: "addWallet",
                 text: "add wallet"
               }}
               color={walletData.color}
-              items={walletDataConfig.filter(option => option.field).map(option => option.field)}
             />
           </Form>
         </ModalWrapper>

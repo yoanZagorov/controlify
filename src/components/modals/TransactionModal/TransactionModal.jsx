@@ -20,7 +20,7 @@ export default function TransactionModal({ isTransactionModalOpen, hasTransition
   } = useTransaction();
 
   const amountInputRef = useRef(null);
-  useAutoFocus(amountInputRef);
+  useAutoFocus({ ref: amountInputRef });
 
   const fetcher = useFetcher({ key: "addTransaction" });
 
@@ -63,9 +63,9 @@ export default function TransactionModal({ isTransactionModalOpen, hasTransition
 
   return (
     <ModalWrapper
-      ref={modalRef}
       isModalOpen={isTransactionModalOpen}
       hasTransitioned={hasTransitioned}
+      ref={modalRef}
     >
       <fetcher.Form
         method="post"

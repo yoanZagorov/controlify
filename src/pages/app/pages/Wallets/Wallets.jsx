@@ -19,7 +19,7 @@ export default function Wallets() {
     modalState: [isTransactionModalOpen, setTransactionModalOpen],
     hasTransitioned: hasTransactionModalTransitioned,
     modalRef: transactionModalRef
-  } = useModal({ addTransactionFetcher });
+  } = useModal({ fetcher: addTransactionFetcher });
 
   // const {
   //   modalState: [isWalletModalOpen, setWalletModalOpen],
@@ -49,12 +49,13 @@ export default function Wallets() {
     <>
       <div className={classes.grid}>
         <WalletsSection
+          action="/app/wallets"
+          wallets={wallets}
           section={{
             title: "All Wallets",
             subtitle: "Overview",
             className: cn(classes.gridItem)
           }}
-          wallets={wallets}
         />
 
         <SpendingSection

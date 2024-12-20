@@ -2,14 +2,15 @@ import cn from "classnames";
 
 export default function Input({ size = "m", variant = "solid", colorPalette = "primaryDark", inputRef = null, className = "", ...props }) {
   const input = cn(
-    "placeholder-opacity-50 transition-[box-shadow] border focus:border-opacity-0 focus:outline-none focus:ring",
+    "placeholder-opacity-50 transition-[box-shadow] focus:border-opacity-0 focus:outline-none focus:ring",
   )
 
   const inputM = "py-1.5 px-2 text-base rounded-md";
   const inputL = "py-2 px-3 text-lg rounded-lg";
 
-  const inputSolid = "shadow";
-  const inputOutline = "bg-transparent";
+  const inputSolid = "border shadow";
+  const inputOutline = "border bg-transparent";
+  const inputTransparent = "bg-transparent";
 
   const inputPrimary = `border-gray-dark text-gray-dark placeholder-gray-dark focus:ring-goldenrod`;
 
@@ -25,10 +26,12 @@ export default function Input({ size = "m", variant = "solid", colorPalette = "p
 
   const classes = cn(
     input,
-    size === "m" ? inputM
-      : inputL,
+    size === "custom" ? ""
+      : size === "m" ? inputM
+        : inputL,
     variant === "solid" ? inputSolid
-      : inputOutline,
+      : variant === "outline" ? inputOutline
+        : inputTransparent,
     colorPalette === "primaryLight" ? inputPrimaryLight
       : inputPrimaryDark,
     className

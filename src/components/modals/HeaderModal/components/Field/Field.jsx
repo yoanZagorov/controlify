@@ -3,13 +3,13 @@ import { SvgIcon } from "@/components/SvgIcon";
 import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
 import { useEffect, useRef } from "react";
-import { useSelectInput } from "@/hooks";
+import { useModal, useSelectInput } from "@/hooks";
 
-export default function ItemField({ type = "select", iconName, name, displayValue, handleChange, selectBtnProps, color }) {
+export default function FieldContainer({ type = "select", iconName, name, displayValue, inputProps = {}, selectBtnProps = null }) {
+  const inputPropsConfig = { type: "text", ...inputProps };
+
   const isInput = type === "input";
-
   const inputRef = isInput ? useRef(null) : null;
-
   isInput && useSelectInput(inputRef);
 
   return (
@@ -23,20 +23,19 @@ export default function ItemField({ type = "select", iconName, name, displayValu
             inputRef={inputRef}
             size="l"
             variant="outline"
-            type="text"
+            required
             value={displayValue}
+            {...inputPropsConfig}
             className="ml-auto w-full max-w-44 text-right font-semibold"
           />
         ) : (
-          <>
-            <Select
-              btnProps={{
-                ...selectBtnProps,
-                className: "ml-auto border-0 bg-gray-light",
-              }}
-              value={displayValue}
-            />
-          </>
+          <Select
+            btnProps={{
+              ...selectBtnProps,
+              className: "ml-auto border-0 bg-gray-light",
+            }}
+            value={displayValue}
+          />
         )
       }
     </div>

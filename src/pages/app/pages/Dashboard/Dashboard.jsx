@@ -30,7 +30,7 @@ export default function Dashboard() {
     }
   } = useRouteLoaderData("app");
 
-  const fetcher = useFetcher({ key: "add-transaction" });
+  const fetcher = useFetcher({ key: "addTransaction" });
 
   const {
     modalState: [isTransactionModalOpen, setTransactionModalOpen],
@@ -38,9 +38,7 @@ export default function Dashboard() {
     modalRef
   } = useModal({ fetcher });
 
-  const { isSidebarExpanded } = useLayout();
-  const { isMobile, isTablet, isLaptopS } = useBreakpoint();
-  const isSingleColLayout = isMobile || isTablet || (isLaptopS && isSidebarExpanded);
+  const { isSingleColLayout } = useLayout();
 
   const classes = {
     grid: cn(
@@ -103,7 +101,6 @@ export default function Dashboard() {
       {(isTransactionModalOpen || hasTransitioned) &&
         <TransactionProvider>
           <TransactionModal
-            closeModal={() => setTransactionModalOpen(false)}
             isTransactionModalOpen={isTransactionModalOpen}
             hasTransitioned={hasTransitioned}
             modalRef={modalRef}
