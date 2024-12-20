@@ -20,6 +20,10 @@ export default function AppLayout() {
   const updateWalletMsg = updateWalletFetcher.data?.msg;
   const updateWalletMsgType = updateWalletFetcher.data?.msgType;
 
+  const addWalletFetcher = useFetcher({ key: "addWallet" });
+  const addWalletMsg = addWalletFetcher.data?.msg;
+  const addWalletMsgType = addWalletFetcher.data?.msgType;
+
   const { notificationData: { quote, redirectData } } = useLoaderData();
 
   const [redirectMsg, setRedirectMsg] = useState({ msg: redirectData.msg, msgType: redirectData.msgType }); // need to use local state to ensure no stale data
@@ -40,11 +44,16 @@ export default function AppLayout() {
       clearMsg: null
     },
     {
+      msg: addWalletMsg,
+      msgType: addWalletMsgType,
+      clearMsg: null
+    },
+    {
       msg: redirectMsg.msg,
       msgType: redirectMsg.msgType,
       clearMsg: () => setRedirectMsg({ msg: null, msgType: null })
     },
-  ], [addTransactionMsg, updateWalletMsg, redirectMsg]);
+  ], [addTransactionMsg, addWalletMsg, updateWalletMsg, redirectMsg]);
 
   const classes = {
     page: cn(

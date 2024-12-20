@@ -10,12 +10,13 @@ import { Link, useFetcher, useRouteLoaderData } from "react-router";
 import { HeaderModal } from "@/components/modals/HeaderModal";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { Form } from "@/components/Form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CategoriesVisibilityModal } from "@/components/modals/CategoriesVisibilityModal";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { walletsColors } from "@/utils/wallet";
 import { handleAmountInputChange } from "@/utils/input";
+import { resetFetcher } from "@/services/router/utils";
 
 export default function WalletsSection({ action, section, wallets }) {
   const DEFAULT_WALLET_COLOR = "#004D40";
@@ -31,13 +32,15 @@ export default function WalletsSection({ action, section, wallets }) {
     modalRef
   } = useModal({ fetcher });;
 
-  const [walletData, setWalletData] = useState({
+  const defaultWalletData = {
     name: "New Wallet",
     initialBalance: "0",
     currency: user.currency,
     categories: userCategories.map(category => ({ ...category, isVisible: true })),
     color: DEFAULT_WALLET_COLOR
-  })
+  }
+
+  const [walletData, setWalletData] = useState(defaultWalletData);
 
   function updateWalletData(newWalletData) {
     return setWalletData(prev => ({
@@ -45,6 +48,15 @@ export default function WalletsSection({ action, section, wallets }) {
       ...newWalletData
     }))
   }
+
+  useEffect(() => {
+    if (fetcher.state === "idle" && fetcher.data) {
+      setModalOpen(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      resetFetcher(fetcher);
+      updateWalletData(defaultWalletData);
+    }
+  }, [fetcher.data, fetcher.state])
 
   const visibleWalletCategories = walletData.categories.filter(category => category.isVisible);
 
@@ -127,7 +139,7 @@ export default function WalletsSection({ action, section, wallets }) {
     {
       formData: {
         name: "categories",
-        value: JSON.stringify(walletData.categories)
+        value: JSON.stringify(walletData.categories.map(category => ({ id: category.id, isVisible: category.isVisible })))
       },
       field: {
         name: "categories",

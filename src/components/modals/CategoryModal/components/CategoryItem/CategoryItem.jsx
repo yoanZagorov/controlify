@@ -16,7 +16,9 @@ export default function CategoryItem({ category, isActive, handleClick }) {
     )
   }
 
-  const btnStyles = !isActive && { backgroundColor: category.color };
+  const btnStyles = !isActive ? { backgroundColor: category.color } : {};
+
+  console.log(btnStyles);
 
   return (
     <li

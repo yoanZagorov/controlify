@@ -16,7 +16,7 @@ export default async function getExpensesByWalletChartData(userId, wallets, peri
   const expensesByWallet = periodTransactionsByWallet.map(wallet => {
     const { id, name, iconName, transactions, color } = wallet;
 
-    if (!transactions.length) return null;
+    // if (!transactions.length) return null;
 
     const expenseTransactions = transactions.filter(transaction => transaction.category.type === "expense");
 
