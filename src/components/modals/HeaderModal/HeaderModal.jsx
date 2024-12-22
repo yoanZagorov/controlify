@@ -48,25 +48,25 @@ export default function HeaderModal({ header, fields, btn, color }) {
             {...header?.input.props}
             className={classes.headerInput}
           />
-        ) : header.customInput ?
-          header.customInput
-          : (
-            <>
-              <label
-                htmlFor={`header-modal-input-${header?.input?.id}`}
-                className="text-gray-light text-2xl"
-              >
-                {header.labelText}
-              </label>
+        ) : header.customInput ? (
+          <header.customInput.Component {...header.customInput.props} />
+        ) : (
+          <>
+            <label
+              htmlFor={`header-modal-input-${header?.input?.id}`}
+              className="text-gray-light text-2xl"
+            >
+              {header.labelText}
+            </label>
 
-              <input
-                ref={headerInputRef}
-                value={header?.input?.value}
-                onChange={header?.input?.handleChange}
-                className={classes.headerInput}
-              />
-            </>
-          )
+            <input
+              ref={headerInputRef}
+              value={header?.input?.value}
+              onChange={header?.input?.handleChange}
+              className={classes.headerInput}
+            />
+          </>
+        )
         }
       </header >
 

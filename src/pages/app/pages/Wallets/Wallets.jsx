@@ -12,22 +12,6 @@ import { SpendingSection } from "./sections/SpendingSection";
 export default function Wallets() {
   useScrollToTop();
 
-  const addTransactionFetcher = useFetcher({ key: "addTransaction" });
-  // const addWalletFetcher = useFetcher({ key: "addWallet" });
-
-  const {
-    modalState: [isTransactionModalOpen, setTransactionModalOpen],
-    hasTransitioned: hasTransactionModalTransitioned,
-    modalRef: transactionModalRef
-  } = useModal({ fetcher: addTransactionFetcher });
-
-  // const {
-  //   modalState: [isWalletModalOpen, setWalletModalOpen],
-  //   hasTransitioned: hasWalletModalTransitioned,
-  //   modalRef: walletModalRef
-  // } = useModal({ addWalletFetcher });
-
-
   const { transactions, wallets, expensesByWalletChartData } = useLoaderData();
 
   const { isSingleColLayout } = useLayout();
@@ -68,32 +52,24 @@ export default function Wallets() {
           }}
         />
 
-        <TransactionsSection
-          type={isSingleColLayout ? "compact" : "expanded"}
-          openModal={() => setTransactionModalOpen(true)}
-          transactions={transactions}
-          section={{
-            title: "All Transactions",
-            className: classes.transactionSection,
-            contentClassName: "flex-1"
-          }}
-          widget={{
-            iconName: "arrows-rotate",
-            title: "activity overview"
-          }}
-          period="all-time"
-        />
-      </div>
-
-      {(isTransactionModalOpen || hasTransactionModalTransitioned) &&
         <TransactionProvider>
-          <TransactionModal
-            isTransactionModalOpen={isTransactionModalOpen}
-            hasTransitioned={hasTransactionModalTransitioned}
-            modalRef={transactionModalRef}
+          <TransactionsSection
+            action="/app/wallets"
+            contentProps={{
+              transactions,
+              section: {
+                title: "All Transactions",
+                className: classes.transactionSection,
+                contentClassName: "flex-1"
+              },
+              widget: {
+                iconName: "history",
+                title: "all"
+              },
+            }}
           />
         </TransactionProvider>
-      }
+      </div>
     </>
   )
 }

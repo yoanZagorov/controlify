@@ -10,22 +10,24 @@ export default function TransactionProvider({ wallet = null, children }) {
 
   const { name: walletName, id: walletId, currency } = wallet ? wallet : defaultWallet;
 
-  const [transactionData, setTransactionData] = useState({
+  const defaultTransactionData = {
     amount: "0",
     wallet: {
-      name: walletName,
       id: walletId,
+      name: walletName,
       isPreselected: wallet ? true : false
     },
     currency, // Plan to give the ability to change currency at a later stage
     category: {
+      id: "",
       name: "choose",
-      type: "",
-      id: ""
+      type: ""
     },
     date: new Date(),
     // hour: To do
-  })
+  }
+
+  const [transactionData, setTransactionData] = useState(defaultTransactionData)
 
   function updateTransactionData(newTransactionData) {
     setTransactionData(prevTransactionData => ({
@@ -34,8 +36,12 @@ export default function TransactionProvider({ wallet = null, children }) {
     }))
   }
 
+  function resetTransactionData() {
+    setTransactionData(defaultTransactionData);
+  }
+
   return (
-    <TransactionContext.Provider value={{ transactionData, updateTransactionData }}>
+    <TransactionContext.Provider value={{ transactionData, updateTransactionData, resetTransactionData }}>
       {children}
     </TransactionContext.Provider>
   )

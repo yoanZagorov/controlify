@@ -1,7 +1,7 @@
 import cn from "classnames";
 
 import { useBreakpoint } from "@/hooks";
-import formatEntityName from "@/utils/formatting/formatEntityName";
+import { formatEntityName } from "@/utils/formatting";
 
 import { Amount } from "@/components/Amount";
 import { SvgIcon } from "@/components/SvgIcon";
@@ -54,8 +54,8 @@ export default function Transaction({ isExpanded, transaction: { category, walle
         <div className="flex flex-col">
           <span className={classes.categoryName}>{formattedCategoryName}</span>
           {display.wallet &&
-            <div className="flex items-center gap-1 font-bold" style={{ color: wallet.color }}>
-              <SvgIcon iconName={wallet.iconName} className="size-3 fill-current" />
+            <div className="flex items-center gap-1.5 font-bold" style={{ color: wallet.color }}>
+              <SvgIcon iconName={wallet.iconName} className="size-3 min-w-3 min-h-3 fill-current" />
               <span className="text-xs lm:text-sm">{formattedWalletName}</span>
             </div>
           }

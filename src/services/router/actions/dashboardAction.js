@@ -17,7 +17,7 @@ export default async function dashboardAction({ request }) {
 
   const amount = Number(strAmount);
 
-  if (intent === "add-transaction") {
+  if (intent === "addTransaction") {
     try {
       // throw new Error("Kaboom");
       await validateTransactionData(userId, amount, walletId, categoryId, date);

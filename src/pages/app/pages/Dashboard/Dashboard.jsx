@@ -1,18 +1,10 @@
 import cn from "classnames";
-import { useEffect, useState } from "react";
-import { useFetcher, useRouteLoaderData } from "react-router";
+import { useRouteLoaderData } from "react-router";
 
 import { TransactionProvider } from "@/contexts";
 
-import { useBreakpoint, useLayout, useModal, useMountTransition, useScrollLock, useScrollToTop } from "@/hooks";
-import { resetFetcher } from "@/services/router/utils";
+import { useLayout, useScrollToTop } from "@/hooks";
 
-import { Amount } from "@/components/Amount";
-import { Section } from "@/components/sections/Section";
-import { TransactionModal } from "@/components/modals/TransactionModal";
-
-import { ContentWidget } from "@/components/widgets/ContentWidget";
-import { BalanceLineChart } from "@/components/charts/BalanceLineChart";
 import { TransactionsSection } from "@/components/sections/TransactionsSection";
 import { WalletsSection } from "@/components/sections/WalletsSection";
 import { BalanceSection } from "./sections/BalanceSection";
@@ -29,14 +21,6 @@ export default function Dashboard() {
       balanceChartData
     }
   } = useRouteLoaderData("app");
-
-  const fetcher = useFetcher({ key: "addTransaction" });
-
-  const {
-    modalState: [isTransactionModalOpen, setTransactionModalOpen],
-    hasTransitioned,
-    modalRef
-  } = useModal({ fetcher });
 
   const { isSingleColLayout } = useLayout();
 
@@ -78,35 +62,29 @@ export default function Dashboard() {
           wallets={wallets}
         />
 
-        <TransactionsSection
-          hasFilter={false}
-          openModal={() => setTransactionModalOpen(true)}
-          transactions={todayTransactions}
-          period="today"
-          section={{
-            title: "Transactions",
-            className: classes.transactionSection,
-            contentClassName: "flex-1"
-          }}
-          widget={{
-            iconName: "calendar",
-            title: "today"
-          }}
-          display={{
-            date: false
-          }}
-        />
-      </div >
-
-      {(isTransactionModalOpen || hasTransitioned) &&
         <TransactionProvider>
-          <TransactionModal
-            isTransactionModalOpen={isTransactionModalOpen}
-            hasTransitioned={hasTransitioned}
-            modalRef={modalRef}
+          <TransactionsSection
+            action="/app/dashboard"
+            contentProps={{
+              hasFilter: false,
+              transactions: todayTransactions,
+              period: "today",
+              section: {
+                title: "Transactions",
+                className: classes.transactionSection,
+                contentClassName: "flex-1"
+              },
+              widget: {
+                iconName: "calendar",
+                title: "today"
+              },
+              display: {
+                date: false
+              }
+            }}
           />
         </TransactionProvider>
-      }
+      </div >
     </>
   )
 }

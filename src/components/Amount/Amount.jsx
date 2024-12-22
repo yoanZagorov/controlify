@@ -23,7 +23,7 @@ export default function Amount({ amount, currency = "BGN", colorContext, display
 
   return (
     <span className={balanceClass}>
-      {sign}{currency} {formattedAmount}
+      <span className="text-nowrap">{sign}{currency}</span> {formattedAmount}
     </span>
   );
 }

@@ -1,6 +1,6 @@
 import cn from "classnames";
 
-import { useBreakpoint, useModal } from "@/hooks";
+import { useBreakpoint, useModal, useSubmitModalForm } from "@/hooks";
 
 import { Widget } from "@/components/widgets/Widget";
 import { Section } from "../Section";
@@ -49,14 +49,11 @@ export default function WalletsSection({ action, section, wallets }) {
     }))
   }
 
-  useEffect(() => {
-    if (fetcher.state === "idle" && fetcher.data) {
-      setModalOpen(false);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      resetFetcher(fetcher);
-      updateWalletData(defaultWalletData);
-    }
-  }, [fetcher.data, fetcher.state])
+  useSubmitModalForm({
+    fetcher,
+    closeModal: () => setModalOpen(false),
+    resetModalData: () => updateWalletData(defaultWalletData)
+  })
 
   const visibleWalletCategories = walletData.categories.filter(category => category.isVisible);
 
@@ -84,8 +81,6 @@ export default function WalletsSection({ action, section, wallets }) {
       value: e.target.value
     })
   }
-
-
 
   const walletDataConfig = [
     {

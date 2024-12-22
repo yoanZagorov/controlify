@@ -27,8 +27,6 @@ export default function TransactionModal({ isTransactionModalOpen, hasTransition
   const transactionType = category.type || "expense";
   const isExpense = transactionType === "expense";
 
-  const isUsingKeyboard = document.body.classList.contains("using-keyboard");
-
   function handleChange(e) {
     const value = e.target.value;
 
@@ -50,16 +48,7 @@ export default function TransactionModal({ isTransactionModalOpen, hasTransition
     }
   }
 
-  const classes = {
-    amountValue: cn(
-      "flex gap-2 items-end text-xl",
-      isExpense ? "text-red-light" : "text-green-light"
-    ),
-    amountInput: cn(
-      "w-full rounded bg-navy focus:outline-none",
-      isUsingKeyboard && "focus:ring focus:ring-goldenrod"
-    )
-  }
+
 
   return (
     <ModalWrapper

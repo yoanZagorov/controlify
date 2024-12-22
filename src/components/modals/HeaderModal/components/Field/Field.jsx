@@ -15,7 +15,7 @@ export default function FieldContainer({ type = "select", iconName, name, displa
   return (
     <div className="flex items-center gap-4 pb-7 border-b border-opacity-50 border-gray-dark">
       <SvgIcon iconName={iconName} className="size-6 min-w-6 min-h-6 fill-gray-dark" />
-      <span className="text-xs font-bold text-gray-dark">{capitalizeEveryWord(name)}</span>
+      <span className="text-sm font-bold text-gray-dark">{capitalizeEveryWord(name)}</span>
 
       {
         isInput ? (

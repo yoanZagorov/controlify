@@ -10,44 +10,29 @@ import { TransactionsSection } from "@/components/sections/TransactionsSection";
 export default function WalletTransactions() {
   const { isSingleColLayout } = useLayout();
 
-  const { wallet, transactions } = useRouteLoaderData("wallet");
-
-  const fetcher = useFetcher({ key: "addTransaction" });
-
-  const {
-    modalState: [isTransactionModalOpen, setTransactionModalOpen],
-    hasTransitioned,
-    modalRef
-  } = useModal({ fetcher });
+  const { transactions } = useRouteLoaderData("wallet");
 
   return (
     <>
-      <TransactionsSection
-        type={isSingleColLayout ? "compact" : "expanded"}
-        openModal={() => setTransactionModalOpen(true)}
-        transactions={transactions}
-        period="all-time"
-        section={{
-          title: "Wallet Transactions"
-        }}
-        widget={{
-          iconName: "arrows-rotate",
-          title: "activity overview"
-        }}
-        display={{
-          wallet: false
-        }}
-      />
-
-      {(isTransactionModalOpen || hasTransitioned) &&
-        <TransactionProvider wallet={wallet}>
-          <TransactionModal
-            isTransactionModalOpen={isTransactionModalOpen}
-            hasTransitioned={hasTransitioned}
-            modalRef={modalRef}
-          />
-        </TransactionProvider>
-      }
+      <TransactionProvider>
+        <TransactionsSection
+          action="/app/wallets"
+          contentProps={{
+            type: isSingleColLayout ? "compact" : "expanded",
+            transactions,
+            section: {
+              title: "Wallet Transactions",
+            },
+            widget: {
+              iconName: "arrows-rotate",
+              title: "activity overview"
+            },
+            display: {
+              wallet: false
+            }
+          }}
+        />
+      </TransactionProvider>
     </>
   )
 }

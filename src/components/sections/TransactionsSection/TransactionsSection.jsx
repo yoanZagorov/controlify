@@ -1,73 +1,184 @@
-import cn from "classnames";
+import { useFetcher } from "react-router";
 
-import Section from "@/components/sections/Section/Section";
-import { ContentWidget } from "@/components/widgets/ContentWidget";
-import { Transaction } from "./components/Transaction";
-import { Button } from "@/components/Button";
-import { Notification } from "@/components/Notification";
-import { SvgIcon } from "@/components/SvgIcon";
+import { useModal, useSubmitModalForm, useTransaction } from "@/hooks";
+import { handleAmountInputChange } from "@/utils/input";
 
-export default function TransactionsSection({ type = "compact", hasFilter = true, openModal, transactions, period, section, widget, display }) {
+import { ModalWrapper } from "@/components/modals/ModalWrapper";
+import { HeaderModal } from "@/components/modals/HeaderModal";
+import { Form } from "@/components/Form";
+import { WalletModal } from "@/components/modals/WalletModal";
+import { CategoryModal } from "@/components/modals/CategoryModal";
+import { DateModal } from "@/components/modals/DateModal";
+
+import { Content } from "./components/Content";
+import { CustomAmountInput } from "./components/CustomAmountInput";
+import { formatEntityName } from "@/utils/formatting";
+import { getDateBtnValue } from "@/utils/date";
+
+export default function TransactionsSection({ action, contentProps }) {
   // To do: add filtering logic
+  const NAVY = "#002B5B";
 
-  const hasTransactions = transactions.length > 0;
-  const isExpanded = type === "expanded";
-  const displayProps = { date: true, wallet: true, ...display };
+  const fetcher = useFetcher({ key: "addTransaction" });
 
-  const transactionEls = hasTransactions ?
-    transactions.map(transaction => (
-      <li key={transaction.id}>
-        <Transaction
-          isExpanded={isExpanded}
-          transaction={transaction}
-          display={displayProps}
-        />
-      </li>
-    )) : null;
+  const {
+    modalState: [isModalOpen, setModalOpen],
+    hasTransitioned,
+    modalRef
+  } = useModal({ fetcher });;
 
-  const classes = {
-    openModalBtn: cn(
-      "self-center w-full max-w-64 focus-visible:ring-4",
-      isExpanded && "py-3 text-xl"
-    ),
-    filterBtn: cn(
-      "absolute top-4 right-4 flex justify-center items-center bg-gray-light border border-gray-dark",
-      isExpanded ? "p-2 rounded-md gap-3" : "size-9 rounded-full"
-    )
+  const {
+    transactionData: {
+      amount,
+      wallet,
+      currency,
+      category,
+      date
+    },
+    updateTransactionData,
+    resetTransactionData
+  } = useTransaction();
+
+  useSubmitModalForm({
+    fetcher,
+    closeModal: () => setModalOpen(false),
+    resetModalData: () => resetTransactionData
+  })
+
+  const transactionType = category.type || "expense";
+  const isExpense = transactionType === "expense";
+
+  const transactionDataConfig = [
+    {
+      formData: {
+        name: "amount",
+        value: amount
+      }
+    },
+    {
+      formData: {
+        name: "wallet",
+        value: wallet.id
+      },
+      field: {
+        name: "wallet",
+        props: {
+          iconName: "wallet",
+          type: "select",
+          displayValue: formatEntityName(wallet.name),
+        },
+        modal: {
+          innerModal: {
+            Component: WalletModal,
+          },
+          state: {
+            value: wallet,
+            updateState: (newWallet) => updateTransactionData({ wallet: newWallet })
+          },
+          minHeight: "min-h-[50%]",
+        }
+      }
+    },
+    {
+      formData: {
+        name: "category",
+        value: category.id
+      },
+      field: {
+        name: "category",
+        props: {
+          iconName: "categories",
+          type: "select",
+          displayValue: formatEntityName(category.name),
+        },
+        modal: {
+          innerModal: {
+            Component: CategoryModal,
+          },
+          state: {
+            value: category,
+            updateState: (newCategory) => updateTransactionData({ category: newCategory })
+          },
+          minHeight: "min-h-[75%]"
+        }
+      }
+    },
+    {
+      formData: {
+        name: "date",
+        value: date
+      },
+      field: {
+        name: "date",
+        props: {
+          iconName: "calendar",
+          type: "select",
+          displayValue: getDateBtnValue(date),
+        },
+        modal: {
+          innerModal: {
+            Component: DateModal,
+          },
+          state: {
+            value: date,
+            updateState: (newDate) => updateTransactionData({ date: newDate })
+          },
+        }
+      }
+    },
+  ];
+
+  function handleInputChange(e) {
+    handleAmountInputChange({
+      state: {
+        updateState: updateTransactionData,
+        value: amount,
+        prop: "amount"
+      },
+      value: e.target.value
+    })
   }
 
   return (
-    <Section title={section.title} className={section.className} contentClassName={section.contentClassName}>
-      <ContentWidget
-        iconName={widget.iconName}
-        title={widget.title}
-        className="relative h-full"
-        content={{ hasBackground: false, className: "mt-4 flex flex-col gap-8" }}
-      >
-        {hasTransactions ? (
-          <ul className={`flex flex-col ${isExpanded ? "gap-7" : "gap-5"}`}>
-            {transactionEls}
-          </ul>
-        ) : (
-          <Notification msgType="notification" className="self-center w-full max-w-80">
-            Oops... It looks like you haven't made any transactions yet{period === "today" && " today"}. Add one now!
-          </Notification>
-        )}
+    <>
+      <Content {...contentProps} openModal={() => setModalOpen(true)} />
 
-        <Button onClick={openModal} className={classes.openModalBtn} data-actionable="true">
-          Add Transaction
-        </Button>
-
-        {hasFilter && (
-          <button
-            onClick={() => console.log("Filtering...")}
-            className={classes.filterBtn}
+      {(isModalOpen || hasTransitioned) &&
+        <ModalWrapper
+          isModalOpen={isModalOpen}
+          hasTransitioned={hasTransitioned}
+          ref={modalRef}
+        >
+          <Form
+            fetcher={fetcher}
+            action={action}
+            className="h-full"
+            fields={transactionDataConfig.map(option => option.formData)}
           >
-            <SvgIcon iconName="filter" className="size-5 fill-gray-dark" />
-            {isExpanded && <span className="text-gray-dark font-semibold">Filter</span>}
-          </button>
-        )}
-      </ContentWidget>
-    </Section>
+            <HeaderModal
+              header={{
+                type: "custom",
+                customInput: {
+                  Component: CustomAmountInput,
+                  props: {
+                    value: amount,
+                    handleChange: handleInputChange,
+                    isExpense,
+                    currency
+                  }
+                }
+              }}
+              fields={transactionDataConfig.filter(option => option.field).map(option => option.field)}
+              btn={{
+                disabled: amount === "0" || category.name === "choose",
+                value: "addTransaction",
+                text: "complete transaction"
+              }}
+              color={NAVY}
+            />
+          </Form>
+        </ModalWrapper>
+      }
+    </>
   )
 }
