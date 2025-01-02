@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { TransactionContext, NotificationContext, UserContext, LayoutContext, BreakpointContext } from "@/contexts";
+import { TransactionContext, NotificationContext, UserContext, LayoutContext, BreakpointContext, AuthContext } from "@/contexts";
 
 export function useTransaction() {
   return useContext(TransactionContext);
@@ -19,4 +19,8 @@ export function useLayout() {
 
 export function useBreakpoint() {
   return useContext(BreakpointContext);
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
 }

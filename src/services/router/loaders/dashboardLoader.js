@@ -2,7 +2,6 @@ import { getAuthUserId } from "@/services/firebase/db/user";
 import { createSuccessResponse } from "../responses";
 import { getStoredData, storeRedirectData } from "@/utils/storage";
 import { getRandomItem } from "@/utils/array";
-import { quotes } from "@/pages/auth/data";
 
 export default async function dashboardLoader() {
   const userId = await getAuthUserId();

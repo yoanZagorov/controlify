@@ -6,13 +6,12 @@ import useScrollLock from "./useScrollLock";
 import useMountTransition from "./useMountTransition";
 import useOutsideClick from "./useOutsideClick";
 
-export default function useModal({ type = "blocking", fetcher = {}, unmountDelay = 300 }) {
+export default function useModal({ isBlocking = true, fetcher = {}, unmountDelay = 300 }) {
   const [isModalOpen, setModalOpen] = useState(false);
   const hasTransitioned = useMountTransition(isModalOpen, unmountDelay);
 
   const modalRef = useOutsideClick(isModalOpen, () => setModalOpen(false));
 
-  const isBlocking = type === "blocking";
   isBlocking && useScrollLock(isModalOpen);
 
   const isFetcher = Object.keys(fetcher).length !== 0;

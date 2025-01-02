@@ -32,6 +32,9 @@ import UKFlagIcon from "@/assets/icons/flag-uk.svg?react";
 import CheckIcon from "@/assets/icons/check.svg?react";
 import EyeIcon from "@/assets/icons/eye.svg?react";
 
+// Wallet
+import TrashCanIcon from "@/assets/icons/trash-can.svg?react";
+
 // Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
 import ShoppingBagIcon from "@/assets/icons/shopping-bag.svg?react";
@@ -95,6 +98,7 @@ const iconComponentsMap = {
   "flag-uk": UKFlagIcon,
   "check": CheckIcon,
   "eye": EyeIcon,
+  "trash-can": TrashCanIcon,
 }
 
 export default function SvgIcon({ iconName, ...props }) {

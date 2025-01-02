@@ -1,9 +1,7 @@
 import { Form as RouterForm } from "react-router"
 import { Button } from "../Button"
 
-export default function Form({ fetcher = {}, action, className, btn = {}, fields, children }) {
-  const isFetcherForm = Object.keys(fetcher).length !== 0;
-
+export default function Form({ fetcher = null, action, className, btn = {}, fields, children }) {
   const isBtn = Object.keys(btn).length !== 0;
   const btnConfig = { text: "submit", ...btn };
 
@@ -11,7 +9,7 @@ export default function Form({ fetcher = {}, action, className, btn = {}, fields
     <input key={index} type="hidden" name={name} value={value} />
   ))
 
-  return isFetcherForm ? (
+  return fetcher ? (
     <fetcher.Form
       method="post"
       action={action}
@@ -20,7 +18,7 @@ export default function Form({ fetcher = {}, action, className, btn = {}, fields
       {fieldsEls}
       {children}
       {isBtn &&
-        <Button type="submit" size="l" {...btnConfig.props}>
+        <Button type="submit" size="l" name="intent" {...btnConfig.props}>
           {btnConfig.text}
         </Button>
       }
@@ -34,7 +32,7 @@ export default function Form({ fetcher = {}, action, className, btn = {}, fields
       {fieldsEls}
       {children}
       {isBtn &&
-        <Button type="submit" size="l" {...btnConfig.props}>
+        <Button type="submit" size="l" name="intent" {...btnConfig.props}>
           {btnConfig.text}
         </Button>
       }

@@ -6,9 +6,9 @@ import { auth } from "@/services/firebase/firebase.config";
 import { createUser } from "@/services/firebase/db/user";
 
 import { checkFirebaseError, validateSignupCredentials } from "@/utils/auth";
-import { createErrorResponse } from "../responses";
 import { ValidationError } from "@/utils/errors";
 import { storeRedirectData } from "@/utils/storage";
+import { createErrorResponse } from "../responses";
 
 export default async function createAccountAction({ request }) {
   try {
@@ -17,8 +17,7 @@ export default async function createAccountAction({ request }) {
 
     const { verifiedEmail, verifiedPassword, verifiedFullName } = validateSignupCredentials(email, password, fullName);
 
-    const userCredential = await createUserWithEmailAndPassword(auth, verifiedEmail, verifiedPassword);
-    const userId = userCredential.user.uid;
+    const { user: { uid: userId } } = (await createUserWithEmailAndPassword(auth, verifiedEmail, verifiedPassword));
 
     await createUser(verifiedEmail, verifiedFullName, userId);
 
@@ -28,10 +27,6 @@ export default async function createAccountAction({ request }) {
     return redirect(originalPath || "/app");
   } catch (error) {
     console.error(error);
-
-    if (error?.options?.cause) {
-      console.error("Cause:", error.options.cause);
-    }
 
     if (error instanceof ValidationError) {
       return createErrorResponse(error.statusCode, error.message);

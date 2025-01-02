@@ -15,7 +15,7 @@ import { CategoriesVisibilityModal } from "@/components/modals/CategoriesVisibil
 import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { walletsColors } from "@/utils/wallet";
-import { handleAmountInputChange } from "@/utils/input";
+import { handleAmountInputChange, handleWalletNameInputChange } from "@/utils/input";
 import { resetFetcher } from "@/services/router/utils";
 
 export default function WalletsSection({ action, section, wallets }) {
@@ -144,6 +144,9 @@ export default function WalletsSection({ action, section, wallets }) {
           displayValue: areAllCategoriesVisible ? "All" : visibleWalletCategories.length,
         },
         modal: {
+          type: {
+            blocking: true
+          },
           innerModal: {
             Component: CategoriesVisibilityModal,
             props: { categories: walletData.categories },
@@ -238,7 +241,7 @@ export default function WalletsSection({ action, section, wallets }) {
                 input: {
                   props: {
                     value: walletData.name,
-                    onChange: handleNameInputChange,
+                    onChange: (e) => handleWalletNameInputChange({ value: e.target.value, updateState: updateWalletData }),
                     min: 2,
                     max: 50
                   }

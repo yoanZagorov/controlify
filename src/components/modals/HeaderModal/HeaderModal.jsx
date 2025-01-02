@@ -1,8 +1,9 @@
 import { Button } from "@/components/Button";
 import cn from "classnames";
-import { FieldContainer } from "./components/FieldContainer";
+import { FieldContainer } from "../FieldContainer";
 import { useAutoFocus, useSelectInput } from "@/hooks";
 import { useRef } from "react";
+import { Field } from "./components/Field";
 
 export default function HeaderModal({ header, fields, btn, color }) {
   const headerInputRef = useRef(null);
@@ -16,10 +17,13 @@ export default function HeaderModal({ header, fields, btn, color }) {
   const itemFields = fields.map((field, index) => (
     <FieldContainer
       key={index}
-      fieldProps={{
-        name: field.name,
-        ...field.props,
-        selectBtnProps: field.type === "select" ? { colorPalette: "secondaryDark" } : null
+      field={{
+        Component: Field,
+        props: {
+          name: field.name,
+          ...field.props,
+          selectBtnProps: field.type === "select" ? { colorPalette: "secondaryDark" } : null
+        }
       }}
       modal={field.modal}
     />

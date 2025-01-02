@@ -1,9 +1,11 @@
 import { redirect } from "react-router";
+
 import { getAuthUserId } from "@/services/firebase/db/user";
-import { createSuccessResponse } from "../responses";
+
 import { getRandomItem } from "@/utils/array";
-import { quotes } from "@/pages/auth/data";
 import { getStoredData } from "@/utils/storage";
+import { createSuccessResponse } from "../responses";
+import { quotes } from "../utils";
 
 export default async function authLoader() {
   const userId = await getAuthUserId();

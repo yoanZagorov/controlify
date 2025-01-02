@@ -10,10 +10,10 @@ import { createSuccessResponse, createErrorResponse } from "../responses";
 
 import { getStoredData, storeRedirectData } from "@/utils/storage";
 import { getRandomItem } from "@/utils/array";
-import { quotes } from "@/pages/auth/data";
 import { getBalanceChartData } from "@/utils/transaction";
 import { AppError } from "@/utils/errors";
 import { getTodayStartAndEnd } from "@/utils/date";
+import { quotes } from "../utils";
 
 export default async function appLoader({ request }) {
   const userId = await getAuthUserId();

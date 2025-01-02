@@ -3,3 +3,4 @@ export { default as TransactionProvider, TransactionContext } from "./Transactio
 export { default as NotificationProvider, NotificationContext } from "./NotificationContext";
 export { default as LayoutProvider, LayoutContext } from "./LayoutContext";
 export { default as BreakpointProvider, BreakpointContext } from "./BreakpointContext";
+export { default as AuthProvider, AuthContext } from "./AuthContext";

@@ -1,65 +1,102 @@
-import { Link, Form as RouterForm } from "react-router";
+import cn from "classnames";
+import { useRef } from "react";
+import { Link } from "react-router";
 
-import { Button } from "@/components/Button";
+import { useAuth, useAutoFocus } from "@/hooks";
+
 import { Input } from "@/components/Input";
-import { useAutoFocus } from "@/hooks";
+import { Form } from "@/components/Form";
 
 export default function AuthForm({ originalPath = "", isCreateAccount, authFormConfig, className }) {
-  const emailInputRef = useAutoFocus([isCreateAccount]);
+  const {
+    authData,
+    updateAuthData
+  } = useAuth();
+
+  const { email, password, fullName } = authData;
+
+  const emailInputRef = useRef(null);
+  useAutoFocus({ ref: emailInputRef, deps: [isCreateAccount] });
 
   const { action, btnText, path, msg, CTA } = authFormConfig;
 
+  const authDataConfig = [
+    {
+      formData: {
+        name: "originalPath",
+        value: originalPath
+      }
+    },
+    {
+      formData: {
+        name: "email",
+        value: email
+      },
+      inputProps: {
+        inputRef: emailInputRef,
+        type: "email",
+        placeholder: "Email",
+        minLength: 2,
+        onChange: (e) => updateAuthData({ email: e.target.value })
+      },
+    },
+    {
+      formData: {
+        name: "password",
+        value: password
+      },
+      inputProps: {
+        type: "password",
+        placeholder: "Password",
+        minLength: 8,
+        maxLength: 12,
+        onChange: (e) => updateAuthData({ password: e.target.value })
+      },
+    },
+    ...(isCreateAccount ? [{
+      formData: {
+        name: "fullName",
+        value: fullName
+      },
+      inputProps: {
+        placeholder: "Full Name",
+        minLength: 5,
+        onChange: (e) => updateAuthData({ fullName: e.target.value })
+      },
+    }] : [])
+  ];
+
+  const inputFields = authDataConfig.filter(field => field.inputProps).map((field, index) => {
+    return (
+      <Input
+        key={index}
+        size="l"
+        required
+        value={field.formData.value}
+        {...field.inputProps}
+        className="ll:py-3 ll:px-5 ll:text-xl"
+      />
+    )
+  })
+
   return (
-    <RouterForm
-      method="post"
+    <Form
       action={action}
-      className={className && className}
+      className={cn(className)}
+      btn={{
+        props: {
+          size: "xl",
+          className: "mt-8 w-full ll:py-5 ll:text-2xl focus:ring-4"
+        },
+        text: btnText
+      }}
+      fields={[
+        ...authDataConfig.map(field => field.formData),
+      ]}
     >
-      <input type="hidden" name="originalPath" value={originalPath} />
+      <div className="flex flex-col gap-5">{inputFields}</div>
 
-      <div className="flex flex-col gap-5">
-        <Input
-          size="l"
-          inputRef={emailInputRef}
-          type="email"
-          name="email"
-          placeholder="Email"
-          minLength={2}
-          required
-          className="ll:py-3 ll:px-5 ll:text-xl"
-        />
-        <Input
-          size="l"
-          type="password"
-          name="password"
-          placeholder="Password"
-          minLength={8}
-          maxLength={12}
-          required
-          className="ll:py-3 ll:px-5 ll:text-xl"
-        />
-        {isCreateAccount &&
-          <Input
-            size="l"
-            type="text"
-            name="fullName"
-            placeholder="Full name"
-            minLength={5}
-            required
-            className="ll:py-3 ll:px-5 ll:text-xl"
-          />
-        }
-      </div>
-
-      <Button
-        type="submit"
-        size="xl"
-        className="mt-12 w-full ll:py-5 ll:text-2xl focus:ring-4"
-      >
-        {btnText}
-      </Button>
-
-      <p className="mt-2 text-sm mm:text-base ll:text-lg text-navy">
+      <p className="mt-3 text-sm mm:text-base ll:text-lg text-navy">
         {msg}
         <Link
           to={path}
@@ -68,6 +105,6 @@ export default function AuthForm({ originalPath = "", isCreateAccount, authFormC
           {CTA}
         </Link>
       </p>
-    </RouterForm>
+    </Form>
   )
 }

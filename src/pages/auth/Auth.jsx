@@ -2,11 +2,12 @@ import { useActionData, useLoaderData } from "react-router";
 
 import { loginAction, createAccountAction } from "@/services/router/actions";
 
-import logo from "logos/logoGrayBg.png";
-
-import { AuthForm } from "./components/AuthForm";
 import { useFlashMsg } from "@/hooks";
+
+import logo from "logos/logoGrayBg.png";
+import { AuthForm } from "./components/AuthForm";
 import { InfoWidget } from "@/components/widgets/InfoWidget";
+import { AuthProvider } from "@/contexts";
 
 export default function Auth({ type }) {
   const { msg: errorMsg, msgType: errorMsgType, resetKey } = useActionData() ?? {};
@@ -22,6 +23,8 @@ export default function Auth({ type }) {
   const isCreateAccount = type === "createAccount";
 
   const authFormConfig = {
+    originalPath,
+    isCreateAccount,
     action: isCreateAccount ? createAccountAction : loginAction,
     btnText: isCreateAccount ? "Create account" : "Log in",
     path: isCreateAccount ? "/login" : "/create-account",
@@ -45,13 +48,15 @@ export default function Auth({ type }) {
         <div className="hidden tab:block min-h-96 ll:min-h-[450px] h-full border-r border-navy"></div>
 
         <div className="tab:w-1/2">
-          <AuthForm
-            originalPath={originalPath}
-            isCreateAccount={isCreateAccount}
-            authFormConfig={authFormConfig}
-          />
+          <AuthProvider>
+            <AuthForm
+              originalPath={originalPath}
+              isCreateAccount={isCreateAccount}
+              authFormConfig={authFormConfig}
+            />
+          </AuthProvider>
         </div>
-      </main >
-    </div >
+      </main>
+    </div>
   )
 }

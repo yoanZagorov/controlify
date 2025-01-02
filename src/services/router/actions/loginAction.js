@@ -4,9 +4,9 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/services/firebase/firebase.config";
 
 import { checkFirebaseError, checkLoginFields } from "@/utils/auth";
-import { createErrorResponse } from "../responses";
 import { ValidationError } from "@/utils/errors";
 import { storeRedirectData } from "@/utils/storage";
+import { createErrorResponse } from "../responses";
 
 export default async function loginAction({ request }) {
   try {
@@ -24,10 +24,6 @@ export default async function loginAction({ request }) {
   } catch (error) {
     console.error(error);
 
-    if (error?.options?.cause) {
-      console.error("Cause:", error.options.cause);
-    }
-
     if (error instanceof ValidationError) {
       return createErrorResponse(error.statusCode, error.message);
     }
@@ -35,8 +31,8 @@ export default async function loginAction({ request }) {
     const firebaseError = checkFirebaseError(error.code);
 
     if (firebaseError) {
-      console.log("firebaseError:", firebaseError);
-      return createErrorResponse(firebaseError.status, firebaseError.message);
+      console.error("firebaseError:", firebaseError);
+      return createErrorResponse(firebaseError.statusCode, firebaseError.message);
     };
 
     return createErrorResponse(500, "Couldn't log you in. Please try again");
