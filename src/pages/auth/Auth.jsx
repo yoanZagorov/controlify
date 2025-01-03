@@ -8,17 +8,34 @@ import logo from "logos/logoGrayBg.png";
 import { AuthForm } from "./components/AuthForm";
 import { InfoWidget } from "@/components/widgets/InfoWidget";
 import { AuthProvider } from "@/contexts";
+import { useEffect, useState } from "react";
 
 export default function Auth({ type }) {
-  const { msg: errorMsg, msgType: errorMsgType, resetKey } = useActionData() ?? {};
+  const actionData = useActionData() ?? {};
+  const [errorMsg, setErrorMsg] = useState({ msg: actionData.msg, msgType: actionData.msgType }) // using local state to ensure no stale data (refreshing the actionData)
+
+  useEffect(() => {
+    if (actionData.msg !== errorMsg.msg) {
+      setErrorMsg({ msg: actionData.msg, msgType: actionData.msgType });
+    }
+  }, [actionData.msg, actionData.resetKey]);
 
   const { quote, redirectData } = useLoaderData();
-  const { originalPath, msg: redirectMsg, msgType: redirectMsgType } = redirectData;
+  const { originalPath } = redirectData;
+  const [redirectMsg, setRedirectMsg] = useState({ msg: redirectData.msg, msgType: redirectData.msgType }); // same as the actionData
 
   const { flashMsg, clearFlashMsg } = useFlashMsg([
-    { msg: errorMsg, msgType: errorMsgType, clearMsg: null },
-    { msg: redirectMsg, msgType: redirectMsgType, clearMsg: null },
-  ], [errorMsg, redirectMsg, resetKey]);
+    {
+      msg: errorMsg.msg,
+      msgType: errorMsg.msgType,
+      clearMsg: () => setErrorMsg({ msg: null, msgType: null })
+    },
+    {
+      msg: redirectMsg.msg,
+      msgType: redirectMsg.msgType,
+      clearMsg: () => setRedirectMsg({ msg: null, msgType: null })
+    },
+  ], [redirectMsg, errorMsg]);
 
   const isCreateAccount = type === "createAccount";
 

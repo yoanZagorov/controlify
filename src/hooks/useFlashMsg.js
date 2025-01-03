@@ -8,10 +8,10 @@ export default function useFlashMsg(messages, deps) {
   const [flashMsg, setFlashMsg] = useState(getInitialMsg());
 
   useEffect(() => {
-    if (!flashMsg.msg) {
-      messages.forEach(({ msg, msgType }) => {
-        if (msg) setFlashMsg({ msg, msgType });
-      })
+    const newMsg = messages.find(({ msg }) => msg);
+
+    if (newMsg && newMsg.msg !== flashMsg.msg) {
+      setFlashMsg(newMsg);
     }
   }, deps)
 
