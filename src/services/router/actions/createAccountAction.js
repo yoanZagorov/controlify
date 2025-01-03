@@ -1,9 +1,9 @@
 import { redirect } from "react-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, deleteUser } from "firebase/auth";
 
 import { auth } from "@/services/firebase/firebase.config";
 
-import { createUser } from "@/services/firebase/db/user";
+import { createUser, getAuthUserId } from "@/services/firebase/db/user";
 
 import { checkFirebaseError, validateSignupCredentials } from "@/utils/auth";
 import { ValidationError } from "@/utils/errors";
@@ -26,6 +26,15 @@ export default async function createAccountAction({ request }) {
 
     return redirect(originalPath || "/app");
   } catch (error) {
+    const authUserId = await getAuthUserId();
+    try {
+      if (authUserId) {
+        await deleteUser(auth.currentUser);
+      }
+    } catch (deleteError) {
+      console.error("Failed to delete auth user:", deleteError);
+    }
+
     console.error(error);
 
     if (error instanceof ValidationError) {
