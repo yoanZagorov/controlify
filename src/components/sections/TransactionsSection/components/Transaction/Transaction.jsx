@@ -1,19 +1,47 @@
 import cn from "classnames";
 
-import { useBreakpoint } from "@/hooks";
+import { useBreakpoint, useModal, useSubmitModalForm, useTransaction } from "@/hooks";
 import { formatEntityName } from "@/utils/formatting";
 
 import { Amount } from "@/components/Amount";
 import { SvgIcon } from "@/components/SvgIcon";
 import { formatDateLong, formatDateShort } from "@/utils/date";
+import { useFetcher } from "react-router";
+import { TransactionContainer } from "@/components/containers/TransactionContainer";
+import { useEffect, useState } from "react";
 
 export default function Transaction({ isExpanded, transaction: { category, wallet, date, amount }, display }) {
+  const fetcher = useFetcher({ key: "updateTransaction" });
+
+  const modal = useModal({ fetcher });
+  const { modalState: [isModalOpen, setModalOpen] } = modal;
+
   const { isMobileS, isMobileM } = useBreakpoint();
   const isSpaceLimited = isMobileS || isMobileM;
 
+  const { transactionData, defaultTransactionData } = useTransaction();
+
+  const { amount: transactionDataAmount } = transactionData;
+  // To do: Create a more sophisticated function to compare complex data types
+  const [hasTransactionDataChanged, setHasTransactionDataChanged] = useState(JSON.stringify(transactionData) === JSON.stringify(defaultTransactionData))
+
+  // console.log(JSON.stringify(transactionData));
+  // console.log(JSON.stringify(defaultTransactionData));
+
+  console.log(transactionData);
+  console.log(defaultTransactionData);
+
+  useEffect(() => {
+    if (JSON.stringify(transactionData) === JSON.stringify(defaultTransactionData)) {
+      setHasTransactionDataChanged(false);
+    } else {
+      setHasTransactionDataChanged(true);
+    }
+  }, [transactionData]);
+
   const classes = {
     transaction: cn(
-      "grid items-center bg-gray-light rounded-lg overflow-auto",
+      "w-full grid items-center bg-gray-light rounded-lg overflow-auto",
       isExpanded ? "grid-cols-3 p-4" : "grid-cols-[minmax(auto,max-content)_1fr] gap-6 p-3"
     ),
     iconWrapper: cn(
@@ -45,35 +73,47 @@ export default function Transaction({ isExpanded, transaction: { category, walle
   const correctSignAmount = category.type === "expense" ? -amount : amount;
 
   return (
-    <div className={classes.transaction}>
-      <div className={`flex items-center ${isExpanded ? "gap-4" : "gap-2.5"}`}>
-        <div className={classes.iconWrapper} style={{ backgroundColor: category.color }}>
-          <SvgIcon iconName={category.iconName} className="size-1/2 fill-gray-light" />
+    <TransactionContainer
+      modal={modal}
+      fetcher={fetcher}
+      action="/app/wallets"
+      modalBtn={{
+        value: "updateTransaction",
+        text: "update transaction",
+        disabled: transactionDataAmount === "0" || !hasTransactionDataChanged
+      }}
+    >
+      <button className={classes.transaction} onClick={() => setModalOpen(true)}>
+        <div className={`flex items-center ${isExpanded ? "gap-4" : "gap-2.5"}`}>
+          <div className={classes.iconWrapper} style={{ backgroundColor: category.color }}>
+            <SvgIcon iconName={category.iconName} className="size-1/2 fill-gray-light" />
+          </div>
+
+          <div className="flex flex-col items-start">
+            <span className={classes.categoryName}>{formattedCategoryName}</span>
+            {display.wallet &&
+              <div className="flex items-center gap-1.5 font-bold" style={{ color: wallet.color }}>
+                <SvgIcon iconName={wallet.iconName} className="size-3 min-w-3 min-h-3 fill-current" />
+                <span className="text-left text-xs lm:text-sm">{formattedWalletName}</span>
+              </div>
+            }
+            {(display.date && !isExpanded) &&
+              <time className="mt-1 text-xs text-gray-dark opacity-50 font-bold">{formattedDate}</time>
+            }
+          </div>
         </div>
 
-        <div className="flex flex-col">
-          <span className={classes.categoryName}>{formattedCategoryName}</span>
-          {display.wallet &&
-            <div className="flex items-center gap-1.5 font-bold" style={{ color: wallet.color }}>
-              <SvgIcon iconName={wallet.iconName} className="size-3 min-w-3 min-h-3 fill-current" />
-              <span className="text-xs lm:text-sm">{formattedWalletName}</span>
-            </div>
-          }
-          {(display.date && !isExpanded) &&
-            <time className="mt-1 text-xs text-gray-dark opacity-50 font-bold">{formattedDate}</time>
-          }
-        </div>
-      </div>
+        {(display.date && isExpanded) && <time className="text-left text-base text-gray-dark opacity-50 font-bold">{formattedDate}</time>}
 
-      {(display.date && isExpanded) && <time className="text-left text-base text-gray-dark opacity-50 font-bold">{formattedDate}</time>}
+        <Amount
+          amount={correctSignAmount}
+          currency={wallet.currency}
+          colorContext="light"
+          displayPlusSign
+          className={classes.amount}
+        />
+      </button>
+    </TransactionContainer>
 
-      <Amount
-        amount={correctSignAmount}
-        currency={wallet.currency}
-        colorContext="light"
-        displayPlusSign
-        className={classes.amount}
-      />
-    </div>
   )
 }

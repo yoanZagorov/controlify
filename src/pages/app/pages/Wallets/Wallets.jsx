@@ -8,11 +8,14 @@ import { TransactionsSection } from "@/components/sections/TransactionsSection";
 import { TransactionProvider } from "@/contexts";
 import { TransactionModal } from "@/components/modals/TransactionModal";
 import { SpendingSection } from "./sections/SpendingSection";
+import { TransactionContainer } from "@/components/containers/TransactionContainer";
 
 export default function Wallets() {
   useScrollToTop();
 
   const { transactions, wallets, expensesByWalletChartData } = useLoaderData();
+
+  console.log(transactions);
 
   const { isSingleColLayout } = useLayout();
 

@@ -9,6 +9,7 @@ export default function addTransaction(dbTransaction, userId, amount, wallet, ca
     amount,
     category,
     wallet: {
+      id: wallet.id,
       name: wallet.name,
       iconName: wallet.iconName,
       color: wallet.color,

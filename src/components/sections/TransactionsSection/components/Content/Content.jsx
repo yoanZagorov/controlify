@@ -6,6 +6,7 @@ import { Notification } from "@/components/Notification";
 import { Button } from "@/components/Button";
 import { SvgIcon } from "@/components/SvgIcon";
 import { Transaction } from "../Transaction";
+import { TransactionProvider } from "@/contexts";
 
 export default function Content({ type = "compact", hasFilter = true, period = "all-time", section, widget, display, transactions, openModal }) {
   const hasTransactions = transactions.length > 0;
@@ -13,15 +14,37 @@ export default function Content({ type = "compact", hasFilter = true, period = "
   const displayConfig = { date: true, wallet: true, ...display };
 
   const transactionEls = hasTransactions ?
-    transactions.map(transaction => (
-      <li key={transaction.id}>
-        <Transaction
-          isExpanded={isExpanded}
-          transaction={transaction}
-          display={displayConfig}
-        />
-      </li>
-    )) : null;
+    transactions.map(transaction => {
+      const { amount, wallet, category, date } = transaction;
+
+      return (
+        <li key={transaction.id}>
+          <TransactionProvider
+            prepopulatedTransactionData={{
+              amount: String(amount),
+              wallet: {
+                id: wallet.id,
+                name: wallet.name,
+                isPreselected: false
+              },
+              currency: wallet.currency,
+              category: {
+                id: category.id,
+                name: category.name,
+                type: category.type
+              },
+              date: new Date(date)
+            }}
+          >
+            <Transaction
+              isExpanded={isExpanded}
+              transaction={transaction}
+              display={displayConfig}
+            />
+          </TransactionProvider>
+        </li>
+      )
+    }) : null;
 
   const classes = {
     openModalBtn: cn(

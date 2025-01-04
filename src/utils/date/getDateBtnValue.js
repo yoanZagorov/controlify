@@ -12,6 +12,6 @@ export default function getDateBtnValue(date) {
   } else if (compareDatesByDay(date, tomorrow)) {
     return "Tomorrow";
   } else {
-    return formatDateLong(date);
+    return formatDateLong(new Date(date));
   }
 }

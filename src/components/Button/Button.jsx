@@ -3,7 +3,7 @@ import cn from "classnames";
 export default function Button({ type = "button", size = "m", variant = "solid", colorPalette = "primary", className = "", disabled = false, children, ...props }) {
   const btnType = type === "submit" ? "submit" : "button";
 
-  const btn = "transition-[box-shadow] shadow focus:outline-none focus:ring";
+  const btn = "transition-[box-shadow,opacity] shadow focus:outline-none focus:ring";
   const btnDisabled = "opacity-75 cursor-not-allowed";
 
   const btnS = "py-1 px-2 text-sm rounded-md"

@@ -14,8 +14,10 @@ export default function CategoryModal({ closeModal, state }) {
   const [activeOption, setActiveOption] = useState(category.type || "expense");
 
   function handleCategoryChange(selectedCategory) {
+    const { id, name, type } = selectedCategory;
+
     closeModal();
-    setCategory(selectedCategory);
+    setCategory({ id, name, type });
   }
 
   const { expenseCategories, incomeCategories } = getCategoriesByType(categories);

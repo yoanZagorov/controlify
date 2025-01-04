@@ -18,9 +18,10 @@ export default async function getTransactions({ userId, wallets, query = [], dat
       }
 
       const transactions = querySnapshot.docs.map(doc => {
+
         return ({
           ...doc.data(),
-          date: doc.data().date.toDate(),
+          date: doc.data().date.toDate(), // Using toDate() to make it easier to convert the data to an actual JS Date obj on the client.
           createdAt: doc.data().createdAt.toDate(),
           id: doc.id
         })

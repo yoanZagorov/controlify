@@ -4,7 +4,8 @@ import { useEffect } from "react";
 export default function useSubmitModalForm({ fetcher, closeModal, resetModalData }) {
   useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data) {
-      closeModal;
+      console.log("useSubmitModalForm");
+      closeModal();
       window.scrollTo({ top: 0, behavior: "smooth" });
       resetFetcher(fetcher);
       resetModalData();
