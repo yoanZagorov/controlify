@@ -14,7 +14,12 @@ export default function TransactionProvider({ prepopulatedTransactionData = null
   today.setHours(0, 0, 0, 0);
 
   const defaultTransactionData = prepopulatedTransactionData
-    ? prepopulatedTransactionData
+    ? {
+      ...prepopulatedTransactionData,
+      wallet: wallet
+        ? { ...wallet, isPreselected: true }
+        : { ...prepopulatedTransactionData.wallet, isPreselected: false }
+    }
     : {
       amount: "0",
       wallet: {

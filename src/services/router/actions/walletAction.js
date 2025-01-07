@@ -37,11 +37,7 @@ export default async function walletAction({ request, params }) {
           name: currentWalletState.name !== name,
           currency: currentWalletState.currency !== currency,
           color: currentWalletState.color !== color,
-          categories: true // To do: do a real array comparison. This doesn't work (compared by reference): currentWalletState.categories === categories
-        }
-
-        if (hasDataChanged.name) {
-          await checkWalletNameDuplicate(userId, formattedName);
+          categories: true // To do: do a real array comparison
         }
 
         const dataToChange = {};
@@ -53,6 +49,10 @@ export default async function walletAction({ request, params }) {
         }
 
         if (Object.keys(dataToChange).length === 0) throw new Error("You haven't performed any changes");
+
+        if (hasDataChanged.name) {
+          await checkWalletNameDuplicate(userId, formattedName);
+        }
 
         transaction.update(walletDocRef, {
           ...dataToChange

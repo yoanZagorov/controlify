@@ -15,8 +15,6 @@ export default function Wallets() {
 
   const { transactions, wallets, expensesByWalletChartData } = useLoaderData();
 
-  console.log(transactions);
-
   const { isSingleColLayout } = useLayout();
 
   const classes = {

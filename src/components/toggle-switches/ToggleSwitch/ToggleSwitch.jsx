@@ -2,7 +2,7 @@ import cn from "classnames";
 
 import { capitalize } from "@/utils/str";
 
-export default function ToggleSwitch({ options, activeOption, handleToggle, className }) {
+export default function ToggleSwitch({ options, activeOption, handleToggle, isDisabled, className }) {
   const { firstOption, secondOption } = options;
 
   function renderOption(option) {
@@ -17,6 +17,7 @@ export default function ToggleSwitch({ options, activeOption, handleToggle, clas
         type="button"
         className={optionClasses}
         onClick={handleToggle}
+        disabled={isDisabled}
       >
         {capitalize(option.name)}
       </button>
@@ -25,6 +26,7 @@ export default function ToggleSwitch({ options, activeOption, handleToggle, clas
 
   const toggleSwitchClasses = cn(
     "p-0.5 rounded-full flex items-center",
+    isDisabled && "opacity-50",
     className
   )
 

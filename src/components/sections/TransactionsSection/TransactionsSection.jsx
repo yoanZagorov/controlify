@@ -17,12 +17,12 @@ import { getDateBtnValue } from "@/utils/date";
 import { TransactionContainer } from "@/components/containers/TransactionContainer";
 
 export default function TransactionsSection({ action, contentProps }) {
+  const { transactionData: { amount, category }, resetTransactionData } = useTransaction();
+
   const fetcher = useFetcher({ key: "addTransaction" });
 
-  const modal = useModal({ fetcher });
+  const modal = useModal({ fetcher, resetModalData: () => resetTransactionData });
   const { modalState: [isModalOpen, setModalOpen] } = modal;
-
-  const { transactionData: { amount, category } } = useTransaction();
 
   return (
     <TransactionContainer

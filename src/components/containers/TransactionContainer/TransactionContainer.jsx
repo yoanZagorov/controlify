@@ -26,17 +26,18 @@ export default function TransactionContainer({ modal, fetcher, action, modalBtn,
       wallet,
       currency,
       category,
-      date
+      date,
+      transactionId
     },
     updateTransactionData,
     resetTransactionData
   } = useTransaction();
 
-  useSubmitModalForm({
-    fetcher,
-    closeModal: () => setModalOpen(false),
-    resetModalData: resetTransactionData
-  })
+  // useSubmitModalForm({
+  //   fetcher,
+  //   closeModal: () => setModalOpen(false),
+  //   resetModalData: resetTransactionData
+  // })
 
   const transactionType = category.type || "expense";
   const isExpense = transactionType === "expense";
@@ -50,7 +51,7 @@ export default function TransactionContainer({ modal, fetcher, action, modalBtn,
     },
     {
       formData: {
-        name: "wallet",
+        name: "walletId",
         value: wallet.id
       },
       field: {
@@ -59,6 +60,9 @@ export default function TransactionContainer({ modal, fetcher, action, modalBtn,
           iconName: "wallet",
           type: "select",
           displayValue: formatEntityName(wallet.name),
+          selectBtnProps: {
+            disabled: wallet.isPreselected
+          }
         },
         modal: {
           innerModal: {
@@ -74,7 +78,7 @@ export default function TransactionContainer({ modal, fetcher, action, modalBtn,
     },
     {
       formData: {
-        name: "category",
+        name: "categoryId",
         value: category.id
       },
       field: {
@@ -87,6 +91,7 @@ export default function TransactionContainer({ modal, fetcher, action, modalBtn,
         modal: {
           innerModal: {
             Component: CategoryModal,
+            props: { isToggleSwitchDisabled: Boolean(transactionId) }
           },
           state: {
             value: category,
@@ -119,6 +124,12 @@ export default function TransactionContainer({ modal, fetcher, action, modalBtn,
         }
       }
     },
+    ...(transactionId ? [{
+      formData: {
+        name: "transactionId",
+        value: transactionId
+      }
+    }] : [])
   ];
 
   function handleInputChange(e) {

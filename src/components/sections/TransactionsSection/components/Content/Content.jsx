@@ -22,18 +22,18 @@ export default function Content({ type = "compact", hasFilter = true, period = "
           <TransactionProvider
             prepopulatedTransactionData={{
               amount: String(amount),
-              wallet: {
-                id: wallet.id,
-                name: wallet.name,
-                isPreselected: false
-              },
               currency: wallet.currency,
               category: {
                 id: category.id,
                 name: category.name,
                 type: category.type
               },
-              date: new Date(date)
+              date: new Date(date),
+              transactionId: transaction.id
+            }}
+            wallet={{
+              id: transaction.wallet.id,
+              name: transaction.wallet.name,
             }}
           >
             <Transaction
@@ -42,7 +42,7 @@ export default function Content({ type = "compact", hasFilter = true, period = "
               display={displayConfig}
             />
           </TransactionProvider>
-        </li>
+        </li >
       )
     }) : null;
 

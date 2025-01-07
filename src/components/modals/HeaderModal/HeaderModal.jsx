@@ -22,7 +22,6 @@ export default function HeaderModal({ header, fields, btn, color }) {
         props: {
           name: field.name,
           ...field.props,
-          selectBtnProps: field.type === "select" ? { colorPalette: "secondaryDark" } : null
         }
       }}
       modal={field.modal}

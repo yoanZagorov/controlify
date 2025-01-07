@@ -4,7 +4,7 @@ import { checkWalletInitialBalance, checkWalletName, checkWalletNameDuplicate } 
 import { formatEntityNameForFirebase } from "@/utils/formatting";
 import { getAuthUserId } from "@/services/firebase/db/user";
 import { createNewWallet } from "@/services/firebase/db/wallet";
-import { handleTransactionSubmission } from "../utils";
+import { handleTransactionSubmission, handleTransactionUpdate } from "../utils";
 
 export default async function walletsAction({ request }) {
   const userId = await getAuthUserId();
@@ -53,10 +53,10 @@ export default async function walletsAction({ request }) {
   }
 
   if (intent === "addTransaction") {
-    return (await handleTransactionSubmission({ userId, formData }));
+    return (await handleTransactionSubmission(userId, formData));
   }
 
   if (intent === "updateTransaction") {
-    console.log(formData);
+    return (await handleTransactionUpdate(userId, formData));
   }
 }

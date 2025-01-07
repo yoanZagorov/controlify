@@ -7,32 +7,32 @@ import { Sidebar } from "./layout-components/Sidebar";
 import { TopBar } from "./layout-components/TopBar";
 import { useEffect, useState } from "react";
 import { InfoWidget } from "@/components/widgets/InfoWidget";
+import { createFetcherMsg } from "@/utils/generic";
 
 export default function AppLayout() {
   const { isSidebarExpanded } = useLayout();
   const { isMobile, isTablet, isLaptopS, isDesktop } = useBreakpoint();
 
   const addTransactionFetcher = useFetcher({ key: "addTransaction" });
-  const addTransactionMsg = addTransactionFetcher.data?.msg;
-  const addTransactionMsgType = addTransactionFetcher.data?.msgType;
-
-  const updateWalletFetcher = useFetcher({ key: "updateWallet" });
-  const updateWalletMsg = updateWalletFetcher.data?.msg;
-  const updateWalletMsgType = updateWalletFetcher.data?.msgType;
-
+  const updateTransactionFetcher = useFetcher({ key: "updateTransaction" });
   const addWalletFetcher = useFetcher({ key: "addWallet" });
-  const addWalletMsg = addWalletFetcher.data?.msg;
-  const addWalletMsgType = addWalletFetcher.data?.msgType;
+  const updateWalletFetcher = useFetcher({ key: "updateWallet" });
+
+  const [addTransactionMsg, addTransactionMsgType] = createFetcherMsg(addTransactionFetcher);
+  const [updateTransactionMsg, updateTransactionMsgType] = createFetcherMsg(updateTransactionFetcher);
+  const [updateWalletMsg, updateWalletMsgType] = createFetcherMsg(addWalletFetcher);
+  const [addWalletMsg, addWalletMsgType] = createFetcherMsg(updateWalletFetcher);
 
   const { notificationData: { quote, redirectData } } = useLoaderData();
 
   const [redirectMsg, setRedirectMsg] = useState({ msg: redirectData.msg, msgType: redirectData.msgType }); // need to use local state to ensure no stale data
 
-  // useEffect(() => {
-  //   setRedirectMsg({ msg: redirectData?.msg, msgType: redirectData?.msgType })
-  // }, [redirectData]);
-
   const { flashMsg, clearFlashMsg } = useFlashMsg([
+    {
+      msg: updateTransactionMsg,
+      msgType: updateTransactionMsgType,
+      clearMsg: null
+    },
     {
       msg: addTransactionMsg,
       msgType: addTransactionMsgType,
@@ -53,7 +53,7 @@ export default function AppLayout() {
       msgType: redirectMsg.msgType,
       clearMsg: () => setRedirectMsg({ msg: null, msgType: null })
     },
-  ], [addTransactionMsg, addWalletMsg, updateWalletMsg, redirectMsg]);
+  ], [addTransactionMsg, updateTransactionMsg, addWalletMsg, updateWalletMsg, redirectMsg]);
 
   const classes = {
     page: cn(

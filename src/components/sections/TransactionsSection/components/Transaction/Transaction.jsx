@@ -11,25 +11,20 @@ import { TransactionContainer } from "@/components/containers/TransactionContain
 import { useEffect, useState } from "react";
 
 export default function Transaction({ isExpanded, transaction: { category, wallet, date, amount }, display }) {
+  const { transactionData, defaultTransactionData, resetTransactionData } = useTransaction();
+
   const fetcher = useFetcher({ key: "updateTransaction" });
 
-  const modal = useModal({ fetcher });
+  const modal = useModal({ fetcher, resetModalData: () => resetTransactionData });
   const { modalState: [isModalOpen, setModalOpen] } = modal;
 
   const { isMobileS, isMobileM } = useBreakpoint();
   const isSpaceLimited = isMobileS || isMobileM;
 
-  const { transactionData, defaultTransactionData } = useTransaction();
-
   const { amount: transactionDataAmount } = transactionData;
+
   // To do: Create a more sophisticated function to compare complex data types
   const [hasTransactionDataChanged, setHasTransactionDataChanged] = useState(JSON.stringify(transactionData) === JSON.stringify(defaultTransactionData))
-
-  // console.log(JSON.stringify(transactionData));
-  // console.log(JSON.stringify(defaultTransactionData));
-
-  console.log(transactionData);
-  console.log(defaultTransactionData);
 
   useEffect(() => {
     if (JSON.stringify(transactionData) === JSON.stringify(defaultTransactionData)) {

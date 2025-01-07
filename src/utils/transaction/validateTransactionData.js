@@ -1,8 +1,7 @@
-import { checkCategoryExistense } from "@/services/firebase/db/category";
-import { checkWalletExistense } from "@/services/firebase/db/wallet";
-import { ValidationError, AppError } from "../errors";
+import { ValidationError } from "../errors";
+import { checkEntityExistence } from "@/services/router/utils";
 
-export default async function validateTransactionData(userId, amount, walletId, categoryId, date) {
+export default async function validateTransactionData({ docRefs, data: { amount, walletId, categoryId, date } }) {
   // Amount checks
   const amountRegex = /^\d{1,7}(?:\.\d{1,2})?$/;
 
@@ -23,8 +22,8 @@ export default async function validateTransactionData(userId, amount, walletId, 
     throw new ValidationError("Wallet should not be empty");
   }
 
-  if (!(await checkWalletExistense(userId, walletId))) {
-    throw new ValidationError(404, "No wallet with this id. Please try a different one");
+  if (!(await checkEntityExistence(docRefs.wallet, "wallet"))) {
+    throw new ValidationError("No wallet with this id. Please try a different one", 404);
   }
 
   // Category checks
@@ -32,8 +31,8 @@ export default async function validateTransactionData(userId, amount, walletId, 
     throw new ValidationError("Category should not be empty");
   }
 
-  if (!(await checkCategoryExistense(userId, categoryId))) {
-    throw new ValidationError(404, "No category with this id. Please try a different one");
+  if (!(await checkEntityExistence(docRefs.category, "category"))) {
+    throw new ValidationError("No category with this id. Please try a different one", 404);
   }
 
   // Date checks

@@ -1,21 +1,9 @@
-import { AppError } from "@/utils/errors";
 import { performDecimalCalculation } from "@/utils/number";
-import { doc } from "firebase/firestore";
-import { db } from "@/services/firebase/firebase.config";
 
-export default async function updateWalletBalance(dbTransaction, userId, walletId, amount, categoryType) {
-  const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
+export default async function updateWalletBalance(dbTransaction, docRef, amount) {
+  const walletDoc = await dbTransaction.get(docRef);
 
-  const correctAmount = categoryType === "expense" ? -amount : amount;
+  const newBalance = performDecimalCalculation(walletDoc.data().balance, amount, "+");
 
-  try {
-    const walletDoc = await dbTransaction.get(walletDocRef);
-
-    const newBalance = performDecimalCalculation(walletDoc.data().balance, correctAmount, "+");
-
-    dbTransaction.update(walletDocRef, { balance: newBalance });
-  } catch (error) {
-    console.error(error);
-    throw new AppError(error.message, { cause: error });
-  }
+  dbTransaction.update(docRef, { balance: newBalance });
 }

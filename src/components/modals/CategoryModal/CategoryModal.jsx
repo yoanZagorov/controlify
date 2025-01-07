@@ -7,7 +7,7 @@ import { CategoryItem } from "./components/CategoryItem";
 import { ToggleSwitch } from "@/components/toggle-switches/ToggleSwitch";
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
 
-export default function CategoryModal({ closeModal, state }) {
+export default function CategoryModal({ isToggleSwitchDisabled, closeModal, state }) {
   const { userData: { categories } } = useRouteLoaderData("app");
 
   const [category, setCategory] = [state.value, state.updateState];
@@ -40,6 +40,7 @@ export default function CategoryModal({ closeModal, state }) {
       <CategoriesTypeToggleSwitch
         activeOption={activeOption}
         handleToggle={() => setActiveOption(prev => prev === "expense" ? "income" : "expense")}
+        isToggleSwitchDisabled={isToggleSwitchDisabled}
       />
 
       <ul className="mt-6 grid grid-cols-[repeat(auto-fit,80px)] justify-between items-start gap-6">

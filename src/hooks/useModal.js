@@ -6,7 +6,7 @@ import useScrollLock from "./useScrollLock";
 import useMountTransition from "./useMountTransition";
 import useOutsideClick from "./useOutsideClick";
 
-export default function useModal({ isBlocking = true, fetcher = {}, unmountDelay = 300 }) {
+export default function useModal({ isBlocking = true, fetcher = {}, resetModalData, unmountDelay = 300 }) {
   const [isModalOpen, setModalOpen] = useState(false);
   const hasTransitioned = useMountTransition(isModalOpen, unmountDelay);
 
@@ -18,8 +18,9 @@ export default function useModal({ isBlocking = true, fetcher = {}, unmountDelay
   isFetcher && useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data) {
       setModalOpen(false);
-      window.scrollTo({ top: 0, behavior: "smooth" });
       resetFetcher(fetcher);
+      resetModalData();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [fetcher.data, fetcher.state])
 

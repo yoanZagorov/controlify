@@ -25,7 +25,7 @@ export default function FieldContainer({ field, modal }) {
     <>
       <field.Component
         {...field.props}
-        selectBtnProps={field.props.type === "select" ? { colorPalette: "secondaryDark", onClick: toggleModal } : null}
+        selectBtnProps={field.props.type === "select" ? { ...field.props.selectBtnProps, colorPalette: "secondaryDark", onClick: toggleModal } : null}
       />
 
       {modal && (isSelectModalOpen || hasTransitioned) &&

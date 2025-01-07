@@ -1,10 +1,6 @@
-import { collection, doc, serverTimestamp } from "firebase/firestore";
-import { db } from "@/services/firebase/firebase.config";
-import { AppError } from "@/utils/errors";
+import { serverTimestamp } from "firebase/firestore";
 
-export default function addTransaction(dbTransaction, userId, amount, wallet, category, date) {
-  const transactionsCollectionRef = collection(db, `users/${userId}/wallets/${wallet.id}/transactions`);
-
+export default function addTransaction({ dbTransaction, docRef, data: { amount, wallet, category, date } }) {
   const newTransaction = {
     amount,
     category,
@@ -19,10 +15,5 @@ export default function addTransaction(dbTransaction, userId, amount, wallet, ca
     createdAt: serverTimestamp()
   }
 
-  try {
-    const transactionDocRef = doc(transactionsCollectionRef);
-    dbTransaction.set(transactionDocRef, newTransaction);
-  } catch (error) {
-    throw new AppError(error.message, { cause: error });
-  }
+  dbTransaction.set(docRef, newTransaction);
 }
