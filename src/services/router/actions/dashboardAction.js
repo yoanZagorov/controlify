@@ -7,7 +7,7 @@ import { getCategory } from "@/services/firebase/db/category";
 import { getWallet, updateWalletBalance } from "@/services/firebase/db/wallet";
 import { runTransaction, Timestamp } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
-import { handleTransactionOperation } from "../utils";
+import { handleTransactionSubmission } from "../utils/transaction";
 
 export default async function dashboardAction({ request }) {
   const userId = await getAuthUserId();
@@ -20,7 +20,7 @@ export default async function dashboardAction({ request }) {
   const { intent } = formData;
 
   if (intent === "addTransaction") {
-    await handleTransactionOperation({ type: "submission", userId, formData, generalErrorMsg });
+    await handleTransactionSubmission(userId, formData);
     // try {
     //   // throw new Error("Kaboom");
     //   await validateTransactionData(userId, amount, walletId, categoryId, date);

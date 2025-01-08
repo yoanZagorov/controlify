@@ -2,7 +2,7 @@ import { addTransaction } from "@/services/firebase/db/transaction";
 import { updateWalletBalance } from "@/services/firebase/db/wallet";
 import { validateTransactionData } from "@/utils/transaction";
 import { collection, doc, runTransaction, Timestamp } from "firebase/firestore";
-import { createErrorResponse, createSuccessResponse } from "../responses";
+import { createErrorResponse, createSuccessResponse } from "../../responses";
 import { ValidationError } from "@/utils/errors";
 import { db } from "@/services/firebase/firebase.config";
 import { getEntity } from "@/services/firebase/db/utils";
@@ -16,7 +16,7 @@ export default async function handleTransactionSubmission(userId, formData) {
     date: new Date(dateStr)
   }
 
-  const { amount, walletId, categoryId, date } = formattedFormData;
+  const { amount, wallet: walletId, category: categoryId, date } = formattedFormData;
 
   const categoryDocRef = doc(db, `users/${userId}/categories/${categoryId}`);
   const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);

@@ -77,6 +77,7 @@ export default function Transaction({ isExpanded, transaction: { category, walle
         text: "update transaction",
         disabled: transactionDataAmount === "0" || !hasTransactionDataChanged
       }}
+      deleteBtn={true}
     >
       <button className={classes.transaction} onClick={() => setModalOpen(true)}>
         <div className={`flex items-center ${isExpanded ? "gap-4" : "gap-2.5"}`}>

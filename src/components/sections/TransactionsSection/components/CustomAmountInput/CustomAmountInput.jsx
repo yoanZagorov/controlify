@@ -10,11 +10,11 @@ export default function CustomAmountInput({ value, handleChange, isExpense, curr
 
   const classes = {
     amountValue: cn(
-      "flex gap-2 items-end text-xl",
+      "flex gap-2 items-end mm:text-lg",
       isExpense ? "text-red-light" : "text-green-light"
     ),
     amountInput: cn(
-      "w-full rounded bg-navy focus:outline-none",
+      "w-full rounded bg-navy focus:outline-none transition-[box-shadow]",
       isUsingKeyboard && "focus:ring focus:ring-goldenrod"
     )
   }

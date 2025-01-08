@@ -39,7 +39,8 @@ export default function HeaderModal({ header, fields, btn, color }) {
   }
 
   return (
-    <div className="relative w-full h-full rounded-t-lg ml:rounded-lg bg-gray-light">
+    // <div className="relative w-full h-full rounded-t-lg ml:rounded-lg bg-gray-light">
+    <>
       <header
         className="py-10 px-4 tab:px-6 flex items-end gap-4 rounded-t-lg font-semibold tracking-wide shadow transition-colors"
         style={{ backgroundColor: color }}
@@ -88,7 +89,8 @@ export default function HeaderModal({ header, fields, btn, color }) {
         >
           {btn.text}
         </Button>
-      </div>
-    </div >
+        {/* </div> */}
+      </div >
+    </>
   )
 }

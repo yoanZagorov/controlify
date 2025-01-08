@@ -1,7 +1,7 @@
 import { ValidationError } from "../errors";
 import { checkEntityExistence } from "@/services/router/utils";
 
-export default async function validateTransactionData({ docRefs, data: { amount, walletId, categoryId, date } }) {
+export default async function validateTransactionData({ docRefs, data: { amount, wallet: walletId, category: categoryId, date, transaction: transactionId } }) {
   // Amount checks
   const amountRegex = /^\d{1,7}(?:\.\d{1,2})?$/;
 
@@ -38,5 +38,16 @@ export default async function validateTransactionData({ docRefs, data: { amount,
   // Date checks
   if (!date) {
     throw new ValidationError("Date should not be empty");
+  }
+
+  // Transaction checks
+  if (transactionId !== undefined) {
+    if (!transactionId) {
+      throw new ValidationError("Transaction should not be empty");
+    }
+
+    if (!(await checkEntityExistence(docRefs.transaction, "transaction"))) {
+      throw new ValidationError("No transaction with this id. Please try a different one", 404);
+    }
   }
 }

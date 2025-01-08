@@ -15,11 +15,13 @@ export default function AppLayout() {
 
   const addTransactionFetcher = useFetcher({ key: "addTransaction" });
   const updateTransactionFetcher = useFetcher({ key: "updateTransaction" });
+  const deleteTransactionFetcher = useFetcher({ key: "deleteTransaction" });
   const addWalletFetcher = useFetcher({ key: "addWallet" });
   const updateWalletFetcher = useFetcher({ key: "updateWallet" });
 
   const [addTransactionMsg, addTransactionMsgType] = createFetcherMsg(addTransactionFetcher);
   const [updateTransactionMsg, updateTransactionMsgType] = createFetcherMsg(updateTransactionFetcher);
+  const [deleteTransactionMsg, deleteTransactionMsgType] = createFetcherMsg(deleteTransactionFetcher);
   const [updateWalletMsg, updateWalletMsgType] = createFetcherMsg(addWalletFetcher);
   const [addWalletMsg, addWalletMsgType] = createFetcherMsg(updateWalletFetcher);
 
@@ -39,6 +41,11 @@ export default function AppLayout() {
       clearMsg: null
     },
     {
+      msg: deleteTransactionMsg,
+      msgType: deleteTransactionMsgType,
+      clearMsg: null
+    },
+    {
       msg: updateWalletMsg,
       msgType: updateWalletMsgType,
       clearMsg: null
@@ -53,7 +60,14 @@ export default function AppLayout() {
       msgType: redirectMsg.msgType,
       clearMsg: () => setRedirectMsg({ msg: null, msgType: null })
     },
-  ], [addTransactionMsg, updateTransactionMsg, addWalletMsg, updateWalletMsg, redirectMsg]);
+  ], [
+    addTransactionMsg,
+    updateTransactionMsg,
+    deleteTransactionMsg,
+    addWalletMsg,
+    updateWalletMsg,
+    redirectMsg
+  ]);
 
   const classes = {
     page: cn(

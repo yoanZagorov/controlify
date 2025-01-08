@@ -2,11 +2,11 @@ import { addTransaction, editTransaction } from "@/services/firebase/db/transact
 import { updateWalletBalance } from "@/services/firebase/db/wallet";
 import { validateTransactionData } from "@/utils/transaction";
 import { collection, doc, runTransaction, Timestamp } from "firebase/firestore";
-import { createErrorResponse, createSuccessResponse } from "../responses";
+import { createErrorResponse, createSuccessResponse } from "../../responses";
 import { ValidationError } from "@/utils/errors";
 import { db } from "@/services/firebase/firebase.config";
 import { getEntity } from "@/services/firebase/db/utils";
-import getDataToChange from "./getDataToChange";
+import getDataToChange from "../getDataToChange";
 
 export default async function handleTransactionUpdate(userId, formData) {
   const { amount: amountStr, date: dateStr } = formData;
@@ -17,7 +17,7 @@ export default async function handleTransactionUpdate(userId, formData) {
     date: new Date(dateStr)
   }
 
-  const { amount, walletId, categoryId, date, transactionId } = formattedFormData;
+  const { amount, wallet: walletId, category: categoryId, date, transactionId } = formattedFormData;
 
   const categoryDocRef = doc(db, `users/${userId}/categories/${categoryId}`);
   const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
@@ -25,8 +25,8 @@ export default async function handleTransactionUpdate(userId, formData) {
 
   try {
     await validateTransactionData({
-      docRefs: { wallet: walletDocRef, category: categoryDocRef },
-      data: { amount, walletId, categoryId, date }
+      docRefs: { wallet: walletDocRef, category: categoryDocRef, transaction: transactionDocRef },
+      data: formattedFormData
     });
 
     // const formattedDate = Timestamp.fromDate(date);
@@ -42,11 +42,11 @@ export default async function handleTransactionUpdate(userId, formData) {
 
     const dataToChange = getDataToChange(hasDataChanged, formattedFormData);
 
-    const category = await getEntity(categoryDocRef, categoryId, "category");
+    const { type: categoryType } = (await getEntity(categoryDocRef, categoryId, "category"));
 
     await runTransaction(db, async (dbTransaction) => {
       if (hasDataChanged.amount) {
-        const amountDifference = category.type === "expense"
+        const amountDifference = categoryType === "expense"
           ? oldTransactionData.amount - amount
           : amount - oldTransactionData.amount;
 

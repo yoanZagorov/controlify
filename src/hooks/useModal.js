@@ -19,7 +19,7 @@ export default function useModal({ isBlocking = true, fetcher = {}, resetModalDa
     if (fetcher.state === "idle" && fetcher.data) {
       setModalOpen(false);
       resetFetcher(fetcher);
-      resetModalData();
+      resetModalData && resetModalData();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [fetcher.data, fetcher.state])

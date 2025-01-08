@@ -23,6 +23,13 @@ export default function Button({ type = "button", size = "m", variant = "solid",
   const btnSecondaryLight = `${btnSecondary} bg-gray-light`;
   const btnSecondaryDark = `${btnSecondary} bg-gray-medium`;
 
+  const btnDanger = cn(
+    "font-bold uppercase bg-navy text-red-light focus:ring-goldenrod",
+    // !disabled && "hover:bg-navy-dark active:bg-navy-dark"
+  )
+
+  const btnDangerSecondary = "font-semibold bg-red-dark text-gray-light focus:ring-goldenrod";
+
   const btnClasses = cn(
     btn,
     disabled && btnDisabled,
@@ -34,7 +41,9 @@ export default function Button({ type = "button", size = "m", variant = "solid",
       : btnOutline,
     colorPalette === "primary" ? btnPrimary
       : colorPalette === "secondaryLight" ? btnSecondaryLight
-        : btnSecondaryDark,
+        : colorPalette === "secondaryDark" ? btnSecondaryDark
+          : colorPalette === "danger" ? btnDanger
+            : btnDangerSecondary,
     className
   )
 
