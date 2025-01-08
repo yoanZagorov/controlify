@@ -1,12 +1,13 @@
 import cn from "classnames";
 
+import { TransactionProvider } from "@/contexts";
+
 import { Section } from "@/components/sections/Section";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { Notification } from "@/components/Notification";
 import { Button } from "@/components/Button";
 import { SvgIcon } from "@/components/SvgIcon";
 import { Transaction } from "../Transaction";
-import { TransactionProvider } from "@/contexts";
 
 export default function Content({ type = "compact", hasFilter = true, period = "all-time", section, widget, display, transactions, openModal }) {
   const hasTransactions = transactions.length > 0;
@@ -32,8 +33,8 @@ export default function Content({ type = "compact", hasFilter = true, period = "
               transactionId: transaction.id
             }}
             wallet={{
-              id: transaction.wallet.id,
-              name: transaction.wallet.name,
+              id: wallet.id,
+              name: wallet.name,
             }}
           >
             <Transaction

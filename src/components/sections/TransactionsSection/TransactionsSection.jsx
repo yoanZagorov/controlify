@@ -1,19 +1,8 @@
 import { useFetcher } from "react-router";
 
-import { useModal, useSubmitModalForm, useTransaction } from "@/hooks";
-import { handleAmountInputChange } from "@/utils/input";
-
-import { ModalWrapper } from "@/components/modals/ModalWrapper";
-import { HeaderModal } from "@/components/modals/HeaderModal";
-import { Form } from "@/components/Form";
-import { WalletModal } from "@/components/modals/WalletModal";
-import { CategoryModal } from "@/components/modals/CategoryModal";
-import { DateModal } from "@/components/modals/DateModal";
+import { useModal, useTransaction } from "@/hooks";
 
 import { Content } from "./components/Content";
-import { CustomAmountInput } from "./components/CustomAmountInput";
-import { formatEntityName } from "@/utils/formatting";
-import { getDateBtnValue } from "@/utils/date";
 import { TransactionContainer } from "@/components/containers/TransactionContainer";
 
 export default function TransactionsSection({ action, contentProps }) {
@@ -28,12 +17,14 @@ export default function TransactionsSection({ action, contentProps }) {
     <TransactionContainer
       modal={modal}
       fetcher={fetcher}
-      modalBtn={{
-        value: "addTransaction",
-        text: "complete transaction",
-        disabled: amount === "0" || category.name === "choose"
-      }}
       action={action}
+      submitBtn={{
+        text: "complete transaction",
+        props: {
+          value: "addTransaction",
+          disabled: amount === "0" || category.name === "choose"
+        }
+      }}
     >
       <Content {...contentProps} openModal={() => setModalOpen(true)} />
     </TransactionContainer>

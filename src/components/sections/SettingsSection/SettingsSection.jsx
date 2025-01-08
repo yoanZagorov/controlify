@@ -3,7 +3,7 @@ import { FormField } from "./components/FormField";
 import { Section } from "../Section";
 import cn from "classnames";
 import { Form } from "@/components/Form";
-import { FieldContainer } from "@/components/modals/FieldContainer";
+import { FieldContainer } from "@/components/modals/HeaderModal/components/FieldContainer";
 import { SettingWidget } from "./components/SettingWidget";
 import { SvgIcon } from "@/components/SvgIcon";
 

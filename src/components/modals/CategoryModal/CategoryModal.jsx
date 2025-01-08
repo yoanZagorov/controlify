@@ -3,9 +3,8 @@ import { useRouteLoaderData } from "react-router"
 
 import { getCategoriesByType } from "@/utils/category";
 
-import { CategoryItem } from "./components/CategoryItem";
-import { ToggleSwitch } from "@/components/toggle-switches/ToggleSwitch";
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
+import { CategoryItem } from "./components/CategoryItem";
 
 export default function CategoryModal({ isToggleSwitchDisabled, closeModal, state }) {
   const { userData: { categories } } = useRouteLoaderData("app");

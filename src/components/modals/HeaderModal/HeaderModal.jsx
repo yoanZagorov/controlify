@@ -1,11 +1,13 @@
-import { Button } from "@/components/Button";
 import cn from "classnames";
-import { FieldContainer } from "../FieldContainer";
-import { useAutoFocus, useSelectInput } from "@/hooks";
 import { useRef } from "react";
+
+import { useAutoFocus, useSelectInput } from "@/hooks";
+
+import { Form } from "@/components/Form";
+import { FieldContainer } from "./components/FieldContainer";
 import { Field } from "./components/Field";
 
-export default function HeaderModal({ header, fields, btn, color }) {
+export default function HeaderModal({ formProps, header, fields, color }) {
   const headerInputRef = useRef(null);
 
   useAutoFocus({ ref: headerInputRef, selectOnFocus: true });
@@ -39,58 +41,54 @@ export default function HeaderModal({ header, fields, btn, color }) {
   }
 
   return (
-    // <div className="relative w-full h-full rounded-t-lg ml:rounded-lg bg-gray-light">
     <>
-      <header
-        className="py-10 px-4 tab:px-6 flex items-end gap-4 rounded-t-lg font-semibold tracking-wide shadow transition-colors"
-        style={{ backgroundColor: color }}
+      <Form
+        {...formProps}
+        btn={{
+          ...formProps.btn,
+          props: { ...formProps.btn.props, className: "mt-12 ll:py-4 self-center focus:ring-4" }
+        }}
+        className="relative w-full h-full flex flex-col rounded-t-lg ml:rounded-lg bg-gray-light"
       >
-        {isHeaderSimple ? (
-          <input
-            ref={headerInputRef}
-            required
-            {...header?.input.props}
-            className={classes.headerInput}
-          />
-        ) : header.customInput ? (
-          <header.customInput.Component {...header.customInput.props} />
-        ) : (
-          <>
-            <label
-              htmlFor={`header-modal-input-${header?.input?.id}`}
-              className="text-gray-light text-2xl"
-            >
-              {header.labelText}
-            </label>
-
+        <header
+          className="py-10 px-4 tab:px-6 flex items-end gap-4 rounded-t-lg font-semibold tracking-wide shadow transition-colors"
+          style={{ backgroundColor: color }}
+        >
+          {isHeaderSimple ? (
             <input
               ref={headerInputRef}
-              value={header?.input?.value}
-              onChange={header?.input?.handleChange}
+              required
+              {...header?.input.props}
               className={classes.headerInput}
             />
-          </>
-        )
-        }
-      </header >
+          ) : header.customInput ? (
+            <header.customInput.Component {...header.customInput.props} />
+          ) : (
+            <>
+              <label
+                htmlFor={`header-modal-input-${header?.input?.id}`}
+                className="text-gray-light text-2xl"
+              >
+                {header.labelText}
+              </label>
 
-      <div className="mt-16 px-4 pb-4 tab:px-6 flex flex-col">
-        <div className="flex flex-col gap-8">
-          {itemFields}
+              <input
+                ref={headerInputRef}
+                value={header?.input?.value}
+                onChange={header?.input?.handleChange}
+                className={classes.headerInput}
+              />
+            </>
+          )
+          }
+        </header >
+
+        <div className="mt-16 px-4 pb-4 tab:px-6 flex flex-col">
+          <div className="flex flex-col gap-8">
+            {itemFields}
+          </div>
         </div>
-
-        <Button
-          type="submit"
-          size="l"
-          disabled={btn.disabled}
-          name="intent"
-          value={btn.value}
-          className="mt-12 ll:py-4 mm:self-center focus:ring-4"
-        >
-          {btn.text}
-        </Button>
-        {/* </div> */}
-      </div >
+      </Form>
     </>
   )
 }

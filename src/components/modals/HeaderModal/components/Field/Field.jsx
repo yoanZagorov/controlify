@@ -1,9 +1,11 @@
-import { capitalize, capitalizeEveryWord } from "@/utils/str";
+import { useRef } from "react";
+
+import { useSelectInput } from "@/hooks";
+import { capitalizeEveryWord } from "@/utils/str";
+
 import { SvgIcon } from "@/components/SvgIcon";
 import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
-import { useEffect, useRef } from "react";
-import { useModal, useSelectInput } from "@/hooks";
 
 export default function FieldContainer({ type = "select", name, iconName, displayValue, inputProps = {}, selectBtnProps = null }) {
   const inputPropsConfig = { type: "text", ...inputProps };
@@ -35,8 +37,7 @@ export default function FieldContainer({ type = "select", name, iconName, displa
           }}
           value={displayValue}
         />
-      )
-      }
+      )}
     </div>
   )
 }

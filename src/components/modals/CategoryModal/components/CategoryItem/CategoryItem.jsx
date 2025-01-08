@@ -1,6 +1,6 @@
 import cn from "classnames";
 
-import formatEntityName from "@/utils/formatting/formatEntityName";
+import { formatEntityName } from "@/utils/formatting";
 
 import { SvgIcon } from "@/components/SvgIcon";
 

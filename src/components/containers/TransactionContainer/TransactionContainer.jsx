@@ -1,22 +1,18 @@
+import { useModal, useTransaction } from "@/hooks";
+import { formatEntityName } from "@/utils/formatting";
+import { handleAmountInputChange } from "@/utils/input";
+import { getDateBtnValue } from "@/utils/date";
+
 import { CategoryModal } from "@/components/modals/CategoryModal";
 import { DateModal } from "@/components/modals/DateModal";
 import { HeaderModal } from "@/components/modals/HeaderModal";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { WalletModal } from "@/components/modals/WalletModal";
 import { CustomAmountInput } from "@/components/sections/TransactionsSection/components/CustomAmountInput";
-import { useModal, useSubmitModalForm, useTransaction } from "@/hooks";
-import { formatEntityName } from "@/utils/formatting";
-import { handleAmountInputChange } from "@/utils/input";
-import { useFetcher } from "react-router";
-import { Form } from "@/components/Form";
-import { getDateBtnValue } from "@/utils/date";
-import { Form as RouterForm } from "react-router";
-import { Button } from "@/components/Button";
 import { SvgIcon } from "@/components/SvgIcon";
 import { DeletionConfirmationModal } from "@/components/modals/DeletionConfirmationModal";
-import { useEffect } from "react";
 
-export default function TransactionContainer({ modal, fetcher, action, modalBtn, deleteBtn = false, children }) {
+export default function TransactionContainer({ modal, fetcher, action, submitBtn, isDeleteBtn = false, children }) {
   const NAVY = "#002B5B";
 
   const {
@@ -36,12 +32,6 @@ export default function TransactionContainer({ modal, fetcher, action, modalBtn,
     },
     updateTransactionData
   } = useTransaction();
-
-  const {
-    modalState: [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = [],
-    hasTransitioned: hasDeleteConfirmationModalTransitioned,
-    modalRef: deleteConfirmationModalRef
-  } = deleteBtn ? useModal({}) : {};
 
   const transactionType = category.type || "expense";
   const isExpense = transactionType === "expense";
@@ -74,7 +64,7 @@ export default function TransactionContainer({ modal, fetcher, action, modalBtn,
           },
           state: {
             value: wallet,
-            updateState: (newWallet) => updateTransactionData({ wallet: { ...wallet, ...newWallet } })
+            updateState: (newWallet) => updateTransactionData({ wallet: { ...wallet, ...newWallet } }) // Spreading the old wallet data to keep the isPreselected prop
           },
           minHeight: "min-h-[50%]",
         }
@@ -95,7 +85,7 @@ export default function TransactionContainer({ modal, fetcher, action, modalBtn,
         modal: {
           innerModal: {
             Component: CategoryModal,
-            props: { isToggleSwitchDisabled: Boolean(transactionId) }
+            props: { isToggleSwitchDisabled: !!transactionId }
           },
           state: {
             value: category,
@@ -157,60 +147,29 @@ export default function TransactionContainer({ modal, fetcher, action, modalBtn,
           hasTransitioned={hasTransitioned}
           ref={modalRef}
         >
-          <div className="relative w-full h-full rounded-t-lg ml:rounded-lg bg-gray-light">
-            <Form
-              fetcher={fetcher}
-              action={action}
-              fields={transactionDataConfig.map(option => option.formData)}
-            >
-              <HeaderModal
-                header={{
-                  type: "custom",
-                  customInput: {
-                    Component: CustomAmountInput,
-                    props: {
-                      value: amount,
-                      handleChange: handleInputChange,
-                      isExpense,
-                      currency
-                    }
-                  }
-                }}
-                fields={transactionDataConfig.filter(option => option.field).map(option => option.field)}
-                btn={modalBtn}
-                color={NAVY}
-              />
-
-              {deleteBtn &&
-                <>
-                  <button className="absolute top-11 right-4 tab:right-6 size-6" onClick={() => setDeleteConfirmationModalOpen(true)}>
-                    <SvgIcon iconName="trash-can" className="size-full fill-red-light" />
-                  </button>
-
-                  {(isDeleteConfirmationModalOpen || hasDeleteConfirmationModalTransitioned) &&
-                    <ModalWrapper
-                      type={{
-                        layout: "nested",
-                        blocking: false
-                      }}
-                      isModalOpen={isDeleteConfirmationModalOpen}
-                      hasTransitioned={hasDeleteConfirmationModalTransitioned}
-                      ref={deleteConfirmationModalRef}
-                      minHeight="min-h-[75%]"
-                    >
-                      <DeletionConfirmationModal
-                        entity={{
-                          name: "transaction",
-                          id: transactionId
-                        }}
-                        closeModal={() => setDeleteConfirmationModalOpen(false)}
-                      />
-                    </ModalWrapper>
-                  }
-                </>
+          <HeaderModal
+            formProps={{
+              fetcher,
+              action,
+              fields: transactionDataConfig.map(option => option.formData),
+              btn: submitBtn
+            }}
+            header={{
+              type: "custom",
+              customInput: {
+                Component: CustomAmountInput,
+                props: {
+                  value: amount,
+                  handleChange: handleInputChange,
+                  isExpense,
+                  currency,
+                  isDeleteBtn
+                }
               }
-            </Form>
-          </div>
+            }}
+            fields={transactionDataConfig.filter(option => option.field).map(option => option.field)}
+            color={NAVY}
+          />
         </ModalWrapper>
       }
     </>

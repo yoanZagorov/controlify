@@ -13,7 +13,6 @@ export default async function walletsAction({ request }) {
   const { intent } = formData;
 
   if (intent === "addWallet") {
-    console.log(formData);
     const initialBalance = Number(formData.initialBalance);
 
     try {

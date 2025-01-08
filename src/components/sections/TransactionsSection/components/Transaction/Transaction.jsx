@@ -1,17 +1,18 @@
 import cn from "classnames";
+import { useEffect, useState } from "react";
+import { useFetcher } from "react-router";
 
-import { useBreakpoint, useModal, useSubmitModalForm, useTransaction } from "@/hooks";
+import { useBreakpoint, useModal, useTransaction } from "@/hooks";
 import { formatEntityName } from "@/utils/formatting";
+import { formatDateLong, formatDateShort } from "@/utils/date";
 
 import { Amount } from "@/components/Amount";
 import { SvgIcon } from "@/components/SvgIcon";
-import { formatDateLong, formatDateShort } from "@/utils/date";
-import { useFetcher } from "react-router";
 import { TransactionContainer } from "@/components/containers/TransactionContainer";
-import { useEffect, useState } from "react";
 
 export default function Transaction({ isExpanded, transaction: { category, wallet, date, amount }, display }) {
   const { transactionData, defaultTransactionData, resetTransactionData } = useTransaction();
+  const { amount: transactionDataAmount } = transactionData;
 
   const fetcher = useFetcher({ key: "updateTransaction" });
 
@@ -20,8 +21,6 @@ export default function Transaction({ isExpanded, transaction: { category, walle
 
   const { isMobileS, isMobileM } = useBreakpoint();
   const isSpaceLimited = isMobileS || isMobileM;
-
-  const { amount: transactionDataAmount } = transactionData;
 
   // To do: Create a more sophisticated function to compare complex data types
   const [hasTransactionDataChanged, setHasTransactionDataChanged] = useState(JSON.stringify(transactionData) === JSON.stringify(defaultTransactionData))
@@ -42,8 +41,8 @@ export default function Transaction({ isExpanded, transaction: { category, walle
     iconWrapper: cn(
       "flex justify-center items-center rounded-full",
       isSpaceLimited
-        ? "min-h-8 min-w-8 max-h-8 max-w-8"
-        : isExpanded ? "size-12" : "size-10", // ensure icon keeps its shape
+        ? "min-h-8 min-w-8 max-h-8 max-w-8" // ensure icon keeps its shape
+        : isExpanded ? "size-12" : "size-10",
     ),
     categoryName: cn(
       "text-gray-dark font-semibold",
@@ -72,12 +71,14 @@ export default function Transaction({ isExpanded, transaction: { category, walle
       modal={modal}
       fetcher={fetcher}
       action="/app/wallets"
-      modalBtn={{
-        value: "updateTransaction",
+      submitBtn={{
         text: "update transaction",
-        disabled: transactionDataAmount === "0" || !hasTransactionDataChanged
+        props: {
+          value: "updateTransaction",
+          disabled: transactionDataAmount === "0" || !hasTransactionDataChanged
+        }
       }}
-      deleteBtn={true}
+      isDeleteBtn={true}
     >
       <button className={classes.transaction} onClick={() => setModalOpen(true)}>
         <div className={`flex items-center ${isExpanded ? "gap-4" : "gap-2.5"}`}>

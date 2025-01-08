@@ -1,25 +1,25 @@
-import { useRouteLoaderData } from "react-router";
 import cn from "classnames";
+import { useRouteLoaderData } from "react-router";
 
-import formatEntityName from "@/utils/formatting/formatEntityName";
+import { formatEntityName } from "@/utils/formatting";
 
 import { SvgIcon } from "@/components/SvgIcon";
 import { Amount } from "@/components/Amount";
 
 export default function WalletModal({ closeModal, state }) {
-  const [walletInState, setWalletInState] = [state.value, state.updateState];
-
   const { userData: { wallets } } = useRouteLoaderData("app");
+
+  const [wallet, setWallet] = [state.value, state.updateState];
 
   function handleClick(selectedWallet) {
     closeModal();
-    setWalletInState(selectedWallet);
+    setWallet(selectedWallet);
   }
 
-  const selectIndicatorClasses = function (walletName) {
+  const getSelectedWalletIndicatorClasses = function (walletName) {
     return cn(
       "size-2.5 rounded-full",
-      walletName === walletInState.name ? "bg-goldenrod" : "bg-gray-light"
+      walletName === wallet.name ? "bg-goldenrod" : "bg-gray-light"
     )
   }
 
@@ -43,7 +43,7 @@ export default function WalletModal({ closeModal, state }) {
         </div>
 
         <div className="ml-auto size-6 rounded-full bg-navy flex justify-center items-center">
-          <div className={selectIndicatorClasses(wallet.name)}></div>
+          <div className={getSelectedWalletIndicatorClasses(wallet.name)}></div>
         </div>
       </button>
     </li>

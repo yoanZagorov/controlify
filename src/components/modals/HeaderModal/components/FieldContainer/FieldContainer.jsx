@@ -1,16 +1,11 @@
-import { capitalize, capitalizeEveryWord } from "@/utils/str";
-import { SvgIcon } from "@/components/SvgIcon";
-import { Input } from "@/components/Input";
-import { Select } from "@/components/Select";
-import { useEffect, useRef } from "react";
-import { useModal, useSelectInput } from "@/hooks";
+import { useModal } from "@/hooks";
+
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { SelectModal } from "@/components/modals/SelectModal";
-import { Field } from "../HeaderModal/components/Field";
 
 export default function FieldContainer({ field, modal }) {
   const {
-    modalState: [isSelectModalOpen, setSelectModalOpen] = [undefined, undefined], // Accounting for cases where modal is null
+    modalState: [isSelectModalOpen, setSelectModalOpen] = [], // Accounting for cases where modal is null
     hasTransitioned,
     modalRef
   } = modal ? useModal({ isBlocking: modal.type?.blocking || false }) : {};
