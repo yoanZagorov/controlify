@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { useRouteLoaderData } from "react-router";
 
-import { TransactionProvider } from "@/contexts";
+import { TransactionProvider, WalletSubmissionProvider } from "@/contexts";
 
 import { useLayout, useScrollToTop } from "@/hooks";
 
@@ -54,13 +54,18 @@ export default function Dashboard() {
           currency={user.currency}
         />
 
-        <WalletsSection
-          section={{
-            title: "Wallets",
-            className: classes.gridItem
-          }}
-          wallets={wallets}
-        />
+        <WalletSubmissionProvider>
+          <WalletsSection
+            action="/app/dashboard"
+            contentProps={{
+              wallets,
+              section: {
+                title: "Wallets",
+                className: classes.gridItem
+              }
+            }}
+          />
+        </WalletSubmissionProvider>
 
         <TransactionProvider>
           <TransactionsSection

@@ -1,12 +1,9 @@
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "../../firebase.config";
+import { addDoc, serverTimestamp } from "firebase/firestore";
 
-export default async function createNewWallet(userId, walletData) {
-  const walletsRef = collection(db, `users/${userId}/wallets`);
-
+export default async function createNewWallet(collectionRef, data) {
   try {
-    await addDoc(walletsRef, {
-      ...walletData,
+    await addDoc(collectionRef, {
+      ...data,
       iconName: "wallet",
       isDefault: false,
       createdAt: serverTimestamp(),

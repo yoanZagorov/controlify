@@ -1,4 +1,4 @@
-import { useModal, useTransaction } from "@/hooks";
+import { useTransaction } from "@/hooks";
 import { formatEntityName } from "@/utils/formatting";
 import { handleAmountInputChange } from "@/utils/input";
 import { getDateBtnValue } from "@/utils/date";
@@ -9,8 +9,6 @@ import { HeaderModal } from "@/components/modals/HeaderModal";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { WalletModal } from "@/components/modals/WalletModal";
 import { CustomAmountInput } from "@/components/sections/TransactionsSection/components/CustomAmountInput";
-import { SvgIcon } from "@/components/SvgIcon";
-import { DeletionConfirmationModal } from "@/components/modals/DeletionConfirmationModal";
 
 export default function TransactionContainer({ modal, fetcher, action, submitBtn, isDeleteBtn = false, children }) {
   const NAVY = "#002B5B";

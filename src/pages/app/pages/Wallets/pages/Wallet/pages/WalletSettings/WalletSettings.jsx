@@ -1,24 +1,25 @@
-import { useEffect, useState } from "react";
-import { useFetcher, useRouteLoaderData } from "react-router";
+import { useEffect } from "react";
+import { useFetcher, useNavigate, useRouteLoaderData } from "react-router";
 
 import { resetFetcher } from "@/services/router/utils";
-import { formatEntityName } from "@/utils/formatting";
 import { walletsColors } from "@/utils/wallet";
 
 import { CategoriesVisibilityModal } from "@/components/modals/CategoriesVisibilityModal";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { SettingsSection } from "@/components/sections/SettingsSection";
-import { useLayout } from "@/hooks";
+import { useLayout, useWalletUpdate } from "@/hooks";
+import { handleWalletNameInputChange } from "@/utils/input";
 
 export default function WalletSettings() {
-  const { wallet: { id, name, currency, color, categories: walletCategories } } = useRouteLoaderData("wallet");
+  const navigate = useNavigate();
+
   const { userData: { categories: userCategories } } = useRouteLoaderData("app");
+  const { wallet: { id, deletedAt } } = useRouteLoaderData("wallet");
 
   const { isSingleColLayout } = useLayout();
 
   const updateWalletFetcher = useFetcher({ key: "updateWallet" });
-  const deleteWalletFetcher = useFetcher({ key: "deleteWallet" });
 
   useEffect(() => {
     if (updateWalletFetcher.state === "idle" && updateWalletFetcher.data) {
@@ -27,52 +28,40 @@ export default function WalletSettings() {
     }
   }, [updateWalletFetcher.data, updateWalletFetcher.state])
 
-  function getCurrentCategories() {
-    const currentCategories = userCategories.map(userCategory => {
-      const currentWalletCategory = walletCategories.find(walletCategory => walletCategory.id === userCategory.id);
+  useEffect(() => {
+    if (deletedAt) {
+      navigate("/app/wallets");
+    }
+  }, [updateWalletFetcher.data, updateWalletFetcher.state]);
 
-      return {
-        ...userCategory,
-        ...currentWalletCategory
-      }
-    })
+  const {
+    walletData: {
+      name,
+      currency,
+      categories,
+      color
+    },
+    updateWalletData
+  } = useWalletUpdate();
 
-    return currentCategories;
-  }
-
-
-  const [settings, setSettings] = useState({
-    name,
-    currency,
-    color,
-    categories: getCurrentCategories()
-  })
-
-  function updateSettings(newSettings) {
-    setSettings(prev => ({
-      ...prev,
-      ...newSettings
-    }))
-  }
-
-  const visibleWalletCategories = settings.categories.filter(category => category.isVisible);
+  const visibleWalletCategories = categories.filter(category => category.isVisible);
   const areAllCategoriesVisible = userCategories.length = visibleWalletCategories.length;
 
   const settingsDataConfig = [
     {
       formData: {
         name: "name",
-        value: settings.name
+        value: name
       },
       field: {
         name: "name",
         props: {
           iconName: "heading",
           type: "input",
-          displayValue: formatEntityName(settings.name),
+          displayValue: name,
           inputProps: {
-            value: formatEntityName(settings.name),
-            onChange: (e) => handleWalletNameInputChange({ value: e.target.value, updateState: updateSettings }),
+            value: name,
+            onChange: (e) => handleWalletNameInputChange({ value: e.target.value, updateState: updateWalletData }),
             min: 2,
             max: 50
           }
@@ -82,14 +71,14 @@ export default function WalletSettings() {
     {
       formData: {
         name: "currency",
-        value: settings.currency
+        value: currency
       },
       field: {
         name: "currency",
         props: {
           iconName: "coins-stacked",
           type: "select",
-          displayValue: settings.currency,
+          displayValue: currency,
         },
         modal: {
           type: {
@@ -99,35 +88,8 @@ export default function WalletSettings() {
             Component: CurrencyModal,
           },
           state: {
-            value: settings.currency,
-            updateState: (newCurrency) => updateSettings({ currency: newCurrency })
-          }
-        }
-      }
-    },
-    {
-      formData: {
-        name: "color",
-        value: settings.color
-      },
-      field: {
-        name: "color",
-        props: {
-          iconName: "paint-roller",
-          type: "select",
-          displayValue: <div className="size-6 rounded-full" style={{ backgroundColor: settings.color }}></div>,
-        },
-        modal: {
-          type: {
-            layout: "fullscreen",
-          },
-          innerModal: {
-            Component: ColorModal,
-            props: { colors: walletsColors },
-          },
-          state: {
-            value: settings.color,
-            updateState: (newColorCode) => updateSettings({ color: newColorCode })
+            value: currency,
+            updateState: (newCurrency) => updateWalletData({ currency: newCurrency })
           }
         }
       }
@@ -135,7 +97,7 @@ export default function WalletSettings() {
     {
       formData: {
         name: "categories",
-        value: JSON.stringify(settings.categories.map(category => ({ id: category.id, isVisible: category.isVisible })))
+        value: JSON.stringify(categories.map(category => ({ id: category.id, isVisible: category.isVisible })))
       },
       field: {
         name: "categories",
@@ -151,38 +113,58 @@ export default function WalletSettings() {
           },
           innerModal: {
             Component: CategoriesVisibilityModal,
-            props: { categories: settings.categories },
+            props: { categories },
           },
           state: {
-            value: settings.categories,
-            updateState: (newCategories) => updateSettings({ categories: newCategories })
+            value: categories,
+            updateState: (newCategories) => updateWalletData({ categories: newCategories })
           },
           minHeight: "min-h-[90%]"
         }
       }
-    }
+    },
+    {
+      formData: {
+        name: "color",
+        value: color
+      },
+      field: {
+        name: "color",
+        props: {
+          iconName: "paint-roller",
+          type: "select",
+          displayValue: <div className="size-6 rounded-full" style={{ backgroundColor: color }}></div>,
+        },
+        modal: {
+          type: {
+            layout: "fullscreen",
+          },
+          innerModal: {
+            Component: ColorModal,
+            props: { colors: walletsColors },
+          },
+          state: {
+            value: color,
+            updateState: (newColorCode) => updateWalletData({ color: newColorCode })
+          }
+        }
+      }
+    },
   ]
 
   return (
     <SettingsSection
-      form={{
+      formProps={{
         fetcher: updateWalletFetcher,
         action: `/app/wallets/${id}`,
-        btnValue: "updateWallet"
-      }}
-      section={{
-        title: "Wallet Settings",
-        interaction: {
-          fetcher: deleteWalletFetcher,
-          action: `/app/wallets/${id}`,
-          btnValue: "deleteWallet",
-          icon: {
-            name: "trash-can",
-            fill: "fill-red-dark"
+        btn: {
+          props: {
+            value: "updateWallet"
           }
         }
       }}
       isSpaceLimited={isSingleColLayout}
+      isDeleteBtn={true}
       settings={settingsDataConfig}
     />
   )

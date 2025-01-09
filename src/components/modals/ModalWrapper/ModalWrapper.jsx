@@ -35,7 +35,8 @@ const ModalWrapper = forwardRef(function ModalWrapper({ type = {}, isModalOpen, 
             "w-full max-h-[90%] ml:w-[calc(425px-2*16px)] ml:inset-0 ml:m-auto",
             !isBlocking && "ml:h-fit"
           ),
-        isBlocking ? "h-[90%]" : minHeight,
+        // isBlocking ? "h-[90%]" : minHeight,
+        minHeight,
         !(isModalOpen && hasTransitioned) && "translate-y-[100vh]"
       )
     },

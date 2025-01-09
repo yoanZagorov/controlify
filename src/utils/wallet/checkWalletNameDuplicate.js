@@ -1,11 +1,16 @@
 import { getWallets } from "@/services/firebase/db/wallet";
+import { where } from "firebase/firestore";
 
 export default async function checkWalletNameDuplicate(userId, name) {
-  const wallets = await getWallets(userId);
+  const query = [
+    where("deletedAt", "==", null)
+  ];
 
-  const walletNames = wallets.map(wallet => wallet.name);
+  const activeWallets = await getWallets(userId, query);
 
-  if (walletNames.includes(name)) {
-    throw new Error("A wallet with this name already exists");
+  const activeWalletsNames = activeWallets.map(wallet => wallet.name);
+
+  if (activeWalletsNames.includes(name)) {
+    throw new Error("A wallet with this name already exists. Please try a different one");
   }
 }

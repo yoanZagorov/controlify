@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { TransactionContext, NotificationContext, UserContext, LayoutContext, BreakpointContext, AuthContext } from "@/contexts";
+import { TransactionContext, NotificationContext, UserContext, LayoutContext, BreakpointContext, AuthContext, WalletSubmissionContext, WalletUpdateContext } from "@/contexts";
 
 export function useTransaction() {
   return useContext(TransactionContext);
@@ -23,4 +23,12 @@ export function useBreakpoint() {
 
 export function useAuth() {
   return useContext(AuthContext);
+}
+
+export function useWalletSubmission() {
+  return useContext(WalletSubmissionContext);
+}
+
+export function useWalletUpdate() {
+  return useContext(WalletUpdateContext);
 }

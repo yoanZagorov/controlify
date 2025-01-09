@@ -5,7 +5,7 @@ import { useLayout, useModal, useScrollToTop } from "@/hooks";
 
 import { WalletsSection } from "@/components/sections/WalletsSection";
 import { TransactionsSection } from "@/components/sections/TransactionsSection";
-import { TransactionProvider } from "@/contexts";
+import { TransactionProvider, WalletSubmissionProvider } from "@/contexts";
 import { TransactionModal } from "@/components/modals/TransactionModal";
 import { SpendingSection } from "./sections/SpendingSection";
 import { TransactionContainer } from "@/components/containers/TransactionContainer";
@@ -33,15 +33,19 @@ export default function Wallets() {
   return (
     <>
       <div className={classes.grid}>
-        <WalletsSection
-          action="/app/wallets"
-          wallets={wallets}
-          section={{
-            title: "All Wallets",
-            subtitle: "Overview",
-            className: cn(classes.gridItem)
-          }}
-        />
+        <WalletSubmissionProvider>
+          <WalletsSection
+            action="/app/wallets"
+            contentProps={{
+              wallets,
+              section: {
+                title: "All Wallets",
+                subtitle: "Overview",
+                className: cn(classes.gridItem)
+              }
+            }}
+          />
+        </WalletSubmissionProvider>
 
         <SpendingSection
           section={{

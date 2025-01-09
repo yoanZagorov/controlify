@@ -18,8 +18,8 @@ export default function Wallet() {
   ))
 
   return (
-    <>
-      <Link to=".." relative="path">
+    <div className="relative">
+      <Link to=".." relative="path" className="inline-block">
         <img src={BackArrow} />
       </Link>
 
@@ -33,6 +33,6 @@ export default function Wallet() {
       <div className="mt-12">
         <Outlet />
       </div>
-    </>
+    </div>
   )
 }
