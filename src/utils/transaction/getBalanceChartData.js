@@ -1,4 +1,4 @@
-import { where } from "firebase/firestore";
+import { collection, where } from "firebase/firestore";
 
 import { getBalance } from "@/services/firebase/db/user";
 import { getTransactions } from "@/services/firebase/db/transaction";
@@ -6,14 +6,17 @@ import { getWallets } from "@/services/firebase/db/wallet";
 import { getPeriodInfo } from "@/services/router/utils";
 
 import { performDecimalCalculation } from "../number";
+import { db } from "@/services/firebase/firebase.config";
 
 export default async function getBalanceChartData({ userId, wallets = [], period, transactions = [] }) {
   const { start, end, periodLength } = getPeriodInfo(period);
 
   // Avoid unnecessary fetches if data is already available
+
   let allWallets = wallets;
   if (!allWallets.length) {
-    allWallets = await getWallets(userId);
+    const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
+    allWallets = await getWallets(walletsCollectionRef);
   }
 
   let periodTransactions = transactions;

@@ -1,14 +1,13 @@
 import cn from "classnames";
-import { useFetcher, useLoaderData } from "react-router";
+import { useLoaderData } from "react-router";
 
-import { useLayout, useModal, useScrollToTop } from "@/hooks";
+import { useLayout, useScrollToTop } from "@/hooks";
+
+import { TransactionProvider, WalletSubmissionProvider } from "@/contexts";
 
 import { WalletsSection } from "@/components/sections/WalletsSection";
 import { TransactionsSection } from "@/components/sections/TransactionsSection";
-import { TransactionProvider, WalletSubmissionProvider } from "@/contexts";
-import { TransactionModal } from "@/components/modals/TransactionModal";
 import { SpendingSection } from "./sections/SpendingSection";
-import { TransactionContainer } from "@/components/containers/TransactionContainer";
 
 export default function Wallets() {
   useScrollToTop();
@@ -24,10 +23,8 @@ export default function Wallets() {
         ? "grid-cols-1"
         : "grid-cols-12 gap-x-12",
     ),
-    gridItem: isSingleColLayout ? "" : "col-span-6",
-    transactionSection: cn(
-      isSingleColLayout ? "" : "col-span-12",
-    )
+    gridItem: !isSingleColLayout && "col-span-6",
+    transactionSection: !isSingleColLayout && "col-span-12"
   }
 
   return (
@@ -64,7 +61,7 @@ export default function Wallets() {
               transactions,
               section: {
                 title: "All Transactions",
-                className: classes.transactionSection,
+                className: cn(classes.transactionSection),
                 contentClassName: "flex-1"
               },
               widget: {

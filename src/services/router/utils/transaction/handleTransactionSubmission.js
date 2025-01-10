@@ -5,7 +5,7 @@ import { collection, doc, runTransaction, Timestamp } from "firebase/firestore";
 import { createErrorResponse, createSuccessResponse } from "../../responses";
 import { ValidationError } from "@/utils/errors";
 import { db } from "@/services/firebase/firebase.config";
-import { getEntity } from "@/services/firebase/db/utils";
+import { getEntity } from "@/services/firebase/db/utils/entity";
 
 export default async function handleTransactionSubmission(userId, formData) {
   const { amount: amountStr, date: dateStr } = formData;

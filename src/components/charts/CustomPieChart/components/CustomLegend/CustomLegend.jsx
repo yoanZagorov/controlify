@@ -1,5 +1,3 @@
-import cn from "classnames";
-
 import { formatEntityName } from "@/utils/formatting";
 
 import { SvgIcon } from "@/components/SvgIcon";
@@ -15,7 +13,7 @@ export default function CustomLegend({ payload, entity }) {
     return (
       <li key={id} className="flex items-center gap-1.5 text-sm text-gray-dark">
         <SvgIcon iconName={iconName} className="size-4" fill={color} />
-        <span className="font-semibold">{formatEntityName(value)}</span>
+        <span className="font-semibold" style={{ color }}>{formatEntityName(value)}</span>
       </li>
     )
   })

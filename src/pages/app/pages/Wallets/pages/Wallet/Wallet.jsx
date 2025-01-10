@@ -1,5 +1,4 @@
 import { Link, Outlet, useLoaderData } from "react-router"
-import { nanoid } from "nanoid";
 
 import BackArrow from "@/assets/icons/arrow-back.png";
 
@@ -9,12 +8,12 @@ import { formatEntityName } from "@/utils/formatting";
 import { NavItem } from "./layout-components/NavItem";
 
 export default function Wallet() {
-  const { wallet } = useLoaderData();
   useScrollToTop();
+  const { wallet } = useLoaderData();
 
   const pages = ["overview", "transactions", "settings"];
   const navElements = pages.map((page, index) => (
-    <NavItem key={nanoid()} page={page} index={index} />
+    <NavItem key={index} page={page} index={index} />
   ))
 
   return (

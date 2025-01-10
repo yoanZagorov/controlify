@@ -3,10 +3,13 @@ import { getAuthUserId } from "@/services/firebase/db/user";
 import { createErrorResponse, createSuccessResponse } from "../responses";
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { getWallets } from "@/services/firebase/db/wallet";
-import { orderBy, where } from "firebase/firestore";
+import { collection, getCountFromServer, orderBy, where } from "firebase/firestore";
 import { getExpensesByWalletChartData } from "@/utils/wallet";
+import { db } from "@/services/firebase/firebase.config";
 
-export default async function walletsLoader() {
+export default async function walletsLoader({ request }) {
+  const TARGET_NUM_TRANSACTIONS = 15;
+
   const userId = await getAuthUserId();
 
   if (!userId) {
@@ -18,6 +21,8 @@ export default async function walletsLoader() {
 
   const period = "lastThirtyDays"; // To do: get this from the params
 
+  const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
+
   const walletsQuery = [
     where("deletedAt", "==", null),
     orderBy("isDefault", "desc"),
@@ -25,14 +30,27 @@ export default async function walletsLoader() {
   ];
 
   try {
-    const allWallets = await getWallets(userId, walletsQuery);
+    const allActiveWallets = await getWallets(walletsCollectionRef, walletsQuery);
 
-    const allTransactions = await getTransactions({ userId, wallets: allWallets }); // To do: limit the data and implement pagination
+    // const totalTransactionsByWallet = await Promise.all(allActiveWallets.map(async (wallet) => {
+    //   const transactionsCollectionRef = collection(db, `users/${userId}/wallets/${wallet.id}/transactions`);
+    //   const countSnapshot = await getCountFromServer(transactionsCollectionRef);
+    //   return { walletId: wallet.id, transactionsCount: countSnapshot.data().count };
+    // }));
+
+    // const totalTransactionCount = totalTransactionsByWallet.reduce((acc, wallet) => acc + wallet.transactionsCount, 0);
+
+    // const walletsLimits = totalTransactionsByWallet.map(({ walletId, transactionsCount }) => ({
+    //   walletId,
+    //   limit: Math.floor((transactionsCount / totalTransactionCount) * TARGET_NUM_TRANSACTIONS) // Using a proportion for even distribution
+    // }));
+
+    const allTransactions = await getTransactions({ userId, wallets: allActiveWallets }); // To do: limit the data and implement pagination
     allTransactions.sort((a, b) => b.date - a.date);
 
-    const expensesByWalletChartData = await getExpensesByWalletChartData(userId, allWallets, period);
+    const expensesByWalletChartData = await getExpensesByWalletChartData(userId, allActiveWallets, period);
 
-    const loaderData = { wallets: allWallets, transactions: allTransactions, expensesByWalletChartData };
+    const loaderData = { wallets: allActiveWallets, transactions: allTransactions, expensesByWalletChartData };
 
     return createSuccessResponse(loaderData);
   } catch (error) {

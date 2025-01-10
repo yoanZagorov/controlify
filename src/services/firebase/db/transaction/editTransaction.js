@@ -1,4 +1,4 @@
-import { getEntity } from "../utils";
+import { getEntity } from "../utils/entity";
 
 export default async function editTransaction({ dbTransaction, docRefs, ids, data }) {
   const category = data.category

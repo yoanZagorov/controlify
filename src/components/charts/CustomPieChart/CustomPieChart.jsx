@@ -1,8 +1,10 @@
 import { Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
+
+import { useBreakpoint } from "@/hooks";
+
 import { CustomExpensesByWalletLabel } from "./components/CustomExpensesByWalletLabel";
 import { CustomLabelLine } from "./components/CustomLabelLine";
 import { CustomLegend } from "./components/CustomLegend";
-import { useBreakpoint } from "@/hooks";
 import { CustomExpensesByCategoryLabel } from "./components/CustomExpensesByCategoryLabel";
 
 export default function CustomPieChart({ type, data }) {

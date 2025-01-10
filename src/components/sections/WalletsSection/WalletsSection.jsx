@@ -34,7 +34,6 @@ export default function WalletsSection({ action, contentProps }) {
   } = useWalletSubmission();
 
   const visibleWalletCategories = categories.filter(category => category.isVisible);
-
   const areAllCategoriesVisible = userCategories.length === visibleWalletCategories.length;
 
   function handleInitialBalanceInputChange(e) {
@@ -160,6 +159,7 @@ export default function WalletsSection({ action, contentProps }) {
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
           ref={modalRef}
+          minHeight="h-[90%]"
         >
           <HeaderModal
             formProps={{

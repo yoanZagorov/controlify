@@ -1,11 +1,11 @@
-import { collection, getDocs, query as firebaseQuery } from "firebase/firestore";
+import { collection, getDocs, query as firebaseQuery, limit } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
 
 export default async function getTransactions({ userId, wallets, query = [], dataFormat = "flat" }) {
-  const promises = wallets.map(async (wallet) => {
-    const transactionsRef = collection(db, `users/${userId}/wallets/${wallet.id}/transactions`);
+  const promises = wallets.map(async (wallet, index) => {
+    const transactionsCollectionRef = collection(db, `users/${userId}/wallets/${wallet.id}/transactions`);
 
-    const q = firebaseQuery(transactionsRef, ...query);
+    const q = firebaseQuery(transactionsCollectionRef, ...query);
 
     try {
       const querySnapshot = await getDocs(q);
@@ -18,7 +18,6 @@ export default async function getTransactions({ userId, wallets, query = [], dat
       }
 
       const transactions = querySnapshot.docs.map(doc => {
-
         return ({
           ...doc.data(),
           date: doc.data().date.toDate(), // Using toDate() to make it easier to convert the data to an actual JS Date obj on the client.
@@ -33,7 +32,7 @@ export default async function getTransactions({ userId, wallets, query = [], dat
       };
     } catch (error) {
       console.error(error);
-      throw new Error("Error fetching transactions", { cause: error });
+      throw new Error("Error fetching transactions. Please try again.", { cause: error });
     }
   })
 

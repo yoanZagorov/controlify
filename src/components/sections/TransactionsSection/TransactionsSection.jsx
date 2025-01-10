@@ -2,8 +2,8 @@ import { useFetcher } from "react-router";
 
 import { useModal, useTransaction } from "@/hooks";
 
-import { Content } from "./components/Content";
 import { TransactionContainer } from "@/components/containers/TransactionContainer";
+import { Content } from "./components/Content";
 
 export default function TransactionsSection({ action, contentProps }) {
   const { transactionData: { amount, category }, resetTransactionData } = useTransaction();

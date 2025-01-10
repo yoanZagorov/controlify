@@ -1,5 +1,4 @@
 import { SvgIcon } from "@/components/SvgIcon";
-import cn from "classnames";
 
 export default function ColorModal({ colors, closeModal, state }) {
   function handleClick(color) {

@@ -81,6 +81,11 @@ export default function Content({ type = "compact", hasFilter = true, period = "
             Add Transaction
           </Button>
 
+
+          {/* <Button type="submit" size="s" colorPalette="secondaryDary">
+            Load More
+          </Button> */}
+
           {hasFilter && (
             <button
               onClick={() => console.log("Filtering...")}

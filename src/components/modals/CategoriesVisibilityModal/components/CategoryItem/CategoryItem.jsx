@@ -1,13 +1,10 @@
 // To do: give the ability to edit the categories
 
-import { SvgIcon } from "@/components/SvgIcon";
-import { formatEntityName } from "@/utils/formatting";
-import { capitalize } from "@/utils/str";
 import cn from "classnames";
+import { formatEntityName } from "@/utils/formatting";
+import { SvgIcon } from "@/components/SvgIcon";
 
-export default function CategoryItem({ category, handleVisibilityToggle }) {
-  const { iconName, name, isVisible, color } = category;
-
+export default function CategoryItem({ category: { id, iconName, name, isVisible, color }, handleVisibilityToggle }) {
   const btnClasses = cn(
     "ml-auto relative size-5",
     isVisible ? "opacity-100" : "opacity-50"
@@ -20,11 +17,9 @@ export default function CategoryItem({ category, handleVisibilityToggle }) {
       </div>
       <span className="text-sm text-gray-dark font-semibold">{formatEntityName(name)}</span>
 
-      <button type="button" className={btnClasses} onClick={() => handleVisibilityToggle(category.id)}>
+      <button type="button" className={btnClasses} onClick={() => handleVisibilityToggle(id)}>
         <SvgIcon iconName="eye" className="size-full fill-gray-dark" />
-        {!isVisible &&
-          <div className="absolute left-0 top-1/2 w-full h-px -rotate-45 bg-gray-dark"></div>
-        }
+        {!isVisible && <div className="absolute left-0 top-1/2 w-full h-px -rotate-45 bg-gray-dark"></div>}
       </button>
     </div>
   )

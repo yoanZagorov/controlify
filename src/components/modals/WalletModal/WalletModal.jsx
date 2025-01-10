@@ -30,10 +30,10 @@ export default function WalletModal({ closeModal, state }) {
         onClick={() => handleClick({ name: wallet.name, id: wallet.id })}
         className="w-full flex items-center gap-5 bg-gray-light p-4 rounded-lg focus-goldenrod"
       >
-        <SvgIcon iconName={wallet.iconName} className="size-7 fill-gray-dark" />
+        <SvgIcon iconName={wallet.iconName} className="size-7" fill={wallet.color} />
 
         <div className="flex flex-col text-left">
-          <span className="text-gray-dark font-semibold">{formatEntityName(wallet.name)}</span>
+          <span className="font-semibold" style={{ color: wallet.color }}>{formatEntityName(wallet.name)}</span>
           <Amount
             amount={wallet.balance}
             currency={wallet.currency}

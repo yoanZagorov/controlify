@@ -1,5 +1,5 @@
 import { redirect } from "react-router";
-import { orderBy, where } from "firebase/firestore";
+import { collection, orderBy, where } from "firebase/firestore";
 
 import { getAuthUserId, getUser, getCurrentBalance } from "@/services/firebase/db/user";
 import { getWallets } from "@/services/firebase/db/wallet";
@@ -14,6 +14,7 @@ import { getBalanceChartData } from "@/utils/transaction";
 import { AppError } from "@/utils/errors";
 import { getTodayStartAndEnd } from "@/utils/date";
 import { quotes } from "../utils";
+import { db } from "@/services/firebase/firebase.config";
 
 export default async function appLoader({ request }) {
   const userId = await getAuthUserId();
@@ -24,6 +25,8 @@ export default async function appLoader({ request }) {
 
     return redirect("/login");
   }
+
+  const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
 
   const walletsQuery = [
     where("deletedAt", "==", null),
@@ -40,7 +43,7 @@ export default async function appLoader({ request }) {
   try {
     const user = await getUser(userId);
 
-    const wallets = await getWallets(userId, walletsQuery);
+    const wallets = await getWallets(walletsCollectionRef, walletsQuery);
 
     const categories = await getCategories(userId);
 

@@ -1,10 +1,10 @@
-import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
-import { useEffect, useState } from "react";
-import { useRouteLoaderData } from "react-router";
-import { CategoryItem } from "../CategoryModal/components/CategoryItem";
-import { CategoryGroup } from "./components/CategoryGroup";
+import { useState } from "react";
+
 import { getCategoriesByType } from "@/utils/category";
+
 import { Button } from "@/components/Button";
+import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
+import { CategoryGroup } from "./components/CategoryGroup";
 
 export default function CategoriesVisibilityModal({ categories, closeModal, state }) {
   const [currentCategories, setCurrentCategories] = useState(categories);
@@ -15,7 +15,6 @@ export default function CategoriesVisibilityModal({ categories, closeModal, stat
   let visibleWalletCategories = [];
   let hiddenWalletCategories = [];
 
-  // useEffect(() => {
   for (const category of currentCategories) {
     if (category.isVisible) {
       visibleWalletCategories.push(category);
@@ -23,7 +22,6 @@ export default function CategoriesVisibilityModal({ categories, closeModal, stat
       hiddenWalletCategories.push(category);
     }
   }
-  // }, [currentCategories])
 
   const { expenseCategories: visibleExpenseCategories, incomeCategories: visibleIncomeCategories } = getCategoriesByType(visibleWalletCategories);
   const { expenseCategories: hiddenExpenseCategories, incomeCategories: hiddenIncomeCategories } = getCategoriesByType(hiddenWalletCategories);

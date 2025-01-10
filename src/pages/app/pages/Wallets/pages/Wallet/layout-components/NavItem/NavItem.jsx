@@ -1,5 +1,5 @@
-import { NavLink } from "react-router";
 import cn from "classnames";
+import { NavLink } from "react-router";
 
 import { capitalize } from "@/utils/str";
 

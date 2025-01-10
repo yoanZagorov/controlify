@@ -144,6 +144,7 @@ export default function TransactionContainer({ modal, fetcher, action, submitBtn
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
           ref={modalRef}
+          minHeight={"h-[90%]"}
         >
           <HeaderModal
             formProps={{

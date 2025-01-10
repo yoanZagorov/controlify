@@ -69,6 +69,7 @@ export default function CustomAmountInput({ value, handleChange, isExpense, curr
               isModalOpen={isDeleteConfirmationModalOpen}
               hasTransitioned={hasDeleteConfirmationModalTransitioned}
               ref={deleteConfirmationModalRef}
+              minHeight="h-[75%]"
             >
               <DeletionConfirmationModal
                 entity="transaction"

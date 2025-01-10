@@ -1,7 +1,7 @@
 import { db } from "@/services/firebase/firebase.config";
 import { doc, runTransaction } from "firebase/firestore";
 import { createErrorResponse, createSuccessResponse } from "../../responses";
-import { getEntity } from "@/services/firebase/db/utils";
+import { getEntity } from "@/services/firebase/db/utils/entity";
 import { updateWalletBalance } from "@/services/firebase/db/wallet";
 
 export default async function handleTransactionDeletion(userId, formData) {

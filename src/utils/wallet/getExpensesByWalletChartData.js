@@ -1,7 +1,9 @@
 import { where } from "firebase/firestore";
-import { performDecimalCalculation } from "../number";
+
 import { getTransactions } from "@/services/firebase/db/transaction";
+
 import { getPeriodInfo } from "@/services/router/utils";
+import { performDecimalCalculation } from "../number";
 
 export default async function getExpensesByWalletChartData(userId, wallets, period) {
   const { start, end } = getPeriodInfo(period);
@@ -15,8 +17,6 @@ export default async function getExpensesByWalletChartData(userId, wallets, peri
 
   const expensesByWallet = periodTransactionsByWallet.map(wallet => {
     const { id, name, iconName, transactions, color } = wallet;
-
-    // if (!transactions.length) return null;
 
     const expenseTransactions = transactions.filter(transaction => transaction.category.type === "expense");
 

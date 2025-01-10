@@ -3,9 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useBreakpoint } from "@/hooks";
 import { formatEntityName } from "@/utils/formatting";
 
-export default function CustomExpensesByWalletLabel(props) {
-  const { cx, cy, midAngle, outerRadius, name, percent, fill, showChartLabel } = props;
-
+export default function CustomExpensesByWalletLabel({ cx, cy, midAngle, outerRadius, name, percent, fill, showChartLabel }) {
   if (percent === 0) return null;
 
   const { isMobileS, isMobileM } = useBreakpoint();
@@ -19,7 +17,7 @@ export default function CustomExpensesByWalletLabel(props) {
 
   useEffect(() => {
     if (textRef.current) {
-      const textDimensions = textRef.current.getBoundingClientRect();
+      const textDimensions = textRef.current.getBBox();
 
       const { width: textWidth, height: textHeight } = textDimensions;
 
@@ -40,12 +38,12 @@ export default function CustomExpensesByWalletLabel(props) {
 
   const textLabelMargin = 10;
 
-
   const radiusTextLabel = outerRadius + lineLength + textLabelMargin;
   const xText = cx + radiusTextLabel * Math.cos(-midAngle * RADIAN);
   const yText = cy + radiusTextLabel * Math.sin(-midAngle * RADIAN);
 
   const isLeftSide = midAngle > 90 && midAngle < 270;
+  const isTopSide = midAngle > 0 && midAngle < 180;
 
   // Percentage label 
   const radiusPercentageLabel = outerRadius * 0.5; // Right between the center and the edge
@@ -61,6 +59,7 @@ export default function CustomExpensesByWalletLabel(props) {
       key={index}
       x={isLeftSide ? xText - textDimensions.width : xText + textDimensions.width}
       dy={index === 0 ? 0 : lineSpacing}
+      textAnchor={isLeftSide ? "start" : "end"}
     >
       {word}
     </tspan>
@@ -71,14 +70,12 @@ export default function CustomExpensesByWalletLabel(props) {
       {showChartLabel &&
         <text
           ref={textRef}
-          // x={isLeftSide ? xText - textDimensions.width : xText + textDimensions.width}
           x={xText}
           y={yText}
-          // textAnchor="middle"
           dominantBaseline="hanging"
           className="text-xs ml:text-sm font-black"
           fill={fill}
-          transform={`translate(0, ${-textDimensions.height / 2})`}
+          transform={`translate(0, ${isTopSide ? -textDimensions.height / 2 : 0})`}
         >
           {textEls}
         </text>

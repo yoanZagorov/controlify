@@ -1,32 +1,27 @@
 import { AppError } from "@/utils/errors";
-import { collection, getDocs, query as firebaseQuery } from "firebase/firestore";
-import { db } from "@/services/firebase/firebase.config";
+import { getDocs, query as firebaseQuery } from "firebase/firestore";
 
-export default async function getWallets(userId, query = []) {
-  const walletsRef = collection(db, `users/${userId}/wallets`);
-
-  const walletsQuery = query
-    ? firebaseQuery(walletsRef, ...query)
-    : walletsRef;
+export default async function getWallets(collectionRef, query = []) {
+  const q = firebaseQuery(collectionRef, ...query);
 
   try {
-    const querySnapshot = await getDocs(walletsQuery);
+    const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
       throw new AppError(404, "No wallets found");
     };
 
-    const wallets = querySnapshot.docs.map(doc => ({
+    const walletsDocs = querySnapshot.docs.map(doc => ({
       ...doc.data(),
       id: doc.id,
     }));
 
-    return wallets;
+    return walletsDocs;
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);
-    } else {
-      throw new Error("Error fetching wallets", { cause: error }); // To do: Create a more user-friendly message and display it    
     }
+
+    throw new Error("Error fetching wallets. Please try again.", { cause: error }); // To do: Create a more user-friendly message and display it    
   }
 }

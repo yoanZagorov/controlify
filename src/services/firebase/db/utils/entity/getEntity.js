@@ -2,7 +2,7 @@ import { AppError } from "@/utils/errors";
 import { capitalize } from "@/utils/str";
 import { getDoc } from "firebase/firestore";
 
-export default async function getCategory(docRef, docId, entityName) {
+export default async function getEntity(docRef, docId, entityName) {
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) {
