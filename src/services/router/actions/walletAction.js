@@ -17,7 +17,7 @@ export default async function walletAction({ request, params }) {
   const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
 
   if (intent === "updateWallet") {
-    return (await handleWalletUpdate(userId, walletDocRef, formData));
+    return (await handleWalletUpdate(userId, walletDocRef, walletId, formData));
   }
 
   if (intent === "deleteWallet") {

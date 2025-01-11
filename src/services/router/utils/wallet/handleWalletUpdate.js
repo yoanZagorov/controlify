@@ -1,12 +1,14 @@
 import { checkWalletName, checkWalletNameDuplicate } from "@/utils/wallet";
 import getDataToChange from "../getDataToChange";
 import { formatEntityNameForFirebase } from "@/utils/formatting";
-import { runTransaction } from "firebase/firestore";
+import { doc, runTransaction } from "firebase/firestore";
 import { createErrorResponse, createSuccessResponse } from "../../responses";
 import { ValidationError } from "@/utils/errors";
 import { db } from "@/services/firebase/firebase.config";
+import { getTransactions } from "@/services/firebase/db/transaction";
+import { getEntity } from "@/services/firebase/db/utils/entity";
 
-export default async function handleWalletUpdate(userId, walletDocRef, formData) {
+export default async function handleWalletUpdate(userId, walletDocRef, walletId, formData) {
   try {
     checkWalletName(formData.name);
     const formattedName = formatEntityNameForFirebase(formData.name);
@@ -18,6 +20,9 @@ export default async function handleWalletUpdate(userId, walletDocRef, formData)
     }
 
     const { name, currency, color, categories } = formattedFormData;
+
+    const walletDoc = await getEntity(walletDocRef, walletId, "wallet");
+    const walletTransactions = await getTransactions({ userId, wallets: [walletDoc] });
 
     await runTransaction(db, async (transaction) => {
       const oldWalletData = (await transaction.get(walletDocRef)).data();
@@ -36,6 +41,25 @@ export default async function handleWalletUpdate(userId, walletDocRef, formData)
       const dataToChange = getDataToChange(hasDataChanged, formattedFormData);
 
       transaction.update(walletDocRef, dataToChange);
+
+      // Updating the wallet field on each transaction to keep in sync 
+      walletTransactions.forEach(walletTransaction => {
+        const transactionDocRef = doc(db, `users/${userId}/wallets/${walletId}/transactions/${walletTransaction.id}`);
+
+        const updates = {};
+
+        if (hasDataChanged.name) {
+          updates["wallet.name"] = name;
+        }
+
+        if (hasDataChanged.color) {
+          updates["wallet.color"] = color;
+        }
+
+        if (Object.keys(updates).length > 0) {
+          transaction.update(transactionDocRef, updates);
+        }
+      });
     })
 
     return createSuccessResponse({

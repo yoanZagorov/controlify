@@ -8,13 +8,14 @@ import { TransactionModal } from "@/components/modals/TransactionModal";
 import { TransactionsSection } from "@/components/sections/TransactionsSection";
 
 export default function WalletTransactions() {
+  const { wallet } = useRouteLoaderData("wallet");
   const { isSingleColLayout } = useLayout();
 
   const { transactions } = useRouteLoaderData("wallet");
 
   return (
     <>
-      <TransactionProvider>
+      <TransactionProvider wallet={wallet}>
         <TransactionsSection
           action="/app/wallets"
           contentProps={{
