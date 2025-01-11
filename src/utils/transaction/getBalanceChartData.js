@@ -26,7 +26,7 @@ export default async function getBalanceChartData({ userId, wallets = [], period
       where("date", "<=", end)
     ];
 
-    periodTransactions = await getTransactions({ userId, wallets, query: transactionsQuery });
+    periodTransactions = await getTransactions({ userId, wallets: allWallets, query: transactionsQuery });
   }
 
   const balanceQuery = [

@@ -1,4 +1,4 @@
-import { collection, getDocs, query as firebaseQuery, limit } from "firebase/firestore";
+import { collection, getDocs, query as firebaseQuery } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
 
 export default async function getTransactions({ userId, wallets, query = [], dataFormat = "flat" }) {

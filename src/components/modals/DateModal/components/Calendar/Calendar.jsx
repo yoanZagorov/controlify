@@ -1,8 +1,14 @@
 import cn from "classnames";
 
 import { monthsMap } from "@/utils/date/maps";
+import { useRef } from "react";
+import { useAutoFocus } from "@/hooks";
 
 export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate, clickHandlers, className }) {
+  const currentDateBtnRef = useRef(null);
+
+  useAutoFocus({ ref: currentDateBtnRef });
+
   const { handleDayClick, handleMonthDecrement, handleMonthIncrement } = clickHandlers;
 
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -31,7 +37,8 @@ export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate
     const dayClasses = cn(
       "size-8 flex justify-center items-center p-1.5 text-sm rounded-full focus-goldenrod",
       day.value === 1 && colStartMap[startOfMonthDayOfWeek],
-      day.isCurrentDate && "bg-navy text-goldenrod"
+      (day.isToday && !day.isCurrentDate) && "bg-gray-medium",
+      day.isCurrentDate && "bg-navy text-goldenrod",
     )
 
     return (
@@ -40,6 +47,7 @@ export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate
         type="button"
         className={dayClasses}
         onClick={() => handleDayClick(day.value)}
+        ref={day.isCurrentDate ? currentDateBtnRef : null}
       >
         {day.value}
       </button>

@@ -4,7 +4,6 @@ import { CustomPieChart } from "@/components/charts/CustomPieChart";
 import { Notification } from "@/components/Notification";
 
 export default function SpendingSection({ section, chart }) {
-  console.log(chart.data);
   const hasSufficientData = chart.data.find(entry => entry.amount > 0) ? true : false;
 
   return (

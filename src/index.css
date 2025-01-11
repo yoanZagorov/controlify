@@ -42,6 +42,6 @@
   }
 
   .focus-goldenrod {
-    @apply focus:outline-none focus-visible:ring focus-visible:ring-goldenrod;
+    @apply focus:outline-none focus:ring focus:ring-goldenrod transition-[box-shadow];
   }
 }

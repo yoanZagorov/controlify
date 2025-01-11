@@ -6,6 +6,7 @@ import { BalanceLineChart } from "@/components/charts/BalanceLineChart";
 import { BalanceAmountWidget } from "@/components/sections/BalanceSection/components/BalanceAmountWidget";
 
 export default function BalanceSection({ section, balance, currency }) {
+  // console.log(balance.chartData);
   const classes = {
     sectionContent: cn(
       "flex flex-col gap-6",

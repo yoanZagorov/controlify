@@ -13,7 +13,7 @@ export default function SpendingSection({ isSpaceLimited, charts }) {
         iconName: "categories",
         title: "by category"
       },
-      componentWrapperClassName: "mx-auto h-80 mm:h-96 ml:h-[420px]",
+      componentWrapperClassName: "h-[450px]",
       Component: CustomPieChart
     },
     expensesVsIncome: {
@@ -22,7 +22,7 @@ export default function SpendingSection({ isSpaceLimited, charts }) {
         iconName: "stats",
         title: "expenses vs income"
       },
-      componentWrapperClassName: "mx-auto h-80 mm:h-96 ml:h-[420px]",
+      componentWrapperClassName: "h-[450px]",
       Component: CustomBarChart
     },
   };
