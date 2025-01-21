@@ -14,15 +14,15 @@ export default function useModal({ isBlocking = true, fetcher = {}, resetModalDa
 
   isBlocking && useScrollLock(isModalOpen);
 
-  const isFetcher = Object.keys(fetcher).length !== 0;
+  const isFetcher = Object.keys(fetcher).length > 0;
   isFetcher && useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data) {
       setModalOpen(false);
+      // resetModalData && resetModalData(); // To do: find a way to implement clearing without sacrificing the smooth animation
       resetFetcher(fetcher);
-      resetModalData && resetModalData();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  }, [fetcher.data, fetcher.state])
 
+  }, [fetcher.data, fetcher.state]);
   return { modalState: [isModalOpen, setModalOpen], hasTransitioned, modalRef };
 }

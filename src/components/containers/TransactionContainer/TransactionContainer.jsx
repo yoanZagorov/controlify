@@ -10,7 +10,7 @@ import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { WalletModal } from "@/components/modals/WalletModal";
 import { CustomAmountInput } from "@/components/sections/TransactionsSection/components/CustomAmountInput";
 
-export default function TransactionContainer({ modal, fetcher, action, submitBtn, isDeleteBtn = false, children }) {
+export default function TransactionContainer({ fetcher, modal, action, submitBtn, isDeleteBtn = false, children }) {
   const NAVY = "#002B5B";
 
   const {
@@ -144,7 +144,7 @@ export default function TransactionContainer({ modal, fetcher, action, submitBtn
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
           ref={modalRef}
-          minHeight={"h-[90%]"}
+          minHeight="h-[90%]"
         >
           <HeaderModal
             formProps={{
@@ -158,6 +158,7 @@ export default function TransactionContainer({ modal, fetcher, action, submitBtn
               customInput: {
                 Component: CustomAmountInput,
                 props: {
+                  fetcher,
                   value: amount,
                   handleChange: handleInputChange,
                   isExpense,

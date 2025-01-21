@@ -20,6 +20,7 @@ export default function DeletionConfirmationModal({ entity, closeModal }) {
           colorPalette="dangerSecondary"
           name="intent"
           value={`delete${capitalize(entity)}`}
+        // onClick={closeModal}
         >
           Delete
         </Button>

@@ -8,7 +8,6 @@ import { Calendar } from "./components/Calendar";
 
 export default function DateModal({ closeModal, state }) {
   const today = getSpecificDay("today");
-  today.setHours(0, 0, 0, 0);
 
   const [date, setDate] = useModalState(state, today);
   const [localDate, setLocalDate] = useState({ // Keeping the month and day local, to prevent unnecessary rerenders of the provider

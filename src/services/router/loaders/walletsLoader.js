@@ -30,7 +30,9 @@ export default async function walletsLoader({ request }) {
   ];
 
   try {
-    const allActiveWallets = await getWallets(walletsCollectionRef, walletsQuery);
+    const allWallets = await getWallets(walletsCollectionRef);
+    const аctiveWallets = await getWallets(walletsCollectionRef, walletsQuery);
+
 
     // const totalTransactionsByWallet = await Promise.all(allActiveWallets.map(async (wallet) => {
     //   const transactionsCollectionRef = collection(db, `users/${userId}/wallets/${wallet.id}/transactions`);
@@ -45,12 +47,12 @@ export default async function walletsLoader({ request }) {
     //   limit: Math.floor((transactionsCount / totalTransactionCount) * TARGET_NUM_TRANSACTIONS) // Using a proportion for even distribution
     // }));
 
-    const allTransactions = await getTransactions({ userId, wallets: allActiveWallets }); // To do: limit the data and implement pagination
+    const allTransactions = await getTransactions({ userId, wallets: allWallets }); // To do: limit the data and implement pagination
     allTransactions.sort((a, b) => b.date - a.date);
 
-    const expensesByWalletChartData = await getExpensesByWalletChartData(userId, allActiveWallets, period);
+    const expensesByWalletChartData = await getExpensesByWalletChartData(userId, allWallets, period);
 
-    const loaderData = { wallets: allActiveWallets, transactions: allTransactions, expensesByWalletChartData };
+    const loaderData = { wallets: аctiveWallets, transactions: allTransactions, expensesByWalletChartData };
 
     return createSuccessResponse(loaderData);
   } catch (error) {

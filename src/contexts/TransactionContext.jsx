@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState } from "react"
+import { createContext, useState } from "react"
 import { useRouteLoaderData } from "react-router";
 
 export const TransactionContext = createContext(null);
@@ -11,7 +11,6 @@ export default function TransactionProvider({ prepopulatedTransactionData = null
   const { name: walletName, id: walletId, currency: walletCurrency } = wallet ? wallet : defaultWallet;
 
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
 
   const defaultTransactionData = prepopulatedTransactionData
     ? {

@@ -9,7 +9,8 @@ export default function addTransaction({ dbTransaction, docRef, data: { amount, 
       name: wallet.name,
       iconName: wallet.iconName,
       color: wallet.color,
-      currency: wallet.currency
+      currency: wallet.currency,
+      deletedAt: wallet.deletedAt
     },
     date,
     createdAt: serverTimestamp()

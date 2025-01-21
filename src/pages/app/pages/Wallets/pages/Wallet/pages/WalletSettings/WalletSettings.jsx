@@ -15,7 +15,7 @@ export default function WalletSettings() {
   const navigate = useNavigate();
 
   const { userData: { categories: userCategories } } = useRouteLoaderData("app");
-  const { wallet: { id, deletedAt } } = useRouteLoaderData("wallet");
+  const { wallet: { id, deletedAt, isDefault } } = useRouteLoaderData("wallet");
 
   const { isSingleColLayout } = useLayout();
 
@@ -164,7 +164,7 @@ export default function WalletSettings() {
         }
       }}
       isSpaceLimited={isSingleColLayout}
-      isDeleteBtn={true}
+      isDeleteBtn={!isDefault}
       settings={settingsDataConfig}
     />
   )

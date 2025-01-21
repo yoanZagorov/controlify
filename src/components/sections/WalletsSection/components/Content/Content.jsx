@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { Link } from "react-router"
+import { Link, useLocation } from "react-router"
 
 import { useBreakpoint } from "@/hooks";
 
@@ -12,7 +12,11 @@ export default function Content({ wallets, section, openModal }) {
   const { isMobileS } = useBreakpoint();
 
   const walletWidgets = wallets.map(wallet => (
-    <Link key={wallet.id} to={`/app/wallets/${wallet.id}`} data-actionable="true">
+    <Link
+      key={wallet.id}
+      to={`/app/wallets/${wallet.id}`}
+      data-actionable="true"
+    >
       <WalletWidget
         wallet={wallet}
         className="h-full"

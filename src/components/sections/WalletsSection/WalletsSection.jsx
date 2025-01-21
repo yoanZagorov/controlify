@@ -109,9 +109,6 @@ export default function WalletsSection({ action, contentProps }) {
           displayValue: areAllCategoriesVisible ? "All" : visibleWalletCategories.length,
         },
         modal: {
-          type: {
-            blocking: true
-          },
           innerModal: {
             Component: CategoriesVisibilityModal,
             props: { categories },

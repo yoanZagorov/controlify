@@ -31,8 +31,8 @@ export default function CurrencyModal({ closeModal, state }) {
     const isActive = name === state.value;
 
     return (
-      <button key={index} type="button" onClick={() => handleClick(name)}>
-        <Widget colorPalette="secondary" className="flex items-center gap-4">
+      <button key={index} type="button" onClick={() => handleClick(name)} className="rounded-lg focus-goldenrod">
+        <Widget colorPalette="secondary" className="flex items-center gap-4 focus-goldenrod">
           <SvgIcon iconName={iconName} className="w-[50px] h-[30px]" />
           <span className="text-lg text-gray-dark font-semibold">{name}</span>
 
@@ -45,6 +45,9 @@ export default function CurrencyModal({ closeModal, state }) {
   })
 
   return (
-    <div className="flex flex-col gap-5">{currencyEls}</div>
+    <div className="flex flex-col gap-5">
+      <SvgIcon iconName="flag-eu" className="hidden w-[50px] h-[30px]" /> {/*need to use this to render another instance to "fix" a bizarre bug where the stars aren't showing*/}
+      {currencyEls}
+    </div>
   )
 }

@@ -8,18 +8,31 @@ import { Notification } from "@/components/Notification";
 import { Button } from "@/components/Button";
 import { SvgIcon } from "@/components/SvgIcon";
 import { Transaction } from "../Transaction";
+import { useFetcher } from "react-router";
+import { useEffect } from "react";
+import { resetFetcher } from "@/services/router/utils";
 
-export default function Content({ type = "compact", hasFilter = true, period = "all-time", section, widget, display, transactions, openModal }) {
+export default function Content({ type = "compact", hasFilter = true, period = "all-time", section, widget, display, transactions, action, openModal }) {
   const hasTransactions = transactions.length > 0;
   const isExpanded = type === "expanded";
   const displayConfig = { date: true, wallet: true, ...display };
 
+  // Lifting fetcher up to be able to perform cleanup for last transaction
+  const fetcher = useFetcher({ key: "updateTransaction" });
+
+  useEffect(() => {
+    if (!hasTransactions) {
+      resetFetcher(fetcher);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [hasTransactions]);
+
   const transactionEls = hasTransactions ?
     transactions.map(transaction => {
-      const { amount, wallet, category, date } = transaction;
+      const { id, amount, wallet, category, date } = transaction;
 
       return (
-        <li key={transaction.id}>
+        <li key={id}>
           <TransactionProvider
             prepopulatedTransactionData={{
               amount: String(amount),
@@ -38,6 +51,8 @@ export default function Content({ type = "compact", hasFilter = true, period = "
             }}
           >
             <Transaction
+              fetcher={fetcher}
+              action={action}
               isExpanded={isExpanded}
               transaction={transaction}
               display={displayConfig}

@@ -1,10 +1,11 @@
-import { doc } from "firebase/firestore";
+import { collection, doc } from "firebase/firestore";
 
 import { db } from "@/services/firebase/firebase.config";
 import { getAuthUserId } from "@/services/firebase/db/user";
 
 import { handleWalletUpdate, handleWalletDeletion } from "../utils/wallet";
 import { handleTransactionDeletion, handleTransactionSubmission, handleTransactionUpdate } from "../utils/transaction";
+import { getEntities } from "@/services/firebase/db/utils/entity";
 
 export default async function walletAction({ request, params }) {
   const userId = await getAuthUserId();
@@ -21,8 +22,9 @@ export default async function walletAction({ request, params }) {
   }
 
   if (intent === "deleteWallet") {
-    // return console.log("deleting wallet...");
-    return (await handleWalletDeletion(walletDocRef));
+    const transactionsCollectionRef = collection(db, `users/${userId}/wallets/${walletId}/transactions`);
+
+    return (await handleWalletDeletion(userId, walletId, walletDocRef, transactionsCollectionRef));
   }
 
   if (intent === "addTransaction") {

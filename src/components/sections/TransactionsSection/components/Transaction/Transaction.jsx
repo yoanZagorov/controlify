@@ -10,13 +10,12 @@ import { Amount } from "@/components/Amount";
 import { SvgIcon } from "@/components/SvgIcon";
 import { TransactionContainer } from "@/components/containers/TransactionContainer";
 
-export default function Transaction({ isExpanded, transaction: { category, wallet, date, amount }, display }) {
+export default function Transaction({ fetcher, action, isExpanded, transaction: { category, wallet, date, amount }, display }) {
   const { transactionData, defaultTransactionData, resetTransactionData } = useTransaction();
   const { amount: transactionDataAmount } = transactionData;
 
-  const fetcher = useFetcher({ key: "updateTransaction" });
+  const modal = useModal({ fetcher });
 
-  const modal = useModal({ fetcher, resetModalData: () => resetTransactionData });
   const { modalState: [isModalOpen, setModalOpen] } = modal;
 
   const { isMobileS, isMobileM } = useBreakpoint();
@@ -32,6 +31,8 @@ export default function Transaction({ isExpanded, transaction: { category, walle
       setHasTransactionDataChanged(true);
     }
   }, [transactionData]);
+
+  const isWalletActive = wallet.deletedAt === null;
 
   const classes = {
     transaction: cn(
@@ -50,6 +51,10 @@ export default function Transaction({ isExpanded, transaction: { category, walle
         ? "text-sm"
         : isExpanded ? "text-lg" : "text-base"
     ),
+    walletWrapper: cn(
+      "flex items-center gap-1.5 font-bold",
+      !isWalletActive && "opacity-50"
+    ),
     amount: cn(
       "text-right font-semibold",
       isSpaceLimited
@@ -66,11 +71,12 @@ export default function Transaction({ isExpanded, transaction: { category, walle
 
   const correctSignAmount = category.type === "expense" ? -amount : amount;
 
+
   return (
     <TransactionContainer
-      modal={modal}
       fetcher={fetcher}
-      action="/app/wallets"
+      modal={modal}
+      action={action}
       submitBtn={{
         text: "update transaction",
         props: {
@@ -89,7 +95,7 @@ export default function Transaction({ isExpanded, transaction: { category, walle
           <div className="flex flex-col items-start">
             <span className={classes.categoryName}>{formattedCategoryName}</span>
             {display.wallet &&
-              <div className="flex items-center gap-1.5 font-bold" style={{ color: wallet.color }}>
+              <div className={classes.walletWrapper} style={{ color: wallet.color }}>
                 <SvgIcon iconName={wallet.iconName} className="size-3 min-w-3 min-h-3 fill-current" />
                 <span className="text-left text-xs lm:text-sm">{formattedWalletName}</span>
               </div>

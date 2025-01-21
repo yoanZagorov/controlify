@@ -1,4 +1,4 @@
-import { Link, Outlet, useLoaderData } from "react-router"
+import { Link, Outlet, useLoaderData, useLocation } from "react-router"
 
 import BackArrow from "@/assets/icons/arrow-back.png";
 
@@ -9,6 +9,7 @@ import { NavItem } from "./layout-components/NavItem";
 
 export default function Wallet() {
   useScrollToTop();
+
   const { wallet } = useLoaderData();
 
   const pages = ["overview", "transactions", "settings"];

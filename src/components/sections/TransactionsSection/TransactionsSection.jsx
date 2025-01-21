@@ -10,13 +10,13 @@ export default function TransactionsSection({ action, contentProps }) {
 
   const fetcher = useFetcher({ key: "addTransaction" });
 
-  const modal = useModal({ fetcher, resetModalData: () => resetTransactionData });
+  const modal = useModal({ fetcher, resetModalData: resetTransactionData });
   const { modalState: [isModalOpen, setModalOpen] } = modal;
 
   return (
     <TransactionContainer
-      modal={modal}
       fetcher={fetcher}
+      modal={modal}
       action={action}
       submitBtn={{
         text: "complete transaction",
@@ -26,7 +26,7 @@ export default function TransactionsSection({ action, contentProps }) {
         }
       }}
     >
-      <Content {...contentProps} openModal={() => setModalOpen(true)} />
+      <Content {...contentProps} action={action} openModal={() => setModalOpen(true)} />
     </TransactionContainer>
   )
 }

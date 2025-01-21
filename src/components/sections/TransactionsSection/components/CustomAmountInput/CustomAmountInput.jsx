@@ -1,16 +1,22 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import cn from "classnames"
 import { useAutoFocus, useModal } from "@/hooks";
 import { SvgIcon } from "@/components/SvgIcon";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { DeletionConfirmationModal } from "@/components/modals/DeletionConfirmationModal";
 
-export default function CustomAmountInput({ value, handleChange, isExpense, currency, isDeleteBtn = false }) {
+export default function CustomAmountInput({ fetcher, value, handleChange, isExpense, currency, isDeleteBtn = false }) {
   const {
     modalState: [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = [],
     hasTransitioned: hasDeleteConfirmationModalTransitioned,
     modalRef: deleteConfirmationModalRef
-  } = isDeleteBtn ? useModal({}) : {};
+  } = isDeleteBtn ? useModal({ isBlocking: false }) : {};
+
+  isDeleteBtn && useEffect(() => {
+    if (fetcher.state === "idle" && fetcher.data) {
+      setDeleteConfirmationModalOpen(false);
+    }
+  }, [fetcher.data, fetcher.state])
 
   const amountInputRef = useRef(null);
   useAutoFocus({ ref: amountInputRef });

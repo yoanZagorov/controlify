@@ -43,13 +43,14 @@ export default async function appLoader({ request }) {
   try {
     const user = await getUser(userId);
 
-    const wallets = await getWallets(walletsCollectionRef, walletsQuery);
+    const activeWallets = await getWallets(walletsCollectionRef, walletsQuery);
+    const allWallets = await getWallets(walletsCollectionRef);
 
     const categories = await getCategories(userId);
 
-    const balance = await getCurrentBalance({ wallets });
+    const balance = await getCurrentBalance({ wallets: activeWallets });
 
-    const todayTransactions = await getTransactions({ userId, wallets, query: transactionsQuery });
+    const todayTransactions = await getTransactions({ userId, wallets: allWallets, query: transactionsQuery });
     todayTransactions.sort((a, b) => b.date - a.date);
 
     const { balanceChartData } = await getBalanceChartData({ userId, period: "lastThirtyDays" });
@@ -59,7 +60,7 @@ export default async function appLoader({ request }) {
     const loaderData = {
       userData: {
         user,
-        wallets,
+        wallets: activeWallets,
         categories,
         balance,
         todayTransactions,
