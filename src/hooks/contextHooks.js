@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { TransactionContext, NotificationContext, UserContext, LayoutContext, BreakpointContext, AuthContext, WalletSubmissionContext, WalletUpdateContext, SettingsContext } from "@/contexts";
+import { TransactionContext, NotificationContext, UserContext, LayoutContext, BreakpointContext, AuthContext, WalletSubmissionContext, WalletUpdateContext, SettingsContext, CategoryContext } from "@/contexts";
 
 export function useTransaction() {
   return useContext(TransactionContext);
@@ -35,4 +35,8 @@ export function useWalletUpdate() {
 
 export function useSettings() {
   return useContext(SettingsContext);
+}
+
+export function useCategory() {
+  return useContext(CategoryContext);
 }

@@ -91,9 +91,7 @@ const routes = [
       {
         path: "settings",
         element:
-          <SettingsProvider>
-            <Settings />
-          </SettingsProvider>
+          <Settings />
       },
       {
         path: "categories",

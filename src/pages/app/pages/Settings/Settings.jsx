@@ -16,6 +16,8 @@ import { CustomProfilePicType } from "./components/CustomProfilePicType";
 import { Section } from "@/components/sections/Section";
 import { OverallSettingsSection } from "./sections/OverallSettingsSection";
 import { CategoriesSection } from "./sections/CategoriesSection";
+import { Button } from "@/components/Button";
+import { CategoryProvider, SettingsProvider } from "@/contexts";
 
 export default function Settings() {
   const { isSingleColLayout } = useLayout();
@@ -31,9 +33,17 @@ export default function Settings() {
 
   return (
     <div>
-      <OverallSettingsSection />
+      <SettingsProvider>
+        <OverallSettingsSection />
+      </SettingsProvider>
 
-      <CategoriesSection className="mt-12" />
+      <CategoryProvider>
+        <CategoriesSection className="mt-12" />
+      </CategoryProvider>
+
+      <Button size="l" colorPalette="danger" className="mt-12 mx-auto">
+        log out
+      </Button>
     </div>
   )
 }

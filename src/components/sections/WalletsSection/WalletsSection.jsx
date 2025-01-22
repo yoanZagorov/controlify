@@ -20,7 +20,7 @@ export default function WalletsSection({ action, contentProps }) {
     modalState: [isModalOpen, setModalOpen],
     hasTransitioned,
     modalRef
-  } = useModal({ fetcher });;
+  } = useModal({ fetcher });
 
   const {
     walletData: {

@@ -1,0 +1,1 @@
+export { default as CategoryTypeModal } from "./CategoryTypeModal";
