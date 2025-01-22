@@ -37,6 +37,7 @@ import TrashCanIcon from "@/assets/icons/trash-can.svg?react";
 
 // Settings
 import AtSignIcon from "@/assets/icons/at-sign.svg?react";
+import PenIcon from "@/assets/icons/pen.svg?react";
 
 // Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
@@ -104,6 +105,7 @@ const iconComponentsMap = {
   "eye": EyeIcon,
   "trash-can": TrashCanIcon,
   "at-sign": AtSignIcon,
+  "pen": PenIcon
 }
 
 export default function SvgIcon({ iconName, ...props }) {
