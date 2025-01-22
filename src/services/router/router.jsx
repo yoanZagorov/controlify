@@ -6,8 +6,9 @@ import { AppLayout, Dashboard, Wallets, Wallet, WalletOverview, WalletTransactio
 import { appAction, createAccountAction, dashboardAction, loginAction, resetFetcherAction, walletAction, walletsAction } from "./actions";
 import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader, walletLoader } from "./loaders";
 import { AppErrorComponent, RootError } from "@/components/errors";
-import { LayoutProvider, WalletUpdateProvider } from "@/contexts";
+import { LayoutProvider, SettingsProvider, WalletUpdateProvider } from "@/contexts";
 import { NotFound } from "@/components/NotFound";
+import { Settings } from "@/pages/app/pages/Settings";
 
 const routes = [
   {
@@ -89,7 +90,10 @@ const routes = [
       },
       {
         path: "settings",
-        element: <h1>This will be the settings page!</h1>
+        element:
+          <SettingsProvider>
+            <Settings />
+          </SettingsProvider>
       },
       {
         path: "categories",

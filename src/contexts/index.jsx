@@ -6,3 +6,4 @@ export { default as BreakpointProvider, BreakpointContext } from "./BreakpointCo
 export { default as AuthProvider, AuthContext } from "./AuthContext";
 export { default as WalletSubmissionProvider, WalletSubmissionContext } from "./WalletSubmissionContext";
 export { default as WalletUpdateProvider, WalletUpdateContext } from "./WalletUpdateContext";
+export { default as SettingsProvider, SettingsContext } from "./SettingsContext";

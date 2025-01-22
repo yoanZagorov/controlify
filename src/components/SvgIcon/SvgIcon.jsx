@@ -35,6 +35,9 @@ import EyeIcon from "@/assets/icons/eye.svg?react";
 // Wallet
 import TrashCanIcon from "@/assets/icons/trash-can.svg?react";
 
+// Settings
+import AtSignIcon from "@/assets/icons/at-sign.svg?react";
+
 // Categories
 import ShoppingCartIcon from "@/assets/icons/shopping-cart.svg?react";
 import ShoppingBagIcon from "@/assets/icons/shopping-bag.svg?react";
@@ -52,6 +55,7 @@ import PiggyBankIcon from "@/assets/icons/piggy-bank.svg?react";
 import MoneyBillStockUpIcon from "@/assets/icons/money-bill-stock-up.svg?react";
 import ClipboardQuestionIcon from "@/assets/icons/clipboard-question.svg?react";
 import MortgageIcon from "@/assets/icons/house-circle-check.svg?react";
+
 
 const iconComponentsMap = {
   "wallet": WalletIcon,
@@ -99,6 +103,7 @@ const iconComponentsMap = {
   "check": CheckIcon,
   "eye": EyeIcon,
   "trash-can": TrashCanIcon,
+  "at-sign": AtSignIcon,
 }
 
 export default function SvgIcon({ iconName, ...props }) {
