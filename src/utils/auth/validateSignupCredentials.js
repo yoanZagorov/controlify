@@ -1,25 +1,10 @@
 import { ValidationError } from "../errors";
+import { validateEmail, validateFullName } from "../validation";
 
 export default function validateSignupCredentials(email, password, fullName) {
   // Check email validity
-  // Regex:
-  // Local: Allows [._-] but not at the start and not consecutively
-  // Domain: Allows - but not at the start and not consecutively; TLD must be only letters
-  const emailRegex = /^[a-z0-9]+(?:[\._-][a-z0-9]+)*@[a-z0-9]+(?:-?[a-z0-9]+)*\.[a-z]{2,10}$/;
-
-  if (!email) {
-    throw new ValidationError("Please provide an email");
-  }
-
-  if (email.length <= 2) {
-    throw new ValidationError("Email length should be greater than 2 characters");
-  }
-
   const lcEmail = email.toLowerCase();
-
-  if (!emailRegex.test(lcEmail)) {
-    throw new ValidationError("Invalid email address");
-  }
+  validateEmail(lcEmail);
 
   // Check password validity
   // Regex: Must include 1 uppercase letter, 1 lowercase letter, 1 special character
@@ -38,20 +23,7 @@ export default function validateSignupCredentials(email, password, fullName) {
   }
 
   // Check full name validity
-  // Regex: Matches letters from all alphabets, with apostrophes, double names (with hyphens) 
-  const fullNameRegex = /^[\p{L}]{1,2}'?[\p{L}]{1,14}[\s-][\p{L}]{1,2}'?[\p{L}]{1,14}(?:[\s-][\p{L}]{1,2}'?[\p{L}]{1,14}){0,2}$/u;
-
-  if (!fullName) {
-    throw new ValidationError("Please provide a name");
-  }
-
-  if (fullName.length < 3) {
-    throw new ValidationError("Name length should be greater than 3 characters");
-  }
-
-  if (!fullNameRegex.test(fullName)) {
-    throw new ValidationError("Invalid name format");
-  }
+  validateFullName(fullName);
 
   return { verifiedEmail: lcEmail, verifiedPassword: password, verifiedFullName: fullName };
 

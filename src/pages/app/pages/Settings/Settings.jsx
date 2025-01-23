@@ -34,7 +34,7 @@ export default function Settings() {
   return (
     <div>
       <SettingsProvider>
-        <OverallSettingsSection />
+        <OverallSettingsSection fetcher={fetcher} />
       </SettingsProvider>
 
       <CategoryProvider>
@@ -43,6 +43,10 @@ export default function Settings() {
 
       <Button size="l" colorPalette="danger" className="mt-12 mx-auto">
         log out
+      </Button>
+
+      <Button size="l" colorPalette="danger" className="mt-12 ml-6 mx-auto">
+        delete account
       </Button>
     </div>
   )

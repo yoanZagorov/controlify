@@ -1,12 +1,11 @@
 import { SvgIcon } from "@/components/SvgIcon";
-import { useEffect, useRef } from "react";
 
 export default function CustomProfilePicType({ profilePic, handleChange }) {
   return (
     <label htmlFor="profilePicInput" className="ml-auto">
       <div className="size-12 rounded-full border border-gray-dark">
         {profilePic ? (
-          <img src={profilePic} className="size-full rounded-full object-cover" />
+          <img src={profilePic.url} className="size-full rounded-full object-cover" />
         ) : (
           <SvgIcon iconName="user-circle" className="size-full fill-gray-dark" />
         )}

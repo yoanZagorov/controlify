@@ -3,8 +3,8 @@ import { createBrowserRouter, Navigate, redirect } from "react-router";
 import { Auth } from "@/pages/auth";
 import { AppLayout, Dashboard, Wallets, Wallet, WalletOverview, WalletTransactions, WalletSettings } from "@/pages/app";
 
-import { appAction, createAccountAction, dashboardAction, loginAction, resetFetcherAction, walletAction, walletsAction } from "./actions";
-import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader, walletLoader } from "./loaders";
+import { appAction, createAccountAction, dashboardAction, loginAction, resetFetcherAction, settingsAction, walletAction, walletsAction } from "./actions";
+import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader, walletLoader, settingsLoader } from "./loaders";
 import { AppErrorComponent, RootError } from "@/components/errors";
 import { LayoutProvider, SettingsProvider, WalletUpdateProvider } from "@/contexts";
 import { NotFound } from "@/components/NotFound";
@@ -90,8 +90,9 @@ const routes = [
       },
       {
         path: "settings",
-        element:
-          <Settings />
+        element: <Settings />,
+        loader: settingsLoader,
+        action: settingsAction
       },
       {
         path: "categories",

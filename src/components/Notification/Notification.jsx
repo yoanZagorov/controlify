@@ -2,7 +2,10 @@ import cn from "classnames";
 import { useEffect } from "react";
 
 export default function Notification({ msgType = "notification", size = "m", clearMsg = null, className, children }) {
-  const unmountDelay = msgType === "success" ? 5000 : 7000;
+  const unmountDelay =
+    msgType === "success" ? 5000
+      : msgType === "error" || msgType === "alert" ? 7000
+        : 10000;
 
   if (clearMsg) {
     useEffect(() => {

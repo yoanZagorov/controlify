@@ -1,5 +1,4 @@
 import { SvgIcon } from "@/components/SvgIcon";
-import { Widget } from "@/components/widgets/Widget";
 
 export default function ColorModal({ colors, closeModal, state }) {
   function handleClick(color) {
@@ -28,60 +27,11 @@ export default function ColorModal({ colors, closeModal, state }) {
     )
   })
 
-  const currencies = [
-    {
-      name: "BGN",
-      iconName: "flag-bulgaria",
-    },
-    {
-      name: "USD",
-      iconName: "flag-usa",
-    },
-    {
-      name: "EUR",
-      iconName: "flag-eu",
-    },
-    {
-      name: "GBP",
-      iconName: "flag-uk",
-    },
-  ]
-
-  const currencyEls = currencies.map((currency, index) => {
-    const { name, iconName } = currency;
-
-    return (
-      <button key={index} type="button" onClick={() => console.log("Hello there!")} className="rounded-lg focus-goldenrod">
-        <Widget colorPalette="secondary" className="flex items-center gap-4 focus-goldenrod">
-          <SvgIcon iconName={iconName} className="w-[50px] h-[30px]" />
-          <span className="text-lg text-gray-dark font-semibold">{name}</span>
-
-          <div className="ml-auto flex justify-center items-center size-6 rounded-full bg-navy">
-            <div className={`size-2.5 rounded-full bg-gray-light`}></div>
-          </div>
-        </Widget>
-      </button>
-    )
-  })
-
   return (
     <>
       <ul className="grid grid-cols-[repeat(auto-fit,48px)] justify-between items-center gap-x-10 gap-y-6">
         {colorsEls}
       </ul>
-
-      {/* {<button type="button" onClick={() => console.log("Hello there!")} className="w-full rounded-lg focus-goldenrod">
-        <Widget colorPalette="secondary" className="flex items-center gap-4 focus-goldenrod"> */}
-      <SvgIcon iconName="flag-eu" className="hidden w-[50px] h-[30px]" />
-      {/* <span className="text-lg text-gray-dark font-semibold">EUR</span>
-
-          <div className="ml-auto flex justify-center items-center size-6 rounded-full bg-navy">
-            <div className={`size-2.5 rounded-full bg-gray-light`}></div>
-          </div>
-        </Widget>
-      </button>} */}
-
-      {currencyEls}
     </>
   )
 }

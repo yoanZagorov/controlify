@@ -17,9 +17,9 @@ export default async function createAccountAction({ request }) {
 
     const { verifiedEmail, verifiedPassword, verifiedFullName } = validateSignupCredentials(email, password, fullName);
 
-    const { user: { uid: userId } } = (await createUserWithEmailAndPassword(auth, verifiedEmail, verifiedPassword));
+    const { user: { uid: userId, email: authEmail } } = (await createUserWithEmailAndPassword(auth, verifiedEmail, verifiedPassword));
 
-    await createUser(verifiedEmail, verifiedFullName, userId);
+    await createUser(authEmail, verifiedFullName, userId);
 
     // Message to display on successful account creation
     storeRedirectData("Successfully created an account!", "success");

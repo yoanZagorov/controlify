@@ -21,7 +21,9 @@ export default function OverallSettingsSection({ fetcher }) {
     {
       formData: {
         name: "profilePic",
-        value: profilePic || ""
+        value: profilePic
+          ? JSON.stringify(profilePic)
+          : ""
       },
       field: {
         name: "profile picture",
@@ -35,10 +37,16 @@ export default function OverallSettingsSection({ fetcher }) {
               handleChange: (e) => {
                 const file = e.target.files[0];
                 if (file) {
-                  const previewURL = URL.createObjectURL(file)
-                  updateSettingsData({ profilePic: previewURL })
+                  const { name, size, type } = file;
+                  const metaData = {
+                    name,
+                    size,
+                    type
+                  }
+
+                  updateSettingsData({ profilePic: { metaData, url: URL.createObjectURL(file) } })
                 }
-              }
+              },
             }
           }
         },
@@ -76,6 +84,7 @@ export default function OverallSettingsSection({ fetcher }) {
           type: "input",
           displayValue: email,
           inputProps: {
+            size: "m",
             value: email,
             onChange: (e) => updateSettingsData({ email: e.target.value }),
             min: 2,
@@ -123,7 +132,6 @@ export default function OverallSettingsSection({ fetcher }) {
         }
       }}
       isSpaceLimited={isSingleColLayout}
-      isDeleteBtn={true}
       settings={settingsDataConfig}
       sectionProps={{
         title: "Overall",

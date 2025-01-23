@@ -5,7 +5,6 @@ import { getAuthUserId } from "@/services/firebase/db/user";
 
 import { handleWalletUpdate, handleWalletDeletion } from "../utils/wallet";
 import { handleTransactionDeletion, handleTransactionSubmission, handleTransactionUpdate } from "../utils/transaction";
-import { getEntities } from "@/services/firebase/db/utils/entity";
 
 export default async function walletAction({ request, params }) {
   const userId = await getAuthUserId();

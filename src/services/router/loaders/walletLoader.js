@@ -5,7 +5,7 @@ import { getTransactions } from "@/services/firebase/db/transaction";
 import { getWallet } from "@/services/firebase/db/wallet";
 import { getAuthUserId } from "@/services/firebase/db/user";
 
-import { storeRedirectData } from "@/utils/storage";
+import { getStoredData, storeRedirectData } from "@/utils/storage";
 import { getBalanceChartData } from "@/utils/transaction";
 import { getExpensesByCategoryChartData } from "@/utils/category";
 import { getExpensesVsIncomeChartData } from "@/utils/wallet";
@@ -17,8 +17,15 @@ export default async function walletLoader({ params, request }) {
   const userId = await getAuthUserId();
 
   if (!userId) {
-    const pathname = new URL(request.url).pathname;
-    storeRedirectData("You must log in first", "alert", pathname);
+    const redirectData = getStoredData("redirectData");
+    console.log(redirectData);
+
+    if (redirectData) {
+      storeRedirectData(...redirectData);
+    } else {
+      const pathname = new URL(request.url).pathname;
+      storeRedirectData("You must log in first", "alert", pathname);
+    }
 
     return redirect("/login");
   }

@@ -7,7 +7,9 @@ export default function getDataToChange(hasDataChanged, newData) {
     };
   }
 
-  if (Object.keys(dataToChange).length === 0) throw new Error("You haven't performed any changes");
+  if (Object.keys(dataToChange).length === 0) {
+    throw new Error("You haven't performed any changes!");
+  }
 
   return dataToChange;
 }

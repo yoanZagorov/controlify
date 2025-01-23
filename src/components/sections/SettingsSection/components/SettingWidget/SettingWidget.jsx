@@ -13,7 +13,7 @@ export default function SettingWidget({ type = "select", name, iconName, display
   const isInput = type === "input";
   const isCustom = type === "custom";
 
-  const inputPropsConfig = { type: "text", ...inputProps };
+  const inputPropsConfig = { type: "text", size: "l", ...inputProps };
 
   const inputRef = isInput ? useRef(null) : null;
   isInput && useSelectInput(inputRef);
@@ -21,18 +21,17 @@ export default function SettingWidget({ type = "select", name, iconName, display
 
   return (
     <Widget className="flex items-center gap-3 text-gray-dark">
-      <SvgIcon iconName={iconName} className="size-6 fill-current" />
+      <SvgIcon iconName={iconName} className="size-6 min-w-6 max-w-6 fill-current" />
       <span className="text-xs font-bold">{capitalizeEveryWord(name)}</span>
 
       {isInput ? (
         <Input
           inputRef={inputRef}
-          size="l"
           variant="outline"
           required
           value={displayValue}
           {...inputPropsConfig}
-          className="ml-auto w-full max-w-48 text-right font-semibold"
+          className="ml-auto max-w-44 ml:max-w-48 tab:max-w-56 text-right font-semibold"
         />
       ) : isCustom ? (
         <customType.Component {...customType.props} />

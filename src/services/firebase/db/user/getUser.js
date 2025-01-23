@@ -1,6 +1,7 @@
 import { AppError } from "@/utils/errors";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
+import getAuthUser from "./getAuthUser";
 
 export default async function getUser(userId) {
   const userDocRef = doc(db, "users", userId);
@@ -19,6 +20,8 @@ export default async function getUser(userId) {
       id: userId
     }
   } catch (error) {
+    console.error(error);
+
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);
     } else {

@@ -7,6 +7,7 @@ import { ValidationError } from "@/utils/errors";
 import { db } from "@/services/firebase/firebase.config";
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { getEntity } from "@/services/firebase/db/utils/entity";
+import { validateCurrency } from "@/utils/validation";
 
 export default async function handleWalletUpdate(userId, walletDocRef, walletId, formData) {
   try {
@@ -36,6 +37,10 @@ export default async function handleWalletUpdate(userId, walletDocRef, walletId,
 
       if (hasDataChanged.name) {
         await checkWalletNameDuplicate(userId, formattedName);
+      }
+
+      if (hasDataChanged.currency) {
+        validateCurrency(currency);
       }
 
       const dataToChange = getDataToChange(hasDataChanged, formattedFormData);

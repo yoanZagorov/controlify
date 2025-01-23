@@ -15,16 +15,26 @@ import { AppError } from "@/utils/errors";
 import { getTodayStartAndEnd } from "@/utils/date";
 import { quotes } from "../utils";
 import { db } from "@/services/firebase/firebase.config";
+import { checkAuthEmailVerification } from "@/utils/auth";
 
 export default async function appLoader({ request }) {
   const userId = await getAuthUserId();
 
   if (!userId) {
-    const pathname = new URL(request.url).pathname;
-    storeRedirectData("You must log in first", "alert", pathname);
+    const redirectData = getStoredData("redirectData");
+
+    if (redirectData) {
+      const { msg, msgType, originalPath } = redirectData;
+      storeRedirectData(msg, msgType, originalPath);
+    } else {
+      const pathname = new URL(request.url).pathname;
+      storeRedirectData("You must log in first", "alert", pathname);
+    }
 
     return redirect("/login");
   }
+
+  await checkAuthEmailVerification(userId);
 
   const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
 
