@@ -31,8 +31,8 @@ export default function Sidebar() {
       <p className="text-sm mm:text-base ll:text-lg tracking-wider font-light">Take control of your finances</p>
 
       <div className="mt-8 ll:mt-10 size-20 ll:size-24 rounded-full">
-        {user.profilePic ?
-          <img src={user.profilePic.url} className="rounded-full size-full object-cover" /> // To do: test with an actual image
+        {user.profilePic?.url ?
+          <img src={user.profilePic.url} className="rounded-full size-full object-cover" alt="Profile Picture" /> // To do: test with an actual image
           :
           <SvgIcon iconName="user-circle" className="size-full fill-current" />
         }

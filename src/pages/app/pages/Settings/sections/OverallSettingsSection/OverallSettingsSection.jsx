@@ -3,6 +3,10 @@ import { useLayout, useSettings } from "@/hooks";
 import { CustomProfilePicType } from "../../components/CustomProfilePicType";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { useFetcher } from "react-router";
+import { useRef, useState } from "react";
+import uploadProfilePicToCloudinary from "@/services/router/utils/settings/uploadProfilePicToCloudinary";
+import { getAuthUserId } from "@/services/firebase/db/user";
+import { validateProfilePic } from "@/services/router/utils/settings";
 
 export default function OverallSettingsSection({ fetcher }) {
   const { isSingleColLayout } = useLayout();
@@ -20,10 +24,8 @@ export default function OverallSettingsSection({ fetcher }) {
   const settingsDataConfig = [
     {
       formData: {
-        name: "profilePic",
-        value: profilePic
-          ? JSON.stringify(profilePic)
-          : ""
+        name: "", // using the native input in CustomProfilePicType
+        value: ""
       },
       field: {
         name: "profile picture",
@@ -37,14 +39,7 @@ export default function OverallSettingsSection({ fetcher }) {
               handleChange: (e) => {
                 const file = e.target.files[0];
                 if (file) {
-                  const { name, size, type } = file;
-                  const metaData = {
-                    name,
-                    size,
-                    type
-                  }
-
-                  updateSettingsData({ profilePic: { metaData, url: URL.createObjectURL(file) } })
+                  updateSettingsData({ profilePic: file })
                 }
               },
             }
@@ -120,6 +115,7 @@ export default function OverallSettingsSection({ fetcher }) {
       }
     },
   ]
+
   return (
     <SettingsSection
       formProps={{
@@ -129,7 +125,8 @@ export default function OverallSettingsSection({ fetcher }) {
           props: {
             value: "updateSettings"
           }
-        }
+        },
+        encType: "multipart/form-data"
       }}
       isSpaceLimited={isSingleColLayout}
       settings={settingsDataConfig}

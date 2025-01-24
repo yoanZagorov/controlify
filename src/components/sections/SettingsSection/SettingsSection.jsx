@@ -17,7 +17,7 @@ export default function SettingsSection({ formProps, sectionProps, settings, isD
     modalRef: deleteConfirmationModalRef
   } = isDeleteBtn ? useModal({ fetcher: formProps.fetcher }) : {};
 
-  const settingEls = settings.map(({ field }, index) => (
+  const settingEls = settings.filter(option => option.field).map(({ field }, index) => (
     <FieldContainer
       key={index}
       field={{

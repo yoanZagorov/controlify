@@ -1,7 +1,7 @@
 import { Form as RouterForm } from "react-router"
 import { Button } from "../Button"
 
-export default function Form({ fetcher = null, action, className, btn = {}, fields, children }) {
+export default function Form({ fetcher = null, action, encType = "application/x-www-form-urlencoded", onSubmit = null, isNative = false, className, btn = {}, fields, children }) {
   const isBtn = Object.keys(btn).length > 0;
   const btnConfig = { text: "submit", ...btn };
 
@@ -9,10 +9,28 @@ export default function Form({ fetcher = null, action, className, btn = {}, fiel
     <input key={index} type="hidden" name={name} value={value} />
   ))
 
-  return fetcher ? (
+  return isNative ? (
+    <form
+      method="post"
+      action={action}
+      encType={encType}
+      {...onSubmit ? { onSubmit } : {}}
+      className={className}
+    >
+      {fieldsEls}
+      {children}
+      {isBtn &&
+        <Button type="submit" size="l" name="intent" {...btnConfig.props}>
+          {btnConfig.text}
+        </Button>
+      }
+    </form>
+  ) : fetcher ? (
     <fetcher.Form
       method="post"
       action={action}
+      encType={encType}
+      {...onSubmit ? { onSubmit } : {}}
       className={className}
     >
       {fieldsEls}
@@ -27,6 +45,8 @@ export default function Form({ fetcher = null, action, className, btn = {}, fiel
     <RouterForm
       method="post"
       action={action}
+      encType={encType}
+      {...onSubmit ? { onSubmit } : {}}
       className={className}
     >
       {fieldsEls}

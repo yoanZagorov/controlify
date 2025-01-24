@@ -5,11 +5,7 @@ export default function validateProfilePic(profilePic) {
     throw new ValidationError("No file provided or invalid file object!");
   }
 
-  const { url, metaData: { name, size, type } } = profilePic;
-
-  if (!url) {
-    throw new ValidationError("File url should not be empty!");
-  }
+  const { name, size, type } = profilePic;
 
   if (!name) {
     throw new ValidationError("File name should not be empty!");

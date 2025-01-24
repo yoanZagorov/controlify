@@ -7,15 +7,13 @@ import { ValidationError } from "@/utils/errors";
 import validateProfilePic from "./validateProfilePic";
 import updateAuthEmail from "./updateAuthEmail";
 import { redirect } from "react-router";
+import uploadProfilePicToCloudinary from "./uploadProfilePicToCloudinary";
 
 export default async function handleSettingsUpdate(userId, formData) {
   const userDocRef = doc(db, `users/${userId}`);
 
   const formattedFormData = {
     ...formData,
-    profilePic: formData.profilePic === ""
-      ? null
-      : JSON.parse(formData.profilePic),
     fullName: formData.fullName.trim(),
     email: formData.email.toLowerCase()
   }
@@ -26,10 +24,10 @@ export default async function handleSettingsUpdate(userId, formData) {
 
   try {
     await runTransaction(db, async (dbTransaction) => {
-      const oldUserData = (await dbTransaction.get(userDocRef)).data();;
+      const oldUserData = (await dbTransaction.get(userDocRef)).data();
 
       hasDataChanged = {
-        profilePic: oldUserData.profilePic?.url !== profilePic?.url, // To do: do a real comparison
+        profilePic: (oldUserData.profilePic?.name || "") !== profilePic.name,
         fullName: oldUserData.fullName !== fullName,
         email: oldUserData.email !== email,
         currency: oldUserData.currency !== currency,
@@ -37,6 +35,12 @@ export default async function handleSettingsUpdate(userId, formData) {
 
       if (hasDataChanged.profilePic && profilePic) {
         validateProfilePic(profilePic);
+        const cloudinaryData = await uploadProfilePicToCloudinary(profilePic);
+
+        const url = cloudinaryData.secure_url;
+        const fileName = cloudinaryData.display_name.concat(`.${cloudinaryData.format}`);
+
+        formattedFormData.profilePic = { url, name: fileName };
       }
 
       if (hasDataChanged.fullName) {
@@ -45,7 +49,6 @@ export default async function handleSettingsUpdate(userId, formData) {
 
       if (hasDataChanged.email) {
         validateEmail(email);
-
         await updateAuthEmail(email);
       }
 
@@ -55,19 +58,11 @@ export default async function handleSettingsUpdate(userId, formData) {
 
       const dataToChange = getDataToChange(hasDataChanged, formattedFormData);
 
-      dbTransaction.update(userDocRef, {
-        ...dataToChange,
-        // ...hasDataChanged.email
-        //   ? { isEmailVerified: false }
-        //   : {}
-      });
+      dbTransaction.update(userDocRef, dataToChange);
     });
 
-    if (hasDataChanged.email) {
-    }
-
     return createSuccessResponse({
-      msg: `Successfully updated profile settings data! ${hasDataChanged.email ? "Please check your inbox to verify and finalize the email change!" : ""}`,
+      msg: `Successfully updated profile settings data!`,
       msgType: "success",
     })
   } catch (error) {
