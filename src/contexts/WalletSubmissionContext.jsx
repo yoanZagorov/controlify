@@ -6,12 +6,12 @@ export const WalletSubmissionContext = createContext(null);
 export default function WalletSubmissionProvider({ children }) {
   const DEFAULT_WALLET_COLOR = "#004D40";
 
-  const { userData: { user, categories: userCategories } } = useRouteLoaderData("app");
+  const { userData: { currency, categories: userCategories } } = useRouteLoaderData("app");
 
   const defaultWalletData = {
     name: "New Wallet",
     initialBalance: "0",
-    currency: user.currency,
+    currency,
     categories: userCategories.map(category => ({ ...category, isVisible: true })),
     color: DEFAULT_WALLET_COLOR
   }

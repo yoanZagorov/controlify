@@ -1,6 +1,11 @@
-export default async function uploadProfilePicToCloudinary(profilePic) {
-  const url = "https://api.cloudinary.com/v1_1/controlify/upload";
+import { nanoid } from "nanoid";
+
+export default async function uploadProfilePicToCloudinary(storedPublicId = "", profilePic) {
+  const url = "https://api.cloudinary.com/v1_1/controlify/upload/";
   const formData = new FormData();
+
+  // To do: implement backend to delete the old pic
+  // storedPublicId && await deleteProfilePicFromCloudinary()
 
   formData.append("file", profilePic);
   formData.append("upload_preset", "profile-pic");

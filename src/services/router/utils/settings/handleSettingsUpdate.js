@@ -20,27 +20,30 @@ export default async function handleSettingsUpdate(userId, formData) {
 
   const { profilePic, fullName, email, currency } = formattedFormData;
 
-  let hasDataChanged;
-
   try {
     await runTransaction(db, async (dbTransaction) => {
       const oldUserData = (await dbTransaction.get(userDocRef)).data();
 
-      hasDataChanged = {
-        profilePic: (oldUserData.profilePic?.name || "") !== profilePic.name,
+      const oldProfilePicName = oldUserData.profilePic?.name || ""; // Default to an empty string so the comparison below correctly yields false if there is no profilePic
+
+      const hasDataChanged = {
+        profilePic: profilePic.name
+          ? oldProfilePicName !== profilePic.name
+          : false, // an empty file was submitted
         fullName: oldUserData.fullName !== fullName,
         email: oldUserData.email !== email,
         currency: oldUserData.currency !== currency,
       }
 
-      if (hasDataChanged.profilePic && profilePic) {
+      if (hasDataChanged.profilePic) {
         validateProfilePic(profilePic);
-        const cloudinaryData = await uploadProfilePicToCloudinary(profilePic);
+        const cloudinaryData = await uploadProfilePicToCloudinary(oldUserData.profilePic?.publicId, profilePic);
 
         const url = cloudinaryData.secure_url;
         const fileName = cloudinaryData.display_name.concat(`.${cloudinaryData.format}`);
+        const publicId = cloudinaryData.public_id;
 
-        formattedFormData.profilePic = { url, name: fileName };
+        formattedFormData.profilePic = { publicId, name: fileName, url };
       }
 
       if (hasDataChanged.fullName) {

@@ -14,7 +14,7 @@ export default function Dashboard() {
 
   const {
     userData: {
-      user,
+      currency,
       wallets,
       balance,
       todayTransactions,
@@ -51,7 +51,7 @@ export default function Dashboard() {
             },
             chartData: balanceChartData
           }}
-          currency={user.currency}
+          currency={currency}
         />
 
         <WalletSubmissionProvider>

@@ -53,6 +53,12 @@ export default async function appLoader({ request }) {
   try {
     const user = await getUser(userId);
 
+    if (user.profilePic) {
+      const transformations = "c_crop,g_face,h_1200,w_1200/c_scale,w_128/q_auto:best,f_auto";
+
+      user.profilePic.url = user.profilePic.url.replace("/upload/", `/upload/${transformations}/`);
+    }
+
     const activeWallets = await getWallets(walletsCollectionRef, walletsQuery);
     const allWallets = await getWallets(walletsCollectionRef);
 
@@ -67,9 +73,10 @@ export default async function appLoader({ request }) {
 
     const storedRedirectData = getStoredData("redirectData");
 
+
     const loaderData = {
       userData: {
-        user,
+        ...user,
         wallets: activeWallets,
         categories,
         balance,

@@ -1,7 +1,7 @@
 import { ValidationError } from "@/utils/errors";
 
 export default function validateProfilePic(profilePic) {
-  if (!profilePic || typeof profilePic !== "object") {
+  if (!profilePic || !profilePic instanceof File) {
     throw new ValidationError("No file provided or invalid file object!");
   }
 

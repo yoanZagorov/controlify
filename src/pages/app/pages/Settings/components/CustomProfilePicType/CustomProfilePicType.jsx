@@ -9,7 +9,7 @@ export default function CustomProfilePicType({ profilePic, handleChange }) {
 
   return (
     <label htmlFor="profilePicInput" className="ml-auto">
-      <div className="size-12 rounded-full border border-gray-dark">
+      <div className="size-12 rounded-full border border-gray-dark cursor-pointer">
         {profilePic ? (
           <img src={imgPreview} className="size-full rounded-full object-cover" />
         ) : (

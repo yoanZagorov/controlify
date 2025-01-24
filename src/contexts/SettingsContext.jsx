@@ -4,7 +4,7 @@ import { useRouteLoaderData } from "react-router";
 export const SettingsContext = createContext(null);
 
 export default function SettingsProvider({ children }) {
-  const { userData: { user: { profilePic, fullName, email, currency }, categories } } = useRouteLoaderData("app");
+  const { userData: { profilePic, fullName, email, currency }, categories } = useRouteLoaderData("app");
 
   const defaultSettingsData = {
     profilePic,
