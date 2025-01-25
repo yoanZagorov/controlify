@@ -1,5 +1,6 @@
 import { getAuthUserId } from "@/services/firebase/db/user";
 import { handleSettingsUpdate } from "../utils/settings";
+import { handleCategorySubmission } from "../utils/category";
 
 export default async function settingsAction({ request }) {
   const userId = await getAuthUserId();
@@ -9,5 +10,9 @@ export default async function settingsAction({ request }) {
 
   if (intent === "updateSettings") {
     return (await handleSettingsUpdate(userId, formData));
+  }
+
+  if (intent === "addCategory") {
+    return (await handleCategorySubmission(userId, formData));
   }
 }

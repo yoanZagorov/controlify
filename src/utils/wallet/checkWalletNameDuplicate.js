@@ -1,4 +1,4 @@
-import { getWallets } from "@/services/firebase/db/wallet";
+import { getEntities } from "@/services/firebase/db/utils/entity";
 import { db } from "@/services/firebase/firebase.config";
 import { collection, where } from "firebase/firestore";
 
@@ -9,7 +9,7 @@ export default async function checkWalletNameDuplicate(userId, name) {
     where("deletedAt", "==", null)
   ];
 
-  const activeWallets = await getWallets(walletsCollectionRef, query);
+  const activeWallets = await getEntities(walletsCollectionRef, "wallets", query);
 
   const activeWalletsNames = activeWallets.map(wallet => wallet.name);
 

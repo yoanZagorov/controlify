@@ -1,5 +1,5 @@
 import { AppError } from "@/utils/errors";
-import { collection, addDoc, doc } from "firebase/firestore";
+import { collection, addDoc, doc, serverTimestamp } from "firebase/firestore";
 import defaultCategories from "./defaultCategories";
 
 export default function createCategories(userDocRef, batch) {
@@ -10,7 +10,7 @@ export default function createCategories(userDocRef, batch) {
 
   defaultCategories.forEach(category => {
     const categoryDocRef = doc(categoriesCollectionRef);
-    batch.set(categoryDocRef, { ...category })
+    batch.set(categoryDocRef, { ...category, createdAt: serverTimestamp() })
     categoriesIds.push({ id: categoryDocRef.id, isVisible: true });
   })
 

@@ -157,7 +157,8 @@ export default function CategoriesSection({ className }) {
               btn: {
                 text: "add category",
                 props: {
-                  value: "addCategory"
+                  value: "addCategory",
+                  disabled: !icon
                 }
               }
             }}

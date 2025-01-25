@@ -8,7 +8,7 @@ export default async function getEntities(collectionRef, entities, query = []) {
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      throw new AppError(404, `No ${entities} found`);
+      throw new AppError(404, `No ${entities} found!`);
     };
 
     const entitiesDocs = querySnapshot.docs.map(doc => ({

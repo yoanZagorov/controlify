@@ -41,7 +41,15 @@
     @apply wrapper;
   }
 
+  .custom-focus {
+    @apply focus:outline-none focus:ring transition-[box-shadow]
+  }
+
   .focus-goldenrod {
-    @apply focus:outline-none focus:ring focus:ring-goldenrod transition-[box-shadow];
+    @apply custom-focus focus:ring-goldenrod;
+  }
+
+  .focus-gray-dark {
+    @apply custom-focus focus:ring-gray-dark;
   }
 }

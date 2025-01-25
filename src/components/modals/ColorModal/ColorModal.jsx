@@ -14,7 +14,7 @@ export default function ColorModal({ colors, closeModal, state }) {
         <button
           type="button"
           onClick={() => handleClick(color)}
-          className="relative size-12 rounded-full focus-goldenrod"
+          className="relative size-12 rounded-full focus-gray-dark"
           style={{ backgroundColor: color }}
         >
           {isActive &&
