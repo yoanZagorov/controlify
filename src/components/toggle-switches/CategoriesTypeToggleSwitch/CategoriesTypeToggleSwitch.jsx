@@ -1,6 +1,7 @@
+import cn from "classnames";
 import { ToggleSwitch } from "../ToggleSwitch";
 
-export default function CategoriesTypeToggleSwitch({ activeOption, handleToggle, isToggleSwitchDisabled }) {
+export default function CategoriesTypeToggleSwitch({ activeOption, handleToggle, isToggleSwitchDisabled, className }) {
   const toggleSwitchOptions = {
     firstOption: {
       name: "expense",
@@ -20,13 +21,18 @@ export default function CategoriesTypeToggleSwitch({ activeOption, handleToggle,
     baseActiveOptionClasses: "bg-navy"
   }
 
+  const toggleSwitchClasses = cn(
+    "border border-gray-dark bg-gray-light",
+    className
+  )
+
   return (
     <ToggleSwitch
       options={toggleSwitchOptions}
       activeOption={activeOption}
       handleToggle={handleToggle}
       isDisabled={isToggleSwitchDisabled}
-      className="border border-gray-dark bg-gray-light"
+      className={toggleSwitchClasses}
     />
   )
 }

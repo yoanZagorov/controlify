@@ -3,7 +3,7 @@ import { Section } from "@/components/sections/Section";
 import { SvgIcon } from "@/components/SvgIcon";
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
-import { getCategoriesByType } from "@/utils/category";
+import { categoriesColors, categoriesIconNames, getCategoriesByType } from "@/utils/category";
 import { formatEntityName } from "@/utils/formatting";
 import { capitalize } from "@/utils/str";
 import { useState } from "react";
@@ -17,6 +17,8 @@ import { ColorModal } from "@/components/modals/ColorModal";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { HeaderModal } from "@/components/modals/HeaderModal";
 import cn from "classnames";
+import { Select } from "@/components/Select";
+import { CustomIconComponent } from "./components/CustomIconComponent";
 
 export default function CategoriesSection({ className }) {
   const fetcher = useFetcher({ key: "addCategory" });
@@ -53,16 +55,14 @@ export default function CategoriesSection({ className }) {
         name: "type",
         props: {
           iconName: "stats",
-          type: "select",
-          displayValue: capitalize(type),
-        },
-        modal: {
-          innerModal: {
-            Component: CategoryTypeModal,
-          },
-          state: {
-            value: type,
-            updateState: (newType) => updateCategoryData({ type: newType })
+          type: "custom",
+          customType: {
+            Component: CategoriesTypeToggleSwitch,
+            props: {
+              activeOption: type,
+              handleToggle: () => updateCategoryData({ type: type === "expense" ? "income" : "expense" }),
+              className: "ml-auto"
+            },
           }
         }
       }
@@ -78,15 +78,33 @@ export default function CategoriesSection({ className }) {
           iconName: "categories",
           type: "select",
           displayValue: icon ? (
-            <div className="size-6 rounded-full" style={{ backgroundColor: color }}>
+            <div className="flex justify-center items-center size-10 rounded-full" style={{ backgroundColor: color }}>
               <SvgIcon iconName={icon} className="size-1/2 fill-gray-light" />
             </div>
           ) : "Choose"
+          // To do: decide if a custom component would look better
+          // type: "custom",
+          // customType: {
+          //   Component: icon
+          //     ? CustomIconComponent
+          //     : Select,
+          //   props: icon ?
+          //     {
+          //       iconName: icon,
+          //       bgColor: color
+          //     } :
+          //     {
+          //       selectBtnProps: {
+          //         className: "ml-auto border-0 bg-gray-light",
+          //       },
+          //       value: "Choose"
+          //     }
+          // },
         },
         modal: {
           innerModal: {
             Component: IconModal,
-            // props: categoryIconNames // To do
+            props: { iconNames: categoriesIconNames }
           },
           state: {
             value: icon,
@@ -110,7 +128,7 @@ export default function CategoriesSection({ className }) {
         modal: {
           innerModal: {
             Component: ColorModal,
-            // props: { colors: categoriesColors },
+            props: { colors: categoriesColors },
           },
           state: {
             value: color,

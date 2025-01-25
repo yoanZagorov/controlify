@@ -18,7 +18,6 @@ export default function SettingWidget({ type = "select", name, iconName, display
   const inputRef = isInput ? useRef(null) : null;
   isInput && useSelectInput(inputRef);
 
-
   return (
     <Widget className="flex items-center gap-3 text-gray-dark">
       <SvgIcon iconName={iconName} className="size-6 min-w-6 max-w-6 fill-current" />

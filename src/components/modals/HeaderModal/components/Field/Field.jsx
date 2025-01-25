@@ -7,10 +7,13 @@ import { SvgIcon } from "@/components/SvgIcon";
 import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
 
-export default function FieldContainer({ type = "select", name, iconName, displayValue, inputProps = {}, selectBtnProps = null }) {
-  const inputPropsConfig = { type: "text", ...inputProps };
-
+export default function FieldContainer({ type = "select", name, iconName, displayValue, inputProps = {}, selectBtnProps = null, customType = {} }) {
   const isInput = type === "input";
+  const isCustom = type === "custom";
+  const isCustomBtn = type === "customBtn";
+
+  const inputPropsConfig = { type: "text", size: "l", ...inputProps };
+
   const inputRef = isInput ? useRef(null) : null;
   isInput && useSelectInput(inputRef);
 
@@ -29,6 +32,10 @@ export default function FieldContainer({ type = "select", name, iconName, displa
           {...inputPropsConfig}
           className="ml-auto w-full max-w-44 text-right font-semibold"
         />
+      ) : isCustom ? (
+        <customType.Component {...customType.props} />
+      ) : isCustomBtn ? (
+        <customType.Component {...customType.props} {...selectBtnProps} />
       ) : (
         <Select
           btnProps={{

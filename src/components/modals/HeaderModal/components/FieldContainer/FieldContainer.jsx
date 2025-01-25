@@ -20,7 +20,7 @@ export default function FieldContainer({ field, modal }) {
     <>
       <field.Component
         {...field.props}
-        selectBtnProps={field.props.type === "select" ? { ...field.props.selectBtnProps, onClick: toggleModal } : null}
+        selectBtnProps={field.props.type !== "input" ? { ...field.props.selectBtnProps, onClick: toggleModal } : null}
       />
 
       {modal && (isSelectModalOpen || hasTransitioned) &&
