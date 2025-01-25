@@ -3,11 +3,15 @@ import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/Categor
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { getCategoriesByType } from "@/utils/category";
 import { useState } from "react";
-import { useRouteLoaderData } from "react-router";
+import { useFetcher, useRouteLoaderData } from "react-router";
 import { CategoryItem } from "../CategoryItem";
 import { Button } from "@/components/Button";
+import { CategoryProvider } from "@/contexts";
+import { formatEntityName } from "@/utils/formatting";
 
-export default function Content({ className, openModal }) {
+export default function Content({ openModal, className }) {
+  const fetcher = useFetcher({ key: "updateCategory" });
+
   const { userData: { categories } } = useRouteLoaderData("app");
 
   const [activeOption, setActiveOption] = useState("expense");
@@ -15,13 +19,28 @@ export default function Content({ className, openModal }) {
 
   const { expenseCategories, incomeCategories } = getCategoriesByType(categories);
 
-  const expenseCategoriesEls = expenseCategories.map((category) =>
-    <CategoryItem key={category.id} {...category} handleClick={() => console.log("Expense CategoryItem clicked!")} />
-  );
+  function renderCategoriesEls(categories) {
+    return categories.map((category) =>
+      <CategoryProvider
+        key={category.id}
+        prepopulatedCategoryData={{
+          ...category,
+          name: formatEntityName(category.name)
+        }}
+        type={category.type}
+      >
+        <CategoryItem
+          fetcher={fetcher}
+          action={"/app/settings"}
+          category={category}
+        />
+      </CategoryProvider>
+    );
+  }
 
-  const incomeCategoriesEls = incomeCategories.map((category) =>
-    <CategoryItem key={category.id} {...category} handleClick={() => console.log("Income CategoryItem clicked!")} />
-  )
+  const expenseCategoriesEls = renderCategoriesEls(expenseCategories);
+  const incomeCategoriesEls = renderCategoriesEls(incomeCategories);
+
 
   return (
     <Section

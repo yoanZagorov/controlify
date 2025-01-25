@@ -19,6 +19,7 @@ export default function AppLayout() {
   const addWalletFetcher = useFetcher({ key: "addWallet" });
   const updateWalletFetcher = useFetcher({ key: "updateWallet" });
   const addCategoryFetcher = useFetcher({ key: "addCategory" });
+  const updateCategoryFetcher = useFetcher({ key: "updateCategory" });
   const updateSettingsFetcher = useFetcher({ key: "updateSettings" });
 
   const [addTransactionMsg, addTransactionMsgType] = createFetcherMsg(addTransactionFetcher);
@@ -27,6 +28,7 @@ export default function AppLayout() {
   const [addWalletMsg, addWalletMsgType] = createFetcherMsg(addWalletFetcher);
   const [updateWalletMsg, updateWalletMsgType] = createFetcherMsg(updateWalletFetcher);
   const [addCategoryMsg, addCategoryMsgType] = createFetcherMsg(addCategoryFetcher);
+  const [updateCategoryMsg, updateCategoryMsgType] = createFetcherMsg(updateCategoryFetcher);
   const [updateSettingsMsg, updateSettingsMsgType] = createFetcherMsg(updateSettingsFetcher);
 
   const { notificationData: { quote, redirectData } } = useLoaderData();
@@ -65,6 +67,11 @@ export default function AppLayout() {
       clearMsg: null
     },
     {
+      msg: updateCategoryMsg,
+      msgType: updateCategoryMsgType,
+      clearMsg: null
+    },
+    {
       msg: updateSettingsMsg,
       msgType: updateSettingsMsgType,
       clearMsg: null
@@ -81,6 +88,7 @@ export default function AppLayout() {
     addWalletMsg,
     updateWalletMsg,
     addCategoryMsg,
+    updateCategoryMsg,
     updateSettingsMsg,
     redirectMsg
   ]);

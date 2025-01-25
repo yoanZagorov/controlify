@@ -19,7 +19,7 @@ export default function IconModal({ iconNames, closeModal, state }) {
           <SvgIcon iconName={iconName} className="size-1/2 fill-gray-dark" />
 
           {isActive &&
-            <div className="absolute right-0 bottom-0 flex justify-center items-center size-4 border border-gray-dark rounded-full bg-gray-light">
+            <div className="absolute right-0 bottom-0 flex justify-center items-center size-4 border-2 border-gray-dark rounded-full bg-gray-light">
               <SvgIcon iconName="check" className="size-2.5 fill-green-dark" />
             </div>
           }

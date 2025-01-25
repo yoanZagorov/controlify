@@ -4,12 +4,11 @@ import { ValidationError } from "@/utils/errors";
 import { formatEntityNameForFirebase } from "@/utils/formatting";
 import { validateEntityName } from "@/utils/validation";
 import { createErrorResponse, createSuccessResponse } from "../../responses";
-import { collection } from "firebase/firestore";
+import { arrayUnion, collection, doc, serverTimestamp, where, writeBatch } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
+import { getEntities } from "@/services/firebase/db/utils/entity";
 
 export default async function handleCategorySubmission(userId, formData) {
-  const categoriesCollectionRef = collection(db, `users/${userId}/categories`);
-
   const { name, type, icon, color } = formData;
   const trimmedName = name.trim();
   const lcType = type.toLowerCase();
@@ -40,10 +39,33 @@ export default async function handleCategorySubmission(userId, formData) {
       name: formattedName,
       type: lcType,
       iconName: icon,
-      color
+      color,
+      createdAt: serverTimestamp()
     }
 
-    await createNewCategory(categoriesCollectionRef, newCategoryPayload);
+    const batch = writeBatch(db);
+
+    const categoriesCollectionRef = collection(db, `users/${userId}/categories`);
+    const newCategoryDocRef = doc(categoriesCollectionRef);
+    batch.set(newCategoryDocRef, newCategoryPayload);
+
+    const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
+    const walletsQuery = [
+      where("deletedAt", "==", null)
+    ]
+    const activeWallets = await getEntities(walletsCollectionRef, "wallets", walletsQuery);
+    activeWallets.forEach(wallet => {
+      const walletDocRef = doc(db, `users/${userId}/wallets/${wallet.id}`);
+
+      batch.update(walletDocRef, {
+        categories: arrayUnion({
+          id: newCategoryDocRef.id,
+          isVisible: true
+        })
+      })
+    })
+
+    await batch.commit();
 
     return createSuccessResponse({
       msg: "Successfully created your category!",

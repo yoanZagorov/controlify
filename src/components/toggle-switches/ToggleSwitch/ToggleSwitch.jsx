@@ -25,7 +25,7 @@ export default function ToggleSwitch({ options, activeOption, handleToggle, isDi
   }
 
   const toggleSwitchClasses = cn(
-    "p-0.5 rounded-full flex items-center",
+    "p-1 rounded-full flex items-center",
     isDisabled && "opacity-50",
     className
   )
