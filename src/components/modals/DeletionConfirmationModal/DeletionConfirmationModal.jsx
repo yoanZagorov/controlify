@@ -2,6 +2,17 @@ import { capitalize } from "@/utils/str";
 import { Button } from "@/components/Button";
 
 export default function DeletionConfirmationModal({ entity, closeModal }) {
+  // function handleFetcherSubmission() {
+  //   console.log("submitting...")
+  //   fetcher.submit(
+  //     {
+  //       id: entity.id,
+  //       intent: `delete${capitalize(entity.name)}`
+  //     },
+  //     { method: "post", action })
+  // }
+
+
   return (
     <div className="h-full px-6 py-8 rounded-t-lg ml:rounded-lg bg-gray-light">
       <h1 className="text-2xl text-gray-dark font-semibold">Delete {capitalize(entity)}?</h1>
@@ -9,6 +20,7 @@ export default function DeletionConfirmationModal({ entity, closeModal }) {
 
       <div className="mt-8 flex gap-4">
         <Button
+          type="button"
           colorPalette="secondaryDark"
           onClick={closeModal}
         >
@@ -20,7 +32,6 @@ export default function DeletionConfirmationModal({ entity, closeModal }) {
           colorPalette="dangerSecondary"
           name="intent"
           value={`delete${capitalize(entity)}`}
-        // onClick={closeModal}
         >
           Delete
         </Button>

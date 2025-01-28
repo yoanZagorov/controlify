@@ -158,12 +158,11 @@ export default function TransactionContainer({ fetcher, modal, action, submitBtn
               customInput: {
                 Component: CustomAmountInput,
                 props: {
-                  fetcher,
                   value: amount,
                   handleChange: handleInputChange,
                   isExpense,
                   currency,
-                  isDeleteBtn
+                  isDeleteBtn,
                 }
               }
             }}

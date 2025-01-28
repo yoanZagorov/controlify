@@ -12,17 +12,16 @@ export default async function handleTransactionDeletion(userId, formData) {
     amount: Number(amountStr)
   }
 
-  const { category: categoryId, wallet: walletId, transactionId } = formattedFormData;
+  const { wallet: walletId, transactionId } = formattedFormData;
 
-  const categoryDocRef = doc(db, `users/${userId}/categories/${categoryId}`);
   const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
   const transactionDocRef = doc(db, `users/${userId}/wallets/${walletId}/transactions/${transactionId}`);
 
-  const { type: categoryType } = (await getEntity(categoryDocRef, categoryId, "category"));
   const oldTransactionData = await getEntity(transactionDocRef, transactionId, "transaction");
 
   try {
     await runTransaction(db, async (dbTransaction) => {
+      const categoryType = oldTransactionData.category.type;
       const correctAmount = categoryType === "expense" ? oldTransactionData.amount : -oldTransactionData.amount;
       await updateWalletBalance(dbTransaction, walletDocRef, correctAmount);
 

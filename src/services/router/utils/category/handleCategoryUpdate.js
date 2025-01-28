@@ -74,7 +74,7 @@ export default async function handleCategoryUpdate(userId, formData) {
     });
 
     return createSuccessResponse({
-      msg: `Successfully updated category data!`,
+      msg: `Successfully updated the category!`,
       msgType: "success",
     })
   } catch (error) {

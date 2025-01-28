@@ -1,4 +1,5 @@
 import { ValidationError } from "../errors";
+import { capitalize } from "../str";
 
 export default function validateEntityName(entity, name, reservedWords = []) {
   const nameRegex = /^[a-zA-Z0-9 _-]+$/;

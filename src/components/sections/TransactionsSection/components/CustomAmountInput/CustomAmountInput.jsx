@@ -4,19 +4,16 @@ import { useAutoFocus, useModal } from "@/hooks";
 import { SvgIcon } from "@/components/SvgIcon";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { DeletionConfirmationModal } from "@/components/modals/DeletionConfirmationModal";
+import { useFetcher } from "react-router";
 
-export default function CustomAmountInput({ fetcher, value, handleChange, isExpense, currency, isDeleteBtn = false }) {
+export default function CustomAmountInput({ value, handleChange, isExpense, currency, isDeleteBtn = false }) {
+  const fetcher = isDeleteBtn && useFetcher({ key: "deleteTransaction" });
+
   const {
     modalState: [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = [],
     hasTransitioned: hasDeleteConfirmationModalTransitioned,
     modalRef: deleteConfirmationModalRef
-  } = isDeleteBtn ? useModal({ isBlocking: false }) : {};
-
-  isDeleteBtn && useEffect(() => {
-    if (fetcher.state === "idle" && fetcher.data) {
-      setDeleteConfirmationModalOpen(false);
-    }
-  }, [fetcher.data, fetcher.state])
+  } = isDeleteBtn ? useModal({ isBlocking: false, fetcher }) : {};
 
   const amountInputRef = useRef(null);
   useAutoFocus({ ref: amountInputRef });
@@ -36,55 +33,57 @@ export default function CustomAmountInput({ fetcher, value, handleChange, isExpe
   }
 
   return (
-    <div className="flex items-center gap-3">
-      <label
-        htmlFor="transactionAmount"
-        className="text-gray-light text-2xl"
-      >
-        Amount:
-      </label>
+    <>
+      <div className="flex items-center gap-3">
+        <label
+          htmlFor="transactionAmount"
+          className="text-gray-light text-2xl"
+        >
+          Amount:
+        </label>
 
-      <span
-        className={classes.amountValue}
-      >
-        <span className="text-nowrap">{isExpense ? "-" : "+"}{currency}</span>
-        <input
-          ref={amountInputRef}
-          required
-          type="number"
-          step={0.01}
-          id="transactionAmount"
-          min={1}
-          onChange={handleChange}
-          value={value}
-          className={classes.amountInput}
-        />
-      </span>
+        <span
+          className={classes.amountValue}
+        >
+          <span className="text-nowrap">{isExpense ? "-" : "+"}{currency}</span>
+          <input
+            ref={amountInputRef}
+            required
+            type="number"
+            step={0.01}
+            id="transactionAmount"
+            min={1}
+            onChange={handleChange}
+            value={value}
+            className={classes.amountInput}
+          />
+        </span>
 
-      {isDeleteBtn &&
-        <>
-          <button type="button" className="ml-auto size-6" onClick={() => setDeleteConfirmationModalOpen(true)}>
-            <SvgIcon iconName="trash-can" className="size-full fill-red-light" />
-          </button>
+        {isDeleteBtn &&
+          <>
+            <button type="button" className="ml-auto size-6" onClick={() => setDeleteConfirmationModalOpen(true)}>
+              <SvgIcon iconName="trash-can" className="size-full fill-red-light" />
+            </button>
 
-          {(isDeleteConfirmationModalOpen || hasDeleteConfirmationModalTransitioned) &&
-            <ModalWrapper
-              type={{
-                layout: "nested",
-              }}
-              isModalOpen={isDeleteConfirmationModalOpen}
-              hasTransitioned={hasDeleteConfirmationModalTransitioned}
-              ref={deleteConfirmationModalRef}
-              minHeight="h-[75%]"
-            >
-              <DeletionConfirmationModal
-                entity="transaction"
-                closeModal={() => setDeleteConfirmationModalOpen(false)}
-              />
-            </ModalWrapper>
-          }
-        </>
-      }
-    </div>
+            {(isDeleteConfirmationModalOpen || hasDeleteConfirmationModalTransitioned) &&
+              <ModalWrapper
+                type={{
+                  layout: "nested",
+                }}
+                isModalOpen={isDeleteConfirmationModalOpen}
+                hasTransitioned={hasDeleteConfirmationModalTransitioned}
+                ref={deleteConfirmationModalRef}
+                minHeight="h-3/4"
+              >
+                <DeletionConfirmationModal
+                  entity="transaction"
+                  closeModal={() => setDeleteConfirmationModalOpen(false)}
+                />
+              </ModalWrapper>
+            }
+          </>
+        }
+      </div>
+    </>
   )
 }

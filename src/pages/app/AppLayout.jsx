@@ -20,6 +20,7 @@ export default function AppLayout() {
   const updateWalletFetcher = useFetcher({ key: "updateWallet" });
   const addCategoryFetcher = useFetcher({ key: "addCategory" });
   const updateCategoryFetcher = useFetcher({ key: "updateCategory" });
+  const deleteCategoryFetcher = useFetcher({ key: "deleteCategory" });
   const updateSettingsFetcher = useFetcher({ key: "updateSettings" });
 
   const [addTransactionMsg, addTransactionMsgType] = createFetcherMsg(addTransactionFetcher);
@@ -29,6 +30,7 @@ export default function AppLayout() {
   const [updateWalletMsg, updateWalletMsgType] = createFetcherMsg(updateWalletFetcher);
   const [addCategoryMsg, addCategoryMsgType] = createFetcherMsg(addCategoryFetcher);
   const [updateCategoryMsg, updateCategoryMsgType] = createFetcherMsg(updateCategoryFetcher);
+  const [deleteCategoryMsg, deleteCategoryMsgType] = createFetcherMsg(deleteCategoryFetcher);
   const [updateSettingsMsg, updateSettingsMsgType] = createFetcherMsg(updateSettingsFetcher);
 
   const { notificationData: { quote, redirectData } } = useLoaderData();
@@ -37,13 +39,13 @@ export default function AppLayout() {
 
   const { flashMsg, clearFlashMsg } = useFlashMsg([
     {
-      msg: updateTransactionMsg,
-      msgType: updateTransactionMsgType,
+      msg: addTransactionMsg,
+      msgType: addTransactionMsgType,
       clearMsg: null
     },
     {
-      msg: addTransactionMsg,
-      msgType: addTransactionMsgType,
+      msg: updateTransactionMsg,
+      msgType: updateTransactionMsgType,
       clearMsg: null
     },
     {
@@ -72,6 +74,11 @@ export default function AppLayout() {
       clearMsg: null
     },
     {
+      msg: deleteCategoryMsg,
+      msgType: deleteCategoryMsgType,
+      clearMsg: null
+    },
+    {
       msg: updateSettingsMsg,
       msgType: updateSettingsMsgType,
       clearMsg: null
@@ -89,6 +96,7 @@ export default function AppLayout() {
     updateWalletMsg,
     addCategoryMsg,
     updateCategoryMsg,
+    deleteCategoryMsg,
     updateSettingsMsg,
     redirectMsg
   ]);

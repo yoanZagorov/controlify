@@ -9,7 +9,7 @@ import { db } from "@/services/firebase/firebase.config";
 import { getEntities } from "@/services/firebase/db/utils/entity";
 
 export default async function handleCategorySubmission(userId, formData) {
-  const { name, type, icon, color } = formData;
+  const { name, type, iconName, color } = formData;
   const trimmedName = name.trim();
   const lcType = type.toLowerCase();
 
@@ -26,7 +26,7 @@ export default async function handleCategorySubmission(userId, formData) {
     }
 
     // Icon checks
-    if (!categoriesIconNames.includes(icon)) {
+    if (!categoriesIconNames.includes(iconName)) {
       throw new ValidationError("Invalid category icon name!");
     }
 
@@ -38,7 +38,7 @@ export default async function handleCategorySubmission(userId, formData) {
     const newCategoryPayload = {
       name: formattedName,
       type: lcType,
-      iconName: icon,
+      iconName,
       color,
       createdAt: serverTimestamp()
     }
@@ -68,7 +68,7 @@ export default async function handleCategorySubmission(userId, formData) {
     await batch.commit();
 
     return createSuccessResponse({
-      msg: "Successfully created your category!",
+      msg: "Successfully created the category!",
       msgType: "success",
     })
 

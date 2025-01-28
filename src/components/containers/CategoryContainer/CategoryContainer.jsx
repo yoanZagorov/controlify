@@ -6,6 +6,7 @@ import { SvgIcon } from "@/components/SvgIcon";
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
 import { useCategory } from "@/hooks";
 import { categoriesColors, categoriesIconNames } from "@/utils/category";
+import { useFetcher } from "react-router";
 
 export default function CategoryContainer({ fetcher, modal, action, submitBtn, isDeleteBtn = false, children }) {
   const {
@@ -126,6 +127,10 @@ export default function CategoryContainer({ fetcher, modal, action, submitBtn, i
           minHeight="h-[90%]"
         >
           <HeaderModal
+            entity={{
+              id,
+              name: "category"
+            }}
             formProps={{
               fetcher,
               action,
@@ -140,7 +145,7 @@ export default function CategoryContainer({ fetcher, modal, action, submitBtn, i
                   min: 2,
                   max: 50
                 }
-              }
+              },
             }}
             fields={categoryDataConfig.filter(option => option.field).map(option => option.field)}
             color={color}

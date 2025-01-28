@@ -1,7 +1,7 @@
 import { Form as RouterForm } from "react-router"
 import { Button } from "../Button"
 
-export default function Form({ fetcher = null, action, encType = "application/x-www-form-urlencoded", onSubmit = null, isNative = false, className, btn = {}, fields, children }) {
+export default function Form({ fetcher = null, action, encType = "application/x-www-form-urlencoded", onSubmit = null, isNative = false, className, btn = {}, fields = [], children }) {
   const isBtn = Object.keys(btn).length > 0;
   const btnConfig = { text: "submit", ...btn };
 

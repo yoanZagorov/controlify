@@ -93,7 +93,7 @@ export default function Content({ type = "compact", hasFilter = true, period = "
           )}
 
           <Button onClick={openModal} className={classes.openModalBtn} data-actionable="true">
-            Add Transaction
+            add transaction
           </Button>
 
 

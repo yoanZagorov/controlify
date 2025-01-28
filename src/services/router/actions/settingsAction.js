@@ -1,6 +1,6 @@
 import { getAuthUserId } from "@/services/firebase/db/user";
 import { handleSettingsUpdate } from "../utils/settings";
-import { handleCategorySubmission, handleCategoryUpdate } from "../utils/category";
+import { handleCategoryDeletion, handleCategorySubmission, handleCategoryUpdate } from "../utils/category";
 
 export default async function settingsAction({ request }) {
   const userId = await getAuthUserId();
@@ -18,5 +18,9 @@ export default async function settingsAction({ request }) {
 
   if (intent === "updateCategory") {
     return (await handleCategoryUpdate(userId, formData));
+  }
+
+  if (intent === "deleteCategory") {
+    return (await handleCategoryDeletion(userId, formData));
   }
 }

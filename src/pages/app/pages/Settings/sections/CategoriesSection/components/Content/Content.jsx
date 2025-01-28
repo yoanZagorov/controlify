@@ -2,17 +2,29 @@ import { Section } from "@/components/sections/Section";
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { getCategoriesByType } from "@/utils/category";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFetcher, useRouteLoaderData } from "react-router";
 import { CategoryItem } from "../CategoryItem";
 import { Button } from "@/components/Button";
 import { CategoryProvider } from "@/contexts";
 import { formatEntityName } from "@/utils/formatting";
+import { resetFetcher } from "@/services/router/utils";
 
 export default function Content({ openModal, className }) {
   const fetcher = useFetcher({ key: "updateCategory" });
 
   const { userData: { categories } } = useRouteLoaderData("app");
+  const hasExpenseCategories = categories.filter(category => category.type === "expense").length > 0;
+  const hasIncomeCategories = categories.filter(category => category.type === "income").length > 0;
+  const hasCategories = hasExpenseCategories || hasIncomeCategories;
+
+  // Perform cleanup for last category
+  useEffect(() => {
+    if (!hasCategories) {
+      resetFetcher(fetcher);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [hasCategories]);
 
   const [activeOption, setActiveOption] = useState("expense");
   const isExpenseCategories = activeOption === "expense";
@@ -30,17 +42,15 @@ export default function Content({ openModal, className }) {
         type={category.type}
       >
         <CategoryItem
-          fetcher={fetcher}
-          action={"/app/settings"}
+          action="/app/settings"
           category={category}
         />
       </CategoryProvider>
     );
   }
 
-  const expenseCategoriesEls = renderCategoriesEls(expenseCategories);
-  const incomeCategoriesEls = renderCategoriesEls(incomeCategories);
-
+  const expenseCategoriesEls = hasExpenseCategories ? renderCategoriesEls(expenseCategories) : null;
+  const incomeCategoriesEls = hasIncomeCategories ? renderCategoriesEls(incomeCategories) : null;
 
   return (
     <Section
@@ -60,12 +70,19 @@ export default function Content({ openModal, className }) {
           handleToggle={() => setActiveOption(prev => prev === "expense" ? "income" : "expense")}
         />
 
-        <div className="mt-6 flex flex-col gap-4">
-          {isExpenseCategories
-            ? expenseCategoriesEls
-            : incomeCategoriesEls
-          }
-        </div>
+        {hasCategories ? (
+          <div className="mt-6 flex flex-col gap-4">
+            {isExpenseCategories
+              ? expenseCategoriesEls
+              : incomeCategoriesEls
+            }
+          </div>
+        ) : (
+          <Notification msgType="notification" className="self-center w-full max-w-80">
+            Oops... It looks like you don't have any categories left. Add one now!
+          </Notification>
+        )
+        }
 
         <Button size="l" className="mt-8 mx-auto" onClick={openModal}>
           add category
