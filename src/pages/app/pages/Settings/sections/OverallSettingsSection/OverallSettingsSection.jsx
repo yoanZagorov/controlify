@@ -3,12 +3,22 @@ import { useLayout, useSettings } from "@/hooks";
 import { CustomProfilePicType } from "../../components/CustomProfilePicType";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { useFetcher } from "react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import uploadProfilePicToCloudinary from "@/services/router/utils/settings/uploadProfilePicToCloudinary";
 import { getAuthUserId } from "@/services/firebase/db/user";
 import { validateProfilePic } from "@/services/router/utils/settings";
+import { resetFetcher } from "@/services/router/utils";
 
-export default function OverallSettingsSection({ fetcher }) {
+export default function OverallSettingsSection() {
+  const fetcher = useFetcher({ key: "updateSettings" });
+
+  useEffect(() => {
+    if (fetcher.state === "idle" && fetcher.data) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      resetFetcher(fetcher);
+    }
+  }, [fetcher.data, fetcher.state])
+
   const { isSingleColLayout } = useLayout();
 
   const {

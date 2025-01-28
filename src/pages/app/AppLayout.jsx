@@ -22,6 +22,7 @@ export default function AppLayout() {
   const updateCategoryFetcher = useFetcher({ key: "updateCategory" });
   const deleteCategoryFetcher = useFetcher({ key: "deleteCategory" });
   const updateSettingsFetcher = useFetcher({ key: "updateSettings" });
+  const deleteAccountFetcher = useFetcher({ key: "deleteAccount" });
 
   const [addTransactionMsg, addTransactionMsgType] = createFetcherMsg(addTransactionFetcher);
   const [updateTransactionMsg, updateTransactionMsgType] = createFetcherMsg(updateTransactionFetcher);
@@ -32,6 +33,7 @@ export default function AppLayout() {
   const [updateCategoryMsg, updateCategoryMsgType] = createFetcherMsg(updateCategoryFetcher);
   const [deleteCategoryMsg, deleteCategoryMsgType] = createFetcherMsg(deleteCategoryFetcher);
   const [updateSettingsMsg, updateSettingsMsgType] = createFetcherMsg(updateSettingsFetcher);
+  const [deleteAccountMsg, deleteAccountMsgType] = createFetcherMsg(deleteAccountFetcher);
 
   const { notificationData: { quote, redirectData } } = useLoaderData();
 
@@ -84,6 +86,11 @@ export default function AppLayout() {
       clearMsg: null
     },
     {
+      msg: deleteAccountMsg,
+      msgType: deleteAccountMsgType,
+      clearMsg: null
+    },
+    {
       msg: redirectMsg.msg,
       msgType: redirectMsg.msgType,
       clearMsg: () => setRedirectMsg({ msg: null, msgType: null })
@@ -98,6 +105,7 @@ export default function AppLayout() {
     updateCategoryMsg,
     deleteCategoryMsg,
     updateSettingsMsg,
+    deleteAccountMsg,
     redirectMsg
   ]);
 

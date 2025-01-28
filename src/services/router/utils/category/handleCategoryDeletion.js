@@ -33,7 +33,7 @@ export default async function handleCategoryDeletion(userId, formData) {
       msgType: "success",
     })
   } catch (error) {
-    onsole.error(error);
+    console.error(error);
 
     return createErrorResponse(500, "Couldn't delete the category. Please try again.");
   }
