@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useFetcher, useRouteLoaderData } from "react-router";
 import { CategoryItem } from "./components/CategoryItem";
 import { Content } from "./components/Content";
-import { useCategory, useModal } from "@/hooks";
+import { useCategory, useLayout, useModal } from "@/hooks";
 import { CategoryTypeModal } from "@/components/modals/CategoryTypeModal";
 import { IconModal } from "@/components/modals/IconModal";
 import { ColorModal } from "@/components/modals/ColorModal";
@@ -22,6 +22,8 @@ import { CustomIconComponent } from "./components/CustomIconComponent";
 import { CategoryContainer } from "@/components/containers/CategoryContainer";
 
 export default function CategoriesSection({ className }) {
+  const { isSingleColLayout } = useLayout();
+
   const { categoryData: { iconName }, resetCategoryData } = useCategory();
 
   const fetcher = useFetcher({ key: "addCategory" });
@@ -42,7 +44,11 @@ export default function CategoriesSection({ className }) {
         }
       }}
     >
-      <Content openModal={() => setModalOpen(true)} className={cn("mt-12", className)} />
+      <Content
+        openModal={() => setModalOpen(true)}
+        type={isSingleColLayout ? "compact" : "expanded"}
+        className={cn("mt-12", className)}
+      />
     </CategoryContainer>
   )
 }

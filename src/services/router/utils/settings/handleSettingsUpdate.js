@@ -39,6 +39,8 @@ export default async function handleSettingsUpdate(userId, formData) {
         validateProfilePic(profilePic);
         const cloudinaryData = await uploadProfilePicToCloudinary(oldUserData.profilePic?.publicId, profilePic);
 
+        console.log(cloudinaryData);
+
         const url = cloudinaryData.secure_url;
         const fileName = cloudinaryData.display_name.concat(`.${cloudinaryData.format}`);
         const publicId = cloudinaryData.public_id;

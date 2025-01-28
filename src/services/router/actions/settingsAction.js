@@ -8,10 +8,6 @@ export default async function settingsAction({ request }) {
   const formData = Object.fromEntries(await request.formData());
   const { intent } = formData;
 
-  if (intent === "updateSettings") {
-    return (await handleSettingsUpdate(userId, formData));
-  }
-
   if (intent === "addCategory") {
     return (await handleCategorySubmission(userId, formData));
   }
@@ -22,6 +18,10 @@ export default async function settingsAction({ request }) {
 
   if (intent === "deleteCategory") {
     return (await handleCategoryDeletion(userId, formData));
+  }
+
+  if (intent === "updateSettings") {
+    return (await handleSettingsUpdate(userId, formData));
   }
 
   if (intent === "deleteAccount") {

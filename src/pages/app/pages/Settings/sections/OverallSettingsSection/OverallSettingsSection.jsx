@@ -8,8 +8,9 @@ import uploadProfilePicToCloudinary from "@/services/router/utils/settings/uploa
 import { getAuthUserId } from "@/services/firebase/db/user";
 import { validateProfilePic } from "@/services/router/utils/settings";
 import { resetFetcher } from "@/services/router/utils";
+import cn from "classnames";
 
-export default function OverallSettingsSection() {
+export default function OverallSettingsSection({ className }) {
   const fetcher = useFetcher({ key: "updateSettings" });
 
   useEffect(() => {
@@ -142,7 +143,7 @@ export default function OverallSettingsSection() {
       settings={settingsDataConfig}
       sectionProps={{
         title: "Overall",
-        className: "relative"
+        className: cn("relative", className)
       }}
     />
   )

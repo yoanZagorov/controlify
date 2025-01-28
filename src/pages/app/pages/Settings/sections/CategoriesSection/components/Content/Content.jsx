@@ -9,8 +9,12 @@ import { Button } from "@/components/Button";
 import { CategoryProvider } from "@/contexts";
 import { formatEntityName } from "@/utils/formatting";
 import { resetFetcher } from "@/services/router/utils";
+import { useLayout } from "@/hooks";
+import cn from "classnames";
 
-export default function Content({ openModal, className }) {
+export default function Content({ type = "compact", openModal, className }) {
+  const isExpanded = type === "expanded";
+
   const fetcher = useFetcher({ key: "updateCategory" });
 
   const { userData: { categories } } = useRouteLoaderData("app");
@@ -44,6 +48,7 @@ export default function Content({ openModal, className }) {
         <CategoryItem
           action="/app/settings"
           category={category}
+          isExpanded={isExpanded}
         />
       </CategoryProvider>
     );
@@ -68,6 +73,7 @@ export default function Content({ openModal, className }) {
         <CategoriesTypeToggleSwitch
           activeOption={activeOption}
           handleToggle={() => setActiveOption(prev => prev === "expense" ? "income" : "expense")}
+          className="max-w-lg"
         />
 
         {hasCategories ? (

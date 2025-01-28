@@ -52,4 +52,16 @@
   .focus-gray-dark {
     @apply custom-focus focus:ring-gray-dark;
   }
+  
+  .custom-focus-visible {
+    @apply focus-visible:outline-none focus-visible:ring transition-[box-shadow]
+  }
+
+  .focus-visible-goldenrod {
+    @apply custom-focus-visible focus-visible:ring-goldenrod;
+  }
+
+  .focus-visible-gray-dark {
+    @apply custom-focus-visible focus-visible:ring-gray-dark;
+  }
 }

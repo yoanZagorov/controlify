@@ -17,7 +17,7 @@ export default function CategoriesTypeToggleSwitch({ activeOption, handleToggle,
         active: "text-green-light"
       }
     },
-    baseOptionClasses: "w-1/2 rounded-full py-1 px-3 text-center font-medium focus-goldenrod",
+    baseOptionClasses: "w-1/2 rounded-full py-1 px-3 text-center font-medium focus-visible-goldenrod",
     baseActiveOptionClasses: "bg-navy"
   }
 

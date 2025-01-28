@@ -1,18 +1,20 @@
+import { Button } from "@/components/Button";
 import { CategoryContainer } from "@/components/containers/CategoryContainer";
 import { Form } from "@/components/Form";
 import { DeletionConfirmationModal } from "@/components/modals/DeletionConfirmationModal";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { SvgIcon } from "@/components/SvgIcon";
-import { useCategory, useModal } from "@/hooks";
+import { useCategory, useLayout, useModal } from "@/hooks";
 import { formatEntityName } from "@/utils/formatting";
+import cn from "classnames";
 import { useEffect, useState } from "react";
 import { useFetcher } from "react-router";
 
-export default function CategoryItem({ action, category: { id, iconName, name, color } }) {
+export default function CategoryItem({ isExpanded, action, category: { id, iconName, name, color } }) {
   const { categoryData, defaultCategoryData, resetCategoryData } = useCategory();
 
   const updateCategoryFetcher = useFetcher({ key: "updateCategory" });
-  const modal = useModal({ updateCategoryFetcher });
+  const modal = useModal({ fetcher: updateCategoryFetcher });
 
   const deleteCategoryFetcher = useFetcher({ key: "deleteCategory" });
   const {
@@ -50,25 +52,52 @@ export default function CategoryItem({ action, category: { id, iconName, name, c
         isDeleteBtn={true}
       >
         <div className="p-3 flex items-center gap-4 rounded-lg bg-gray-light" >
-          <button onClick={() => setModalOpen(true)} className="relative flex justify-center items-center size-12 rounded-full focus-gray-dark" style={{ backgroundColor: color }}>
+          <button
+            onClick={() => setModalOpen(true)}
+            className={cn(
+              "relative flex justify-center items-center size-12 rounded-full focus-gray-dark",
+              isExpanded ? "size-12" : "size-10"
+            )}
+            style={{ backgroundColor: color }}
+          >
             <SvgIcon iconName={iconName} className="size-1/2 fill-gray-light" />
-            <div className="absolute -bottom-1.5 -right-1.5 flex justify-center items-center size-5 rounded-full bg-gray-medium">
-              <SvgIcon iconName="pen" className="size-3 fill-gray-dark" />
-            </div>
+
+            {!isExpanded &&
+              <div className="absolute -bottom-1.5 -right-1.5 flex justify-center items-center size-5 rounded-full bg-gray-medium">
+                <SvgIcon iconName="pen" className="size-3 fill-gray-dark" />
+              </div>
+            }
           </button>
 
-          <span className="text-sm text-gray-dark font-semibold">
+          <span className={cn("text-gray-dark font-semibold", isExpanded ? "text-base" : "text-sm")}>
             {formatEntityName(name)}
           </span>
 
-
-          <button
-            type="button"
-            onClick={() => setDeletionConfirmationModalOpen(true)}
-            className="ml-auto flex justify-center items-center focus-goldenrod"
-          >
-            <SvgIcon iconName="trash-can" className="size-5 fill-red-dark" />
-          </button>
+          {isExpanded ? (
+            <div className="ml-auto flex justify-center items-center gap-6">
+              <Button
+                colorPalette="secondaryDark"
+                onClick={() => setModalOpen(true)}
+              >
+                Edit
+              </Button>
+              <Button
+                colorPalette="dangerSecondary"
+                onClick={() => setDeletionConfirmationModalOpen(true)}
+              >
+                {/* <SvgIcon iconName="trash-can" className="size-3 fill-red-dark" /> */}
+                <span>Delete</span>
+              </Button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setDeletionConfirmationModalOpen(true)}
+              className="ml-auto flex justify-center items-center focus-goldenrod"
+            >
+              <SvgIcon iconName="trash-can" className="size-5 fill-red-dark" />
+            </button>
+          )}
 
         </div>
       </CategoryContainer >

@@ -30,6 +30,8 @@ export default function Settings() {
     modalRef: deletionConfirmationModalRef
   } = useModal({ fetcher: deleteAccountFetcher });
 
+  const { isSingleColLayout } = useLayout();
+
   return (
     <>
       <div className="flex flex-col">
