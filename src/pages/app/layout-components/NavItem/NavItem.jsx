@@ -43,7 +43,7 @@ export default function NavItem({
         icon: "size-7 ll:size-8"
       },
       secondary: {
-        base: cn("px-4 py-2.5 text-sm ll:text-base", isLogout && colors.logout),
+        base: cn("px-4 py-2 text-sm ll:text-base", isLogout && colors.logout),
         inactive: colors.secondary.inactive,
         active: `underline ${colors.secondary.active}`,
         icon: "size-5"

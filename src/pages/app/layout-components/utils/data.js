@@ -5,6 +5,5 @@ export const primaryNavPages = [
 ]
 
 export const secondaryNavPages = [
-  { name: "settings", iconName: "settings" },
-  { name: "categories", iconName: "categories" },
+  { name: "settings", iconName: "settings" }
 ]

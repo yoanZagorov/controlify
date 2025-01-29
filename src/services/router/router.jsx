@@ -93,11 +93,7 @@ const routes = [
         element: <Settings />,
         loader: settingsLoader,
         action: settingsAction
-      },
-      {
-        path: "categories",
-        element: <h1>This will be the categories page!</h1>
-      },
+      }
     ]
   },
   {

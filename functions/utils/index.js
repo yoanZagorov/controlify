@@ -1,0 +1,1 @@
+export { default as fetchCurrencyRates } from "./fetchCurrencyRates.js";

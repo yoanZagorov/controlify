@@ -20,7 +20,7 @@ export default function Sidebar() {
 
   const classes = {
     sidebar: cn(
-      "fixed h-screen w-64 ml:w-72 tab:w-80 ll:w-96 py-8 tab:pt-10 ll:pt-12 flex flex-col items-center text-gray-light bg-navy z-10 transition-[left] duration-300 tab:duration-500",
+      "fixed h-screen w-64 ml:w-72 tab:w-80 ll:w-96 pt-8 pb-4 tab:pt-10 ll:pt-12 flex flex-col items-center text-gray-light bg-navy z-10 transition-[left] duration-300 tab:duration-500",
       isSidebarExpanded ? "left-0" : "-left-full"
     )
   }

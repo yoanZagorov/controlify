@@ -3,7 +3,7 @@ import { getWallets } from "../wallet";
 import { performDecimalCalculation } from "@/utils/number";
 import { where } from "firebase/firestore";
 
-export default async function getCurrentBalance({ userId, wallets }) {
+export default async function getCurrentBalance({ userId, wallets, currency }) {
   let userWallets = wallets;
 
   if (!userWallets) {
@@ -16,5 +16,5 @@ export default async function getCurrentBalance({ userId, wallets }) {
 
   const balance = userWallets.reduce((acc, wallet) => performDecimalCalculation(acc, wallet.balance, "+"), 0);
 
-  return formatUserBalance(balance);
+  return formatUserBalance(balance, currency);
 }
