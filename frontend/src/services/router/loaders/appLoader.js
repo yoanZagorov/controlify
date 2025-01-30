@@ -64,7 +64,7 @@ export default async function appLoader({ request }) {
 
     const categories = await getCategories(userId);
 
-    const balance = await getCurrentBalance({ wallets: activeWallets, currency: user.currency });
+    const balance = await getCurrentBalance({ wallets: activeWallets, userCurrency: user.currency });
 
     const todayTransactions = await getTransactions({ userId, wallets: allWallets, query: transactionsQuery });
     todayTransactions.sort((a, b) => b.date - a.date);
