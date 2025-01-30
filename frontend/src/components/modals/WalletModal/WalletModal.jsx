@@ -27,7 +27,7 @@ export default function WalletModal({ closeModal, state }) {
     <li key={wallet.id}>
       <button
         type="button"
-        onClick={() => handleClick({ name: wallet.name, id: wallet.id })}
+        onClick={() => handleClick({ name: wallet.name, id: wallet.id, currency: wallet.currency })}
         className="w-full flex items-center gap-5 bg-gray-light p-4 rounded-lg focus-goldenrod"
       >
         <SvgIcon iconName={wallet.iconName} className="size-7" fill={wallet.color} />

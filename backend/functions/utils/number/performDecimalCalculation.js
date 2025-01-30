@@ -21,5 +21,5 @@ export default function performDecimalCalculation(firstNum, secondNum, operator,
       : operator === "/" ? result
         : result / multiplier
 
-  return parseFloat(normalizedResult.toFixed(2));
+  return parseFloat(normalizedResult.toFixed(decimals));
 }

@@ -5,10 +5,10 @@ export default async function getTransactions({ userId, wallets, query = [], dat
   const promises = wallets.map(async (wallet, index) => {
     const transactionsCollectionRef = collection(db, `users/${userId}/wallets/${wallet.id}/transactions`);
 
-    const q = firebaseQuery(transactionsCollectionRef, ...query);
+    const transactionsQuery = firebaseQuery(transactionsCollectionRef, ...query);
 
     try {
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await getDocs(transactionsQuery);
 
       if (querySnapshot.empty) {
         return {

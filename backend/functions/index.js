@@ -4,8 +4,9 @@ import { db } from "./firebase.config.js";
 
 import { getActiveCurrencies, getBaseCurrency } from "./db/currencies/index.js";
 import { fetchCurrencyRates } from "./utils/index.js";
+import { performDecimalCalculation } from "./utils/number/index.js";
 
-export const updateCurrencyRates = onSchedule("every 12 hours", async (event) => {
+export const updateCurrencyRates = onSchedule("every day 00:00", async (event) => {
   try {
     await updateRates();
   } catch (error) {
@@ -20,7 +21,8 @@ async function updateRates() {
 
   await Promise.all(activeCurrencies.map(currency => {
     const currencyDocRef = db.collection("currencies").doc(currency.id)
-    return currencyDocRef.update({ conversionRate: currencyRates[currency.code] });
+    const conversionRate = performDecimalCalculation(1, currencyRates[currency.code], "/", 4);
+    return currencyDocRef.update({ conversionRate });
   }))
 }
 

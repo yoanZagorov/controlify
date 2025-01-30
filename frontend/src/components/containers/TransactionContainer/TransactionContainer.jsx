@@ -62,7 +62,7 @@ export default function TransactionContainer({ fetcher, modal, action, submitBtn
           },
           state: {
             value: wallet,
-            updateState: (newWallet) => updateTransactionData({ wallet: { ...wallet, ...newWallet } }) // Spreading the old wallet data to keep the isPreselected prop
+            updateState: (newWallet) => updateTransactionData({ wallet: { ...wallet, id: newWallet.id, name: newWallet.name }, currency: newWallet.currency }) // Spreading the old wallet data to keep the isPreselected prop
           },
           minHeight: "min-h-[50%]",
         }

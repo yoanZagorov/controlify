@@ -69,10 +69,9 @@ export default async function appLoader({ request }) {
     const todayTransactions = await getTransactions({ userId, wallets: allWallets, query: transactionsQuery });
     todayTransactions.sort((a, b) => b.date - a.date);
 
-    const { balanceChartData } = await getBalanceChartData({ userId, period: "lastThirtyDays" });
-
+    const { balanceChartData } = await getBalanceChartData({ userId, period: "lastThirtyDays", userCurrency: user.currency });
+    console.log(balanceChartData);
     const storedRedirectData = getStoredData("redirectData");
-
 
     const loaderData = {
       userData: {

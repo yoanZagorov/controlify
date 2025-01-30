@@ -1,4 +1,4 @@
-import { checkWalletName, checkWalletNameDuplicate } from "@/utils/wallet";
+import { checkWalletName, checkWalletNameDuplicate, getConvertedWalletBalance } from "@/utils/wallet";
 import getDataToChange from "../getDataToChange";
 import { formatEntityNameForFirebase } from "@/utils/formatting";
 import { doc, runTransaction } from "firebase/firestore";
@@ -8,6 +8,7 @@ import { db } from "@/services/firebase/firebase.config";
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { getEntity } from "@/services/firebase/db/utils/entity";
 import { validateCurrency } from "@/utils/validation";
+import { getConvertedAmount } from "@/utils/currency";
 
 export default async function handleWalletUpdate(userId, walletDocRef, walletId, formData) {
   try {
@@ -22,8 +23,8 @@ export default async function handleWalletUpdate(userId, walletDocRef, walletId,
 
     const { name, currency, color, categories } = formattedFormData;
 
-    const walletDoc = await getEntity(walletDocRef, walletId, "wallet");
-    const walletTransactions = await getTransactions({ userId, wallets: [walletDoc] });
+    const wallet = await getEntity(walletDocRef, walletId, "wallet");
+    const walletTransactions = await getTransactions({ userId, wallets: [wallet] });
 
     await runTransaction(db, async (transaction) => {
       const oldWalletData = (await transaction.get(walletDocRef)).data();
@@ -41,6 +42,8 @@ export default async function handleWalletUpdate(userId, walletDocRef, walletId,
 
       if (hasDataChanged.currency) {
         validateCurrency(currency);
+        const convertedBalance = await getConvertedWalletBalance(oldWalletData.currency, currency, wallet.balance)
+        transaction.update(walletDocRef, { balance: convertedBalance });
       }
 
       const dataToChange = getDataToChange(hasDataChanged, formattedFormData);
