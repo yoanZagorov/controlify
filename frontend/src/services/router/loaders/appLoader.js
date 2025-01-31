@@ -10,12 +10,12 @@ import { createSuccessResponse, createErrorResponse } from "../responses";
 
 import { getStoredData, storeRedirectData } from "@/utils/storage";
 import { getRandomItem } from "@/utils/array";
-import { getBalanceChartData } from "@/utils/transaction";
 import { AppError } from "@/utils/errors";
 import { getTodayStartAndEnd } from "@/utils/date";
 import { quotes } from "../utils";
 import { db } from "@/services/firebase/firebase.config";
 import { checkAuthEmailVerification } from "@/utils/auth";
+import { getUserBalanceChartData } from "../utils/user";
 
 export default async function appLoader({ request }) {
   const userId = await getAuthUserId();
@@ -69,8 +69,7 @@ export default async function appLoader({ request }) {
     const todayTransactions = await getTransactions({ userId, wallets: allWallets, query: transactionsQuery });
     todayTransactions.sort((a, b) => b.date - a.date);
 
-    const { balanceChartData } = await getBalanceChartData({ userId, period: "lastThirtyDays", userCurrency: user.currency });
-    console.log(balanceChartData);
+    const balanceChartData = await getUserBalanceChartData({ userId, period: "lastThirtyDays", userCurrency: user.currency });
     const storedRedirectData = getStoredData("redirectData");
 
     const loaderData = {

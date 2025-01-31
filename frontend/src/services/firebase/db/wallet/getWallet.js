@@ -1,6 +1,7 @@
 import { AppError } from "@/utils/errors";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
+import { getEntity } from "../utils/entity";
 
 export default async function getWallet(userId, walletId) {
   const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);

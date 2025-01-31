@@ -1,41 +1,20 @@
-import { collection, where } from "firebase/firestore";
-import { getBaseCurrency } from "../currencies";
-import { getTransactions } from "../transaction";
 import { performDecimalCalculation } from "@/utils/number";
-import { getEntities } from "../utils/entity";
-import { db } from "../../firebase.config";
-import { getNonBaseCurrenciesRates } from "@/utils/currency";
+import { getBaseCurrency } from "@/services/firebase/db/currencies";
+import { getTransactions } from "@/services/firebase/db/transaction";
 
-export default async function getBalance({ userId, wallets, query, userCurrency }) {
-  // const transactionsByWallet = await getTransactions({ userId, wallets, query, dateFormat: "structured" });
-
-  // if (!transactionsByWallet.length) return 0;
-
-  // const balance = transactions.reduce((acc, transaction) => {
-  //   const operator = transaction.category.type === "expense" ? "-" : "+";
-
-  //   return performDecimalCalculation(acc, transaction.amount, operator);
-  // }, 0);
-
-  // return balance
-
-
+export default async function getUserBalance({ userId, wallets, query, userCurrency, nonBaseCurrenciesRates }) {
   // Fetch only the neccessary conversion rates, but do it in a single call
   const baseCurrency = await getBaseCurrency();
 
   const transactionsByWallet = await getTransactions({ userId, wallets, query, dataFormat: "structured" });
   if (!transactionsByWallet.length) return 0;
 
-  const nonBaseCurrenciesRates = await getNonBaseCurrenciesRates(transactionsByWallet, baseCurrency, userCurrency);
-
-  const balance = transactionsByWallet.reduce((accBalance, wallet, index) => {
-    const currentWalletCurrency = wallet.currency;
-
+  const balance = transactionsByWallet.reduce((accBalance, wallet) => {
     const walletBalance = wallet.transactions.reduce((acc, transaction) => {
       // Convert all transaction amounts to the base currency if not already in it
       let amountInBaseCurrency = transaction.amount;
-      if (currentWalletCurrency !== baseCurrency.code) {
-        const conversionRate = nonBaseCurrenciesRates[currentWalletCurrency];
+      if (wallet.currency !== baseCurrency.code) {
+        const conversionRate = nonBaseCurrenciesRates[wallet.currency];
         amountInBaseCurrency = performDecimalCalculation(transaction.amount, conversionRate, "*", 4);
       }
 
