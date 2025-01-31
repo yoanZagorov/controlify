@@ -10,10 +10,11 @@ import { Amount } from "@/components/Amount";
 import { SvgIcon } from "@/components/SvgIcon";
 import { TransactionContainer } from "@/components/containers/TransactionContainer";
 
-export default function Transaction({ fetcher, action, isExpanded, transaction: { category, wallet, date, amount }, display }) {
+export default function Transaction({ action, isExpanded, transaction: { category, wallet, date, amount }, display }) {
   const { transactionData, defaultTransactionData, resetTransactionData } = useTransaction();
   const { amount: transactionDataAmount } = transactionData;
 
+  const fetcher = useFetcher({ key: "updateTransaction" });
   const modal = useModal({ fetcher });
 
   const { modalState: [isModalOpen, setModalOpen] } = modal;

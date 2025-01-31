@@ -38,7 +38,7 @@ export default async function walletsLoader({ request }) {
 
   try {
     const allWallets = await getWallets(walletsCollectionRef);
-    const аctiveWallets = await getWallets(walletsCollectionRef, walletsQuery);
+    const activeWallets = await getWallets(walletsCollectionRef, walletsQuery);
 
 
     // const totalTransactionsByWallet = await Promise.all(allActiveWallets.map(async (wallet) => {
@@ -59,7 +59,7 @@ export default async function walletsLoader({ request }) {
 
     const expensesByWalletChartData = await getExpensesByWalletChartData(userId, allWallets, period);
 
-    const loaderData = { wallets: аctiveWallets, transactions: allTransactions, expensesByWalletChartData };
+    const loaderData = { wallets: activeWallets, transactions: allTransactions, expensesByWalletChartData };
 
     return createSuccessResponse(loaderData);
   } catch (error) {

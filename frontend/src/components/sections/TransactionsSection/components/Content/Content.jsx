@@ -17,7 +17,6 @@ export default function Content({ type = "compact", hasFilter = true, period = "
   const isExpanded = type === "expanded";
   const displayConfig = { date: true, wallet: true, ...display };
 
-  // Lifting fetcher up to be able to perform cleanup for last transaction
   const fetcher = useFetcher({ key: "updateTransaction" });
 
   useEffect(() => {
@@ -35,7 +34,7 @@ export default function Content({ type = "compact", hasFilter = true, period = "
         <li key={id}>
           <TransactionProvider
             prepopulatedTransactionData={{
-              amount: String(amount),
+              amount: amount.toString(),
               currency: wallet.currency,
               category: {
                 id: category.id,
@@ -51,7 +50,6 @@ export default function Content({ type = "compact", hasFilter = true, period = "
             }}
           >
             <Transaction
-              fetcher={fetcher}
               action={action}
               isExpanded={isExpanded}
               transaction={transaction}

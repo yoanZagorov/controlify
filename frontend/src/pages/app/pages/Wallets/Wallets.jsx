@@ -58,6 +58,7 @@ export default function Wallets() {
           <TransactionsSection
             action="/app/wallets"
             contentProps={{
+              type: isSingleColLayout ? "compact" : "expanded",
               transactions,
               section: {
                 title: "All Transactions",

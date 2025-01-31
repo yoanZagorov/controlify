@@ -23,8 +23,6 @@ export default function HeaderModal({ entity, formProps, header, fields, color }
   const { deleteEntityFetcher } = headerConfig;
   const isDeleteBtn = !!deleteEntityFetcher;
 
-  // console.log(deleteEntityFetcher);
-
   const {
     modalState: [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = [],
     hasTransitioned: hasDeleteConfirmationModalTransitioned,
@@ -105,8 +103,8 @@ export default function HeaderModal({ entity, formProps, header, fields, color }
                   >
                     <DeletionConfirmationModal
                       entity={entity}
-                      fetcher={deleteEntityFetcher}
-                      action={formProps.action}
+                      // fetcher={deleteEntityFetcher}
+                      // action={formProps.action}
                       closeModal={() => setDeleteConfirmationModalOpen(false)}
                     />
                   </ModalWrapper>
@@ -120,25 +118,57 @@ export default function HeaderModal({ entity, formProps, header, fields, color }
                 className={classes.headerInput}
               />
 
-            ) : header.customInput ? (
-              <header.customInput.Component {...header.customInput.props} />
-            ) : (
-              <>
-                <label
-                  htmlFor={`header-modal-input-${header?.input?.id}`}
-                  className="text-gray-light text-2xl"
-                >
-                  {header.labelText}
-                </label>
+            ) : header.customInput ?
+              isDeleteBtn ? (
+                <div className="flex items-center gap-6">
+                  <header.customInput.Component {...header.customInput.props} />
 
-                <input
-                  ref={headerInputRef}
-                  value={header?.input?.value}
-                  onChange={header?.input?.handleChange}
-                  className={classes.headerInput}
-                />
-              </>
-            )
+                  <button
+                    type="button"
+                    onClick={() => setDeleteConfirmationModalOpen(true)}
+                    className="ml-auto flex justify-center items-center gap-6 size-10 min-w-10 rounded-md bg-gray-light focus-goldenrod"
+                  >
+                    <SvgIcon iconName="trash-can" className="size-6 fill-red-dark" />
+                  </button>
+
+                  {(isDeleteConfirmationModalOpen || hasDeleteConfirmationModalTransitioned) &&
+                    <ModalWrapper
+                      type={{
+                        layout: "nested"
+                      }}
+                      isModalOpen={isDeleteConfirmationModalOpen}
+                      hasTransitioned={hasDeleteConfirmationModalTransitioned}
+                      ref={deleteConfirmationModalRef}
+                      minHeight="h-3/4"
+                    >
+                      <DeletionConfirmationModal
+                        entity={entity}
+                        // fetcher={deleteEntityFetcher}
+                        // action={formProps.action}
+                        closeModal={() => setDeleteConfirmationModalOpen(false)}
+                      />
+                    </ModalWrapper>
+                  }
+                </div>
+              ) : (
+                <header.customInput.Component {...header.customInput.props} />
+              ) : (
+                <>
+                  <label
+                    htmlFor={`header-modal-input-${header?.input?.id}`}
+                    className="text-gray-light text-2xl"
+                  >
+                    {header.labelText}
+                  </label>
+
+                  <input
+                    ref={headerInputRef}
+                    value={header?.input?.value}
+                    onChange={header?.input?.handleChange}
+                    className={classes.headerInput}
+                  />
+                </>
+              )
           }
         </header >
 

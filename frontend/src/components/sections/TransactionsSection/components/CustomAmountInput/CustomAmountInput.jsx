@@ -7,13 +7,13 @@ import { DeletionConfirmationModal } from "@/components/modals/DeletionConfirmat
 import { useFetcher } from "react-router";
 
 export default function CustomAmountInput({ value, handleChange, isExpense, currency, isDeleteBtn = false }) {
-  const fetcher = isDeleteBtn && useFetcher({ key: "deleteTransaction" });
+  // const fetcher = isDeleteBtn && useFetcher({ key: "deleteTransaction" });
 
-  const {
-    modalState: [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = [],
-    hasTransitioned: hasDeleteConfirmationModalTransitioned,
-    modalRef: deleteConfirmationModalRef
-  } = isDeleteBtn ? useModal({ isBlocking: false, fetcher }) : {};
+  // const {
+  //   modalState: [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = [],
+  //   hasTransitioned: hasDeleteConfirmationModalTransitioned,
+  //   modalRef: deleteConfirmationModalRef
+  // } = isDeleteBtn ? useModal({ isBlocking: false, fetcher }) : {};
 
   const amountInputRef = useRef(null);
   useAutoFocus({ ref: amountInputRef });
@@ -59,7 +59,7 @@ export default function CustomAmountInput({ value, handleChange, isExpense, curr
           />
         </span>
 
-        {isDeleteBtn &&
+        {/* {isDeleteBtn &&
           <>
             <button type="button" className="ml-auto size-6" onClick={() => setDeleteConfirmationModalOpen(true)}>
               <SvgIcon iconName="trash-can" className="size-full fill-red-light" />
@@ -82,7 +82,7 @@ export default function CustomAmountInput({ value, handleChange, isExpense, curr
               </ModalWrapper>
             }
           </>
-        }
+        } */}
       </div>
     </>
   )

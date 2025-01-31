@@ -1,4 +1,4 @@
-import { useTransaction } from "@/hooks";
+import { useModal, useTransaction } from "@/hooks";
 import { formatEntityName } from "@/utils/formatting";
 import { handleAmountInputChange } from "@/utils/input";
 import { getDateBtnValue } from "@/utils/date";
@@ -9,6 +9,7 @@ import { HeaderModal } from "@/components/modals/HeaderModal";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { WalletModal } from "@/components/modals/WalletModal";
 import { CustomAmountInput } from "@/components/sections/TransactionsSection/components/CustomAmountInput";
+import { useFetcher } from "react-router";
 
 export default function TransactionContainer({ fetcher, modal, action, submitBtn, isDeleteBtn = false, children }) {
   const NAVY = "#002B5B";
@@ -18,6 +19,8 @@ export default function TransactionContainer({ fetcher, modal, action, submitBtn
     hasTransitioned,
     modalRef
   } = modal;
+
+  const deleteTransactionFetcher = isDeleteBtn ? useFetcher({ key: "deleteTransaction" }) : null;
 
   const {
     transactionData: {
@@ -147,6 +150,7 @@ export default function TransactionContainer({ fetcher, modal, action, submitBtn
           minHeight="h-[90%]"
         >
           <HeaderModal
+            entity="transaction"
             formProps={{
               fetcher,
               action,
@@ -164,7 +168,8 @@ export default function TransactionContainer({ fetcher, modal, action, submitBtn
                   currency,
                   isDeleteBtn,
                 }
-              }
+              },
+              deleteEntityFetcher: deleteTransactionFetcher
             }}
             fields={transactionDataConfig.filter(option => option.field).map(option => option.field)}
             color={NAVY}
