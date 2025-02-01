@@ -1,9 +1,9 @@
 import { Amount } from "@/components/Amount";
 
-export default function CustomTooltip({ active, label, payload, currency }) {
-
+export default function CustomTooltip({ chartType = "line", active, label, payload, currency }) {
   if (active && payload && payload.length) {
-    const amount = payload[0].value;
+    console.log(payload);
+    const amount = payload[chartType === "waterfall" ? 1 : 0].value;
     return (
       <div className="bg-gray-medium p-2.5 rounded-lg text-sm">
         <p className="text-gray-dark font-bold">Date: <span className="font-normal">{label}</span></p>

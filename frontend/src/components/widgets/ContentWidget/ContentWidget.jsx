@@ -5,7 +5,7 @@ import { Widget } from "@/components/widgets/Widget"
 
 export default function ContentWidget({ iconName, title, className = "", content = {}, children }) {
   // Default props
-  const contentProps = { hasBackground: true, ...content };
+  const contentConfig = { hasBackground: true, ...content };
 
   const classes = {
     widget: cn(
@@ -13,8 +13,8 @@ export default function ContentWidget({ iconName, title, className = "", content
       className
     ),
     content: cn(
-      contentProps.hasBackground && "mt-4 p-3 rounded-lg bg-gray-light",
-      contentProps.className
+      contentConfig.hasBackground && "mt-4 p-3 rounded-lg bg-gray-light",
+      contentConfig.className
     )
   }
 

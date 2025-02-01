@@ -3,12 +3,13 @@ import { createBrowserRouter, Navigate, redirect } from "react-router";
 import { Auth } from "@/pages/auth";
 import { AppLayout, Dashboard, Wallets, Wallet, WalletOverview, WalletTransactions, WalletSettings } from "@/pages/app";
 
-import { appAction, createAccountAction, dashboardAction, loginAction, resetFetcherAction, settingsAction, walletAction, walletsAction } from "./actions";
-import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader, walletLoader, settingsLoader } from "./loaders";
+import { appAction, createAccountAction, dashboardAction, loginAction, reflectAction, resetFetcherAction, settingsAction, walletAction, walletsAction } from "./actions";
+import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader, walletLoader, settingsLoader, reflectLoader } from "./loaders";
 import { AppErrorComponent, RootError } from "@/components/errors";
 import { LayoutProvider, SettingsProvider, WalletUpdateProvider } from "@/contexts";
 import { NotFound } from "@/components/NotFound";
 import { Settings } from "@/pages/app/pages/Settings";
+import { Reflect } from "@/pages/app/pages/Reflect";
 
 const routes = [
   {
@@ -86,7 +87,9 @@ const routes = [
       },
       {
         path: "reflect",
-        element: <h1>This will be the stats page!</h1>
+        element: <Reflect />,
+        loader: reflectLoader,
+        action: reflectAction
       },
       {
         path: "settings",

@@ -1,6 +1,6 @@
 import { collection, where } from "firebase/firestore";
 
-import { getTransactions } from "@/services/firebase/db/transaction";
+import { getPeriodTransactions, getTransactions } from "@/services/firebase/db/transaction";
 import { getWallets } from "@/services/firebase/db/wallet";
 import { getPeriodInfo } from "@/services/router/utils";
 
@@ -10,27 +10,60 @@ import getUserBalance from "./getUserBalance";
 import { getNonBaseCurrenciesRates } from "@/utils/currency";
 import { performDecimalCalculation } from "@/utils/number";
 import { getBalanceChartDataDays } from "@/utils/charts";
+import { getUser } from "@/services/firebase/db/user";
 
-export default async function getUserBalanceChartData({ userId, period, userCurrency }) {
-  const { start, end, periodLength } = getPeriodInfo(period);
+export default async function getUserBalanceChartData({ userId, period, trackBalanceChange = false, prefetchedData }) {
+  const { start, end } = getPeriodInfo(period);
 
-  const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
-  const allWallets = await getWallets(walletsCollectionRef);
+  // Fetch the data that isn't provided
+  let allWallets = prefetchedData.allWallets;
+  if (!allWallets) {
+    const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
+    allWallets = await getWallets(walletsCollectionRef);
+  }
 
-  const transactionsQuery = [
-    where("date", ">=", start),
-    where("date", "<=", end)
-  ];
-  const periodTransactionsByWallet = await getTransactions({ userId, wallets: allWallets, query: transactionsQuery, dataFormat: "structured" });
+  let periodTransactionsByWallet = prefetchedData.periodTransactionsByWallet;
+  if (!periodTransactionsByWallet) {
+    const transactionsQuery = [
+      where("date", ">=", start),
+      where("date", "<=", end)
+    ];
 
-  const baseCurrency = await getBaseCurrency();
-  const nonBaseCurrenciesRates = await getNonBaseCurrenciesRates(periodTransactionsByWallet, baseCurrency, userCurrency);
+    periodTransactionsByWallet = await getTransactions({
+      userId,
+      wallets: allWallets,
+      query: transactionsQuery,
+      dataFormat: "structured"
+    });
+  }
+
+  let baseCurrency = prefetchedData.baseCurrency;
+  if (!baseCurrency) {
+    baseCurrency = await getBaseCurrency();
+  }
+
+  let userCurrency = prefetchedData.userCurrency;
+  if (!userCurrency) {
+    ({ currency: userCurrency } = await getUser(userId));
+  }
+
+  let nonBaseCurrenciesRates = prefetchedData.nonBaseCurrenciesRates;
+  if (!nonBaseCurrenciesRates) {
+    nonBaseCurrenciesRates = await getNonBaseCurrenciesRates(periodTransactionsByWallet, baseCurrency, userCurrency);
+  }
 
   // Calculate balance before start of period
   const openingBalanceTransactionsQuery = [
     where("date", "<", start)
   ];
-  const openingBalance = await getUserBalance({ userId, wallets: allWallets, query: openingBalanceTransactionsQuery, userCurrency, nonBaseCurrenciesRates });
+
+  const openingBalance = await getUserBalance({
+    userId,
+    wallets: allWallets,
+    query: openingBalanceTransactionsQuery,
+    userCurrency,
+    nonBaseCurrenciesRates
+  });
 
   // Create a period map by each day
   const periodTransactions = periodTransactionsByWallet.flatMap(wallet => wallet.transactions);
@@ -62,7 +95,7 @@ export default async function getUserBalanceChartData({ userId, period, userCurr
   }
 
   // Calculate the balance for each individual day
-  const days = getBalanceChartDataDays(periodLength, period, openingBalance, transactionsByDayMap);
+  const days = getBalanceChartDataDays({ period, openingBalance, transactionsByDayMap, trackBalanceChange });
 
   return days;
 }

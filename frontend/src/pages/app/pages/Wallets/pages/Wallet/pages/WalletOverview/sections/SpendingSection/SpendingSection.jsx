@@ -48,7 +48,7 @@ export default function SpendingSection({ isSpaceLimited, charts }) {
     )
   })
 
-  const carouselItems = isSpaceLimited ? charts.map((_, index) => ({ component: chartEls[index] })) : null;
+  // const carouselItems = isSpaceLimited ? charts.map((_, index) => ({ component: chartEls[index] })) : null;
 
   return (
     <Section
@@ -56,7 +56,7 @@ export default function SpendingSection({ isSpaceLimited, charts }) {
       subtitle="Last 30 Days"
     >
       {isSpaceLimited ? (
-        <Carousel items={carouselItems} />
+        <Carousel items={chartEls} />
       ) : (
         <div className="flex gap-6">
           {chartEls}

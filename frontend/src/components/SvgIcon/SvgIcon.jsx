@@ -57,6 +57,8 @@ import MoneyBillStockUpIcon from "@/assets/icons/money-bill-stock-up.svg?react";
 import ClipboardQuestionIcon from "@/assets/icons/clipboard-question.svg?react";
 import MortgageIcon from "@/assets/icons/house-circle-check.svg?react";
 
+// Reflect
+import GaugeIcon from "@/assets/icons/gauge.svg?react";
 
 const iconComponentsMap = {
   "wallet": WalletIcon,
@@ -105,7 +107,8 @@ const iconComponentsMap = {
   "eye": EyeIcon,
   "trash-can": TrashCanIcon,
   "at-sign": AtSignIcon,
-  "pen": PenIcon
+  "pen": PenIcon,
+  "gauge": GaugeIcon,
 }
 
 export default function SvgIcon({ iconName, ...props }) {

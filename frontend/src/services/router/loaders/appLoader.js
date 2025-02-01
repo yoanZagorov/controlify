@@ -36,6 +36,8 @@ export default async function appLoader({ request }) {
 
   await checkAuthEmailVerification(userId);
 
+  const DEFAULT_PERIOD = "lastThirtyDays";
+
   const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
 
   const walletsQuery = [
@@ -69,7 +71,14 @@ export default async function appLoader({ request }) {
     const todayTransactions = await getTransactions({ userId, wallets: allWallets, query: transactionsQuery });
     todayTransactions.sort((a, b) => b.date - a.date);
 
-    const balanceChartData = await getUserBalanceChartData({ userId, period: "lastThirtyDays", userCurrency: user.currency });
+    const balanceChartData = await getUserBalanceChartData({
+      userId,
+      period: DEFAULT_PERIOD,
+      prefetchedData: {
+        userCurrency: user.currency
+      }
+    });
+
     const storedRedirectData = getStoredData("redirectData");
 
     const loaderData = {

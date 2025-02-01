@@ -11,7 +11,7 @@ export default function BalanceLineChart({ data, currency }) {
         <XAxis dataKey="presentationKey" tick={<CustomXAxisTick />} />
         <YAxis tick={<CustomYAxisTick currency={currency} />} />
         <Tooltip wrapperClassName="rounded-lg" content={<CustomTooltip currency={currency} />} />
-        <Line type="monotone" dataKey="balance" stroke={"#002B5B"} dot={false} />
+        <Line type="monotone" dataKey="accumulatedBalance" stroke={"#002B5B"} dot={false} />
       </LineChart >
     </ResponsiveContainer >
   )

@@ -6,23 +6,22 @@ export default async function getUserBalance({ userId, wallets, query, userCurre
   // Fetch only the neccessary conversion rates, but do it in a single call
   const baseCurrency = await getBaseCurrency();
 
-  const transactionsByWallet = await getTransactions({ userId, wallets, query, dataFormat: "structured" });
-  if (!transactionsByWallet.length) return 0;
+  // To do: use the prefetched data if already available
+  const transactions = await getTransactions({ userId, wallets, query });
+  if (!transactions.length) return 0;
 
-  const balance = transactionsByWallet.reduce((accBalance, wallet) => {
-    const walletBalance = wallet.transactions.reduce((acc, transaction) => {
-      // Convert all transaction amounts to the base currency if not already in it
-      let amountInBaseCurrency = transaction.amount;
-      if (wallet.currency !== baseCurrency.code) {
-        const conversionRate = nonBaseCurrenciesRates[wallet.currency];
-        amountInBaseCurrency = performDecimalCalculation(transaction.amount, conversionRate, "*", 4);
-      }
+  const balance = transactions.reduce((acc, transaction) => {
+    const currency = transaction.wallet.currency;
 
-      const operator = transaction.category.type === "expense" ? "-" : "+";
-      return performDecimalCalculation(acc, amountInBaseCurrency, operator);
-    }, 0);
+    // Convert all transaction amounts to the base currency if not already in it
+    let amountInBaseCurrency = transaction.amount;
+    if (currency !== baseCurrency.code) {
+      const conversionRate = nonBaseCurrenciesRates[currency];
+      amountInBaseCurrency = performDecimalCalculation(transaction.amount, conversionRate, "*", 4);
+    }
 
-    return performDecimalCalculation(accBalance, walletBalance, "+");
+    const operator = transaction.category.type === "expense" ? "-" : "+";
+    return performDecimalCalculation(acc, amountInBaseCurrency, operator);
   }, 0);
 
   const isPreferredCurrencyBase = userCurrency === baseCurrency.code;

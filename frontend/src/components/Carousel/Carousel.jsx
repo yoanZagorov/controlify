@@ -39,9 +39,9 @@ export default function Carousel({ items, className }) {
     }
   }
 
-  const itemEls = items.map((item, index) => (
+  const itemsEls = items.map((item, index) => (
     <li key={index} className={classes.itemClasses(index)}>
-      {item.component}
+      {item}
     </li>
   ))
 
@@ -61,7 +61,7 @@ export default function Carousel({ items, className }) {
     <div>
       <ul className={classes.carousel}>
         <div className="relative flex">
-          {itemEls}
+          {itemsEls}
         </div>
       </ul>
       <div className="mt-4 flex justify-center items-center gap-6">
