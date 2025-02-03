@@ -1,72 +1,94 @@
+import { Amount } from "@/components/Amount";
 import { Carousel } from "@/components/Carousel";
+import { FinancialScoreGaugeChart } from "@/components/charts/FinancialScoreGaugeChart";
+import { WaterfallChart } from "@/components/charts/WaterfallChart";
 import { Section } from "@/components/sections/Section";
+import { ContentWidget } from "@/components/widgets/ContentWidget";
+import { HeaderContentWidget } from "@/components/widgets/HeaderContentWidget";
 import { useLayout } from "@/hooks";
 import cn from "classnames";
+import { useRouteLoaderData } from "react-router";
 
-export default function OverviewSection({ sectionProps, charts }) {
+
+export default function OverviewSection({ className }) {
+  const RED = "#CC0000";
+  const YELLOW = "#DAA520";
+  const GREEN = "#008000";
+
+  const { userData: { balance, currency: userCurrency } } = useRouteLoaderData("app");
+  const { financialScore, chartData } = useRouteLoaderData("reflect");
+  const isFinancialScorePoor = financialScore <= 33;
+  const isFinancialScoreStable = financialScore > 33 && financialScore <= 66;
+
   const { isSingleColLayout } = useLayout();
+  const period = "Last 30 Days";
 
-  const chartsDataConfig = {
-    financialScore: {
-      check: (chartData) => chartData.length ? true : false,
-      widget: {
-        iconName: "gauge",
-        title: "financial score"
-      },
-      Component: CustomGaugeChart,
-      data: chartsData.financialScore,
-      className: cn(!isSingleColLayout && "cols-span-1")
-    },
-    balance: {
-      check: (chartData) => chartData.find(entry => entry.amount) ? true : false,
-      widget: {
-        iconName: "scale",
-        title: "balance"
-      },
-      Component: CustomWaterfallChart,
-      data: chartsData.balance,
-      className: cn(!isSingleColLayout && "cols-span-2")
-    },
-  };
-
-  const chartEls = charts.map((chart, index) => {
-    const { check, widget, Component } = chartsDataConfig[chart.type];
-
-    const hasSufficientData = check(chart.data);
-
-    return (
-      <ContentWidget key={index} iconName={widget.iconName} title={widget.title} className="w-full">
-        {hasSufficientData ? (
-          <div className="h-450px">
-            <Component type={chart.type} data={chart.data} />
-          </div>
-        ) : (
-          <Notification className="max-w-64 mx-auto">
-            Not enough data available to create the chart yet. Add a few transactions to get started!
-          </Notification>
+  // Using an array to avoid repetition when passing the components to the Carousel 
+  const elements = [
+    <HeaderContentWidget
+      contentWidget={{
+        props: {
+          iconName: "gauge",
+          title: "financial score"
+        },
+        content: (
+          <span
+            className="text-xl font-bold"
+            style={{
+              color:
+                isFinancialScorePoor ? RED
+                  : isFinancialScoreStable ? YELLOW
+                    : GREEN
+            }}
+          >
+            {financialScore}
+          </span>
         )
-        }
-      </ContentWidget>
-    )
-  })
-
-  const carouselItems = isSpaceLimited ? charts.map((_, index) => ({ component: chartEls[index] })) : null;
-
+      }}
+      widgetContent={
+        <div className={`p-4 bg-gray-light rounded-md ${isSingleColLayout ? "h-48" : "h-64"}`}>
+          <FinancialScoreGaugeChart financialScore={financialScore} />
+        </div>
+      }
+      className="col-span-1"
+    />,
+    <HeaderContentWidget
+      contentWidget={{
+        props: {
+          iconName: "scale",
+          title: "balance"
+        },
+        content: (
+          <Amount
+            amount={balance}
+            currency={userCurrency}
+            colorContext="light"
+            className="text-xl font-bold"
+          />
+        )
+      }}
+      widgetContent={
+        <div className={`p-4 bg-gray-light rounded-md ${isSingleColLayout ? "h-48" : "h-64"}`}>
+          <WaterfallChart data={chartData.balanceOverTime} currency={userCurrency} />
+        </div>
+      }
+      className="col-span-2"
+    />
+  ]
 
   return (
     <Section
       title="Overview"
       subtitle={period}
-      {...sectionProps}
+      className={className}
     >
-      {isSpaceLimited ? (
-        <Carousel items={carouselItems} />
+      {isSingleColLayout ? (
+        <Carousel items={elements} />
       ) : (
-        <div className="flex gap-6">
-          {chartEls}
+        <div className="grid gap-12 grid-cols-3">
+          {elements}
         </div>
       )}
-
     </Section>
   )
 }

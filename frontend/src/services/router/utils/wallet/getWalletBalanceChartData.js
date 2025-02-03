@@ -32,7 +32,7 @@ export default async function getWalletBalanceChartData({ userId, wallet, period
   }
 
   // Calculate the balance for each individual day
-  const days = getBalanceChartDataDays(periodLength, period, openingBalance, transactionsByDayMap);
+  const days = getBalanceChartDataDays({ period, openingBalance, transactionsByDayMap });
 
   return { openingBalance, balanceChartData: days };
 }

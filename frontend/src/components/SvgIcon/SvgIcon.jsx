@@ -59,6 +59,9 @@ import MortgageIcon from "@/assets/icons/house-circle-check.svg?react";
 
 // Reflect
 import GaugeIcon from "@/assets/icons/gauge.svg?react";
+import ArrowTrendUpIcon from "@/assets/icons/arrow-trend-up.svg?react";
+import ArrowTrendDownIcon from "@/assets/icons/arrow-trend-down.svg?react";
+import LineChartIcon from "@/assets/icons/line-chart.svg?react";
 
 const iconComponentsMap = {
   "wallet": WalletIcon,
@@ -109,6 +112,9 @@ const iconComponentsMap = {
   "at-sign": AtSignIcon,
   "pen": PenIcon,
   "gauge": GaugeIcon,
+  "arrow-trend-up": ArrowTrendUpIcon,
+  "arrow-trend-down": ArrowTrendDownIcon,
+  "line-chart": LineChartIcon,
 }
 
 export default function SvgIcon({ iconName, ...props }) {

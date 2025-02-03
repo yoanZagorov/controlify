@@ -88,6 +88,7 @@ const routes = [
       {
         path: "reflect",
         element: <Reflect />,
+        id: "reflect",
         loader: reflectLoader,
         action: reflectAction
       },

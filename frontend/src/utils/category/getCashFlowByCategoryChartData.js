@@ -9,19 +9,19 @@ import { getNonBaseCurrenciesRates } from "../currency";
 export default async function getCashFlowByCategoryChartData({ type, userId = null, period = null, prefetchedData }) {
   // Fetch data data is not readily available
   let allWallets = prefetchedData.allWallets;
-  if (!allWallets && !prefetchedData.periodTransactions) {
+  if (!allWallets) {
     const allWalletsCollectionRef = collection(db, `users/${userId}/wallets`);
     allWallets = await getWallets(allWalletsCollectionRef);
   }
 
-  let periodTransactions = prefetchedData.periodTransactions;
-  if (!periodTransactions) {
+  let periodTransactionsByWallet = prefetchedData.periodTransactionsByWallet;
+  if (!periodTransactionsByWallet) {
     const { start, end } = period;
     const transactionsQuery = [
       where("date", ">=", start),
       where("date", "<=", end)
     ];
-    periodTransactions = await getTransactions({ userId, allWallets, query: transactionsQuery });
+    periodTransactionsByWallet = await getTransactions({ userId, allWallets, query: transactionsQuery });
   }
 
   let baseCurrency = prefetchedData.baseCurrency;
@@ -34,6 +34,7 @@ export default async function getCashFlowByCategoryChartData({ type, userId = nu
     nonBaseCurrenciesRates = await getNonBaseCurrenciesRates();
   }
 
+  const periodTransactions = periodTransactionsByWallet.flatMap(wallet => wallet.transactions);
   let transactions = [];
   for (const transaction of periodTransactions) {
     if (transaction.category.type === type) {

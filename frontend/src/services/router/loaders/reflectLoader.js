@@ -87,8 +87,6 @@ export default async function reflectLoader() {
       }
     });
 
-    console.log(cashFlowOverTimeChartData);
-
     const loaderData = {
       financialScore,
       chartData: {

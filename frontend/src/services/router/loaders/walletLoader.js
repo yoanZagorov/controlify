@@ -43,11 +43,12 @@ export default async function walletLoader({ params, request }) {
       where("date", ">=", start),
       where("date", "<=", end)
     ];
-    const periodTransactions = await getTransactions({ userId, wallets: [wallet], query: transactionsQuery }); // used for both functions below
+    const periodTransactionsByWallet = await getTransactions({ userId, wallets: [wallet], query: transactionsQuery, dataFormat: "structured" }); // used for both functions below
+    const periodTransactions = periodTransactionsByWallet.flatMap(wallet => wallet.transactions);
 
     const { openingBalance, balanceChartData } = await getWalletBalanceChartData({ userId, wallet, period, periodTransactions });
 
-    const expensesByCategoryChartData = await getCashFlowByCategoryChartData({ prefetchedData: { periodTransactions } });
+    const expensesByCategoryChartData = await getCashFlowByCategoryChartData({ userId, prefetchedData: { periodTransactionsByWallet } });
     const expensesVsIncomeChartData = await getExpensesVsIncomeChartData({ transactions: periodTransactions });
 
     return createSuccessResponse({
