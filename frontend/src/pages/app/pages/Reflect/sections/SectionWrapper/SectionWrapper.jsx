@@ -5,7 +5,7 @@ import { HeaderContentWidget } from "@/components/widgets/HeaderContentWidget";
 import { useLayout } from "@/hooks";
 import cn from "classnames";
 
-export default function SectionWrapper({ variant = "default", sectionProps, items }) {
+export default function SectionWrapper({ variant = "default", sectionProps, chartHeight = "h-56", items }) {
   const { isSingleColLayout } = useLayout();
   const isHeadered = variant === "headered";
 
@@ -23,7 +23,7 @@ export default function SectionWrapper({ variant = "default", sectionProps, item
           content: item.headerContent
         }}
         widgetContent={
-          <div className="p-4 bg-gray-light h-56 rounded-md">
+          <div className={`p-4 bg-gray-light rounded-md ${chartHeight}`}>
             {item.ChartComponent}
           </div>
         }
@@ -36,7 +36,7 @@ export default function SectionWrapper({ variant = "default", sectionProps, item
         title={item.title}
         className={cn(item.className)}
       >
-        <div className="p-4 bg-gray-light h-56 rounded-md">
+        <div className={`p-4 bg-gray-light rounded-md ${chartHeight}`}>
           {item.ChartComponent}
         </div>
       </ContentWidget>

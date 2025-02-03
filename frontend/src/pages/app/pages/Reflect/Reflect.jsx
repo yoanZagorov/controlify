@@ -4,6 +4,8 @@ import { WaterfallChart } from "@/components/charts/WaterfallChart";
 import { useLoaderData, useRouteLoaderData } from "react-router";
 import { useBreakpoint, useLayout } from "@/hooks";
 import { Amount } from "@/components/Amount";
+import { CustomPieChart } from "@/components/charts/CustomPieChart";
+import { BalanceLineChart } from "@/components/charts/BalanceLineChart";
 
 export default function Reflect() {
   const RED = "#CC0000";
@@ -19,7 +21,7 @@ export default function Reflect() {
 
   const period = "Last 30 Days";
 
-  const { financialScore, balanceChartData } = useLoaderData();
+  const { financialScore, chartData } = useLoaderData();
   const { userData: { currency: userCurrency, balance } } = useRouteLoaderData("app");
 
   const isFinancialScorePoor = financialScore <= 33;
@@ -32,6 +34,7 @@ export default function Reflect() {
         sectionProps={{
           title: "Overview"
         }}
+        chartHeight="h-48"
         items={[
           {
             iconName: "gauge",
@@ -66,7 +69,32 @@ export default function Reflect() {
               />
             ),
             ChartComponent: (
-              <WaterfallChart data={balanceChartData} currency={userCurrency} />
+              <WaterfallChart data={chartData.balanceOverTime} currency={userCurrency} />
+            ),
+            className: "col-span-2"
+          }
+        ]}
+      />
+
+      <SectionWrapper
+        sectionProps={{
+          title: "Expenses"
+        }}
+        chartHeight="h-[450px]"
+        items={[
+          {
+            iconName: "category",
+            title: "by category",
+            ChartComponent: (
+              <CustomPieChart type="byCategory" data={chartData.expensesByCategory} />
+            ),
+            className: "col-span-1"
+          },
+          {
+            iconName: "scale",
+            title: "balance",
+            ChartComponent: (
+              <WaterfallChart data={chartData.balanceOverTime} currency={userCurrency} />
             ),
             className: "col-span-2"
           }

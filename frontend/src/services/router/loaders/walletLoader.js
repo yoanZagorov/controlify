@@ -6,7 +6,7 @@ import { getWallet } from "@/services/firebase/db/wallet";
 import { getAuthUserId, getUser } from "@/services/firebase/db/user";
 
 import { getStoredData, storeRedirectData } from "@/utils/storage";
-import { getExpensesByCategoryChartData } from "@/utils/category";
+import { getCashFlowByCategoryChartData } from "@/utils/category";
 import { getExpensesVsIncomeChartData } from "@/utils/wallet";
 
 import { getPeriodInfo } from "../utils";
@@ -47,7 +47,7 @@ export default async function walletLoader({ params, request }) {
 
     const { openingBalance, balanceChartData } = await getWalletBalanceChartData({ userId, wallet, period, periodTransactions });
 
-    const expensesByCategoryChartData = await getExpensesByCategoryChartData({ transactions: periodTransactions });
+    const expensesByCategoryChartData = await getCashFlowByCategoryChartData({ prefetchedData: { periodTransactions } });
     const expensesVsIncomeChartData = await getExpensesVsIncomeChartData({ transactions: periodTransactions });
 
     return createSuccessResponse({

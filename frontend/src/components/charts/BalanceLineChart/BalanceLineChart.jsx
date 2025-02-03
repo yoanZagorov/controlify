@@ -3,7 +3,7 @@ import { CustomXAxisTick } from "./components/CustomXAxisTick";
 import { CustomYAxisTick } from "./components/CustomYAxisTick";
 import { CustomTooltip } from "./components/CustomTooltip";
 
-export default function BalanceLineChart({ data, currency }) {
+export default function BalanceLineChart({ data, lineDataKey, currency }) {
   return (
     <ResponsiveContainer className="w-full h-full">
       <LineChart data={data} margin={{ left: 15 }}>
@@ -11,7 +11,7 @@ export default function BalanceLineChart({ data, currency }) {
         <XAxis dataKey="presentationKey" tick={<CustomXAxisTick />} />
         <YAxis tick={<CustomYAxisTick currency={currency} />} />
         <Tooltip wrapperClassName="rounded-lg" content={<CustomTooltip currency={currency} />} />
-        <Line type="monotone" dataKey="accumulatedBalance" stroke={"#002B5B"} dot={false} />
+        <Line type="monotone" dataKey={lineDataKey} stroke={"#002B5B"} dot={false} />
       </LineChart >
     </ResponsiveContainer >
   )

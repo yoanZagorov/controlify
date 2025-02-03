@@ -1,14 +1,12 @@
 import { getPeriodInfo } from "@/services/router/utils";
 import { performDecimalCalculation } from "../number";
 
-export default function getBalanceChartDataDays({ period, openingBalance, transactionsByDayMap, trackBalanceChange = false }) {
+export default function getLineChartDataDays({ period, openingAmount, transactionsByDayMap, trackAmountChange = false }) {
   const { periodLength } = getPeriodInfo(period);
 
-  // Initialize accumulators
-  let accumulatedBalance = openingBalance;
-  let prevDayBalance = openingBalance;
+  let accumulatedAmount = openingAmount || 0;
+  let prevDayAmount = openingAmount || 0;
 
-  // Create the days array
   const days = Array.from({ length: periodLength }, (_, i) => {
     const day = new Date();
     day.setDate(day.getDate() - (periodLength - i));
@@ -24,37 +22,37 @@ export default function getBalanceChartDataDays({ period, openingBalance, transa
 
     const isLastDay = i === periodLength - 1;
 
-    return trackBalanceChange ?
+    return trackAmountChange ?
       {
         dateKey,
         presentationKey: isLastDay ? "Total" : presentationKey,
-        prevDayBalance,
-        balanceChange: 0
+        prevDayAmount,
+        amountChange: 0
       } :
       {
         dateKey,
         presentationKey,
-        accumulatedBalance: 0,
+        accumulatedAmount: 0,
       };
   });
 
-  // Iterate over the days, calculate balance and sum it up
+
   days.forEach(day => {
     const currentDayTransactions = transactionsByDayMap[day.dateKey] || [];
 
-    const balanceChange = currentDayTransactions.reduce((acc, transaction) => {
+    const amountChange = currentDayTransactions.reduce((acc, transaction) => {
       const operator = transaction.category.type === "expense" ? "-" : "+";
       return performDecimalCalculation(acc, transaction.amount, operator);
     }, 0)
 
-    accumulatedBalance = performDecimalCalculation(accumulatedBalance, balanceChange, "+");
+    accumulatedAmount = performDecimalCalculation(accumulatedAmount, amountChange, "+");
 
-    if (trackBalanceChange) {
-      day.balanceChange = balanceChange;
-      day.prevDayBalance = prevDayBalance;
-      prevDayBalance = accumulatedBalance;
+    if (trackAmountChange) {
+      day.amountChange = amountChange;
+      day.prevDayAmount = prevDayAmount;
+      prevDayAmount = accumulatedAmount;
     } else {
-      day.accumulatedBalance = accumulatedBalance;
+      day.accumulatedAmount = accumulatedAmount;
     }
   })
 
