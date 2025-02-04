@@ -1,12 +1,8 @@
 import { performDecimalCalculation } from "@/utils/number";
-import { getBaseCurrency } from "@/services/firebase/db/currencies";
 import { getTransactions } from "@/services/firebase/db/transaction";
 
-export default async function getUserBalance({ userId, wallets, query, userCurrency, nonBaseCurrenciesRates }) {
-  // Fetch only the neccessary conversion rates, but do it in a single call
-  const baseCurrency = await getBaseCurrency();
-
-  // To do: use the prefetched data if already available
+// Convert balance to base currency and then to user currency. Used in appLoader
+export default async function getUserBalance({ userId, wallets, query, baseCurrency, userCurrency, nonBaseCurrenciesRates }) {
   const transactions = await getTransactions({ userId, wallets, query });
   if (!transactions.length) return 0;
 

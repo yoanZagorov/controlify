@@ -1,6 +1,6 @@
 import { getAuthUser } from "@/services/firebase/db/user";
 import { auth } from "@/services/firebase/firebase.config";
-import { storeRedirectData } from "@/utils/storage";
+import { storeRedirectData } from "@/utils/localStorage";
 import { sendEmailVerification, signOut, updateEmail, verifyBeforeUpdateEmail } from "firebase/auth";
 import { redirect } from "react-router";
 

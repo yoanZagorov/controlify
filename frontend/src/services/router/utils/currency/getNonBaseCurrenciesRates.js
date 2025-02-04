@@ -2,13 +2,17 @@ import { getEntities } from "@/services/firebase/db/utils/entity";
 import { db } from "@/services/firebase/firebase.config";
 import { collection, where } from "firebase/firestore";
 
-export default async function getNonBaseCurrenciesRates(transactionsByWallet, baseCurrency, userCurrency = null) {
-  const nonBaseCurrenciesSet = new Set();
-  transactionsByWallet.forEach(wallet => {
-    if (wallet.currency !== baseCurrency.code && wallet.transactions) {
-      nonBaseCurrenciesSet.add(wallet.currency);
-    }
-  })
+// Only one amongst transactionsByWallet and providedNonBaseCurrenciesSet should be provided - they're mutually exclusive
+export default async function getNonBaseCurrenciesRates({ baseCurrency, transactionsByWallet = [], providedNonBaseCurrenciesSet = null, userCurrency = null }) {
+  let nonBaseCurrenciesSet = providedNonBaseCurrenciesSet;
+  if (!nonBaseCurrenciesSet) {
+    nonBaseCurrenciesSet = new Set();
+    transactionsByWallet.forEach(wallet => {
+      if (wallet.currency !== baseCurrency.code && wallet.transactions) {
+        nonBaseCurrenciesSet.add(wallet.currency);
+      }
+    })
+  }
 
   if (userCurrency) {
     const isPreferredCurrencyBase = userCurrency === baseCurrency.code;

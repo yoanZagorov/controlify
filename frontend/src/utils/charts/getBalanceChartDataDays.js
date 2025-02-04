@@ -1,8 +1,7 @@
-import { getPeriodInfo } from "@/services/router/utils";
 import { performDecimalCalculation } from "../number";
 
-export default function getBalanceChartDataDays({ period, openingBalance, transactionsByDayMap, trackBalanceChange = false }) {
-  const { periodLength } = getPeriodInfo(period);
+export default function getBalanceChartDataDays({ periodInfo, openingBalance, transactionsByDayMap, trackBalanceChange = false }) {
+  const { periodLength } = periodInfo;
 
   // Initialize accumulators
   let accumulatedBalance = openingBalance;

@@ -1,50 +1,50 @@
 import { collection, getDocs, query as firebaseQuery } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
+import { getWallets } from "../../../router/utils/wallet";
 
-export default async function getTransactions({ userId, wallets, query = [], dataFormat = "flat" }) {
-  const promises = wallets.map(async (wallet, index) => {
+export default async function getTransactions({ userId, prefetchedWallets = [], query = [], dataFormat = "flat" }) {
+  let wallets = prefetchedWallets;
+  if (!wallets) {
+    wallets = await getWallets(userId);
+  }
+
+  const promises = wallets.map(async (wallet) => {
     const transactionsCollectionRef = collection(db, `users/${userId}/wallets/${wallet.id}/transactions`);
-
     const transactionsQuery = firebaseQuery(transactionsCollectionRef, ...query);
+    const querySnapshot = await getDocs(transactionsQuery);
 
-    try {
-      const querySnapshot = await getDocs(transactionsQuery);
-
-      if (querySnapshot.empty) {
-        return {
-          ...wallet,
-          transactions: []
-        };
-      }
-
-      const transactions = querySnapshot.docs.map(doc => {
-        return ({
-          ...doc.data(),
-          date: doc.data().date.toDate(), // Using toDate() to make it easier to convert the data to an actual JS Date obj on the client.
-          createdAt: doc.data().createdAt.toDate(),
-          id: doc.id
-        })
-      });
-
+    if (querySnapshot.empty) {
       return {
         ...wallet,
-        transactions
+        transactions: []
       };
-    } catch (error) {
-      console.error(error);
-      throw new Error("Error fetching transactions. Please try again.", { cause: error });
     }
+
+    // Using toDate() to make it easier to convert the data to an actual JS Date obj on the client
+    const transactions = querySnapshot.docs.map(doc => {
+      return ({
+        ...doc.data(),
+        date: doc.data().date.toDate(),
+        createdAt: doc.data().createdAt.toDate(),
+        id: doc.id
+      })
+    });
+
+    return {
+      ...wallet,
+      transactions
+    };
   })
 
   try {
-    const allTransactionsByWallet = await Promise.all(promises);
+    const transactionsByWallet = await Promise.all(promises);
 
     if (dataFormat === "flat") {
-      return allTransactionsByWallet.flatMap(wallet => wallet.transactions);
+      return transactionsByWallet.flatMap(wallet => wallet.transactions);
     } else {
-      return allTransactionsByWallet;
+      return transactionsByWallet;
     }
   } catch (error) {
-    throw new Error(error.message, { cause: error });
+    throw new Error("Error fetching transactions", { cause: error });
   }
 }

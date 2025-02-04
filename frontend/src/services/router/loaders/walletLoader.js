@@ -3,29 +3,19 @@ import { redirect } from "react-router";
 
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { getWallet } from "@/services/firebase/db/wallet";
-import { getAuthUserId, getUser } from "@/services/firebase/db/user";
+import { getAuthUserId } from "@/services/firebase/db/user";
 
-import { getStoredData, storeRedirectData } from "@/utils/storage";
 import { getCashFlowByCategoryChartData } from "@/utils/category";
 import { getExpensesVsIncomeChartData } from "@/utils/wallet";
 
 import { getPeriodInfo } from "../utils";
 import { createErrorResponse, createSuccessResponse } from "../responses";
 import { getWalletBalanceChartData } from "../utils/wallet";
+import { checkUserAuthStatus } from "../utils/auth";
 
 export default async function walletLoader({ params, request }) {
   const userId = await getAuthUserId();
-
-  if (!userId) {
-    const redirectData = getStoredData("redirectData");
-
-    if (redirectData) {
-      storeRedirectData(...redirectData);
-    } else {
-      const pathname = new URL(request.url).pathname;
-      storeRedirectData("You must log in first", "alert", pathname);
-    }
-
+  if (!checkUserAuthStatus(userId, request.url)) {
     return redirect("/login");
   }
 

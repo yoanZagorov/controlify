@@ -1,20 +1,10 @@
 import { getAuthUserId } from "@/services/firebase/db/user";
-import { getStoredData, storeRedirectData } from "@/utils/storage";
 import { redirect } from "react-router";
+import { checkUserAuthStatus } from "../utils/auth";
 
-export default async function dashboardLoader() {
+export default async function dashboardLoader({ request }) {
   const userId = await getAuthUserId();
-
-  if (!userId) {
-    const redirectData = getStoredData("redirectData");
-
-    if (redirectData) {
-      storeRedirectData(...redirectData);
-    } else {
-      const pathname = new URL(request.url).pathname;
-      storeRedirectData("You must log in first", "alert", pathname);
-    }
-
+  if (!checkUserAuthStatus(userId, request.url)) {
     return redirect("/login");
   }
 

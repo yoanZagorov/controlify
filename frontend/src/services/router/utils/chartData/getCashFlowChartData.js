@@ -5,12 +5,13 @@ import { getWallets } from "@/services/firebase/db/wallet";
 import { getPeriodInfo } from "@/services/router/utils";
 
 import { db } from "@/services/firebase/firebase.config";
-import { getBaseCurrency } from "@/services/firebase/db/currencies";
+import { getBaseCurrency } from "@/services/firebase/db/currency";
 import { getNonBaseCurrenciesRates } from "@/utils/currency";
 import { performDecimalCalculation } from "@/utils/number";
 import { getBalanceChartDataDays, getCashFlowLineChartDataDays } from "@/utils/charts";
-import { getUser } from "@/services/firebase/db/user";
+import { getUser } from "../user";
 
+// Convert balance to base currency and then to user currency. Used in reflect loader
 export default async function getCashFlowChartData({ userId, period, prefetchedData }) {
   // Fetch the data that isn't provided
   let allWallets = prefetchedData.allWallets;

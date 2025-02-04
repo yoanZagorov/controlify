@@ -3,7 +3,7 @@ import { signOut } from "firebase/auth";
 
 import { auth } from "@/services/firebase/firebase.config";
 
-import { storeRedirectData } from "@/utils/storage";
+import { storeRedirectData } from "@/utils/localStorage";
 import { createErrorResponse } from "../responses";
 
 export default async function appAction({ request }) {

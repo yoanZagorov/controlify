@@ -1,3 +1,5 @@
+import { LOCAL_STORAGE } from "@/constants";
+
 export default function storeRedirectData(msg, msgType, pathname = "") {
   const redirectData = {
     msg,
@@ -5,5 +7,5 @@ export default function storeRedirectData(msg, msgType, pathname = "") {
     originalPath: pathname,
   }
 
-  localStorage.setItem("redirectData", JSON.stringify(redirectData));
+  localStorage.setItem(LOCAL_STORAGE.KEYS.REDIRECT_DATA, JSON.stringify(redirectData));
 }

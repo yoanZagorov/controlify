@@ -5,7 +5,7 @@ import { auth } from "@/services/firebase/firebase.config";
 
 import { checkFirebaseError, checkLoginFields } from "@/utils/auth";
 import { ValidationError } from "@/utils/errors";
-import { storeRedirectData } from "@/utils/storage";
+import { storeRedirectData } from "@/utils/localStorage";
 import { createErrorResponse } from "../responses";
 
 export default async function loginAction({ request }) {

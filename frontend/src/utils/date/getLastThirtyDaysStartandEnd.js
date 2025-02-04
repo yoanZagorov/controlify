@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase/firestore";
-
 // Get all the days that should participate in the calculation (inclusive)
 export default function getLastThirtyDaysStartandEnd() {
   const end = new Date();
@@ -10,8 +8,5 @@ export default function getLastThirtyDaysStartandEnd() {
   start.setDate(end.getDate() - 30 + 1);
   start.setHours(0, 0, 0, 0);
 
-  return {
-    start: Timestamp.fromDate(start),
-    end: Timestamp.fromDate(end)
-  };
+  return { start, end };
 }

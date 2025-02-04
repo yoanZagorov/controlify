@@ -32,8 +32,6 @@ export default function getCashFlowLineChartDataDays({ period, transactionsByDay
   days.forEach(day => {
     const currentDayTransactions = transactionsByDayMap[day.dateKey] || [];
 
-    let expenseAmount = 0;
-    let incomeAmount = 0;
     for (const transaction of currentDayTransactions) {
       const { amount, category: { type } } = transaction;
 

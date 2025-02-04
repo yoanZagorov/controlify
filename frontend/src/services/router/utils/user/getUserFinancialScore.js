@@ -1,5 +1,6 @@
 import { performDecimalCalculation } from "@/utils/number";
 
+// Convert balance to base currency. Used in reflect loader
 export default async function getUserFinancialScore(periodTransactions, baseCurrency, nonBaseCurrenciesRates) {
   if (!periodTransactions.length) return null;
 

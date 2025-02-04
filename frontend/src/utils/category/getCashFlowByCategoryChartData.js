@@ -1,17 +1,17 @@
 import { collection, where } from "firebase/firestore";
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { performDecimalCalculation } from "../number";
-import { getWallets } from "@/services/firebase/db/wallet";
 import { db } from "@/services/firebase/firebase.config";
-import { getBaseCurrency } from "@/services/firebase/db/currencies";
+import { getBaseCurrency } from "@/services/firebase/db/currency";
 import { getNonBaseCurrenciesRates } from "../currency";
+import { getWallets } from "@/services/router/utils/wallet";
 
-export default async function getCashFlowByCategoryChartData({ type, userId = null, period = null, prefetchedData }) {
+// Convert balance to base currency but only conditionally (pass a flag). Used in reflect loader and wallet loader
+export default async function getCashFlowByCategoryChartData({ type, userId = null, period = null, prefetchedData, convertToBaseCurrency = false }) {
   // Fetch data data is not readily available
   let allWallets = prefetchedData.allWallets;
   if (!allWallets) {
-    const allWalletsCollectionRef = collection(db, `users/${userId}/wallets`);
-    allWallets = await getWallets(allWalletsCollectionRef);
+    allWallets = await getWallets(userId);
   }
 
   let periodTransactionsByWallet = prefetchedData.periodTransactionsByWallet;

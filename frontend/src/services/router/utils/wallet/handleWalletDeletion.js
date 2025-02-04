@@ -1,7 +1,7 @@
 import { doc, updateDoc } from "firebase/firestore";
 import { createErrorResponse, createSuccessResponse } from "../../responses";
 import { ValidationError } from "@/utils/errors";
-import { storeRedirectData } from "@/utils/storage";
+import { storeRedirectData } from "@/utils/localStorage";
 import { redirect } from "react-router";
 import { getEntities, getEntity } from "@/services/firebase/db/utils/entity";
 import { db } from "@/services/firebase/firebase.config";

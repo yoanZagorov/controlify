@@ -7,7 +7,7 @@ import { Sidebar } from "./layout-components/Sidebar";
 import { TopBar } from "./layout-components/TopBar";
 import { useEffect, useState } from "react";
 import { InfoWidget } from "@/components/widgets/InfoWidget";
-import { createFetcherMsg } from "@/utils/generic";
+import { createFetcherMsg } from "@/utils/general";
 
 export default function AppLayout() {
   const { isSidebarExpanded } = useLayout();

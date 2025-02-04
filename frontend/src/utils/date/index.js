@@ -7,3 +7,4 @@ export { default as getSpecificDay } from "./getSpecificDay";
 export { default as compareDatesByDay } from "./compareDatesByDay";
 export { default as getLastThirtyDaysStartandEnd } from "./getLastThirtyDaysStartandEnd";
 export { default as getDateBtnValue } from "./getDateBtnValue";
+export { default as getPeriodInfo } from "./getPeriodInfo";

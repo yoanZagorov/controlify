@@ -1,39 +1,29 @@
-import { getBaseCurrency } from "@/services/firebase/db/currencies";
-import { getAuthUserId, getUser } from "@/services/firebase/db/user";
+import { getBaseCurrency } from "@/services/firebase/db/currency";
+import { getAuthUserId } from "@/services/firebase/db/user";
 import { getNonBaseCurrenciesRates } from "@/utils/currency";
-import { getStoredData, storeRedirectData } from "@/utils/storage";
+import { getStoredData, storeRedirectData } from "@/utils/localStorage";
 import { redirect } from "react-router";
 import { getPeriodTransactions } from "@/services/firebase/db/transaction";
-import { getUserBalanceChartData, getUserFinancialScore } from "../utils/user";
+import { getUser, getUserFinancialScore } from "../utils/user";
 import { createErrorResponse, createSuccessResponse } from "../responses";
 import { collection } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
-import { getWallets } from "@/services/firebase/db/wallet";
 import { getPeriodInfo } from "../utils";
 import { getCashFlowByCategoryChartData } from "@/utils/category";
-import { getCashFlowChartData } from "../utils/chartData";
+import { getCashFlowChartData, getUserBalanceChartData } from "../utils/chartData";
+import { checkUserAuthStatus } from "../utils/auth";
+import { getWallets } from "../utils/wallet";
 
-export default async function reflectLoader() {
+export default async function reflectLoader({ request }) {
   const userId = await getAuthUserId();
-
-  if (!userId) {
-    const redirectData = getStoredData("redirectData");
-
-    if (redirectData) {
-      storeRedirectData(...redirectData);
-    } else {
-      const pathname = new URL(request.url).pathname;
-      storeRedirectData("You must log in first", "alert", pathname);
-    }
-
+  if (!checkUserAuthStatus(userId, request.url)) {
     return redirect("/login");
   }
 
   const DEFAULT_PERIOD = "lastThirtyDays";
 
   try {
-    const allWalletsCollectionRef = collection(db, `users/${userId}/wallets`);
-    const allWallets = await getWallets(allWalletsCollectionRef);
+    const allWallets = await getWallets(userId);
 
     const periodTransactionsByWallet = await getPeriodTransactions({ userId, wallets: allWallets, period: DEFAULT_PERIOD });
 

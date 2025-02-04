@@ -1,6 +1,7 @@
+import { DEFAULT_PERIOD } from "@/constants";
 import { getLastThirtyDaysStartandEnd } from "@/utils/date";
 
-export default function getPeriodInfo(period = "lastThirtyDays") {
+export default function getPeriodInfo(period = DEFAULT_PERIOD) {
   let start, end, periodLength;
 
   switch (period) {

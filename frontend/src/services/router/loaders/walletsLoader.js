@@ -1,44 +1,27 @@
-import { getStoredData, storeRedirectData } from "@/utils/storage";
+import { getStoredData, storeRedirectData } from "@/utils/localStorage";
 import { getAuthUserId } from "@/services/firebase/db/user";
 import { createErrorResponse, createSuccessResponse } from "../responses";
 import { getTransactions } from "@/services/firebase/db/transaction";
-import { getWallets } from "@/services/firebase/db/wallet";
 import { collection, getCountFromServer, orderBy, where } from "firebase/firestore";
 import { getExpensesByWalletChartData } from "@/utils/wallet";
 import { db } from "@/services/firebase/firebase.config";
+import { checkUserAuthStatus } from "../utils/auth";
+import { getActiveWallets, getWallets } from "../utils/wallet";
 
 export default async function walletsLoader({ request }) {
   const TARGET_NUM_TRANSACTIONS = 15;
 
   const userId = await getAuthUserId();
-
-  if (!userId) {
-    const redirectData = getStoredData("redirectData");
-    console.log(redirectData);
-
-    if (redirectData) {
-      storeRedirectData(...redirectData);
-    } else {
-      const pathname = new URL(request.url).pathname;
-      storeRedirectData("You must log in first", "alert", pathname);
-    }
-
+  if (!checkUserAuthStatus(userId, request.url)) {
     return redirect("/login");
   }
 
   const period = "lastThirtyDays"; // To do: get this from the params
 
-  const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
-
-  const walletsQuery = [
-    where("deletedAt", "==", null),
-    orderBy("isDefault", "desc"),
-    orderBy("createdAt", "desc")
-  ];
 
   try {
-    const allWallets = await getWallets(walletsCollectionRef);
-    const activeWallets = await getWallets(walletsCollectionRef, walletsQuery);
+    const allWallets = await getWallets(userId);
+    const activeWallets = await getActiveWallets(userId);
 
 
     // const totalTransactionsByWallet = await Promise.all(allActiveWallets.map(async (wallet) => {

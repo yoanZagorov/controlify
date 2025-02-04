@@ -2,7 +2,9 @@ import { getTransactions } from "@/services/firebase/db/transaction";
 import { where } from "firebase/firestore";
 import { performDecimalCalculation } from "../number";
 
+// No need for conversion - used only for a single wallet (the same currency)
 export default async function getExpensesVsIncomeChartData({ userId, wallets, period, transactions }) {
+  // To do - declare colors as constants in src/constants
   let periodTransactions = transactions;
 
   if (!periodTransactions) {

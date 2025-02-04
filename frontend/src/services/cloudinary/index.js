@@ -1,0 +1,1 @@
+export { default as transformUserProfilePic } from "./transformUserProfilePic";

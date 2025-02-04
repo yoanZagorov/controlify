@@ -4,9 +4,10 @@ import { getTransactions } from "@/services/firebase/db/transaction";
 
 import { getPeriodInfo } from "@/services/router/utils";
 import { performDecimalCalculation } from "../number";
-import { getBaseCurrency } from "@/services/firebase/db/currencies";
+import { getBaseCurrency } from "@/services/firebase/db/currency";
 import { getNonBaseCurrenciesRates } from "../currency";
 
+// Convert balance to base currency. Used in wallets loader
 export default async function getExpensesByWalletChartData(userId, wallets, period) {
   const { start, end } = getPeriodInfo(period);
 

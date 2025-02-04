@@ -1,27 +1,22 @@
-import { AppError } from "@/utils/errors";
 import { query as firebaseQuery, getDocs } from "firebase/firestore";
 
 export default async function getEntities(collectionRef, entities, query = []) {
-  const q = firebaseQuery(collectionRef, ...query);
-
   try {
-    const querySnapshot = await getDocs(q);
+    // If the query is provided, it gets spreaded and applied. If there isn't a query, the plain collectionRef is used and all documents are retrieved
+    const firebaseQuery = firebaseQuery(collectionRef, ...query);
+    const querySnapshot = await getDocs(firebaseQuery);
 
     if (querySnapshot.empty) {
-      throw new AppError(404, `No ${entities} found!`);
+      throw new Error(`No matching documents found in "${entities}" with the given query parameters`);
     };
 
-    const entitiesDocs = querySnapshot.docs.map(doc => ({
+    const docs = querySnapshot.docs.map(doc => ({
       ...doc.data(),
       id: doc.id,
     }));
 
-    return entitiesDocs;
+    return docs;
   } catch (error) {
-    if (error instanceof AppError) {
-      throw new AppError(error.statusCode, error.message);
-    }
-
-    throw new Error(`Error fetching ${entities}. Please try again.`, { cause: error }); // To do: Create a more user-friendly message and display it    
+    throw new Error(`Error fetching ${entities}`, { cause: error });
   }
 }

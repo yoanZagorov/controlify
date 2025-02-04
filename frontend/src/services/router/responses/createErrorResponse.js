@@ -1,4 +1,4 @@
-export default function createErrorResponse(statusCode = 500, msg) {
+export default function createErrorResponse(msg, statusCode = 500) {
   return new Response(
     JSON.stringify(
       {

@@ -1,4 +1,4 @@
-import { getBaseCurrency } from "@/services/firebase/db/currencies";
+import { getBaseCurrency } from "@/services/firebase/db/currency";
 import { getEntities } from "@/services/firebase/db/utils/entity";
 import { db } from "@/services/firebase/firebase.config";
 import { collection, where } from "firebase/firestore";

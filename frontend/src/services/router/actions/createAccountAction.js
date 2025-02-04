@@ -7,7 +7,7 @@ import { createUser, getAuthUserId } from "@/services/firebase/db/user";
 
 import { checkFirebaseError, validateSignupCredentials } from "@/utils/auth";
 import { ValidationError } from "@/utils/errors";
-import { storeRedirectData } from "@/utils/storage";
+import { storeRedirectData } from "@/utils/localStorage";
 import { createErrorResponse } from "../responses";
 
 export default async function createAccountAction({ request }) {
