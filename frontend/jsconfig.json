@@ -1,4 +1,3 @@
-// To do: try moving this file to the root config folder
 {
   "compilerOptions": {
     "paths": {

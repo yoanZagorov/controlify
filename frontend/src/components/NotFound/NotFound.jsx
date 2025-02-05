@@ -1,4 +1,4 @@
-import logo from "logos/logoGrayBg.png";
+import logo from "@/assets/logos/logoGrayBg.png";
 import { Widget } from "../widgets/Widget";
 import { Button } from "../Button";
 import { Link } from "react-router";

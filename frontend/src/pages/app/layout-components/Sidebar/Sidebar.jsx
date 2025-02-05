@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { useRouteLoaderData } from "react-router";
 
-import logo from "@/assets/images/logos/logoNavyBg.png";
+import logo from "@/assets/logos/logoNavyBg.png";
 
 import { useBreakpoint, useLayout } from "@/hooks";
 import { primaryNavPages, secondaryNavPages } from "../utils";

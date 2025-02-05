@@ -8,9 +8,6 @@ export default defineConfig({
   plugins: [react(), svgr()],
   css: {
     postcss: "config/postcss.config.js",
-    // modules: {
-    //   localsConvention: "camelCase",
-    // }
   },
   server: {
     open: "/"
@@ -18,11 +15,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "../src"),
-      "logos": path.resolve(__dirname, "../src/assets/images/logos"),
       "services": path.resolve(__dirname, "../src/services"),
-      // "pages": path.resolve(__dirname, '../src/pages'),
-      // "components": path.resolve(__dirname, '../src/components'),
-      // "styles": path.resolve(__dirname, '../src/styles'), 
     },
   },
 })

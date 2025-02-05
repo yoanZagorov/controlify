@@ -4,7 +4,8 @@ import { loginAction, createAccountAction } from "@/services/router/actions";
 
 import { useFlashMsg } from "@/hooks";
 
-import logo from "logos/logoGrayBg.png";
+import Logo from "@/assets/logos/logo-navy.svg?react";
+import logo from "@/assets/logos/logoGrayBg.png";
 import { AuthForm } from "./components/AuthForm";
 import { InfoWidget } from "@/components/widgets/InfoWidget";
 import { AuthProvider } from "@/contexts";
@@ -50,7 +51,7 @@ export default function Auth({ type }) {
   }
 
   return (
-    <div className="px-4 tab:px-6 mx-auto h-screen w-full max-w-screen-ml tab:max-w-6xl pt-12 flex flex-col text-center"> {/* To do: increase max-w value when acquired higher res logo */}
+    <div className="px-4 tab:px-6 mx-auto h-screen w-full max-w-screen-ml tab:max-w-7xl pt-12 flex flex-col text-center"> {/* To do: increase max-w value when acquired higher res logo */}
       <header className="mx-auto w-full max-w-lg">
         <InfoWidget flashMsg={flashMsg} clearFlashMsg={clearFlashMsg} quote={quote} />
       </header >
@@ -58,7 +59,8 @@ export default function Auth({ type }) {
       <main
         className="my-auto flex flex-col tab:flex-row tab:items-center gap-12 ls:gap-20">
         <div className="tab:w-1/2">
-          <img src={logo} />
+          <Logo />
+          {/* <img src={logo} /> */}
           <p className="text-lg fhd:text-xl text-gray-dark">Take control of your finances</p>
         </div>
 
