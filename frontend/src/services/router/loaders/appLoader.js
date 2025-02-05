@@ -1,20 +1,24 @@
 import { redirect } from "react-router";
 
-import { DEFAULT_PERIOD, ROUTES } from "@/constants";
+import { ROUTES } from "@/constants";
+import { PERIODS } from "@/constants";
 
 import { checkUserAuthStatus, getAuthUserId } from "@/services/firebase/auth";
 import { getBaseCurrency } from "@/services/firebase/db/currency";
 
 import { createSuccessResponse, createErrorResponse } from "../responses";
 
-import { getCurrentUserBalance } from "../utils/user";
-import { getUserBalanceChartData } from "../utils/chartData";
 import { getUser } from "@/services/firebase/db/user";
 import { getActiveWallets, getWallets } from "@/services/firebase/db/wallet";
 import { getCategories } from "@/services/firebase/db/category";
 import { getTodayTransactions } from "@/services/firebase/db/transaction";
 import { getRandomQuote } from "@/services/firebase/db/quote";
+
+import { getCurrentUserBalance } from "../utils/user";
+import { getUserBalanceChartData } from "../utils/chartData";
+
 import { getStoredRedirectData } from "@/utils/localStorage";
+import { getPeriodInfo } from "@/utils/date";
 
 export default async function appLoader({ request }) {
   const userId = await getAuthUserId();
@@ -23,13 +27,14 @@ export default async function appLoader({ request }) {
   }
 
   try {
+    const user = await getUser(userId);
+    const categories = await getCategories(userId);
+    const activeWallets = await getActiveWallets(userId);
+
     // Fetching these here, since using for more than one function below
     const baseCurrency = await getBaseCurrency();
     const allWallets = await getWallets(userId);
 
-    const user = await getUser(userId);
-    const categories = await getCategories(userId);
-    const activeWallets = await getActiveWallets(userId);
     const todayTransactions = await getTodayTransactions(userId, allWallets);
 
     const balance = await getCurrentUserBalance({
@@ -41,11 +46,12 @@ export default async function appLoader({ request }) {
       }
     });
 
-    const balanceChartData = await getUserBalanceChartData({
+    const periodInfo = getPeriodInfo(PERIODS.DEFAULT_PERIOD);
+    const balanceOverTimeChartData = await getUserBalanceChartData({
       userId,
-      period: DEFAULT_PERIOD,
+      periodInfo,
       providedData: {
-        allWallets,
+        wallets: allWallets,
         baseCurrency,
         userCurrency: user.currency
       }
@@ -61,7 +67,7 @@ export default async function appLoader({ request }) {
         categories,
         balance,
         todayTransactions,
-        balanceChartData
+        balanceOverTimeChartData
       },
       notificationData: {
         quote: randomQuote,

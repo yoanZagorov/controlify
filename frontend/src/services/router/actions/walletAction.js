@@ -1,7 +1,7 @@
 import { collection, doc } from "firebase/firestore";
 
 import { db } from "@/services/firebase/firebase.config";
-import { getAuthUserId } from "@/services/firebase/db/user";
+import { getAuthUserId } from "@/services/firebase/auth";
 
 import { handleWalletUpdate, handleWalletDeletion } from "../utils/wallet";
 import { handleTransactionDeletion, handleTransactionSubmission, handleTransactionUpdate } from "../utils/transaction";

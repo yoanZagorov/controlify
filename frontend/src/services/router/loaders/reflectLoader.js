@@ -1,74 +1,78 @@
-import { getBaseCurrency } from "@/services/firebase/db/currency";
-import { getAuthUserId } from "@/services/firebase/db/user";
-import { getNonBaseCurrenciesRates } from "@/utils/currency";
-import { getStoredData, storeRedirectData } from "@/utils/localStorage";
 import { redirect } from "react-router";
-import { getPeriodTransactions } from "@/services/firebase/db/transaction";
-import { getUser, getUserFinancialScore } from "../utils/user";
+
+import { PERIODS, ROUTES } from "@/constants";
+
+import { checkUserAuthStatus, getAuthUserId } from "@/services/firebase/auth";
+import { getWallets } from "@/services/firebase/db/wallet";
+import { getBaseCurrency } from "@/services/firebase/db/currency";
+import { getUser } from "@/services/firebase/db/user";
+import { getPeriodTransactionsByWallet } from "@/services/firebase/db/transaction";
+
 import { createErrorResponse, createSuccessResponse } from "../responses";
-import { collection } from "firebase/firestore";
-import { db } from "@/services/firebase/firebase.config";
-import { getPeriodInfo } from "../utils";
-import { getCashFlowByCategoryChartData } from "@/utils/category";
-import { getCashFlowChartData, getUserBalanceChartData } from "../utils/chartData";
-import { checkUserAuthStatus } from "../utils/auth";
-import { getWallets } from "../utils/wallet";
+
+import { getUserFinancialScore } from "../utils/user";
+import { getCashFlowByCategoryChartData, getCashFlowChartData, getUserBalanceChartData } from "../utils/chartData";
+import { getNonBaseCurrenciesRates } from "../utils/currency";
+
+import { getPeriodInfo } from "@/utils/date";
 
 export default async function reflectLoader({ request }) {
   const userId = await getAuthUserId();
   if (!checkUserAuthStatus(userId, request.url)) {
-    return redirect("/login");
+    return redirect(ROUTES.LOGIN);
   }
 
-  const DEFAULT_PERIOD = "lastThirtyDays";
-
   try {
+    // Fetching here since using for more than one function below
     const allWallets = await getWallets(userId);
-
-    const periodTransactionsByWallet = await getPeriodTransactions({ userId, wallets: allWallets, period: DEFAULT_PERIOD });
-
     const { currency: userCurrency } = (await getUser(userId));
     const baseCurrency = await getBaseCurrency();
-    const nonBaseCurrenciesRates = await getNonBaseCurrenciesRates(periodTransactionsByWallet, baseCurrency);
+    const periodInfo = getPeriodInfo(PERIODS.DEFAULT_PERIOD);
+    const periodTransactionsByWallet = await getPeriodTransactionsByWallet({ userId, providedWallets: allWallets, periodInfo });
+    const nonBaseCurrenciesRates = await getNonBaseCurrenciesRates({ baseCurrency, transactionsByWallet: periodTransactionsByWallet, userCurrency });
 
+    // Get the data
     const periodTransactions = periodTransactionsByWallet.flatMap(wallet => wallet.transactions);
-
     const financialScore = await getUserFinancialScore(periodTransactions, baseCurrency, nonBaseCurrenciesRates);
 
-    const balanceChartData = await getUserBalanceChartData({
+    const balanceOverTimeChartData = await getUserBalanceChartData({
       userId,
-      period: DEFAULT_PERIOD,
+      periodInfo,
       trackBalanceChange: true,
-      prefetchedData: {
-        allWallets,
+      providedData: {
+        wallets: allWallets,
         periodTransactionsByWallet,
-        userCurrency,
         baseCurrency,
+        userCurrency,
         nonBaseCurrenciesRates,
       }
     });
 
     const expensesByCategoryChartData = await getCashFlowByCategoryChartData({
       type: "expense",
-      prefetchedData: {
-        periodTransactions,
+      periodInfo,
+      providedData: {
+        periodTransactionsByWallet,
         baseCurrency,
         nonBaseCurrenciesRates
-      }
+      },
+      convertToBaseCurrency: true
     });
 
     const incomeByCategoryChartData = await getCashFlowByCategoryChartData({
       type: "income",
-      prefetchedData: {
-        periodTransactions,
+      periodInfo,
+      providedData: {
+        periodTransactionsByWallet,
         baseCurrency,
         nonBaseCurrenciesRates
-      }
+      },
+      convertToBaseCurrency: true
     });
 
     const cashFlowOverTimeChartData = await getCashFlowChartData({
-      period: DEFAULT_PERIOD,
-      prefetchedData: {
+      periodInfo,
+      providedData: {
         allWallets,
         periodTransactionsByWallet,
         userCurrency,
@@ -80,7 +84,7 @@ export default async function reflectLoader({ request }) {
     const loaderData = {
       financialScore,
       chartData: {
-        balanceOverTime: balanceChartData,
+        balanceOverTime: balanceOverTimeChartData,
         expensesByCategory: expensesByCategoryChartData,
         incomeByCategory: incomeByCategoryChartData,
         cashFlowOverTime: cashFlowOverTimeChartData
@@ -89,11 +93,8 @@ export default async function reflectLoader({ request }) {
 
     return createSuccessResponse(loaderData);
   } catch (error) {
-    // To do: create more specific error messages
     console.error(error);
 
-    // To do: create a Firebase Firestore errors map
-
-    throw createErrorResponse(500, "Sorry, we couldn't load your stats. Please try again");
+    throw createErrorResponse("Sorry, we couldn't load your stats. Please try again.");
   }
 }

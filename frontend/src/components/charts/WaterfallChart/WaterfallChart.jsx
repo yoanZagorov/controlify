@@ -29,7 +29,7 @@ export default function WaterfallChart({ data, currency }) {
         <XAxis dataKey="presentationKey" tick={<CustomXAxisTick />} />
         <YAxis tick={<CustomYAxisTick currency={currency} />} />
         <Tooltip wrapperClassName="rounded-lg" content={<CustomTooltip chartType="waterfall" currency={currency} />} />
-        <Bar dataKey="accumulatedBalance" stackId="a" fill="transparent" isAnimationActive={false} />
+        <Bar dataKey="prevDayBalance" stackId="a" fill="transparent" isAnimationActive={false} />
         <Bar dataKey="balanceChange" stackId="a" isAnimationActive={false}>
           {customCells}
         </Bar>

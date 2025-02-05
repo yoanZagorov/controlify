@@ -3,12 +3,13 @@ import { createUserWithEmailAndPassword, deleteUser } from "firebase/auth";
 
 import { auth } from "@/services/firebase/firebase.config";
 
-import { createUser, getAuthUserId } from "@/services/firebase/db/user";
+import { createUser } from "@/services/firebase/db/user";
 
 import { checkFirebaseError, validateSignupCredentials } from "@/utils/auth";
 import { ValidationError } from "@/utils/errors";
 import { storeRedirectData } from "@/utils/localStorage";
 import { createErrorResponse } from "../responses";
+import { getAuthUserId } from "@/services/firebase/auth";
 
 export default async function createAccountAction({ request }) {
   try {
@@ -47,6 +48,6 @@ export default async function createAccountAction({ request }) {
       return createErrorResponse(firebaseError.status, firebaseError.message);
     };
 
-    return createErrorResponse(500, "Couldn't create your account. Please try again");
+    return createErrorResponse("Couldn't create your account. Please try again");
   }
 }

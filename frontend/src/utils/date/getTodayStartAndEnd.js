@@ -7,6 +7,6 @@ export default function getTodayStartAndEnd() {
 
   return {
     start,
-    end,
+    end
   }
 }

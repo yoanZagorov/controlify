@@ -1,37 +1,43 @@
 import { performDecimalCalculation } from "@/utils/number";
 
-// Convert balance to base currency. Used in reflect loader
 export default async function getUserFinancialScore(periodTransactions, baseCurrency, nonBaseCurrenciesRates) {
+  const FINANCIAL_SCORE_AMOUNTS = {
+    MIN: 0,
+    MAX: 100,
+    BREAK_EVEN: 50
+  }
+
   if (!periodTransactions.length) return null;
 
-  let incomeTransactions = [];
-  let expenseTransactions = [];
+  let incomeAmount = 0;
+  let expenseAmount = 0;
 
   for (const transaction of periodTransactions) {
-    if (transaction.category.type === "income") {
-      incomeTransactions.push(transaction);
+    const { amount, category: { type }, wallet: { currency } } = transaction;
+
+    let amountInBaseCurrency = amount;
+    if (currency !== baseCurrency.code) {
+      amountInBaseCurrency = performDecimalCalculation(transaction.amount, nonBaseCurrenciesRates[currency], "*", 4);
+    }
+
+    if (type === "income") {
+      incomeAmount = performDecimalCalculation(incomeAmount, amountInBaseCurrency, "+", 4);
     } else {
-      expenseTransactions.push(transaction);
+      expenseAmount = performDecimalCalculation(expenseAmount, amountInBaseCurrency, "+", 4);
     }
   }
 
-  function calculateAmount(transactions) {
-    return transactions.reduce((acc, transaction) => {
-      const currency = transaction.wallet.currency;
-
-      let amountInBaseCurrency = transaction.amount;
-      if (currency !== baseCurrency.code) {
-        amountInBaseCurrency = performDecimalCalculation(transaction.amount, nonBaseCurrenciesRates[currency], "*", 4);
-      }
-
-      return performDecimalCalculation(acc, amountInBaseCurrency, "+");
-    }, 0);
-  }
-
-  const incomeAmount = calculateAmount(incomeTransactions);
-  const expenseAmount = calculateAmount(expenseTransactions);
-
-  const financialScore = Math.trunc(Math.max(0, Math.min(100, (((incomeAmount - expenseAmount) / incomeAmount) * 50) + 50)));
+  // Simple formula to calculate a rough financial score
+  const financialScore =
+    Math.trunc(
+      Math.max(
+        FINANCIAL_SCORE_AMOUNTS.MIN,
+        Math.min(
+          FINANCIAL_SCORE_AMOUNTS.MAX,
+          (((incomeAmount - expenseAmount) / incomeAmount) * FINANCIAL_SCORE_AMOUNTS.BREAK_EVEN) + FINANCIAL_SCORE_AMOUNTS.BREAK_EVEN
+        )
+      )
+    );
 
   return financialScore;
 }

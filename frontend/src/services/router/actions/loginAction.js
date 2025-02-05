@@ -35,6 +35,6 @@ export default async function loginAction({ request }) {
       return createErrorResponse(firebaseError.statusCode, firebaseError.message);
     };
 
-    return createErrorResponse(500, "Couldn't log you in. Please try again");
+    return createErrorResponse("Couldn't log you in. Please try again");
   }
 }

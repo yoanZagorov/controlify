@@ -1,18 +1,13 @@
 import { where } from "firebase/firestore";
 import getUserBalance from "../user/getUserBalance";
-import { performDecimalCalculation } from "@/utils/number";
 import { getBalanceChartDataDays } from "@/utils/charts";
-import { getPeriodInfo } from "@/utils/date";
-import { getAllNeededConversionData } from "../currency";
+import { convertAmountToUserCurrency, getAllNeededConversionData } from "../currency";
 
-// Convert balance to base currency and then to user currency. Used in appLoader and reflectLoader
-export default async function getUserBalanceChartData({ userId, period, trackBalanceChange = false, providedData = {} }) {
-  const periodInfo = getPeriodInfo(period);
-
+export default async function getUserBalanceChartData({ userId, periodInfo, trackBalanceChange = false, providedData = {} }) {
   // Fetch the data that isn't provided
-  const neededData = ["allWallets", "periodTransactionsByWallet", "baseCurrency", "userCurrency", "nonBaseCurrenciesRates"];
+  const neededData = ["wallets", "periodTransactionsByWallet", "baseCurrency", "userCurrency", "nonBaseCurrenciesRates"];
   const allNeededConversionData = await getAllNeededConversionData({ userId, periodInfo, neededData, providedData });
-  const { allWallets, periodTransactionsByWallet, baseCurrency, userCurrency, nonBaseCurrenciesRates } = allNeededConversionData;
+  const { wallets, periodTransactionsByWallet, baseCurrency, userCurrency, nonBaseCurrenciesRates } = allNeededConversionData;
 
   // Calculate balance before start of period
   const openingBalanceTransactionsQuery = [
@@ -20,7 +15,7 @@ export default async function getUserBalanceChartData({ userId, period, trackBal
   ];
   const openingBalance = await getUserBalance({
     userId,
-    wallets: allWallets,
+    wallets,
     query: openingBalanceTransactionsQuery,
     baseCurrency,
     userCurrency,
@@ -31,23 +26,15 @@ export default async function getUserBalanceChartData({ userId, period, trackBal
   const periodTransactions = periodTransactionsByWallet.flatMap(wallet => wallet.transactions);
   let transactionsByDayMap = {};
   for (const transaction of periodTransactions) {
-    const currency = transaction.wallet.currency;
+    const { amount, date, wallet: { currency } } = transaction;
 
     // Calculate the appropriate amount for each transaction
     let convertedTransactionAmount;
     if (currency !== userCurrency) {
-      let baseCurrencyTransactionAmount = transaction.amount;
-      if (currency !== baseCurrency.code) {
-        baseCurrencyTransactionAmount = performDecimalCalculation(transaction.amount, nonBaseCurrenciesRates[currency], "*", 4);
-      }
-
-      convertedTransactionAmount = baseCurrencyTransactionAmount;
-      if (baseCurrency.code !== userCurrency) {
-        convertedTransactionAmount = performDecimalCalculation(baseCurrencyTransactionAmount, nonBaseCurrenciesRates[userCurrency], "/", 4);
-      }
+      convertedTransactionAmount = convertAmountToUserCurrency({ amount, currency, baseCurrency, userCurrency, nonBaseCurrenciesRates });
     }
 
-    const dateKey = transaction.date.toDateString();
+    const dateKey = date.toDateString();
 
     if (!transactionsByDayMap[dateKey]) transactionsByDayMap[dateKey] = [];
     transactionsByDayMap[dateKey].push({

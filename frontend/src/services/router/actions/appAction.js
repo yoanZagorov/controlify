@@ -19,7 +19,7 @@ export default async function appAction({ request }) {
       return redirect("/login");
     } catch (error) {
       console.error(error);
-      throw createErrorResponse(500, "Couldn't sign you out. Please try again");
+      throw createErrorResponse("Couldn't sign you out. Please try again");
     }
   }
 }

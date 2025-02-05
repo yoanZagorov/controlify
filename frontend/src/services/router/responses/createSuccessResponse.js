@@ -1,11 +1,13 @@
+import { HTTP_STATUS_CODES } from "@/constants";
+
 export default function createSuccessResponse(data, isStringified = false) {
   return new Response(
     isStringified
       ? data
-      : JSON.stringify({ ...data, statusCode: 200 }), {
-    status: 200,
+      : JSON.stringify({ ...data, statusCode: HTTP_STATUS_CODES.OK }), {
+    status: HTTP_STATUS_CODES.OK,
     headers: {
-      "Content-Type": "application/json; utf-8"
+      "Content-Type": "application/json"
     }
   });
 }

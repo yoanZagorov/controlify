@@ -1,11 +1,23 @@
+import { collection } from "firebase/firestore";
 import { getRandomDocQuery } from "@/services/firebase/db/utils/query";
 import { db } from "@/services/firebase/firebase.config";
-import { collection } from "firebase/firestore";
 import getQuotes from "./getQuotes";
+import { HTTP_STATUS_CODES } from "@/constants";
 
 export default async function getRandomQuote() {
   const quotesCollectionRef = collection(db, "quotes");
-  const randomQuoteDocQuery = await getRandomDocQuery(quotesCollectionRef);
+  const [randomQuoteDocQuery, fallback] = await getRandomDocQuery(quotesCollectionRef);
 
-  return (await getQuotes(randomQuoteDocQuery))[0];
+  // If the first query failed (was empty), getQuotes(getEntities) will throw an error
+  // To avoid breaking the app - catch it here and return the fallback. If the error was of any other type - just rethrow it
+  try {
+    const randomQuoteDoc = (await getQuotes(randomQuoteDocQuery))[0];
+    return randomQuoteDoc;
+  } catch (error) {
+    if (error?.cause?.statusCode === HTTP_STATUS_CODES.NOT_FOUND) {
+      return (await getQuotes(fallback))[0];
+    } else {
+      throw error;
+    }
+  }
 }

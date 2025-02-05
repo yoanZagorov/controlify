@@ -1,52 +1,45 @@
-import { where } from "firebase/firestore";
 import { redirect } from "react-router";
 
-import { getTransactions } from "@/services/firebase/db/transaction";
+import { PERIODS, ROUTES } from "@/constants";
+
+import { checkUserAuthStatus, getAuthUserId } from "@/services/firebase/auth";
+
+import { getPeriodTransactionsByWallet, getTransactions } from "@/services/firebase/db/transaction";
 import { getWallet } from "@/services/firebase/db/wallet";
-import { getAuthUserId } from "@/services/firebase/db/user";
 
-import { getCashFlowByCategoryChartData } from "@/utils/category";
-import { getExpensesVsIncomeChartData } from "@/utils/wallet";
-
-import { getPeriodInfo } from "../utils";
 import { createErrorResponse, createSuccessResponse } from "../responses";
-import { getWalletBalanceChartData } from "../utils/wallet";
-import { checkUserAuthStatus } from "../utils/auth";
+
+import { getCashFlowByCategoryChartData, getExpensesVsIncomeChartData, getWalletBalanceChartData } from "../utils/chartData";
+
+import { getPeriodInfo } from "@/utils/date";
 
 export default async function walletLoader({ params, request }) {
   const userId = await getAuthUserId();
   if (!checkUserAuthStatus(userId, request.url)) {
-    return redirect("/login");
+    return redirect(ROUTES.LOGIN);
   }
-
-  const period = "lastThirtyDays"; // To do: get this from the params
 
   try {
     const walletId = params.walletId;
     const wallet = await getWallet(userId, walletId);
 
-    const walletTransactions = await getTransactions({ userId, wallets: [wallet] })
-    walletTransactions.sort((a, b) => b.date - a.date);
+    const allWalletTransactions = await getTransactions({ userId, providedWallets: [wallet], sortType: "newestFirst" });
 
-    const { start, end } = getPeriodInfo(period);
-    const transactionsQuery = [
-      where("date", ">=", start),
-      where("date", "<=", end)
-    ];
-    const periodTransactionsByWallet = await getTransactions({ userId, wallets: [wallet], query: transactionsQuery, dataFormat: "structured" }); // used for both functions below
+    // Used for multiple functions below
+    const periodInfo = getPeriodInfo(PERIODS.DEFAULT_PERIOD);
+    const periodTransactionsByWallet = await getPeriodTransactionsByWallet({ userId, providedWallets: [wallet], periodInfo }); // used for both functions below
     const periodTransactions = periodTransactionsByWallet.flatMap(wallet => wallet.transactions);
 
-    const { openingBalance, balanceChartData } = await getWalletBalanceChartData({ userId, wallet, period, periodTransactions });
-
-    const expensesByCategoryChartData = await getCashFlowByCategoryChartData({ userId, prefetchedData: { periodTransactionsByWallet } });
-    const expensesVsIncomeChartData = await getExpensesVsIncomeChartData({ transactions: periodTransactions });
+    const { openingBalance, balanceOverTimeChartData } = await getWalletBalanceChartData({ userId, wallet, periodInfo, periodTransactions });
+    const expensesByCategoryChartData = await getCashFlowByCategoryChartData({ type: "expense", userId, providedData: { periodTransactionsByWallet } });
+    const expensesVsIncomeChartData = await getExpensesVsIncomeChartData({ providedPeriodTransactions: periodTransactions });
 
     return createSuccessResponse({
       wallet,
-      transactions: walletTransactions,
+      transactions: allWalletTransactions,
       openingBalance,
       chartData: {
-        balance: balanceChartData,
+        balance: balanceOverTimeChartData,
         expensesByCategory: expensesByCategoryChartData,
         expensesVsIncome: expensesVsIncomeChartData
       }
@@ -54,6 +47,6 @@ export default async function walletLoader({ params, request }) {
   } catch (error) {
     console.error(error);
 
-    return createErrorResponse(500, "Sorry, we couldn't load your wallet data. Please try again");
+    return createErrorResponse("Sorry, we couldn't load your wallet data. Please try again");
   }
 }

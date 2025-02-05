@@ -18,8 +18,9 @@ export default function Needle({ value, data, cx, cy, innerRadius, outerRadius, 
   const xEndPoint = x0 + length * cos;
   const yEndPoint = y0 + length * sin;
 
+  // Using an array because Recharts doesn't recognize fragments
   return [
-    <circle cx={x0} cy={y0} r={circleRadius} fill={color} />,
-    <path d={`M${xBasePointA} ${yBasePointA}L${xBasePointB} ${yBasePointB} L${xEndPoint} ${yEndPoint} L${xBasePointA} ${yBasePointA}`} fill={color} />,
+    <circle key="needle-circle" cx={x0} cy={y0} r={circleRadius} fill={color} />,
+    <path key="needle-path" d={`M${xBasePointA} ${yBasePointA}L${xBasePointB} ${yBasePointB} L${xEndPoint} ${yEndPoint} L${xBasePointA} ${yBasePointA}`} fill={color} />,
   ]
 }

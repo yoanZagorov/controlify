@@ -4,5 +4,5 @@ import { collection } from "firebase/firestore";
 
 export default async function getWallets(userId, query = []) {
   const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
-  return (await getEntities(walletsCollectionRef, "wallets", query));
+  return await getEntities(walletsCollectionRef, "wallets", query);
 }

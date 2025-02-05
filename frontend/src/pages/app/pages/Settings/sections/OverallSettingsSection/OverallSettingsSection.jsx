@@ -5,7 +5,6 @@ import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { useFetcher } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import uploadProfilePicToCloudinary from "@/services/router/utils/settings/uploadProfilePicToCloudinary";
-import { getAuthUserId } from "@/services/firebase/db/user";
 import { validateProfilePic } from "@/services/router/utils/settings";
 import { resetFetcher } from "@/services/router/utils";
 import cn from "classnames";

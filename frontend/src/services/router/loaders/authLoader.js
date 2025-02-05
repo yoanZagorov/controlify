@@ -1,11 +1,13 @@
 import { redirect } from "react-router";
 
-import { getRandomItem } from "@/utils/array";
-import { getStoredData } from "@/utils/localStorage";
-import { createSuccessResponse } from "../responses";
-import { quotes } from "../utils";
-import { getAuthUserId } from "@/services/firebase/auth";
 import { ROUTES } from "@/constants";
+
+import { getAuthUserId } from "@/services/firebase/auth";
+import { getRandomQuote } from "@/services/firebase/db/quote";
+
+import { createErrorResponse, createSuccessResponse } from "../responses";
+
+import { getStoredRedirectData } from "@/utils/localStorage";
 
 export default async function authLoader() {
   const userId = await getAuthUserId();
@@ -14,12 +16,19 @@ export default async function authLoader() {
     return redirect(ROUTES.APP);
   }
 
-  const storedRedirectData = getStoredData("redirectData");
+  try {
+    const storedRedirectData = getStoredRedirectData();
+    const randomQuote = await getRandomQuote();
 
-  const loaderData = {
-    quote: getRandomItem(quotes),
-    redirectData: storedRedirectData || {}
+    const loaderData = {
+      quote: randomQuote,
+      redirectData: storedRedirectData || {}
+    }
+
+    return createSuccessResponse(loaderData);
+  } catch (error) {
+    console.error(error);
+
+    throw createErrorResponse("Sorry, an unexpected error occurred. Please try reloading the page.")
   }
-
-  return createSuccessResponse(loaderData);
 }

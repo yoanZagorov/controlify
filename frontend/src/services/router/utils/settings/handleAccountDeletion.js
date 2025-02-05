@@ -23,6 +23,6 @@ export default async function handleAccountDeletion() {
       return redirect("/login");
     }
 
-    return createErrorResponse(500, "Couldn't delete your account. Please try again.");
+    return createErrorResponse("Couldn't delete your account. Please try again.");
   }
 }

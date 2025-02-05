@@ -80,6 +80,6 @@ export default async function handleTransactionUpdate(userId, formData) {
       return createErrorResponse(error.statusCode, error.message);
     }
 
-    return createErrorResponse(500, "Couldn't update your transaction. Please try again");
+    return createErrorResponse("Couldn't update your transaction. Please try again");
   }
 }

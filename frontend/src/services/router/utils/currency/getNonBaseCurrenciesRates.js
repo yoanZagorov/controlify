@@ -1,19 +1,17 @@
-import { getEntities } from "@/services/firebase/db/utils/entity";
-import { db } from "@/services/firebase/firebase.config";
-import { collection, where } from "firebase/firestore";
+import { where } from "firebase/firestore";
+import { getCurrencies } from "@/services/firebase/db/currency";
 
-// Only one amongst transactionsByWallet and providedNonBaseCurrenciesSet should be provided - they're mutually exclusive
-export default async function getNonBaseCurrenciesRates({ baseCurrency, transactionsByWallet = [], providedNonBaseCurrenciesSet = null, userCurrency = null }) {
-  let nonBaseCurrenciesSet = providedNonBaseCurrenciesSet;
-  if (!nonBaseCurrenciesSet) {
-    nonBaseCurrenciesSet = new Set();
-    transactionsByWallet.forEach(wallet => {
-      if (wallet.currency !== baseCurrency.code && wallet.transactions) {
-        nonBaseCurrenciesSet.add(wallet.currency);
-      }
-    })
-  }
+// Fetch the needed currency rates all at once
+export default async function getNonBaseCurrenciesRates({ baseCurrency, transactionsByWallet = [], userCurrency = null }) {
+  // Create a Set of unique currencies
+  const nonBaseCurrenciesSet = new Set();
+  transactionsByWallet.forEach(wallet => {
+    if (wallet.currency !== baseCurrency.code && wallet.transactions) {
+      nonBaseCurrenciesSet.add(wallet.currency);
+    }
+  })
 
+  // Include the user currency if different from the base
   if (userCurrency) {
     const isPreferredCurrencyBase = userCurrency === baseCurrency.code;
     if (!isPreferredCurrencyBase) {
@@ -21,14 +19,15 @@ export default async function getNonBaseCurrenciesRates({ baseCurrency, transact
     }
   }
 
+  // Create currency lookup table
   let nonBaseCurrenciesRates = {};
   if (nonBaseCurrenciesSet.size) {
-    const currenciesCollectionRef = collection(db, "currencies");
     const nonBaseCurrenciesQuery = [
       where("code", "in", [...nonBaseCurrenciesSet])
     ];
-    const fetchedCurrencies = await getEntities(currenciesCollectionRef, "currencies", nonBaseCurrenciesQuery);
-    nonBaseCurrenciesRates = Object.fromEntries(fetchedCurrencies.map(currency => [currency.code, currency.conversionRate]));
+    const nonBaseCurrencies = await getCurrencies(nonBaseCurrenciesQuery);
+    // Turn the array into a lookup table
+    nonBaseCurrenciesRates = Object.fromEntries(nonBaseCurrencies.map(currency => [currency.code, currency.conversionRate]));
   }
 
   return nonBaseCurrenciesRates;

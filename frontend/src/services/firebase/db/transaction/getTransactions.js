@@ -1,9 +1,9 @@
 import { collection, getDocs, query as firebaseQuery } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
-import { getWallets } from "../../../router/utils/wallet";
+import { getWallets } from "../wallet";
 
-export default async function getTransactions({ userId, prefetchedWallets = [], query = [], dataFormat = "flat" }) {
-  let wallets = prefetchedWallets;
+export default async function getTransactions({ userId, providedWallets = [], query = [], dataFormat = "flat", sortType = "none" }) {
+  let wallets = providedWallets;
   if (!wallets) {
     wallets = await getWallets(userId);
   }
@@ -40,7 +40,15 @@ export default async function getTransactions({ userId, prefetchedWallets = [], 
     const transactionsByWallet = await Promise.all(promises);
 
     if (dataFormat === "flat") {
-      return transactionsByWallet.flatMap(wallet => wallet.transactions);
+      const transactions = transactionsByWallet.flatMap(wallet => wallet.transactions);
+
+      // Sorting here, since the db structure doesn't allow for proper sorting with the orderBy clause
+      const sortedTransactions =
+        sortType === "newestFirst" ? transactions.sort((a, b) => b.date - a.date)
+          : sortType === "oldestFirst" ? transactions.sort((a, b) => a.date - b.date)
+            : transactions
+
+      return sortedTransactions;
     } else {
       return transactionsByWallet;
     }

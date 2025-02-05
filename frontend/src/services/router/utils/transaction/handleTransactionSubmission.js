@@ -57,6 +57,6 @@ export default async function handleTransactionSubmission(userId, formData) {
       return createErrorResponse(error.statusCode, error.message);
     }
 
-    return createErrorResponse(500, "Couldn't complete your transaction. Please try again");
+    return createErrorResponse("Couldn't complete your transaction. Please try again");
   }
 }

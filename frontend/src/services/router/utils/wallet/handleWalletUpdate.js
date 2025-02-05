@@ -78,9 +78,9 @@ export default async function handleWalletUpdate(userId, walletDocRef, walletId,
     console.error(error);
 
     if (error instanceof ValidationError) {
-      return createErrorResponse(error.statusCode, error.message);
+      return createErrorResponse(error.message, error.statusCode);
     }
 
-    return createErrorResponse(500, error.message);
+    return createErrorResponse(error.message);
   }
 }

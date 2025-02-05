@@ -45,6 +45,6 @@ export default async function handleWalletSubmission(userId, formData) {
       return createErrorResponse(error.statusCode, error.message);
     }
 
-    return createErrorResponse(500, error.message);
+    return createErrorResponse(error.message);
   }
 }

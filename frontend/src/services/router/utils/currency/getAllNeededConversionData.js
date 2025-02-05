@@ -1,28 +1,20 @@
 import { getBaseCurrency } from "@/services/firebase/db/currency";
-import getNonBaseCurrenciesRates from "./getNonBaseCurrenciesRates";
 import { getWallets } from "@/services/firebase/db/wallet";
-import { where } from "firebase/firestore";
-import { getTransactions } from "@/services/firebase/db/transaction";
+import { getPeriodTransactionsByWallet } from "@/services/firebase/db/transaction";
 import { getUser } from "@/services/firebase/db/user";
+
+import getNonBaseCurrenciesRates from "./getNonBaseCurrenciesRates";
 
 export default async function getAllNeededConversionData({ userId = null, periodInfo = {}, neededData, providedData }) {
   const conversionData = { ...providedData };
 
-  if (neededData.includes("allWallets") && !conversionData.allWallets) {
-    conversionData.allWallets = await getWallets(userId);
+  if (neededData.includes("wallets") && !conversionData.wallets) {
+    conversionData.wallets = await getWallets(userId);
   }
 
   if (neededData.includes("periodTransactionsByWallet") && !conversionData.periodTransactionsByWallet) {
-    const periodTransactionsQuery = [
-      where("date", ">=", periodInfo.start),
-      where("date", "<=", periodInfo.end)
-    ];
-    conversionData.periodTransactionsByWallet = await getTransactions({
-      userId,
-      prefetchedWallets: conversionData.allWallets,
-      query: periodTransactionsQuery,
-      dataFormat: "structured"
-    });
+    const providedWallets = providedData.wallets || await getWallets(userId); // Useful if you need back only the transactions but not the wallets themselves
+    conversionData.periodTransactionsByWallet = await getPeriodTransactionsByWallet({ userId, providedWallets, periodInfo })
   }
 
   if (neededData.includes("baseCurrency") && !conversionData.baseCurrency) {
@@ -37,9 +29,7 @@ export default async function getAllNeededConversionData({ userId = null, period
   if (neededData.includes("nonBaseCurrenciesRates") && !conversionData.nonBaseCurrenciesRates) {
     conversionData.nonBaseCurrenciesRates = await getNonBaseCurrenciesRates({
       baseCurrency: conversionData.baseCurrency,
-      ...(conversionData.nonBaseCurrenciesSet
-        ? { providedNonBaseCurrenciesSet: conversionData.nonBaseCurrenciesSet } // Mutually
-        : { transactionsByWallet: conversionData.periodTransactionsByWallet }), // Exclusive
+      transactionsByWallet: conversionData.periodTransactionsByWallet,
       ...(neededData.includes("userCurrency") ? { userCurrency: conversionData.userCurrency } : {})
     })
   };

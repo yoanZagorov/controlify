@@ -1,18 +1,14 @@
-import { getPeriodInfo } from "@/services/router/utils";
 import { performDecimalCalculation } from "../number";
 
-export default function getCashFlowLineChartDataDays({ period, transactionsByDayMap }) {
-  const { periodLength } = getPeriodInfo(period);
-
-  // let accumulatedAmount = 0;
-  // let prevDayAmount = 0;
+export default function getCashFlowLineChartDataDays({ periodInfo, transactionsByDayMap }) {
+  const { periodLength } = periodInfo;
 
   const days = Array.from({ length: periodLength }, (_, i) => {
     const day = new Date();
     day.setDate(day.getDate() - (periodLength - i));
 
     let presentationKey;
-    switch (period) {
+    switch (periodInfo.timeframe) {
       case "lastThirtyDays":
         presentationKey = `${day.getDate()}/${day.getMonth() + 1}`;
         break;

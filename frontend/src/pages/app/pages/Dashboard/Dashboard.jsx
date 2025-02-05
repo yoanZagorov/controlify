@@ -18,7 +18,7 @@ export default function Dashboard() {
       wallets,
       balance,
       todayTransactions,
-      balanceChartData
+      balanceOverTimeChartData
     }
   } = useRouteLoaderData("app");
 
@@ -49,7 +49,7 @@ export default function Dashboard() {
             amount: {
               current: balance
             },
-            chartData: balanceChartData
+            chartData: balanceOverTimeChartData
           }}
           currency={currency}
         />

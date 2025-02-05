@@ -3,9 +3,8 @@ import { performDecimalCalculation } from "../number";
 export default function getBalanceChartDataDays({ periodInfo, openingBalance, transactionsByDayMap, trackBalanceChange = false }) {
   const { periodLength } = periodInfo;
 
-  // Initialize accumulators
+  // Initialize accumulator
   let accumulatedBalance = openingBalance;
-  let prevDayBalance = openingBalance;
 
   // Create the days array
   const days = Array.from({ length: periodLength }, (_, i) => {
@@ -13,7 +12,7 @@ export default function getBalanceChartDataDays({ periodInfo, openingBalance, tr
     day.setDate(day.getDate() - (periodLength - i));
 
     let presentationKey;
-    switch (period) {
+    switch (periodInfo.timeframe) {
       case "lastThirtyDays":
         presentationKey = `${day.getDate()}/${day.getMonth() + 1}`;
         break;
@@ -27,13 +26,13 @@ export default function getBalanceChartDataDays({ periodInfo, openingBalance, tr
       {
         dateKey,
         presentationKey: isLastDay ? "Total" : presentationKey,
-        prevDayBalance,
-        balanceChange: 0
+        prevDayBalance: accumulatedBalance,
+        balanceChange: 0,
       } :
       {
         dateKey,
         presentationKey,
-        accumulatedBalance: 0,
+        accumulatedBalance,
       };
   });
 
@@ -42,17 +41,19 @@ export default function getBalanceChartDataDays({ periodInfo, openingBalance, tr
     const currentDayTransactions = transactionsByDayMap[day.dateKey] || [];
 
     const balanceChange = currentDayTransactions.reduce((acc, transaction) => {
-      const operator = transaction.category.type === "expense" ? "-" : "+";
-      return performDecimalCalculation(acc, transaction.amount, operator);
+      const { amount, category: { type } } = transaction;
+      const operator = type === "expense" ? "-" : "+";
+      return performDecimalCalculation(acc, amount, operator);
     }, 0)
-
-    accumulatedBalance = performDecimalCalculation(accumulatedBalance, balanceChange, "+");
 
     if (trackBalanceChange) {
       day.balanceChange = balanceChange;
-      day.prevDayBalance = prevDayBalance;
-      prevDayBalance = accumulatedBalance;
-    } else {
+      day.prevDayBalance = accumulatedBalance;
+    }
+
+    accumulatedBalance = performDecimalCalculation(accumulatedBalance, balanceChange, "+");
+
+    if (!trackBalanceChange) {
       day.accumulatedBalance = accumulatedBalance;
     }
   })

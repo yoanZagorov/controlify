@@ -11,11 +11,10 @@ export default async function handleWalletDeletion(userId, walletId, docRef, tra
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-
   try {
     // Updating the wallet field on each transaction before updating the wallet itself
     const wallet = await getEntity(docRef, walletId, "wallet");
-    const transactions = await getTransactions({ userId, wallets: [wallet] });
+    const transactions = await getTransactions({ userId, providedWallets: [wallet] });
 
     if (transactions.length) {
       const promises = transactions.map(transaction => {
@@ -42,9 +41,9 @@ export default async function handleWalletDeletion(userId, walletId, docRef, tra
     console.error(error);
 
     if (error instanceof ValidationError) {
-      return createErrorResponse(error.statusCode, error.message);
+      return createErrorResponse(error.message, error.statusCode);
     }
 
-    return createErrorResponse(500, error.message);
+    return createErrorResponse(error.message);
   }
 }
