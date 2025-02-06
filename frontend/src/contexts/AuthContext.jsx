@@ -10,7 +10,6 @@ export default function AuthProvider({ children }) {
   }
 
   const [authData, setAuthData] = useState(defaultAuthData);
-
   function updateAuthData(newAuthData) {
     setAuthData(prevAuthData => ({
       ...prevAuthData,

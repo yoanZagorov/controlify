@@ -10,27 +10,28 @@ import { LayoutProvider, SettingsProvider, WalletUpdateProvider } from "@/contex
 import { NotFound } from "@/components/NotFound";
 import { Settings } from "@/pages/app/pages/Settings";
 import { Reflect } from "@/pages/app/pages/Reflect";
+import { ROUTES } from "@/constants";
 
 const routes = [
   {
-    path: "/",
+    path: ROUTES.INDEX,
     loader: rootLoader,
     errorElement: <RootError />
   },
   {
-    path: "/login",
+    path: ROUTES.LOGIN,
     element: <Auth type="login" />,
     action: loginAction,
     loader: authLoader
   },
   {
-    path: "/create-account",
+    path: ROUTES.CREATE_ACCOUNT,
     element: <Auth type="createAccount" />,
     action: createAccountAction,
     loader: authLoader
   },
   {
-    path: "/app",
+    path: ROUTES.APP,
     element:
       <LayoutProvider>
         <AppLayout />
@@ -42,22 +43,22 @@ const routes = [
     children: [
       {
         index: true,
-        element: <Navigate to="dashboard" replace />
+        element: <Navigate to={ROUTES.DASHBOARD} replace />
       },
       {
-        path: "dashboard",
+        path: ROUTES.DASHBOARD,
         element: <Dashboard />,
         loader: dashboardLoader,
         action: dashboardAction
       },
       {
-        path: "wallets",
+        path: ROUTES.WALLETS,
         element: <Wallets />,
         loader: walletsLoader,
         action: walletsAction
       },
       {
-        path: "wallets/:walletId",
+        path: ROUTES.WALLET,
         element: <Wallet />,
         id: "wallet",
         loader: walletLoader,
@@ -65,19 +66,19 @@ const routes = [
         children: [
           {
             index: true,
-            loader: () => redirect("overview")
+            loader: () => redirect(ROUTES.WALLET_OVERVIEW)
           },
           {
-            path: "overview",
+            path: ROUTES.WALLET_OVERVIEW,
             index: true,
             element: <WalletOverview />
           },
           {
-            path: "transactions",
+            path: ROUTES.WALLET_TRANSACTIONS,
             element: <WalletTransactions />
           },
           {
-            path: "settings",
+            path: ROUTES.WALLET_SETTINGS,
             element:
               <WalletUpdateProvider>
                 <WalletSettings />
@@ -86,14 +87,14 @@ const routes = [
         ]
       },
       {
-        path: "reflect",
+        path: ROUTES.REFLECT,
         element: <Reflect />,
         id: "reflect",
         loader: reflectLoader,
         action: reflectAction
       },
       {
-        path: "settings",
+        path: ROUTES.SETTINGS,
         element: <Settings />,
         loader: settingsLoader,
         action: settingsAction
@@ -101,11 +102,11 @@ const routes = [
     ]
   },
   {
-    path: "/data/reset-fetcher",
+    path: ROUTES.RESET_FETCHER,
     action: resetFetcherAction,
   },
   {
-    path: "*",
+    path: ROUTES.CATCH_ALL,
     element: <NotFound />
   }
 ]
@@ -117,7 +118,6 @@ const router = createBrowserRouter(routes, {
     v7_normalizeFormMethod: true,
     v7_skipActionErrorRevalidation: true,
   },
-  // hydrateFallbackElement: <div>Loading...</div>,
 });
 
 export default router;

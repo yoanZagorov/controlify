@@ -2,10 +2,16 @@ import cn from "classnames";
 import { useEffect } from "react";
 
 export default function Notification({ msgType = "notification", size = "m", clearMsg = null, className, children }) {
+  const UNMOUNT_DELAYS = {
+    SUCCESS: 5000,
+    ERROR: 7000,
+    NOTIFICATION: 10000
+  }
+
   const unmountDelay =
-    msgType === "success" ? 5000
-      : msgType === "error" || msgType === "alert" ? 7000
-        : 10000;
+    msgType === "success" ? UNMOUNT_DELAYS.SUCCESS
+      : (msgType === "error" || msgType === "alert") ? UNMOUNT_DELAYS.ERROR
+        : UNMOUNT_DELAYS.NOTIFICATION;
 
   if (clearMsg) {
     useEffect(() => {
@@ -27,7 +33,7 @@ export default function Notification({ msgType = "notification", size = "m", cle
         : size === "m" ? "text-base"
           : size === "l" ? "text-lg"
             : "text-xl",
-    notification: function () {
+    notification: function () { // Turned to a function to access properties with the this keyword
       return cn(
         "text-center text-balanced font-semibold",
         this.type,

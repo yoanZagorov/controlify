@@ -1,58 +1,47 @@
 import { Form as RouterForm } from "react-router"
 import { Button } from "../Button"
+import { isObjTruthy } from "@/utils/obj";
+import cn from "classnames";
 
-export default function Form({ fetcher = null, action, encType = "application/x-www-form-urlencoded", onSubmit = null, isNative = false, className, btn = {}, fields = [], children }) {
-  const isBtn = Object.keys(btn).length > 0;
-  const btnConfig = { text: "submit", ...btn };
+export default function Form({ fetcher = {}, btn = {}, fields = [], className, children, ...props }) {
+  const formConfig = {
+    method: "post",
+    ...props
+  }
 
-  const fieldsEls = fields.map(({ name, value }, index) => (
+  const btnConfig = {
+    isBtn: true,
+    props: {
+      type: "submit",
+      size: "l",
+      name: "intent",
+      ...btn.config.props
+    },
+    text: btn.config.text || "submit",
+    ...btn
+  };
+
+  // Used for forms with controlled inputs
+  const fieldsEls = fields.length ? fields.map(({ name, value }, index) => (
     <input key={index} type="hidden" name={name} value={value} />
-  ))
+  )) : [];
 
-  return isNative ? (
-    <form
-      method="post"
-      action={action}
-      encType={encType}
-      {...onSubmit ? { onSubmit } : {}}
-      className={className}
-    >
-      {fieldsEls}
+  return isObjTruthy(fetcher) ? (
+    <fetcher.Form {...formConfig} className={cn(className)}>
+      {fields.length && fieldsEls}
       {children}
-      {isBtn &&
-        <Button type="submit" size="l" name="intent" {...btnConfig.props}>
-          {btnConfig.text}
-        </Button>
-      }
-    </form>
-  ) : fetcher ? (
-    <fetcher.Form
-      method="post"
-      action={action}
-      encType={encType}
-      {...onSubmit ? { onSubmit } : {}}
-      className={className}
-    >
-      {fieldsEls}
-      {children}
-      {isBtn &&
-        <Button type="submit" size="l" name="intent" {...btnConfig.props}>
+      {btnConfig.isBtn &&
+        <Button {...btnConfig.props}>
           {btnConfig.text}
         </Button>
       }
     </fetcher.Form>
   ) : (
-    <RouterForm
-      method="post"
-      action={action}
-      encType={encType}
-      {...onSubmit ? { onSubmit } : {}}
-      className={className}
-    >
-      {fieldsEls}
+    <RouterForm {...formConfig} className={cn(className)}>
+      {fields.length && fieldsEls}
       {children}
-      {isBtn &&
-        <Button type="submit" size="l" name="intent" {...btnConfig.props}>
+      {btnConfig.isBtn &&
+        <Button {...btnConfig.props}>
           {btnConfig.text}
         </Button>
       }

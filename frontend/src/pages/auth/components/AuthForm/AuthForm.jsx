@@ -2,23 +2,31 @@ import cn from "classnames";
 import { useRef } from "react";
 import { Link } from "react-router";
 
-import { useAuth, useAutoFocus } from "@/hooks";
+import { useAuth, useAutoFocus, useBreakpoint } from "@/hooks";
 
 import { Input } from "@/components/Input";
 import { Form } from "@/components/Form";
 
-export default function AuthForm({ originalPath = "", isCreateAccount, authFormConfig, className }) {
+// Using a controlled inputs approach to guide the user
+// To do (Non-MVP): create handleChange functions for the inputs
+
+export default function AuthForm({ originalPath = "", isCreateAccount, config, className }) {
+  const { action, btnText, path, msg, CTA } = config;
+
   const {
-    authData,
+    authData: {
+      email,
+      password,
+      fullName
+    },
     updateAuthData
   } = useAuth();
-
-  const { email, password, fullName } = authData;
 
   const emailInputRef = useRef(null);
   useAutoFocus({ ref: emailInputRef, deps: [isCreateAccount] });
 
-  const { action, btnText, path, msg, CTA } = authFormConfig;
+  const { isMobileS, isMobileM } = useBreakpoint();
+  const isSmallScreen = isMobileS || isMobileM;
 
   const authDataConfig = [
     {
@@ -70,7 +78,7 @@ export default function AuthForm({ originalPath = "", isCreateAccount, authFormC
     return (
       <Input
         key={index}
-        size="l"
+        size={isSmallScreen ? "m" : "l"}
         required
         value={field.formData.value}
         {...field.inputProps}
@@ -82,17 +90,17 @@ export default function AuthForm({ originalPath = "", isCreateAccount, authFormC
   return (
     <Form
       action={action}
-      className={cn(className)}
       btn={{
-        props: {
-          size: "xl",
-          className: "mt-8 w-full ll:py-5 ll:text-2xl focus:ring-4"
-        },
-        text: btnText
+        config: {
+          props: {
+            size: isSmallScreen ? "l" : "xl",
+            className: "mt-8 w-full ll:py-5 ll:text-2xl focus:ring-4"
+          },
+          text: btnText
+        }
       }}
-      fields={[
-        ...authDataConfig.map(field => field.formData),
-      ]}
+      fields={authDataConfig.map(field => field.formData)}
+      className={cn(className)}
     >
       <div className="flex flex-col gap-5">{inputFields}</div>
 

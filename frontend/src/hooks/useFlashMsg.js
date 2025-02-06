@@ -1,16 +1,17 @@
+import { isObjTruthy } from "@/utils/obj";
 import { useEffect, useState } from "react";
 
 export default function useFlashMsg(messages, deps) {
-  function getInitialMsg() {
+  function getMsg() {
     return messages.find(({ msg }) => msg) || {};
   }
 
-  const [flashMsg, setFlashMsg] = useState(getInitialMsg());
+  const [flashMsg, setFlashMsg] = useState(getMsg());
 
   useEffect(() => {
-    const newMsg = messages.find(({ msg }) => msg);
+    const newMsg = getMsg();
 
-    if (newMsg && newMsg.msg !== flashMsg.msg) {
+    if (isObjTruthy(newMsg) && newMsg.msg !== flashMsg.msg) {
       setFlashMsg(newMsg);
     }
   }, deps)
