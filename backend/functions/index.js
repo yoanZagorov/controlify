@@ -1,5 +1,4 @@
 import { onSchedule } from "firebase-functions/scheduler";
-import { onRequest } from "firebase-functions/https";
 import { db } from "./firebase.config.js";
 
 import { getActiveCurrencies, getBaseCurrency } from "./db/currencies/index.js";

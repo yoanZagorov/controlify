@@ -1,7 +1,8 @@
-import AppError from "./AppError";
+import { HTTP_STATUS_CODES } from "@/constants";
+import StatusCodeError from "./StatusCodeError";
 
-export default class ValidationError extends AppError {
-  constructor(message, statusCode = 400, options = {}) {
+export default class ValidationError extends StatusCodeError {
+  constructor(message, statusCode = HTTP_STATUS_CODES.BAD_REQUEST, options = {}) {
     super(message, statusCode, options);
   }
 }

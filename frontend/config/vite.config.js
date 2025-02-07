@@ -9,6 +9,7 @@ export default defineConfig({
   css: {
     postcss: "config/postcss.config.js",
   },
+  // root: path.resolve(__dirname, '../'),
   server: {
     open: "/"
   },

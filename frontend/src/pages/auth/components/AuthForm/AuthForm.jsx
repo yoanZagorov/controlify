@@ -6,10 +6,10 @@ import { useAuth, useAutoFocus, useBreakpoint } from "@/hooks";
 
 import { Input } from "@/components/Input";
 import { Form } from "@/components/Form";
+import { VALIDATION_RULES } from "@/constants";
 
 // Using a controlled inputs approach to guide the user
 // To do (Non-MVP): create handleChange functions for the inputs
-
 export default function AuthForm({ originalPath = "", isCreateAccount, config, className }) {
   const { action, btnText, path, msg, CTA } = config;
 
@@ -44,7 +44,8 @@ export default function AuthForm({ originalPath = "", isCreateAccount, config, c
         inputRef: emailInputRef,
         type: "email",
         placeholder: "Email",
-        minLength: 2,
+        minLength: VALIDATION_RULES.EMAIL.MIN_LENGTH,
+        maxLength: VALIDATION_RULES.EMAIL.MAX_LENGTH,
         onChange: (e) => updateAuthData({ email: e.target.value })
       },
     },
@@ -56,8 +57,8 @@ export default function AuthForm({ originalPath = "", isCreateAccount, config, c
       inputProps: {
         type: "password",
         placeholder: "Password",
-        minLength: 8,
-        maxLength: 12,
+        minLength: VALIDATION_RULES.PASSWORD.MIN_LENGTH,
+        maxLength: VALIDATION_RULES.PASSWORD.MAX_LENGTH,
         onChange: (e) => updateAuthData({ password: e.target.value })
       },
     },
@@ -68,7 +69,8 @@ export default function AuthForm({ originalPath = "", isCreateAccount, config, c
       },
       inputProps: {
         placeholder: "Full Name",
-        minLength: 5,
+        minLength: VALIDATION_RULES.FULL_NAME.MIN_LENGTH,
+        maxLength: VALIDATION_RULES.FULL_NAME.MAX_LENGTH,
         onChange: (e) => updateAuthData({ fullName: e.target.value })
       },
     }] : [])
@@ -91,13 +93,11 @@ export default function AuthForm({ originalPath = "", isCreateAccount, config, c
     <Form
       action={action}
       btn={{
-        config: {
-          props: {
-            size: isSmallScreen ? "l" : "xl",
-            className: "mt-8 w-full ll:py-5 ll:text-2xl focus:ring-4"
-          },
-          text: btnText
-        }
+        props: {
+          size: isSmallScreen ? "l" : "xl",
+          className: "mt-8 w-full ll:py-5 ll:text-2xl focus:ring-4"
+        },
+        text: btnText
       }}
       fields={authDataConfig.map(field => field.formData)}
       className={cn(className)}

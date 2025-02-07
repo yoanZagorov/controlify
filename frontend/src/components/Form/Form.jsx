@@ -11,14 +11,14 @@ export default function Form({ fetcher = {}, btn = {}, fields = [], className, c
 
   const btnConfig = {
     isBtn: true,
+    text: "submit",
+    ...btn,
     props: {
       type: "submit",
       size: "l",
       name: "intent",
-      ...btn.config.props
+      ...btn.props
     },
-    text: btn.config.text || "submit",
-    ...btn
   };
 
   // Used for forms with controlled inputs

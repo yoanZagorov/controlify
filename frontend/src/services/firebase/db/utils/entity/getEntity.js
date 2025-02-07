@@ -6,7 +6,7 @@ export default async function getEntity(docRef, docId, entityName) {
     const docSnapshot = await getDoc(docRef);
 
     if (!docSnapshot.exists()) {
-      throw new Error(`A ${capitalize(entityName)} with the id ${docId} doesn't seem to exist`);
+      throw new Error(`${capitalize(entityName)} with the id ${docId} doesn't seem to exist`);
     };
 
     return {

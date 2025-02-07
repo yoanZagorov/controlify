@@ -3,24 +3,31 @@ import { redirect } from "react-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/services/firebase/firebase.config";
 
-import { checkFirebaseError, checkLoginFields } from "@/utils/auth";
 import { ValidationError } from "@/utils/errors";
 import { storeRedirectData } from "@/utils/localStorage";
 import { createErrorResponse } from "../responses";
+import { validateLoginFields } from "@/utils/validation";
+import { ROUTES } from "@/constants";
+import { firebaseAuthErrorsMap } from "@/services/firebase/auth";
 
 export default async function loginAction({ request }) {
-  try {
-    const formData = Object.fromEntries(await request.formData());
-    const { originalPath, email, password } = formData;
+  const formData = Object.fromEntries(await request.formData());
+  const formattedFormData = {
+    ...formData,
+    email: formData.email.toLowerCase() // Normalize emails, since this is how they are stored
+  }
+  const { originalPath, email, password } = formattedFormData;
 
-    checkLoginFields(email, password);
+  try {
+    // No need for complex checks - they are done when creating an account
+    validateLoginFields(email, password);
 
     await signInWithEmailAndPassword(auth, email, password);
 
     // Message to display on successful login
     storeRedirectData("Successfully logged in!", "success");
 
-    return redirect(originalPath || "/app");
+    return redirect(originalPath || ROUTES.APP);
   } catch (error) {
     console.error(error);
 
@@ -28,13 +35,11 @@ export default async function loginAction({ request }) {
       return createErrorResponse(error.statusCode, error.message);
     }
 
-    const firebaseError = checkFirebaseError(error.code);
-
+    const firebaseError = firebaseAuthErrorsMap[error.code];
     if (firebaseError) {
-      console.error("firebaseError:", firebaseError);
       return createErrorResponse(firebaseError.statusCode, firebaseError.message);
     };
 
-    return createErrorResponse("Couldn't log you in. Please try again");
+    return createErrorResponse("Couldn't log you in. Please try again.");
   }
 }
