@@ -95,6 +95,6 @@ export default async function reflectLoader({ request }) {
   } catch (error) {
     console.error(error);
 
-    throw createErrorResponse("Sorry, we couldn't load your stats. Please try again.");
+    throw createErrorResponse("Sorry, we couldn't load your stats. Please try again and contact us at yoan.zagorov@gmail.com if the issue persists");
   }
 }

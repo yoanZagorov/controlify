@@ -37,7 +37,7 @@ export default async function loginAction({ request }) {
 
     const firebaseError = firebaseAuthErrorsMap[error.code];
     if (firebaseError) {
-      return createErrorResponse(firebaseError.statusCode, firebaseError.message);
+      return createErrorResponse(firebaseError.message, firebaseError.statusCode);
     };
 
     return createErrorResponse("Couldn't log you in. Please try again.");

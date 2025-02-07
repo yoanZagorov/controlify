@@ -1,19 +1,11 @@
 import { useRouteError } from "react-router";
+import { ErrorWrapper } from "../ErrorWrapper";
 
 export default function RootError() {
   const error = useRouteError();
+  const errorMsg = error?.data?.msg || error?.message;
 
   return (
-    <div className="text-center">
-      <p>
-        An error ocurred!
-      </p>
-      <p>
-        Error status: {error.status}
-      </p>
-      <p>
-        {error.data.message}
-      </p>
-    </div>
+    <ErrorWrapper error={{ ...(errorMsg ? { msg: errorMsg } : {}) }} />
   )
 }

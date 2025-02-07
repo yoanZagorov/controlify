@@ -47,6 +47,6 @@ export default async function walletLoader({ params, request }) {
   } catch (error) {
     console.error(error);
 
-    return createErrorResponse("Sorry, we couldn't load your wallet data. Please try again");
+    throw createErrorResponse("Sorry, we couldn't load your wallet data. Please try again and contact us at yoan.zagorov@gmail.com if the issue persists");
   }
 }

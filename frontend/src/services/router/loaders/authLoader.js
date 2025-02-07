@@ -29,6 +29,6 @@ export default async function authLoader() {
   } catch (error) {
     console.error(error);
 
-    throw createErrorResponse("Sorry, an unexpected error occurred. Please try reloading the page.")
+    throw createErrorResponse("Sorry, an unexpected error occurred. Please try again and contact us at yoan.zagorov@gmail.com if the issue persists")
   }
 }

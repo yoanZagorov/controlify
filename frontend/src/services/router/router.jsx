@@ -5,30 +5,32 @@ import { AppLayout, Dashboard, Wallets, Wallet, WalletOverview, WalletTransactio
 
 import { appAction, createAccountAction, dashboardAction, loginAction, reflectAction, resetFetcherAction, settingsAction, walletAction, walletsAction } from "./actions";
 import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader, walletLoader, settingsLoader, reflectLoader } from "./loaders";
-import { AppErrorComponent, RootError } from "@/components/errors";
-import { LayoutProvider, SettingsProvider, WalletUpdateProvider } from "@/contexts";
-import { NotFound } from "@/components/NotFound";
+import { NotFound, RootError } from "@/components/errors";
+import { LayoutProvider, WalletUpdateProvider } from "@/contexts";
 import { Settings } from "@/pages/app/pages/Settings";
 import { Reflect } from "@/pages/app/pages/Reflect";
 import { ROUTES } from "@/constants";
 
+// To do (Non-MVP): find the reason for the infinite loop bug, when defining all routes as children of INDEX
 const routes = [
   {
     path: ROUTES.INDEX,
     loader: rootLoader,
-    errorElement: <RootError />
+    errorElement: <RootError />,
   },
   {
     path: ROUTES.LOGIN,
     element: <Auth type="login" />,
     action: loginAction,
-    loader: authLoader
+    loader: authLoader,
+    errorElement: <RootError />,
   },
   {
     path: ROUTES.CREATE_ACCOUNT,
     element: <Auth type="createAccount" />,
     action: createAccountAction,
-    loader: authLoader
+    loader: authLoader,
+    errorElement: <RootError />,
   },
   {
     path: ROUTES.APP,
@@ -39,7 +41,7 @@ const routes = [
     id: "app",
     loader: appLoader,
     action: appAction,
-    errorElement: <AppErrorComponent />,
+    errorElement: <RootError />,
     children: [
       {
         index: true,
