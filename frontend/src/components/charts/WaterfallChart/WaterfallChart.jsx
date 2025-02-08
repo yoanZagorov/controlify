@@ -2,7 +2,7 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveCo
 
 import { CustomXAxisTick } from "../BalanceLineChart/components/CustomXAxisTick";
 import { CustomYAxisTick } from "../BalanceLineChart/components/CustomYAxisTick";
-import { CustomTooltip } from "../BalanceLineChart/components/CustomTooltip";
+import { CustomTooltip } from "../components/CustomTooltip";
 
 export default function WaterfallChart({ data, currency }) {
   const RED = "#CC0000";

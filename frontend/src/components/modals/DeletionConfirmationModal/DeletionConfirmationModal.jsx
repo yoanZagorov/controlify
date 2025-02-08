@@ -2,17 +2,6 @@ import { capitalize } from "@/utils/str";
 import { Button } from "@/components/Button";
 
 export default function DeletionConfirmationModal({ entity, closeModal }) {
-  // function handleFetcherSubmission() {
-  //   console.log("submitting...")
-  //   fetcher.submit(
-  //     {
-  //       id: entity.id,
-  //       intent: `delete${capitalize(entity.name)}`
-  //     },
-  //     { method: "post", action })
-  // }
-
-
   return (
     <div className="h-full px-6 py-8 rounded-t-lg ml:rounded-lg bg-gray-light">
       <h1 className="text-2xl text-gray-dark font-semibold">Delete {capitalize(entity)}?</h1>

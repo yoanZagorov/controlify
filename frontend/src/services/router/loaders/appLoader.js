@@ -80,7 +80,6 @@ export default async function appLoader({ request }) {
   } catch (error) {
     console.error(error);
 
-    // To do: 
     throw createErrorResponse("Sorry, we couldn't load your profile data. Please try again and contact us at yoan.zagorov@gmail.com if the issue persists");
   }
 }

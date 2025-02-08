@@ -2,7 +2,9 @@ import { Form as RouterForm } from "react-router"
 import { Button } from "../Button"
 import { isObjTruthy } from "@/utils/obj";
 import cn from "classnames";
+import { isArrayTruthy } from "@/utils/array";
 
+// The Form component tries to keep the logic as isolated as possible, keeping all the controlled inputs here and using presentational once for the UI
 export default function Form({ fetcher = {}, btn = {}, fields = [], className, children, ...props }) {
   const formConfig = {
     method: "post",
@@ -22,13 +24,13 @@ export default function Form({ fetcher = {}, btn = {}, fields = [], className, c
   };
 
   // Used for forms with controlled inputs
-  const fieldsEls = fields.length ? fields.map(({ name, value }, index) => (
+  const fieldsEls = isArrayTruthy(fields) ? fields.map(({ name, value }, index) => (
     <input key={index} type="hidden" name={name} value={value} />
   )) : [];
 
   return isObjTruthy(fetcher) ? (
     <fetcher.Form {...formConfig} className={cn(className)}>
-      {fields.length && fieldsEls}
+      {isArrayTruthy(fields) && fieldsEls}
       {children}
       {btnConfig.isBtn &&
         <Button {...btnConfig.props}>
@@ -38,7 +40,7 @@ export default function Form({ fetcher = {}, btn = {}, fields = [], className, c
     </fetcher.Form>
   ) : (
     <RouterForm {...formConfig} className={cn(className)}>
-      {fields.length && fieldsEls}
+      {isArrayTruthy(fields) && fieldsEls}
       {children}
       {btnConfig.isBtn &&
         <Button {...btnConfig.props}>

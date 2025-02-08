@@ -1,10 +1,10 @@
-import { NavLink, Form as RouterForm } from "react-router";
+import { NavLink } from "react-router";
 import cn from "classnames";
 
-import { useLayout } from "@/hooks";
 import { capitalize } from "@/utils/str";
 
 import { SvgIcon } from "@/components/SvgIcon";
+import { Form } from "@/components/Form";
 
 export default function NavItem({
   variants = { layout: "iconOnly", type: "primary", purpose: "navigation" },
@@ -13,7 +13,6 @@ export default function NavItem({
   iconName = "house",
   handleClose = null
 }) {
-  const { isDesktop } = useLayout();
 
   const { layout: layoutVariant, type: typeVariant } = variants;
   const isLogout = variants.purpose === "logout";
@@ -70,23 +69,23 @@ export default function NavItem({
   return (
     <li>
       {isLogout ? (
-        <RouterForm method="post" action={action}>
+        <Form action={action} btn={{ isBtn: false }}>
           <button
             type="submit"
             name="intent" // use to differentiate between the different forms on the action
             value="logout"
             className={classes.logoutBtn}
-            onClick={!isDesktop ? handleClose : undefined}
+            onClick={handleClose}
           >
             <SvgIcon iconName="logout" className={classes.icon} />
             {layoutVariant === "iconWithText" && "Log out"}
           </button>
-        </RouterForm>
+        </Form>
       ) : (
         <NavLink
           to={to}
           className={classes.navItem}
-          onClick={!isDesktop ? handleClose : undefined}
+          onClick={handleClose || null}
         >
           <SvgIcon iconName={iconName} className={classes.icon} />
           {layoutVariant === "iconWithText" && capitalize(to)}

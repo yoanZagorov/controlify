@@ -5,9 +5,9 @@ import { Carousel } from "@/components/Carousel";
 import { Section } from "@/components/sections/Section";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { BalanceLineChart } from "@/components/charts/BalanceLineChart";
-import { BalanceAmountWidget } from "@/components/sections/BalanceSection/components/BalanceAmountWidget";
+import { BalanceAmountWidget } from "@/components/widgets/BalanceAmountWidget";
 
-export default function BalanceSection({ section, isSpaceLimited, balance, currency }) {
+export default function BalanceSection({ isSpaceLimited, balance, currency }) {
   const balanceChange = performDecimalCalculation(balance.amount.current, balance.amount.prev, "-");
 
   const elements = [

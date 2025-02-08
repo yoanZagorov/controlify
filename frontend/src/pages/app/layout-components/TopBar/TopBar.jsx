@@ -3,9 +3,8 @@ import { useLocation } from "react-router";
 
 import { useLayout } from "@/hooks"
 import { capitalize } from "@/utils/str";
-import { getCurrentPage } from "../utils"
-  ;
 import { SvgIcon } from "@/components/SvgIcon";
+import { getCurrentPage } from "@/utils/general";
 
 export default function TopBar() {
   const { isSidebarExpanded, toggleSidebar } = useLayout();
@@ -15,7 +14,7 @@ export default function TopBar() {
 
   const classes = {
     topBar: cn(
-      "fixed w-screen h-16 px-4 tab:px-6 flex items-center gap-4 bg-navy z-10 shadow transition-[top] duration-300 tab:duration-500",
+      "fixed w-screen h-16 px-4 tab:px-6 flex items-center gap-4 bg-navy z-10 shadow transition-[top]",
       isSidebarExpanded ? "-top-20" : "top-0"
     )
   }

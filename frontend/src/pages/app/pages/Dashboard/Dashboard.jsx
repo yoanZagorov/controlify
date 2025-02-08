@@ -8,6 +8,7 @@ import { useLayout, useScrollToTop } from "@/hooks";
 import { TransactionsSection } from "@/components/sections/TransactionsSection";
 import { WalletsSection } from "@/components/sections/WalletsSection";
 import { BalanceSection } from "./sections/BalanceSection";
+import { ROUTES } from "@/constants";
 
 export default function Dashboard() {
   useScrollToTop();
@@ -42,13 +43,9 @@ export default function Dashboard() {
     <>
       <div className={classes.grid}>
         <BalanceSection
-          section={{
-            className: classes.gridItem
-          }}
+          sectionClassName={classes.gridItem}
           balance={{
-            amount: {
-              current: balance
-            },
+            amount: balance,
             chartData: balanceOverTimeChartData
           }}
           currency={currency}
@@ -56,7 +53,7 @@ export default function Dashboard() {
 
         <WalletSubmissionProvider>
           <WalletsSection
-            action="/app/dashboard"
+            action={ROUTES.DASHBOARD}
             contentProps={{
               wallets,
               section: {
@@ -69,7 +66,7 @@ export default function Dashboard() {
 
         <TransactionProvider>
           <TransactionsSection
-            action="/app/dashboard"
+            action={ROUTES.DASHBOARD}
             contentProps={{
               hasFilter: false,
               transactions: todayTransactions,

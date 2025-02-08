@@ -1,5 +1,5 @@
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { CustomTooltip } from "../BalanceLineChart/components/CustomTooltip";
+import { CustomTooltip } from "../components/CustomTooltip";
 import { CustomXAxisTick } from "../BalanceLineChart/components/CustomXAxisTick";
 import { CustomYAxisTick } from "../BalanceLineChart/components/CustomYAxisTick";
 

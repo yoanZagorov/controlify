@@ -3,10 +3,9 @@ import { collection, doc, serverTimestamp, writeBatch } from "firebase/firestore
 
 import { getBaseCurrency } from "../currency";
 import { getRootCategories } from "../rootCategory";
+import { COLORS } from "@/constants";
 
 export default async function createUser(userId, email, fullName) {
-  const DEFAULT_WALLET_COLOR = "#004D40";
-
   try {
     // To do (Non-MVP): get the default user currency through the Geolocation API
     // const defaultCurrency = getUserDefaultCurrency() || await getBaseCurrency();
@@ -44,7 +43,7 @@ export default async function createUser(userId, email, fullName) {
       currency: defaultCurrency,
       iconName: "wallet",
       isDefault: true,
-      color: DEFAULT_WALLET_COLOR,
+      color: COLORS.ENTITIES.DEFAULT_WALLET_COLOR,
       categories: walletCategories,
       createdAt: serverTimestamp(),
       deletedAt: null,

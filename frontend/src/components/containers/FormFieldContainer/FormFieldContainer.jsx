@@ -3,27 +3,24 @@ import { useModal } from "@/hooks";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { SelectModal } from "@/components/modals/SelectModal";
 
-export default function FieldContainer({ field, modal }) {
+// The FormFieldContainer provides the logic for form fields that open nested modals
+export default function FormFieldContainer({ field, modal }) {
   const {
-    modalState: [isSelectModalOpen, setSelectModalOpen] = [], // Accounting for cases where modal is null
+    modalState: [isSelectModalOpen, setSelectModalOpen],
     hasTransitioned,
     modalRef
-  } = modal ? useModal({ isBlocking: modal.type?.blocking || false }) : {};
+  } = useModal({ isBlocking: modal.type?.blocking || false });
 
-  const modalTypeConfig = modal ? { layout: "nested", blocking: false, ...modal.type } : {};
-
-  function toggleModal() {
-    if (modal) setSelectModalOpen(true);
-  }
+  const modalTypeConfig = { layout: "nested", blocking: false, ...modal.type };
 
   return (
     <>
       <field.Component
         {...field.props}
-        selectBtnProps={field.props.type !== "input" ? { ...field.props.selectBtnProps, onClick: toggleModal } : null}
+        controlProps={{ ...field.props.controlProps, onClick: () => setSelectModalOpen(true) }}
       />
 
-      {modal && (isSelectModalOpen || hasTransitioned) &&
+      {(isSelectModalOpen || hasTransitioned) &&
         <ModalWrapper
           type={modalTypeConfig}
           isModalOpen={isSelectModalOpen}

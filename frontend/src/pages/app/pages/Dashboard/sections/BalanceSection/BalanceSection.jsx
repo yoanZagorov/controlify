@@ -1,29 +1,19 @@
-import cn from "classnames";
-
 import { Section } from "@/components/sections/Section";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { BalanceLineChart } from "@/components/charts/BalanceLineChart";
-import { BalanceAmountWidget } from "@/components/sections/BalanceSection/components/BalanceAmountWidget";
+import { BalanceAmountWidget } from "@/components/widgets/BalanceAmountWidget";
 
-export default function BalanceSection({ section, balance, currency }) {
-  // console.log(balance.chartData);
-  const classes = {
-    sectionContent: cn(
-      "flex flex-col gap-6",
-      section.contentClassName
-    )
-  }
-
+export default function BalanceSection({ sectionClassName, balance, currency }) {
   return (
     <Section
       title="Balance"
-      className={cn(section.className)}
-      contentClassName={classes.sectionContent}
+      className={sectionClassName}
+      contentClassName="flex flex-col gap-6"
     >
       <BalanceAmountWidget
         iconName="scale"
         title="current"
-        amount={balance.amount.current}
+        amount={balance.amount}
         currency={currency}
       />
 

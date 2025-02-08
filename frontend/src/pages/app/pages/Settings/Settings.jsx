@@ -2,13 +2,12 @@ import { useEffect } from "react";
 import { useFetcher, useNavigate, useRouteLoaderData } from "react-router";
 
 import { resetFetcher } from "@/services/router/utils";
-import { walletsColors } from "@/utils/wallet";
 
 import { CategoriesVisibilityModal } from "@/components/modals/CategoriesVisibilityModal";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { SettingsSection } from "@/components/sections/SettingsSection";
-import { useLayout, useModal, useSettings, useWalletUpdate } from "@/hooks";
+import { useLayout, useModal, useScrollToTop, useSettings, useWalletUpdate } from "@/hooks";
 import { handleFullNameInputChange, handleWalletNameInputChange } from "@/utils/input";
 import { capitalize } from "@/utils/str";
 import { SvgIcon } from "@/components/SvgIcon";
@@ -23,6 +22,8 @@ import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { Form } from "@/components/Form";
 
 export default function Settings() {
+  useScrollToTop();
+
   const deleteAccountFetcher = useFetcher({ key: "deleteAccount" });
   const {
     modalState: [isDeletionConfirmationModalOpen, setDeletionConfirmationModalOpen] = [],

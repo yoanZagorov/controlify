@@ -1,11 +1,12 @@
 import { useRouteLoaderData } from "react-router";
 
-import { useLayout } from "@/hooks";
+import { useLayout, useScrollToTop } from "@/hooks";
 
 import { BalanceSection } from "./sections/BalanceSection";
 import { SpendingSection } from "./sections/SpendingSection";
 
 export default function WalletOverview() {
+  useScrollToTop();
   const { wallet, openingBalance, chartData } = useRouteLoaderData("wallet");
 
   const { isSingleColLayout } = useLayout();

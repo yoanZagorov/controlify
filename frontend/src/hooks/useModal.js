@@ -5,7 +5,9 @@ import { resetFetcher } from "@/services/router/utils";
 import useScrollLock from "./useScrollLock";
 import useMountTransition from "./useMountTransition";
 import useOutsideClick from "./useOutsideClick";
+import { isObjTruthy } from "@/utils/obj";
 
+// Single hook combining all modal related functionality
 export default function useModal({ isBlocking = true, fetcher = {}, resetModalData, unmountDelay = 300 }) {
   const [isModalOpen, setModalOpen] = useState(false);
   const hasTransitioned = useMountTransition(isModalOpen, unmountDelay);
@@ -14,11 +16,12 @@ export default function useModal({ isBlocking = true, fetcher = {}, resetModalDa
 
   isBlocking && useScrollLock(isModalOpen);
 
-  const isFetcher = Object.keys(fetcher).length > 0;
+  const isFetcher = isObjTruthy(fetcher);
   isFetcher && useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data) {
       setModalOpen(false);
-      // resetModalData && resetModalData(); // To do: find a way to implement clearing without sacrificing the smooth animation
+      // To do (Non-MVP): find a way to implement state reset without sacrificing the smooth animation
+      // resetModalData && resetModalData(); 
       resetFetcher(fetcher);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }

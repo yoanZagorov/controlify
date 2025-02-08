@@ -24,6 +24,11 @@ const VALIDATION_RULES = {
     MAX_LENGTH: 50,
     REGEX: /^[\p{L}]{1,2}'?[\p{L}]{1,14}[\s-][\p{L}]{1,2}'?[\p{L}]{1,14}(?:[\s-][\p{L}]{1,2}'?[\p{L}]{1,14}){0,2}$/u,
   },
+  WALLET_NAME: {
+    MIN_LENGTH: 2,
+    MAX_LENGTH: 50,
+    // To do: REGEX:
+  },
 }
 
 export default VALIDATION_RULES;

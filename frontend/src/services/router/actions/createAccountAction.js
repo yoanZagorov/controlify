@@ -3,14 +3,14 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { auth } from "@/services/firebase/firebase.config";
 
-import { createUser, getAuthUser } from "@/services/firebase/db/user";
+import { createUser } from "@/services/firebase/db/user";
 
 import { ValidationError } from "@/utils/errors";
 import { storeRedirectData } from "@/utils/localStorage";
 import { createErrorResponse } from "../responses";
 import { ROUTES } from "@/constants";
 import { validateSignupCredentials } from "@/utils/validation";
-import { firebaseAuthErrorsMap, rollbackAuthUserCreation } from "@/services/firebase/auth";
+import { firebaseAuthErrorsMap, getAuthUser, rollbackAuthUserCreation } from "@/services/firebase/auth";
 
 export default async function createAccountAction({ request }) {
   const formData = Object.fromEntries(await request.formData());

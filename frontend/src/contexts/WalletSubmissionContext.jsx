@@ -1,19 +1,19 @@
+import { COLORS } from "@/constants";
 import { createContext, useState } from "react"
 import { useRouteLoaderData } from "react-router";
 
 export const WalletSubmissionContext = createContext(null);
 
+// Keeps the state while adding a new wallet
 export default function WalletSubmissionProvider({ children }) {
-  const DEFAULT_WALLET_COLOR = "#004D40";
-
   const { userData: { currency, categories: userCategories } } = useRouteLoaderData("app");
 
   const defaultWalletData = {
     name: "New Wallet",
     initialBalance: "0",
     currency,
-    categories: userCategories.map(category => ({ ...category, isVisible: true })),
-    color: DEFAULT_WALLET_COLOR
+    categories: userCategories.map(category => ({ ...category, isVisible: true })), // keeping all of the properties of the category since it's used for the UI
+    color: COLORS.ENTITIES.DEFAULT_WALLET_COLOR
   }
 
   const [walletData, setWalletData] = useState(defaultWalletData);

@@ -1,63 +1,59 @@
 import cn from "classnames";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
-import { useAutoFocus, useModal, useSelectInput } from "@/hooks";
+import { useAutoFocus } from "@/hooks";
+
+import { isObjTruthy } from "@/utils/obj";
 
 import { Form } from "@/components/Form";
-import { FieldContainer } from "./components/FieldContainer";
-import { Field } from "./components/Field";
-import { SvgIcon } from "@/components/SvgIcon";
-import { ModalWrapper } from "../ModalWrapper";
-import { DeletionConfirmationModal } from "../DeletionConfirmationModal";
-import { useFetcher } from "react-router";
+import { FormFieldContainer } from "@/components/containers/FormFieldContainer";
+
+import { FormField } from "./components/FormField";
+import { DeleteEntityHandler } from "./components/DeleteEntityHandler";
 
 export default function HeaderModal({ entity, formProps, header, fields, color }) {
   const headerInputRef = useRef(null);
 
   useAutoFocus({ ref: headerInputRef, selectOnFocus: true });
-  useSelectInput(headerInputRef);
 
-  const headerConfig = { type: "simple", deleteEntityFetcher: null, ...header };
+  const headerConfig = { type: "simple", deleteEntityFetcher: {}, ...header };
   const isHeaderSimple = headerConfig.type === "simple";
 
   const { deleteEntityFetcher } = headerConfig;
-  const isDeleteBtn = !!deleteEntityFetcher;
+  const isDeleteEntity = isObjTruthy(deleteEntityFetcher);
 
-  const {
-    modalState: [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = [],
-    hasTransitioned: hasDeleteConfirmationModalTransitioned,
-    modalRef: deleteConfirmationModalRef
-  } = isDeleteBtn ? useModal({ isBlocking: false, fetcher: deleteEntityFetcher }) : {};
-
-  const itemFields = fields.map((field, index) => (
-    <FieldContainer
-      key={index}
-      field={{
-        Component: Field,
-        props: {
-          name: field.name,
-          ...field.props,
-          selectBtnProps: field.props.type !== "input" ? { ...field.props.selectBtnProps, colorPalette: "secondaryDark" } : null
-        }
-      }}
-      modal={field.modal}
-    />
-  ))
+  const itemFields = fields.map((field, index) => {
+    return field.modal ? (
+      <FormFieldContainer
+        key={index}
+        field={{
+          Component: FormField,
+          props: {
+            name: field.name,
+            ...field.props,
+            controlProps: { ...field.props.controlProps, colorPalette: "secondaryDark" }
+          }
+        }}
+        modal={field.modal}
+      />
+    ) : (
+      <FormField key={index} name={field.name} {...field.props} />
+    )
+  })
 
   const isUsingKeyboard = document.body.classList.contains("using-keyboard");
 
-  const classes = {
-    headerInput: cn(
-      "w-full px-3 py-2 bg-transparent rounded border-none focus:outline-none",
-      isHeaderSimple
-        ? cn(
-          "text-2xl text-gray-light rounded",
-          // isDeleteBtn && "w-4/5"
-        )
-        : "rounded-md",
-      isUsingKeyboard && "focus:ring focus:ring-goldenrod"
-    )
-  }
+  const headerInputProps = isHeaderSimple
+    ? {
+      ref: headerInputRef,
+      required: true,
+      ...header.inputProps,
+      className: cn(
+        "w-full px-3 py-2 bg-transparent rounded text-2xl text-gray-light focus:outline-none",
+        isUsingKeyboard && "focus-visible-goldenrod",
+        header?.inputProps.className
+      )
+    } : {};
 
   return (
     <>
@@ -74,101 +70,20 @@ export default function HeaderModal({ entity, formProps, header, fields, color }
           style={{ backgroundColor: color }}
         >
           {isHeaderSimple ?
-            isDeleteBtn ? (
+            isDeleteEntity ? (
               <div className="flex items-center gap-6">
-                <input
-                  ref={headerInputRef}
-                  required
-                  {...header?.input.props}
-                  className={classes.headerInput}
-                />
+                <input {...headerInputProps} />
 
-                <button
-                  type="button"
-                  onClick={() => setDeleteConfirmationModalOpen(true)}
-                  className="ml-auto flex justify-center items-center gap-6 size-10 min-w-10 rounded-md bg-gray-light focus-goldenrod"
-                >
-                  <SvgIcon iconName="trash-can" className="size-6 fill-red-dark" />
-                </button>
-
-                {(isDeleteConfirmationModalOpen || hasDeleteConfirmationModalTransitioned) &&
-                  <ModalWrapper
-                    type={{
-                      layout: "nested"
-                    }}
-                    isModalOpen={isDeleteConfirmationModalOpen}
-                    hasTransitioned={hasDeleteConfirmationModalTransitioned}
-                    ref={deleteConfirmationModalRef}
-                    minHeight="h-3/4"
-                  >
-                    <DeletionConfirmationModal
-                      entity={entity}
-                      // fetcher={deleteEntityFetcher}
-                      // action={formProps.action}
-                      closeModal={() => setDeleteConfirmationModalOpen(false)}
-                    />
-                  </ModalWrapper>
-                }
+                <DeleteEntityHandler entity={entity} deleteEntityFetcher={deleteEntityFetcher} />
               </div>
             ) : (
-              <input
-                ref={headerInputRef}
-                required
-                {...header?.input.props}
-                className={classes.headerInput}
-              />
-
-            ) : header.customInput ?
-              isDeleteBtn ? (
-                <div className="flex items-center gap-6">
-                  <header.customInput.Component {...header.customInput.props} />
-
-                  <button
-                    type="button"
-                    onClick={() => setDeleteConfirmationModalOpen(true)}
-                    className="ml-auto flex justify-center items-center gap-6 size-10 min-w-10 rounded-md bg-gray-light focus-goldenrod"
-                  >
-                    <SvgIcon iconName="trash-can" className="size-6 fill-red-dark" />
-                  </button>
-
-                  {(isDeleteConfirmationModalOpen || hasDeleteConfirmationModalTransitioned) &&
-                    <ModalWrapper
-                      type={{
-                        layout: "nested"
-                      }}
-                      isModalOpen={isDeleteConfirmationModalOpen}
-                      hasTransitioned={hasDeleteConfirmationModalTransitioned}
-                      ref={deleteConfirmationModalRef}
-                      minHeight="h-3/4"
-                    >
-                      <DeletionConfirmationModal
-                        entity={entity}
-                        // fetcher={deleteEntityFetcher}
-                        // action={formProps.action}
-                        closeModal={() => setDeleteConfirmationModalOpen(false)}
-                      />
-                    </ModalWrapper>
-                  }
-                </div>
-              ) : (
-                <header.customInput.Component {...header.customInput.props} />
-              ) : (
-                <>
-                  <label
-                    htmlFor={`header-modal-input-${header?.input?.id}`}
-                    className="text-gray-light text-2xl"
-                  >
-                    {header.labelText}
-                  </label>
-
-                  <input
-                    ref={headerInputRef}
-                    value={header?.input?.value}
-                    onChange={header?.input?.handleChange}
-                    className={classes.headerInput}
-                  />
-                </>
-              )
+              <input {...headerInputProps} />
+            ) : isDeleteEntity ? (
+              <div className="flex items-center gap-6">
+                {header.CustomComponent}
+                <DeleteEntityHandler entity={entity} deleteEntityFetcher={deleteEntityFetcher} />
+              </div>
+            ) : header.CustomComponent
           }
         </header >
 

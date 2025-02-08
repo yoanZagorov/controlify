@@ -8,7 +8,7 @@ import { Widget } from "@/components/widgets/Widget";
 import { WalletWidget } from "../WalletWidget"
 import { PlusCircleIcon } from "../PlusCircleIcon";
 
-export default function Content({ wallets, section, openModal }) {
+export default function WalletsContent({ wallets, section, openModal }) {
   const { isMobileS } = useBreakpoint();
 
   const walletWidgets = wallets.map(wallet => (

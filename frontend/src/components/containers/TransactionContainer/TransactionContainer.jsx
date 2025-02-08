@@ -159,16 +159,14 @@ export default function TransactionContainer({ fetcher, modal, action, submitBtn
             }}
             header={{
               type: "custom",
-              customInput: {
-                Component: CustomAmountInput,
-                props: {
-                  value: amount,
-                  handleChange: handleInputChange,
-                  isExpense,
-                  currency,
-                  isDeleteBtn,
-                }
-              },
+              CustomComponent:
+                <CustomAmountInput
+                  value={amount}
+                  handleChange={handleInputChange}
+                  isExpense={isExpense}
+                  currency={currency}
+                  isDeleteBtn={isDeleteBtn}
+                />,
               deleteEntityFetcher: deleteTransactionFetcher
             }}
             fields={transactionDataConfig.filter(option => option.field).map(option => option.field)}

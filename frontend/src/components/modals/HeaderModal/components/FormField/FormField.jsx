@@ -7,12 +7,9 @@ import { SvgIcon } from "@/components/SvgIcon";
 import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
 
-export default function FieldContainer({ type = "select", name, iconName, displayValue, inputProps = {}, selectBtnProps = null, customType = {} }) {
+// controlProps refer to either input/selectBtn, depending on what is the type
+export default function FormField({ type = "select", name, iconName, displayValue, controlProps = {}, customType = {} }) {
   const isInput = type === "input";
-  const isCustom = type === "custom";
-  const isCustomBtn = type === "customBtn";
-
-  const inputPropsConfig = { type: "text", size: "l", ...inputProps };
 
   const inputRef = isInput ? useRef(null) : null;
   isInput && useSelectInput(inputRef);
@@ -22,24 +19,24 @@ export default function FieldContainer({ type = "select", name, iconName, displa
       <SvgIcon iconName={iconName} className="size-6 min-w-6 min-h-6 fill-gray-dark" />
       <span className="text-sm font-bold text-gray-dark">{capitalizeEveryWord(name)}</span>
 
-      {isInput ? (
+      {type === "input" ? (
         <Input
           inputRef={inputRef}
           size="l"
           variant="outline"
           required
           value={displayValue}
-          {...inputPropsConfig}
+          {...controlProps}
           className="ml-auto w-full max-w-44 text-right font-semibold"
         />
-      ) : isCustom ? (
+      ) : type === "custom" ? (
         <customType.Component {...customType.props} />
-      ) : isCustomBtn ? (
-        <customType.Component {...customType.props} {...selectBtnProps} />
+      ) : type === "customBtn" ? (
+        <customType.Component {...customType.props} {...controlProps} />
       ) : (
         <Select
           btnProps={{
-            ...selectBtnProps,
+            ...controlProps,
             className: "ml-auto border-0 bg-gray-light",
           }}
           value={displayValue}

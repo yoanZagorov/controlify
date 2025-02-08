@@ -1,4 +1,4 @@
-import { getAuthUser } from "@/services/firebase/db/user";
+import { getAuthUser } from "@/services/firebase/auth";
 import { auth } from "@/services/firebase/firebase.config";
 import { storeRedirectData } from "@/utils/localStorage";
 import { sendEmailVerification, signOut, updateEmail, verifyBeforeUpdateEmail } from "firebase/auth";

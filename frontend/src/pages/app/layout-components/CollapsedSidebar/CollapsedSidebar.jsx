@@ -1,14 +1,24 @@
 import cn from "classnames";
 
 import { useLayout } from "@/hooks";
-import { renderNavItems } from "../utils";
-import { primaryNavPages, secondaryNavPages } from "../utils";
+import { primaryNavPages, secondaryNavPages } from "../data";
 
 import { SvgIcon } from "@/components/SvgIcon";
 import { NavItem } from "../NavItem";
 
 export default function CollapsedSidebar() {
   const { isSidebarExpanded, toggleSidebar } = useLayout();
+
+  function renderNavItems(navPages, layout, type) {
+    return navPages.map((page, index) => (
+      <NavItem
+        key={index}
+        variants={{ layout, type }}
+        to={page.name}
+        iconName={page.iconName}
+      />
+    ));
+  }
 
   const primaryNavItems = renderNavItems(primaryNavPages, "iconOnly", "primary");
   const secondaryNavItems = renderNavItems(secondaryNavPages, "iconOnly", "secondary");

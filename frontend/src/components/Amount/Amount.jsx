@@ -1,11 +1,10 @@
-import { formatUserBalance } from "@/utils/formatting";
 import cn from "classnames";
 
-export default function Amount({ amount, currency = "BGN", colorContext, displayPlusSign = false, className }) {
+export default function Amount({ amount, currency, colorContext, displayPlusSign = false, className }) {
   const isNegative = amount < 0;
   const isDark = colorContext === "dark";
-  const absAmount = Math.abs(amount);
-  const formattedAmount = formatUserBalance(absAmount);
+
+  const formattedAmount = Math.abs(amount).toFixed(2);
 
   const balanceClass = cn(
     {

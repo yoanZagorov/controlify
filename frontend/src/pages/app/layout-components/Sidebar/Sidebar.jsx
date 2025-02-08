@@ -1,34 +1,45 @@
 import cn from "classnames";
 import { useRouteLoaderData } from "react-router";
 
-import logo from "@/assets/logos/logoNavyBg.png";
+import Logo from "@/assets/logos/logo-gray.svg?react";
 
 import { useBreakpoint, useLayout } from "@/hooks";
-import { primaryNavPages, secondaryNavPages } from "../utils";
-import { renderNavItems } from "../utils";
 
 import { SvgIcon } from "@/components/SvgIcon";
 import { NavItem } from "../NavItem";
+import { primaryNavPages, secondaryNavPages } from "../data";
 
 export default function Sidebar() {
   const { userData: { profilePic, email, fullName } } = useRouteLoaderData("app");
   const { isSidebarExpanded, toggleSidebar, sidebarRef } = useLayout();
   const { isDesktop } = useBreakpoint();
 
+  function renderNavItems(navPages, layout, type, handleClose) {
+    return navPages.map((page, index) => (
+      <NavItem
+        key={index}
+        variants={{ layout, type }}
+        to={page.name}
+        iconName={page.iconName}
+        handleClose={handleClose}
+      />
+    ));
+  }
+
   const primaryNavItems = renderNavItems(primaryNavPages, "iconWithText", "primary", !isDesktop ? toggleSidebar : null);
   const secondaryNavItems = renderNavItems(secondaryNavPages, "iconWithText", "secondary", !isDesktop ? toggleSidebar : null);
 
   const classes = {
     sidebar: cn(
-      "fixed h-screen w-64 ml:w-72 tab:w-80 ll:w-96 pt-8 pb-4 tab:pt-10 ll:pt-12 flex flex-col items-center text-gray-light bg-navy z-10 transition-[left] duration-300 tab:duration-500",
+      "fixed h-screen w-64 ml:w-72 tab:w-80 ll:w-96 pt-8 pb-4 tab:pt-10 ll:pt-12 flex flex-col items-center text-gray-light bg-navy z-10 transition-[left] tab:duration-500",
       isSidebarExpanded ? "left-0" : "-left-full"
     )
   }
 
   return (
     <div className={classes.sidebar} ref={sidebarRef}>
-      <img src={logo} className="px-4" />
-      <p className="text-sm mm:text-base ll:text-lg tracking-wider font-light">Take control of your finances</p>
+      <Logo className="px-4" />
+      <p className="text-sm ml:text-base ll:text-lg tracking-wider font-light">Take control of your finances</p>
 
       <div className="mt-8 ll:mt-10 size-20 tab:size-24 lm:size-28 ll:size-32 rounded-full">
         {profilePic?.url ?

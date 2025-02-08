@@ -17,6 +17,7 @@ export default function useOutsideClick(isOpen, close, { eventListenerCondition 
 
   function handleMouseOutsideClick(e) {
     if (ref.current && (!ref.current.contains(e.target)) && clickCondition) {
+      // Using data-sets to ensure no conflicts with other clickable elements
       const actionableElement = e.target.closest("[data-actionable='true']");
       const shouldSidebarStayOpen = e.target.closest("[data-close='false']");
 

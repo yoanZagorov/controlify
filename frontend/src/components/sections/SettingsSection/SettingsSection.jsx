@@ -3,7 +3,7 @@ import { FormField } from "./components/FormField";
 import { Section } from "../Section";
 import cn from "classnames";
 import { Form } from "@/components/Form";
-import { FieldContainer } from "@/components/modals/HeaderModal/components/FieldContainer";
+import { FormFieldContainer } from "@/components/containers/FormFieldContainer";
 import { SettingWidget } from "./components/SettingWidget";
 import { SvgIcon } from "@/components/SvgIcon";
 import { useModal } from "@/hooks";
@@ -17,20 +17,24 @@ export default function SettingsSection({ formProps, sectionProps, settings, isD
     modalRef: deleteConfirmationModalRef
   } = isDeleteBtn ? useModal({ fetcher: formProps.fetcher }) : {};
 
-  const settingEls = settings.filter(option => option.field).map(({ field }, index) => (
-    <FieldContainer
-      key={index}
-      field={{
-        Component: SettingWidget,
-        props: {
-          name: field.name,
-          ...field.props,
-          selectBtnProps: field.props.type === "select" ? { colorPalette: "secondaryLight" } : null
-        }
-      }}
-      modal={field.modal}
-    />
-  ))
+  const settingEls = settings.filter(option => option.field).map(({ field }, index) => {
+    return field.modal ? (
+      <FormFieldContainer
+        key={index}
+        field={{
+          Component: SettingWidget,
+          props: {
+            name: field.name,
+            ...field.props,
+            selectBtnProps: field.props.type === "select" ? { colorPalette: "secondaryLight" } : null
+          }
+        }}
+        modal={field.modal}
+      />
+    ) : (
+      <SettingWidget name={field.name} {...field.props} />
+    )
+  })
 
   const classes = {
     grid: cn(

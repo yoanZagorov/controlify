@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-export default function useMountTransition(isMounted, unmountDelay) {
+// Used to perform smooth transitions 
+export default function useMountTransition(isMounted, unmountDelay = 300) {
   const [hasTransitioned, setHasTransitioned] = useState(isMounted);
 
   useEffect(() => {

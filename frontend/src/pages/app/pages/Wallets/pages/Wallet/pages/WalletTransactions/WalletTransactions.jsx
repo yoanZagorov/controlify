@@ -2,12 +2,15 @@ import { useFetcher, useRouteLoaderData } from "react-router"
 
 import { TransactionProvider } from "@/contexts";
 
-import { useLayout, useModal } from "@/hooks";
+import { useLayout, useModal, useScrollToTop } from "@/hooks";
 
 import { TransactionModal } from "@/components/modals/TransactionModal";
 import { TransactionsSection } from "@/components/sections/TransactionsSection";
 
 export default function WalletTransactions() {
+  useScrollToTop();
+
+
   const { wallet } = useRouteLoaderData("wallet");
   const { isSingleColLayout } = useLayout();
 

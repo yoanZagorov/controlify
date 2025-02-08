@@ -1,10 +1,10 @@
-import { createBrowserRouter, Navigate, redirect } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 
 import { Auth } from "@/pages/auth";
 import { AppLayout, Dashboard, Wallets, Wallet, WalletOverview, WalletTransactions, WalletSettings } from "@/pages/app";
 
 import { appAction, createAccountAction, dashboardAction, loginAction, reflectAction, resetFetcherAction, settingsAction, walletAction, walletsAction } from "./actions";
-import { appLoader, dashboardLoader, rootLoader, walletsLoader, authLoader, walletLoader, settingsLoader, reflectLoader } from "./loaders";
+import { appLoader, dashboardLoader, walletsLoader, authLoader, walletLoader, settingsLoader, reflectLoader } from "./loaders";
 import { NotFound, RootError } from "@/components/errors";
 import { LayoutProvider, WalletUpdateProvider } from "@/contexts";
 import { Settings } from "@/pages/app/pages/Settings";
@@ -15,7 +15,7 @@ import { ROUTES } from "@/constants";
 const routes = [
   {
     path: ROUTES.INDEX,
-    loader: rootLoader,
+    element: <Navigate to="app" replace />,
     errorElement: <RootError />,
   },
   {
@@ -45,7 +45,7 @@ const routes = [
     children: [
       {
         index: true,
-        element: <Navigate to={ROUTES.DASHBOARD} replace />
+        element: <Navigate to="dashboard" replace />
       },
       {
         path: ROUTES.DASHBOARD,
@@ -68,7 +68,7 @@ const routes = [
         children: [
           {
             index: true,
-            loader: () => redirect(ROUTES.WALLET_OVERVIEW)
+            element: <Navigate to="overview" replace /> // Doesn't work with absolute paths (likely a bug in React Router)
           },
           {
             path: ROUTES.WALLET_OVERVIEW,

@@ -2,16 +2,18 @@ import { useEffect } from "react";
 import { useFetcher, useNavigate, useRouteLoaderData } from "react-router";
 
 import { resetFetcher } from "@/services/router/utils";
-import { walletsColors } from "@/utils/wallet";
 
 import { CategoriesVisibilityModal } from "@/components/modals/CategoriesVisibilityModal";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { SettingsSection } from "@/components/sections/SettingsSection";
-import { useLayout, useWalletUpdate } from "@/hooks";
+import { useLayout, useScrollToTop, useWalletUpdate } from "@/hooks";
 import { handleWalletNameInputChange } from "@/utils/input";
+import { COLORS } from "@/constants";
 
 export default function WalletSettings() {
+  useScrollToTop();
+
   const navigate = useNavigate();
 
   const { userData: { categories: userCategories } } = useRouteLoaderData("app");
@@ -141,7 +143,7 @@ export default function WalletSettings() {
           },
           innerModal: {
             Component: ColorModal,
-            props: { colors: walletsColors },
+            props: { colors: COLORS.ENTITIES.WALLET_COLORS },
           },
           state: {
             value: color,
