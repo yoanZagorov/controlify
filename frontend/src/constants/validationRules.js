@@ -36,6 +36,12 @@ const VALIDATION_RULES = {
       MAX_AMOUNT: 999999.99
     }
   },
+  TRANSACTION: {
+    AMOUNT: {
+      MIN_AMOUNT: 1,
+      MAX_AMOUNT: 999999.99
+    }
+  },
   AMOUNT: {
     REGEX: /^\d{1,6}(?:\.\d{1,2})?$/,
     LEADING_ZERO_REGEX: /^0\d{1,6}(?:\.\d{1,2})?$/

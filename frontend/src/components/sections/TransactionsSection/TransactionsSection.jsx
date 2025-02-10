@@ -2,8 +2,8 @@ import { useFetcher } from "react-router";
 
 import { useModal, useTransaction } from "@/hooks";
 
-import { TransactionContainer } from "@/components/containers/TransactionContainer";
-import { Content } from "./components/Content";
+import { TransactionContainer } from "./components/TransactionContainer"
+import { TransactionsSectionContent } from "./components/TransactionsSectionContent";
 
 export default function TransactionsSection({ action, contentProps }) {
   const { transactionData: { amount, category }, resetTransactionData } = useTransaction();
@@ -15,18 +15,20 @@ export default function TransactionsSection({ action, contentProps }) {
 
   return (
     <TransactionContainer
-      fetcher={fetcher}
       modal={modal}
-      action={action}
-      submitBtn={{
-        text: "complete transaction",
-        props: {
-          value: "addTransaction",
-          disabled: amount === "0" || category.name === "choose"
+      formProps={{
+        fetcher,
+        action,
+        btn: {
+          text: "complete transaction",
+          props: {
+            value: "addTransaction",
+            disabled: amount === "0" || category.name === "choose" // Default data
+          }
         }
       }}
     >
-      <Content {...contentProps} action={action} openModal={() => setModalOpen(true)} />
+      <TransactionsSectionContent {...contentProps} action={action} openModal={() => setModalOpen(true)} />
     </TransactionContainer>
   )
 }

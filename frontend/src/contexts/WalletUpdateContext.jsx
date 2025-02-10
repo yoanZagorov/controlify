@@ -1,4 +1,4 @@
-import { formatEntityName } from "@/utils/formatting";
+import { formatEntityNameForUI } from "@/utils/formatting";
 import { createContext, useState } from "react"
 import { useRouteLoaderData } from "react-router";
 
@@ -22,7 +22,7 @@ export default function WalletUpdateProvider({ children }) {
   }
 
   const defaultWalletData = {
-    name: formatEntityName(name),
+    name: formatEntityNameForUI(name),
     categories: getCurrentCategories(),
     currency,
     color

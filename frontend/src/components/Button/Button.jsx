@@ -11,10 +11,10 @@ export default function Button({ size = "m", variant = "solid", colorPalette = "
   const btnDisabled = "opacity-75 cursor-not-allowed";
 
   const sizes = {
-    s: "py-1 px-2 text-sm rounded-md",
-    m: "py-2 px-4 text-base rounded-lg",
-    l: "py-3 px-6 text-lg rounded-lg",
-    xl: "py-4 px-8 text-xl rounded-lg"
+    s: "py-1 px-2 text-sm rounded-md focus:ring",
+    m: "py-2 px-4 text-base rounded-lg focus:ring-2",
+    l: "py-3 px-6 text-lg rounded-lg focus:ring-4",
+    xl: "py-4 px-8 text-xl rounded-lg focus:ring-4"
   }
 
   const btnSecondary = "font-semibold text-gray-dark border border-gray-dark focus:border-opacity-0 focus:ring-gray-dark";

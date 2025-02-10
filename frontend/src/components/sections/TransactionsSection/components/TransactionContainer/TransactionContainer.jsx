@@ -1,5 +1,5 @@
-import { useModal, useTransaction } from "@/hooks";
-import { formatEntityName } from "@/utils/formatting";
+import { useTransaction } from "@/hooks";
+import { formatEntityNameForUI } from "@/utils/formatting";
 import { handleAmountInputChange } from "@/utils/input";
 import { getDateBtnValue } from "@/utils/date";
 
@@ -9,32 +9,28 @@ import { HeaderModal } from "@/components/modals/HeaderModal";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { WalletModal } from "@/components/modals/WalletModal";
 import { CustomAmountInput } from "@/components/sections/TransactionsSection/components/CustomAmountInput";
-import { useFetcher } from "react-router";
+import { useFetcher, useRouteLoaderData } from "react-router";
+import { COLORS } from "@/constants";
 
-export default function TransactionContainer({ fetcher, modal, action, submitBtn, isDeleteBtn = false, children }) {
-  const NAVY = "#002B5B";
+export default function TransactionContainer({ mode = "add", modal, formProps, children }) {
+  const DEFAULT_TRANSACTION_TYPE = "expense";
 
+  const isEditTransaction = mode === "edit";
   const {
     modalState: [isModalOpen, setModalOpen],
     hasTransitioned,
     modalRef
   } = modal;
 
-  const deleteTransactionFetcher = isDeleteBtn ? useFetcher({ key: "deleteTransaction" }) : {};
+  const { userData: { wallets, categories } } = useRouteLoaderData("app");
 
-  const {
-    transactionData: {
-      amount,
-      wallet,
-      currency,
-      category,
-      date,
-      transactionId
-    },
-    updateTransactionData
-  } = useTransaction();
+  const deleteTransactionFetcher = isEditTransaction ? useFetcher({ key: "deleteTransaction" }) : {};
 
-  const transactionType = category.type || "expense";
+  const { transactionData, updateTransactionData } = useTransaction();
+  const { amount, wallet, currency, category, date } = transactionData;
+  const { transactionId } = isEditTransaction ? transactionData : {};
+
+  const transactionType = category.type || DEFAULT_TRANSACTION_TYPE;
   const isExpense = transactionType === "expense";
 
   const transactionDataConfig = [
@@ -53,21 +49,21 @@ export default function TransactionContainer({ fetcher, modal, action, submitBtn
         name: "wallet",
         props: {
           iconName: "wallet",
-          type: "select",
-          displayValue: formatEntityName(wallet.name),
-          selectBtnProps: {
-            disabled: wallet.isPreselected
+          displayValue: formatEntityNameForUI(wallet.name),
+          controlProps: {
+            disabled: wallet.isLocked
           }
         },
         modal: {
           innerModal: {
             Component: WalletModal,
+            props: { wallets }
           },
           state: {
             value: wallet,
-            updateState: (newWallet) => updateTransactionData({ wallet: { ...wallet, id: newWallet.id, name: newWallet.name }, currency: newWallet.currency }) // Spreading the old wallet data to keep the isPreselected prop
+            // Spreading the old wallet data to not overwrite the isLocked prop
+            updateState: (newWallet) => updateTransactionData({ wallet: { ...wallet, id: newWallet.id, name: newWallet.name }, currency: newWallet.currency })
           },
-          minHeight: "min-h-[50%]",
         }
       }
     },
@@ -80,19 +76,18 @@ export default function TransactionContainer({ fetcher, modal, action, submitBtn
         name: "category",
         props: {
           iconName: "categories",
-          type: "select",
-          displayValue: formatEntityName(category.name),
+          displayValue: formatEntityNameForUI(category.name),
         },
         modal: {
           innerModal: {
             Component: CategoryModal,
-            props: { isToggleSwitchDisabled: !!transactionId }
+            props: { categories, defaultType: transactionType, isToggleSwitchDisabled: isEditTransaction }
           },
           state: {
             value: category,
             updateState: (newCategory) => updateTransactionData({ category: newCategory })
           },
-          minHeight: "min-h-[75%]"
+          minHeight: "min-h-[75%]" // ensures no "jump shifts" in the UI
         }
       }
     },
@@ -105,7 +100,6 @@ export default function TransactionContainer({ fetcher, modal, action, submitBtn
         name: "date",
         props: {
           iconName: "calendar",
-          type: "select",
           displayValue: getDateBtnValue(date),
         },
         modal: {
@@ -127,16 +121,8 @@ export default function TransactionContainer({ fetcher, modal, action, submitBtn
     }] : [])
   ];
 
-  function handleInputChange(e) {
-    handleAmountInputChange({
-      state: {
-        updateState: updateTransactionData,
-        value: amount,
-        prop: "amount"
-      },
-      value: e.target.value
-    })
-  }
+  let headerModalFields = [];
+  transactionDataConfig.forEach(option => { if (option.field) headerModalFields.push(option.field) });
 
   return (
     <>
@@ -147,30 +133,35 @@ export default function TransactionContainer({ fetcher, modal, action, submitBtn
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
           ref={modalRef}
-          minHeight="h-[90%]"
+          minHeight="h-[90%]" // Keep it like this or on smaller screens it doesn't stretch to the bottom
         >
           <HeaderModal
             entity="transaction"
             formProps={{
-              fetcher,
-              action,
               fields: transactionDataConfig.map(option => option.formData),
-              btn: submitBtn
+              ...formProps
             }}
             header={{
               type: "custom",
               CustomComponent:
                 <CustomAmountInput
                   value={amount}
-                  handleChange={handleInputChange}
+                  onChange={(e) => handleAmountInputChange({
+                    state: {
+                      updateState: updateTransactionData,
+                      value: amount,
+                      prop: "amount"
+                    },
+                    value: e.target.value
+                  })}
                   isExpense={isExpense}
                   currency={currency}
-                  isDeleteBtn={isDeleteBtn}
+                  isDeleteBtn={isEditTransaction}
                 />,
               deleteEntityFetcher: deleteTransactionFetcher
             }}
-            fields={transactionDataConfig.filter(option => option.field).map(option => option.field)}
-            color={NAVY}
+            fields={headerModalFields}
+            color={COLORS.THEME.NAVY}
           />
         </ModalWrapper>
       }

@@ -1,2 +1,2 @@
-export { default as formatEntityName } from "./formatEntityName";
+export { default as formatEntityNameForUI } from "./formatEntityNameForUI";
 export { default as formatEntityNameForFirebase } from "./formatEntityNameForFirebase";

@@ -2,7 +2,7 @@ import { useFetcher } from "react-router";
 
 import { useModal } from "@/hooks";
 import { WalletsContent } from "./components/WalletsContent";
-import { WalletsContainer } from "./components/WalletsContainer";
+import { WalletContainer } from "./components/WalletContainer";
 
 export default function WalletsSection({ action, contentProps }) {
   const fetcher = useFetcher({ key: "addWallet" });
@@ -11,8 +11,8 @@ export default function WalletsSection({ action, contentProps }) {
   const { modalState: [isModalOpen, setModalOpen] } = modal;
 
   return (
-    <WalletsContainer fetcher={fetcher} modal={modal} action={action}>
+    <WalletContainer formProps={{ fetcher, action }} modal={modal}>
       <WalletsContent {...contentProps} openModal={() => setModalOpen(true)} />
-    </WalletsContainer>
+    </WalletContainer>
   )
 }

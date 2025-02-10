@@ -1,49 +1,39 @@
 import cn from "classnames";
-import { useRouteLoaderData } from "react-router";
 
-import { formatEntityName } from "@/utils/formatting";
+import { formatEntityNameForUI } from "@/utils/formatting";
 
 import { SvgIcon } from "@/components/SvgIcon";
 import { Amount } from "@/components/Amount";
 
-export default function WalletModal({ closeModal, state }) {
-  const { userData: { wallets } } = useRouteLoaderData("app");
-
-  const [wallet, setWallet] = [state.value, state.updateState];
+export default function WalletModal({ wallets, closeModal, state }) {
+  const [walletInState, setWalletInState] = [state.value, state.updateState];
 
   function handleClick(selectedWallet) {
     closeModal();
-    setWallet(selectedWallet);
+    setWalletInState(selectedWallet);
   }
 
-  const getSelectedWalletIndicatorClasses = function (walletName) {
-    return cn(
-      "size-2.5 rounded-full",
-      walletName === wallet.name ? "bg-goldenrod" : "bg-gray-light"
-    )
-  }
-
-  const walletsEls = wallets.map(wallet => (
-    <li key={wallet.id}>
+  const walletsEls = wallets.map(({ id, name, iconName, balance, currency, color }) => (
+    <li key={id}>
       <button
         type="button"
-        onClick={() => handleClick({ name: wallet.name, id: wallet.id, currency: wallet.currency })}
+        onClick={() => handleClick({ name, id, currency })}
         className="w-full flex items-center gap-5 bg-gray-light p-4 rounded-lg focus-goldenrod"
       >
-        <SvgIcon iconName={wallet.iconName} className="size-7" fill={wallet.color} />
+        <SvgIcon iconName={iconName} className="size-7" fill={color} />
 
         <div className="flex flex-col text-left">
-          <span className="font-semibold" style={{ color: wallet.color }}>{formatEntityName(wallet.name)}</span>
+          <span className="font-semibold" style={{ color }}>{formatEntityNameForUI(name)}</span>
           <Amount
-            amount={wallet.balance}
-            currency={wallet.currency}
+            amount={balance}
+            currency={currency}
             colorContext="light"
             className="-mt-1 text-xs font-semibold"
           />
         </div>
 
         <div className="ml-auto size-6 rounded-full bg-navy flex justify-center items-center">
-          <div className={getSelectedWalletIndicatorClasses(wallet.name)}></div>
+          <div className={cn("size-2.5 rounded-full", walletInState.name === name ? "bg-goldenrod" : "bg-gray-light")}></div>
         </div>
       </button>
     </li>

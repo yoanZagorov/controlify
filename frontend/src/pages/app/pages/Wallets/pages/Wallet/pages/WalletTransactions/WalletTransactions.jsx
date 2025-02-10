@@ -24,7 +24,7 @@ export default function WalletTransactions() {
           contentProps={{
             type: isSingleColLayout ? "compact" : "expanded",
             transactions,
-            section: {
+            sectionProps: {
               title: "Wallet Transactions",
             },
             widget: {

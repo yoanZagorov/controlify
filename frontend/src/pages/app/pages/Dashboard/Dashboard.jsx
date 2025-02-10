@@ -25,25 +25,18 @@ export default function Dashboard() {
 
   const { isSingleColLayout } = useLayout();
 
-  const classes = {
-    grid: cn(
-      "grid gap-16 ll:gap-x-20 fhd:gap-x-24",
-      isSingleColLayout
-        ? "grid-cols-1"
-        : "grid-cols-12 grid-flow-col gap-x-12",
-    ),
-    gridItem: isSingleColLayout ? "" : "col-span-6",
-    transactionSection: cn(
-      isSingleColLayout ? "" : "col-span-6 row-span-2",
-      "h-full flex flex-col"
-    )
-  }
-
   return (
     <>
-      <div className={classes.grid}>
+      <div
+        className={cn(
+          "grid gap-16 ll:gap-x-20 fhd:gap-x-24",
+          isSingleColLayout
+            ? "grid-cols-1"
+            : "grid-cols-12 grid-flow-col gap-x-12",
+        )}
+      >
         <BalanceSection
-          sectionClassName={classes.gridItem}
+          sectionClassName={cn(!isSingleColLayout && "col-span-6")}
           balance={{
             amount: balance,
             chartData: balanceOverTimeChartData
@@ -58,7 +51,7 @@ export default function Dashboard() {
               wallets,
               section: {
                 title: "Wallets",
-                className: classes.gridItem
+                className: cn(!isSingleColLayout && "col-span-6")
               }
             }}
           />
@@ -71,9 +64,9 @@ export default function Dashboard() {
               hasFilter: false,
               transactions: todayTransactions,
               period: "today",
-              section: {
+              sectionProps: {
                 title: "Transactions",
-                className: classes.transactionSection,
+                className: cn("h-full flex flex-col", !isSingleColLayout && "col-span-6 row-span-2"),
                 contentClassName: "flex-1"
               },
               widget: {

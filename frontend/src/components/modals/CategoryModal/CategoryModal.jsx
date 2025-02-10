@@ -1,16 +1,13 @@
 import { useState } from "react";
-import { useRouteLoaderData } from "react-router"
 
 import { getCategoriesByType } from "@/utils/category";
 
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
 import { CategoryItem } from "./components/CategoryItem";
 
-export default function CategoryModal({ isToggleSwitchDisabled, closeModal, state }) {
-  const { userData: { categories } } = useRouteLoaderData("app");
-
+export default function CategoryModal({ categories, defaultType, isToggleSwitchDisabled, closeModal, state }) {
   const [category, setCategory] = [state.value, state.updateState];
-  const [activeOption, setActiveOption] = useState(category.type || "expense");
+  const [activeOption, setActiveOption] = useState(category.type || defaultType);
 
   function handleCategoryChange(selectedCategory) {
     const { id, name, type } = selectedCategory;

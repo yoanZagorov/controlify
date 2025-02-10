@@ -5,7 +5,7 @@ import { DeletionConfirmationModal } from "@/components/modals/DeletionConfirmat
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { SvgIcon } from "@/components/SvgIcon";
 import { useCategory, useLayout, useModal } from "@/hooks";
-import { formatEntityName } from "@/utils/formatting";
+import { formatEntityNameForUI } from "@/utils/formatting";
 import cn from "classnames";
 import { useEffect, useState } from "react";
 import { useFetcher } from "react-router";
@@ -70,7 +70,7 @@ export default function CategoryItem({ isExpanded, action, category: { id, iconN
           </button>
 
           <span className={cn("text-gray-dark font-semibold", isExpanded ? "text-base" : "text-sm")}>
-            {formatEntityName(name)}
+            {formatEntityNameForUI(name)}
           </span>
 
           {isExpanded ? (

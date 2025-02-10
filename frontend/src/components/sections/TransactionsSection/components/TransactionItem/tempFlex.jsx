@@ -2,7 +2,7 @@ import cn from "classnames";
 
 import { useBreakpoint } from "@/hooks";
 import { categoryColorsMap } from "@/utils/category";
-import formatEntityName from "@/utils/formatting/formatEntityName";
+import formatEntityName from "@/utils/formatting/formatEntityNameForUI";
 
 import { Amount } from "@/components/Amount";
 import { SvgIcon } from "@/components/SvgIcon";

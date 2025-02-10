@@ -60,7 +60,7 @@ export default function Wallets() {
             contentProps={{
               type: isSingleColLayout ? "compact" : "expanded",
               transactions,
-              section: {
+              sectionProps: {
                 title: "All Transactions",
                 className: cn(classes.transactionSection),
                 contentClassName: "flex-1"

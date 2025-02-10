@@ -6,19 +6,20 @@ import { Section } from "@/components/sections/Section";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { Notification } from "@/components/Notification";
 import { Button } from "@/components/Button";
-import { SvgIcon } from "@/components/SvgIcon";
-import { Transaction } from "../Transaction";
+import { TransactionItem } from "../TransactionItem";
 import { useFetcher } from "react-router";
 import { useEffect } from "react";
 import { resetFetcher } from "@/services/router/utils";
+import { isArrayTruthy } from "@/utils/array";
 
-export default function Content({ type = "compact", hasFilter = true, period = "all-time", section, widget, display, transactions, action, openModal }) {
-  const hasTransactions = transactions.length > 0;
+export default function TransactionsSectionContent({ type = "compact", hasFilter = true, period = "allTime", sectionProps, widget, display, transactions, action, openModal }) {
+  const hasTransactions = isArrayTruthy(transactions);
   const isExpanded = type === "expanded";
   const displayConfig = { date: true, wallet: true, ...display };
 
   const fetcher = useFetcher({ key: "updateTransaction" });
 
+  // Manual cleanup for last transaction
   useEffect(() => {
     if (!hasTransactions) {
       resetFetcher(fetcher);
@@ -33,23 +34,23 @@ export default function Content({ type = "compact", hasFilter = true, period = "
       return (
         <li key={id}>
           <TransactionProvider
-            prepopulatedTransactionData={{
+            providedTransactionData={{
               amount: amount.toString(),
-              currency: wallet.currency,
               category: {
                 id: category.id,
                 name: category.name,
                 type: category.type
               },
+              currency: wallet.currency,
               date: new Date(date),
               transactionId: transaction.id
             }}
-            wallet={{
+            providedWallet={{
               id: wallet.id,
               name: wallet.name,
             }}
           >
-            <Transaction
+            <TransactionItem
               action={action}
               isExpanded={isExpanded}
               transaction={transaction}
@@ -60,20 +61,9 @@ export default function Content({ type = "compact", hasFilter = true, period = "
       )
     }) : null;
 
-  const classes = {
-    openModalBtn: cn(
-      "self-center w-full max-w-64 focus-visible:ring-4",
-      isExpanded && "py-3 text-xl"
-    ),
-    filterBtn: cn(
-      "absolute top-4 right-4 flex justify-center items-center bg-gray-light border border-gray-dark",
-      isExpanded ? "p-2 rounded-md gap-3" : "size-9 rounded-full"
-    )
-  }
-
   return (
     <>
-      <Section title={section.title} className={section.className} contentClassName={section.contentClassName}>
+      <Section {...sectionProps}>
         <ContentWidget
           iconName={widget.iconName}
           title={widget.title}
@@ -90,24 +80,28 @@ export default function Content({ type = "compact", hasFilter = true, period = "
             </Notification>
           )}
 
-          <Button onClick={openModal} className={classes.openModalBtn} data-actionable="true">
+          <Button
+            size={isExpanded ? "l" : "m"}
+            onClick={openModal}
+            className="self-center w-full max-w-64 focus-visible:ring-4"
+            data-actionable="true"
+          >
             add transaction
           </Button>
 
-
-          {/* <Button type="submit" size="s" colorPalette="secondaryDary">
-            Load More
-          </Button> */}
-
-          {hasFilter && (
+          {/* To do (Non-MVP): Implement filtering functionality */}
+          {/* {hasFilter && (
             <button
               onClick={() => console.log("Filtering...")}
-              className={classes.filterBtn}
+              className={cn(
+                "absolute top-4 right-4 flex justify-center items-center bg-gray-light border border-gray-dark",
+                isExpanded ? "p-2 rounded-md gap-3" : "size-9 rounded-full"
+              )}
             >
               <SvgIcon iconName="filter" className="size-5 fill-gray-dark" />
               {isExpanded && <span className="text-gray-dark font-semibold">Filter</span>}
             </button>
-          )}
+          )} */}
         </ContentWidget>
       </Section>
     </>

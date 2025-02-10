@@ -1,40 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import cn from "classnames"
-import { useAutoFocus, useModal } from "@/hooks";
-import { SvgIcon } from "@/components/SvgIcon";
-import { ModalWrapper } from "@/components/modals/ModalWrapper";
-import { DeletionConfirmationModal } from "@/components/modals/DeletionConfirmationModal";
-import { useFetcher } from "react-router";
+import { useAutoFocus } from "@/hooks";
+import { VALIDATION_RULES } from "@/constants";
 
-export default function CustomAmountInput({ value, handleChange, isExpense, currency, isDeleteBtn = false }) {
-  // const fetcher = isDeleteBtn && useFetcher({ key: "deleteTransaction" });
-
-  // const {
-  //   modalState: [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = [],
-  //   hasTransitioned: hasDeleteConfirmationModalTransitioned,
-  //   modalRef: deleteConfirmationModalRef
-  // } = isDeleteBtn ? useModal({ isBlocking: false, fetcher }) : {};
-
+export default function CustomAmountInput({ isExpense, currency, isDeleteBtn = false, ...inputProps }) {
   const amountInputRef = useRef(null);
   useAutoFocus({ ref: amountInputRef });
 
   const isUsingKeyboard = document.body.classList.contains("using-keyboard");
 
-  const classes = {
-    amountValue: cn(
-      "flex gap-2 items-end mm:text-lg",
-      isExpense ? "text-red-light" : "text-green-light"
-    ),
-    amountInput: cn(
-      "rounded bg-navy focus:outline-none transition-[box-shadow]",
-      isDeleteBtn ? "w-[60%]" : "w-full",
-      isUsingKeyboard && "focus:ring focus:ring-goldenrod"
-    )
-  }
-
   return (
     <>
-      <div className="flex items-center gap-3">
+      <div className="flex items-end gap-3">
         <label
           htmlFor="transactionAmount"
           className="text-gray-light text-2xl"
@@ -42,9 +19,7 @@ export default function CustomAmountInput({ value, handleChange, isExpense, curr
           Amount:
         </label>
 
-        <span
-          className={classes.amountValue}
-        >
+        <span className={cn("flex gap-2 items-end text-lg", isExpense ? "text-red-light" : "text-green-light")}>
           <span className="text-nowrap">{isExpense ? "-" : "+"}{currency}</span>
           <input
             ref={amountInputRef}
@@ -52,37 +27,15 @@ export default function CustomAmountInput({ value, handleChange, isExpense, curr
             type="number"
             step={0.01}
             id="transactionAmount"
-            min={1}
-            onChange={handleChange}
-            value={value}
-            className={classes.amountInput}
+            min={VALIDATION_RULES.TRANSACTION.AMOUNT.MIN_AMOUNT}
+            className={cn(
+              "rounded bg-transparent focus:outline-none",
+              isDeleteBtn ? "w-[60%]" : "w-full",
+              isUsingKeyboard && "focus-visible-goldenrod"
+            )}
+            {...inputProps}
           />
         </span>
-
-        {/* {isDeleteBtn &&
-          <>
-            <button type="button" className="ml-auto size-6" onClick={() => setDeleteConfirmationModalOpen(true)}>
-              <SvgIcon iconName="trash-can" className="size-full fill-red-light" />
-            </button>
-
-            {(isDeleteConfirmationModalOpen || hasDeleteConfirmationModalTransitioned) &&
-              <ModalWrapper
-                type={{
-                  layout: "nested",
-                }}
-                isModalOpen={isDeleteConfirmationModalOpen}
-                hasTransitioned={hasDeleteConfirmationModalTransitioned}
-                ref={deleteConfirmationModalRef}
-                minHeight="h-3/4"
-              >
-                <DeletionConfirmationModal
-                  entity="transaction"
-                  closeModal={() => setDeleteConfirmationModalOpen(false)}
-                />
-              </ModalWrapper>
-            }
-          </>
-        } */}
       </div>
     </>
   )

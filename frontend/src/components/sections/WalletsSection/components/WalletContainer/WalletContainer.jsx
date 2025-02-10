@@ -9,9 +9,7 @@ import { handleAmountInputChange, handleWalletNameInputChange } from "@/utils/in
 import { useMemo } from "react";
 import { useRouteLoaderData } from "react-router";
 
-export default function WalletsContainer({ fetcher, modal, action, children }) {
-  const INITIAL_BALANCE_INPUT_STEP = 0.01;
-
+export default function WalletContainer({ formProps, modal, children }) {
   const { userData: { categories: userCategories }, currencies } = useRouteLoaderData("app");
 
   const {
@@ -65,7 +63,7 @@ export default function WalletsContainer({ fetcher, modal, action, children }) {
             type: "number",
             min: VALIDATION_RULES.WALLET.INITIAL_BALANCE.MIN_AMOUNT,
             max: VALIDATION_RULES.WALLET.INITIAL_BALANCE.MAX_AMOUNT,
-            step: INITIAL_BALANCE_INPUT_STEP,
+            step: 0.01,
             onChange: (e) => handleAmountInputChange({
               state: {
                 updateState: updateWalletData,
@@ -166,19 +164,18 @@ export default function WalletsContainer({ fetcher, modal, action, children }) {
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
           ref={modalRef}
-          minHeight="min-h-[90%]"
+          minHeight="h-[90%]" // Keep it like this or on smaller screens it doesn't stretch to the bottom
         >
           <HeaderModal
             formProps={{
-              fetcher,
-              action,
               fields: walletDataConfig.map(option => option.formData),
               btn: {
                 text: "add wallet",
                 props: {
                   value: "addWallet"
                 }
-              }
+              },
+              ...formProps
             }}
             header={{
               type: "simple",

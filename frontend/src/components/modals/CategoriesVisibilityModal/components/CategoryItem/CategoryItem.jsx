@@ -1,7 +1,7 @@
 // To do (Non-MVP): give the ability to edit the categories
 
 import cn from "classnames";
-import { formatEntityName } from "@/utils/formatting";
+import { formatEntityNameForUI } from "@/utils/formatting";
 import { SvgIcon } from "@/components/SvgIcon";
 
 export default function CategoryItem({ category: { id, iconName, name, isVisible, color }, handleVisibilityToggle }) {
@@ -15,7 +15,7 @@ export default function CategoryItem({ category: { id, iconName, name, isVisible
       <div className="flex justify-center items-center rounded-full size-8" style={{ backgroundColor: color }}>
         <SvgIcon iconName={iconName} className="size-1/2 fill-gray-light" />
       </div>
-      <span className="text-sm text-gray-dark font-semibold">{formatEntityName(name)}</span>
+      <span className="text-sm text-gray-dark font-semibold">{formatEntityNameForUI(name)}</span>
 
       <button type="button" className={btnClasses} onClick={() => handleVisibilityToggle(id)}>
         <SvgIcon iconName="eye" className="size-full fill-gray-dark" />

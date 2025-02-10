@@ -10,7 +10,7 @@ import { DateModal } from "@/components/modals/DateModal";
 import { WalletModal } from "@/components/modals/WalletModal";
 import { SvgIcon } from "@/components/SvgIcon";
 import { Button } from "@/components/Button";
-import formatEntityName from "@/utils/formatting/formatEntityName";
+import formatEntityName from "@/utils/formatting/formatEntityNameForUI";
 import { Select } from "@/components/Select";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 

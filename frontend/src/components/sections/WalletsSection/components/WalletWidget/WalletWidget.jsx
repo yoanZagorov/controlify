@@ -1,6 +1,6 @@
 import cn from "classnames";
 
-import { formatEntityName } from "@/utils/formatting";
+import { formatEntityNameForUI } from "@/utils/formatting";
 
 import { Amount } from "@/components/Amount";
 import { Widget } from "@/components/widgets/Widget";
@@ -12,7 +12,7 @@ export default function WalletWidget({ wallet, className }) {
   return (
     <Widget className={cn("relative flex flex-col", className)}>
       <SvgIcon iconName={iconName} className="size-5" fill={color} />
-      <span className="mt-2 uppercase text-sm font-semibold" style={{ color: color }}>{formatEntityName(name)}</span>
+      <span className="mt-2 uppercase text-sm font-semibold" style={{ color: color }}>{formatEntityNameForUI(name)}</span>
 
       <Amount
         amount={balance}

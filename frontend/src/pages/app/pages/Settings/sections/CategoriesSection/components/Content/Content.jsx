@@ -7,7 +7,7 @@ import { useFetcher, useRouteLoaderData } from "react-router";
 import { CategoryItem } from "../CategoryItem";
 import { Button } from "@/components/Button";
 import { CategoryProvider } from "@/contexts";
-import { formatEntityName } from "@/utils/formatting";
+import { formatEntityNameForUI } from "@/utils/formatting";
 import { resetFetcher } from "@/services/router/utils";
 import { useLayout } from "@/hooks";
 import cn from "classnames";
@@ -41,7 +41,7 @@ export default function Content({ type = "compact", openModal, className }) {
         key={category.id}
         prepopulatedCategoryData={{
           ...category,
-          name: formatEntityName(category.name)
+          name: formatEntityNameForUI(category.name)
         }}
         type={category.type}
       >

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
-import { useModalState } from "@/hooks";
-import { getNumDaysInMonth, getSpecificDay } from "@/utils/date";
+import { useProvidedState } from "@/hooks";
+import { compareDatesByDay, getNumDaysInMonth, getSpecificDay } from "@/utils/date";
 
 import { SelectedDay } from "./components/SelectedDay";
 import { Calendar } from "./components/Calendar";
@@ -9,66 +9,55 @@ import { Calendar } from "./components/Calendar";
 export default function DateModal({ closeModal, state }) {
   const today = getSpecificDay("today");
 
-  const [date, setDate] = useModalState(state, today);
-  const [localDate, setLocalDate] = useState({ // Keeping the month and day local, to prevent unnecessary rerenders of the provider
+  const [date, setDate] = useProvidedState(state, today);
+
+  // Keeping the month and day local, to prevent unnecessary rerenders of the provider
+  const [localDate, setLocalDate] = useState({
     month: date.getMonth(),
     year: date.getFullYear()
   })
 
   const startOfMonth = new Date(localDate.year, localDate.month);
   startOfMonth.setDate(1);
-  const startOfMonthDayOfWeek = startOfMonth.getDay();
+  // The getDay() method is Sunday-based (0 represents Sunday) so need to convert it to Monday-based
+  const startOfMonthDayOfWeek = (startOfMonth.getDay() + 6) % 7;
 
   const numDaysInMonth = getNumDaysInMonth(localDate.month, localDate.year);
 
-  let daysOfMonth = [];
+  const daysOfMonth = Array.from({ length: numDaysInMonth }, (_, i) => {
+    const day = i + 1;
 
-  for (let i = 1; i <= numDaysInMonth; i++) {
-    const day = i;
+    const currentIterationDate = new Date(localDate.year, localDate.month, day);
 
-    const currentIterationDate = new Date(date);
-    currentIterationDate.setFullYear(localDate.year);
-    currentIterationDate.setMonth(localDate.month);
-    currentIterationDate.setDate(day);
+    const isCurrentDate = compareDatesByDay(currentIterationDate, date);
+    const isToday = compareDatesByDay(currentIterationDate, today);
 
-    const dateTime = date.getTime();
-    const currentIterationDateTime = currentIterationDate.getTime();
-    const todayTime = today.getTime();
-
-    daysOfMonth.push({
-      value: day,
-      isCurrentDate: dateTime === currentIterationDateTime,
-      isToday: todayTime === currentIterationDateTime
-    })
-  }
+    return { value: day, isCurrentDate, isToday };
+  })
 
   // Click handlers
   function handleDayClick(dayOfMonth) {
+    setDate(new Date(localDate.year, localDate.month, dayOfMonth));
     closeModal();
-    setDate(new Date(localDate.year, localDate.month, dayOfMonth))
   }
 
-  function handleMonthDecrement() {
+  const handleMonthDecrement = useCallback(() => {
     setLocalDate(prevDate => ({
       ...prevDate,
+      // Ensures wrapping to the prev year if needed
       month: prevDate.month === 0 ? 11 : prevDate.month - 1,
       year: prevDate.month === 0 ? prevDate.year - 1 : prevDate.year
     }));
-  }
+  }, []);
 
-  function handleMonthIncrement() {
+  const handleMonthIncrement = useCallback(() => {
     setLocalDate(prevDate => ({
       ...prevDate,
+      // Ensures wrapping to the next year if needed
       month: prevDate.month === 11 ? 0 : prevDate.month + 1,
       year: prevDate.month === 11 ? prevDate.year + 1 : prevDate.year
     }));
-  }
-
-  const clickHandlers = {
-    handleDayClick,
-    handleMonthDecrement,
-    handleMonthIncrement
-  }
+  }, []);
 
   return (
     <div className="mx-auto max-w-80">
@@ -78,7 +67,7 @@ export default function DateModal({ closeModal, state }) {
         daysOfMonth={daysOfMonth}
         startOfMonthDayOfWeek={startOfMonthDayOfWeek}
         localDate={localDate}
-        clickHandlers={clickHandlers}
+        clickHandlers={{ handleDayClick, handleMonthDecrement, handleMonthIncrement }}
       />
     </div>
   )

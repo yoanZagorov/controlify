@@ -6,13 +6,8 @@ import { SvgIcon } from "@/components/SvgIcon";
 export default function SelectedDay({ date, iconName, className }) {
   const formattedDate = formatDateLong(date);
 
-  const componentClasses = cn(
-    "flex items-end gap-4 p-3 rounded-lg bg-gray-light",
-    className
-  )
-
   return (
-    <div className={componentClasses}>
+    <div className={cn("flex items-end gap-4 p-3 rounded-lg bg-gray-light", className)}>
       <SvgIcon
         iconName={iconName || "calendar"}
         className="size-5 fill-gray-dark"

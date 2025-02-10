@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { useBreakpoint } from "@/hooks";
-import { formatEntityName } from "@/utils/formatting";
+import { formatEntityNameForUI } from "@/utils/formatting";
 
 export default function CustomExpensesByWalletLabel({ cx, cy, midAngle, outerRadius, name, percent, fill, showChartLabel }) {
   if (percent === 0) return null;
@@ -50,7 +50,7 @@ export default function CustomExpensesByWalletLabel({ cx, cy, midAngle, outerRad
   const xPercentageLabel = cx + radiusPercentageLabel * Math.cos(-midAngle * RADIAN);
   const yPercentageLabel = cy + radiusPercentageLabel * Math.sin(-midAngle * RADIAN);
 
-  const words = formatEntityName(name).split(" ");
+  const words = formatEntityNameForUI(name).split(" ");
 
   const lineSpacing = 20;
 
