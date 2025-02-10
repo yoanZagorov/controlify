@@ -1,12 +1,12 @@
 import cn from "classnames";
-import { Link, useLocation } from "react-router"
+import { Link } from "react-router"
 
 import { useBreakpoint } from "@/hooks";
 
 import { Section } from "@/components/sections/Section";
 import { Widget } from "@/components/widgets/Widget";
 import { WalletWidget } from "../WalletWidget"
-import { PlusCircleIcon } from "../PlusCircleIcon";
+import PlusCircleIcon from "@/assets/icons/plus-circle-icon.svg?react";
 
 export default function WalletsContent({ wallets, section, openModal }) {
   const { isMobileS } = useBreakpoint();
@@ -43,11 +43,7 @@ export default function WalletsContent({ wallets, section, openModal }) {
               className="size-12 rounded-full focus:outline-none focus-visible:ring focus-visible:ring-goldenrod"
               data-actionable="true"
             >
-              <PlusCircleIcon
-                className="size-full"
-                circleColor="fill-navy"
-                plusColor="fill-goldenrod"
-              />
+              <PlusCircleIcon />
             </button>
           </Widget>
         </div>

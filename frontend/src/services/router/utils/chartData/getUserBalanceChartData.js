@@ -2,6 +2,7 @@ import { where } from "firebase/firestore";
 import getUserBalance from "../user/getUserBalance";
 import { getBalanceChartDataDays } from "@/utils/charts";
 import { convertAmountToUserCurrency, getAllNeededConversionData } from "../currency";
+import { performDecimalCalculation } from "@/utils/number";
 
 export default async function getUserBalanceChartData({ userId, periodInfo, trackBalanceChange = false, providedData = {} }) {
   // Fetch the data that isn't provided
@@ -29,18 +30,15 @@ export default async function getUserBalanceChartData({ userId, periodInfo, trac
     const { amount, date, wallet: { currency } } = transaction;
 
     // Calculate the appropriate amount for each transaction
-    let convertedTransactionAmount;
+    let correctTransactionAmount = amount;
     if (currency !== userCurrency) {
-      convertedTransactionAmount = convertAmountToUserCurrency({ amount, currency, baseCurrency, userCurrency, nonBaseCurrenciesRates });
+      correctTransactionAmount = convertAmountToUserCurrency({ amount, currency, baseCurrency, userCurrency, nonBaseCurrenciesRates });
     }
 
     const dateKey = date.toDateString();
 
     if (!transactionsByDayMap[dateKey]) transactionsByDayMap[dateKey] = [];
-    transactionsByDayMap[dateKey].push({
-      ...transaction,
-      ...(convertedTransactionAmount ? { amount: convertedTransactionAmount } : {})
-    });
+    transactionsByDayMap[dateKey].push(transaction);
   }
 
   // Calculate the balance for each individual day

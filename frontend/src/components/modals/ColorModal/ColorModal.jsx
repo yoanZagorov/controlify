@@ -1,6 +1,6 @@
 import { SvgIcon } from "@/components/SvgIcon";
 
-export default function ColorModal({ colors, closeModal, state }) {
+export default function ColorModal({ colors, colorBrightness = "dark", closeModal, state }) {
   function handleClick(color) {
     state.updateState(color);
     closeModal();
@@ -14,7 +14,7 @@ export default function ColorModal({ colors, closeModal, state }) {
         <button
           type="button"
           onClick={() => handleClick(color)}
-          className="relative size-12 rounded-full focus-gray-dark"
+          className={`relative size-12 rounded-full ${colorBrightness === "bright" ? "focus-gray-dark" : "focus-goldenrod"}`}
           style={{ backgroundColor: color }}
         >
           {isActive &&

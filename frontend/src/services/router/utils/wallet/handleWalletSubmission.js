@@ -1,37 +1,87 @@
 import { createNewWallet } from "@/services/firebase/db/wallet";
-import { db } from "@/services/firebase/firebase.config";
 import { formatEntityNameForFirebase } from "@/utils/formatting";
-import { checkWalletInitialBalance, checkWalletName, checkWalletNameDuplicate } from "@/utils/wallet";
-import { collection } from "firebase/firestore";
 import { createErrorResponse, createSuccessResponse } from "../../responses";
-import { ValidationError } from "@/utils/errors";
+import { getCurrencies } from "@/services/firebase/db/currency";
+import { validateColor, validateCurrency, validateWalletInitialBalance, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
+import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
+import { COLORS } from "@/constants";
+import { collection, doc, serverTimestamp, where, writeBatch } from "firebase/firestore";
+import { getCategories, getCategory } from "@/services/firebase/db/category";
+import { db } from "@/services/firebase/firebase.config";
 
 export default async function handleWalletSubmission(userId, formData) {
-  const { name, initialBalance: initialBalanceStr } = formData;
-
-  const initialBalance = Number(initialBalanceStr);
-
-  const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
+  const { name: untrimmedName, initialBalance: initialBalanceStr, currency, categories: unparsedCategories, color } = formData;
 
   try {
-    checkWalletName(name);
-    checkWalletInitialBalance(initialBalance);
-
+    // Name valdation
+    const name = untrimmedName.trim();
+    validateWalletName(name);
     const formattedName = formatEntityNameForFirebase(name);
-
     await checkWalletNameDuplicate(userId, formattedName);
 
-    const formattedFormData = {
-      ...formData,
+    // Initial balance validation
+    const initialBalance = Number(initialBalanceStr);
+    validateWalletInitialBalance(initialBalance);
+
+    // Currency validation
+    const supportedCurrencyCodes = (await getCurrencies()).map(currency => currency.code);
+    validateCurrency(currency, supportedCurrencyCodes);
+
+    // Categories validation
+    const categories = JSON.parse(unparsedCategories);
+    validateWalletVisibleCategories(categories);
+    // Color validation
+    validateColor(color, COLORS.ENTITIES.WALLET_COLORS);
+
+    const walletSubmissionPayload = {
       name: formattedName,
-      categories: JSON.parse(formData.categories),
-      balance: initialBalance
+      balance: initialBalance,
+      categories,
+      currency,
+      color
     }
 
-    delete formattedFormData.initialBalance;
-    delete formattedFormData.intent;
+    // await createNewWallet(userId, walletSubmissionPayload);
 
-    await createNewWallet(walletsCollectionRef, formattedFormData);
+    const batch = writeBatch(db);
+
+    const walletDocRef = doc(collection(db, `users/${userId}/wallets`));
+    batch.set(walletDocRef, {
+      iconName: "wallet",
+      isDefault: false,
+      createdAt: serverTimestamp(),
+      deletedAt: null,
+      ...walletSubmissionPayload
+    })
+
+    // Manually submit a transaction for the initial balance to include it in the calculations
+    if (initialBalance > 0) {
+      const otherCategoryQuery = [
+        where("name", "==", "other"),
+        where("type", "==", "income")
+      ]
+      const otherIncomeCategory = (await getCategories(userId, otherCategoryQuery))[0];
+      const { rootCategoryId, createdAt: otherIncomeCategoryCA, ...transactionCategoryPayload } = otherIncomeCategory; // Using rest syntax to exclude unneeded properties by destructuring them
+
+      const { balance, categories, isDefault, createdAt: walletCA, ...restOfWalletSubmissionPayload } = walletSubmissionPayload;
+      const transactionWalletPayload = {
+        iconName: "wallet",
+        deletedAt: null,
+        id: walletDocRef.id,
+        ...restOfWalletSubmissionPayload,
+      }
+
+      const transactionDocRef = doc(collection(walletDocRef, "transactions"));
+      batch.set(transactionDocRef, {
+        amount: initialBalance,
+        category: transactionCategoryPayload,
+        createdAt: serverTimestamp(),
+        date: serverTimestamp(),
+        wallet: transactionWalletPayload
+      })
+    }
+
+    await batch.commit();
 
     return createSuccessResponse({
       msg: "Successfully created your wallet!",
@@ -41,10 +91,12 @@ export default async function handleWalletSubmission(userId, formData) {
   } catch (error) {
     console.error(error);
 
-    if (error instanceof ValidationError) {
-      return createErrorResponse(error.statusCode, error.message);
+    // A defined status code means an explicitly thrown specific StatusCodeError which means that its message is specific and should be returned
+    if (error.statusCode) {
+      return createErrorResponse(error.message, error.statusCode);
     }
 
-    return createErrorResponse(error.message);
+    // A generic fallback error
+    return createErrorResponse("Couldn't create your wallet. Please try again");
   }
 }

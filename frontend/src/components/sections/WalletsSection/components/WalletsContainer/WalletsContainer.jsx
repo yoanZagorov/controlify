@@ -12,7 +12,7 @@ import { useRouteLoaderData } from "react-router";
 export default function WalletsContainer({ fetcher, modal, action, children }) {
   const INITIAL_BALANCE_INPUT_STEP = 0.01;
 
-  const { userData: { categories: userCategories } } = useRouteLoaderData("app");
+  const { userData: { categories: userCategories }, currencies } = useRouteLoaderData("app");
 
   const {
     modalState: [isModalOpen, setModalOpen],
@@ -32,14 +32,15 @@ export default function WalletsContainer({ fetcher, modal, action, children }) {
   } = useWalletSubmission();
 
   // Memoizing calculations
-  const areAllCategoriesVisible = useMemo(() => {
-    return userCategories.length === categories.filter(category => category.isVisible).length;
+  const visibleWalletCategories = useMemo(() => {
+    return categories.filter(category => category.isVisible);
   }, [categories]);
+  const areAllCategoriesVisible = visibleWalletCategories.length === userCategories.length;
 
   const stringifiedCategories = useMemo(() => {
     // submitting only the neccessary and serializing since the data type is more complex
     return JSON.stringify(categories.map(category => ({ id: category.id, isVisible: category.isVisible })))
-  }, [categories])
+  }, [categories]);
 
   function handleInitialBalanceInputChange(e) {
     handleAmountInputChange({
@@ -94,6 +95,7 @@ export default function WalletsContainer({ fetcher, modal, action, children }) {
         modal: {
           innerModal: {
             Component: CurrencyModal,
+            props: { currencies }
           },
           state: {
             value: currency,
@@ -142,7 +144,7 @@ export default function WalletsContainer({ fetcher, modal, action, children }) {
         modal: {
           innerModal: {
             Component: ColorModal,
-            props: { colors: COLORS.ENTITIES.WALLET_COLORS },
+            props: { colors: COLORS.ENTITIES.WALLET_COLORS, colorBrightness: "dark" },
           },
           state: {
             value: color,
@@ -185,8 +187,8 @@ export default function WalletsContainer({ fetcher, modal, action, children }) {
               inputProps: {
                 value: name,
                 onChange: (e) => handleWalletNameInputChange({ value: e.target.value, updateState: updateWalletData }),
-                min: VALIDATION_RULES.WALLET_NAME.MIN_LENGTH,
-                max: VALIDATION_RULES.WALLET_NAME.MAX_LENGTH,
+                min: VALIDATION_RULES.WALLET.NAME.MIN_LENGTH,
+                max: VALIDATION_RULES.WALLET.NAME.MAX_LENGTH,
                 className: "selection:text-gray-light selection:bg-[#3390FF]"
               }
             }}

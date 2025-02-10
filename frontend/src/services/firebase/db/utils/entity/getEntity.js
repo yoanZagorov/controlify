@@ -14,8 +14,6 @@ export default async function getEntity(docRef, docId, entityName) {
       id: docSnapshot.id
     }
   } catch (error) {
-    console.error(error);
-
     throw new Error(`Error fetching ${entityName} with the id ${docId}`, { cause: error });
   }
 }

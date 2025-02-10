@@ -1,17 +1,18 @@
-import { addDoc, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../../firebase.config";
 
-export default async function createNewWallet(collectionRef, data) {
+export default async function createNewWallet(userId, payload) {
+  const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
+
   try {
-    await addDoc(collectionRef, {
-      ...data,
+    await addDoc(walletsCollectionRef, {
       iconName: "wallet",
       isDefault: false,
       createdAt: serverTimestamp(),
       deletedAt: null,
+      ...payload
     })
   } catch (error) {
-    console.error(error);
-
-    throw new Error("Couldn't create your wallet. Please try again");
+    throw new Error("Error creating new wallet", { cause: error });
   }
 }

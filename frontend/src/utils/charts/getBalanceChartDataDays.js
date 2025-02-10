@@ -8,17 +8,18 @@ export default function getBalanceChartDataDays({ periodInfo, openingBalance, tr
 
   // Create the days array
   const days = Array.from({ length: periodLength }, (_, i) => {
-    const day = new Date();
-    day.setDate(day.getDate() - (periodLength - i));
+    const currentDayDate = new Date();
+    currentDayDate.setDate(currentDayDate.getDate() - (periodLength - i));
+    currentDayDate.setHours(0, 0, 0, 0);
+
+    const dateKey = currentDayDate.toDateString();
 
     let presentationKey;
     switch (periodInfo.timeframe) {
       case "lastThirtyDays":
-        presentationKey = `${day.getDate()}/${day.getMonth() + 1}`;
+        presentationKey = `${currentDayDate.getDate()}/${currentDayDate.getMonth() + 1}`;
         break;
     }
-
-    const dateKey = day.toDateString();
 
     const isLastDay = i === periodLength - 1;
 

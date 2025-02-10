@@ -24,11 +24,21 @@ const VALIDATION_RULES = {
     MAX_LENGTH: 50,
     REGEX: /^[\p{L}]{1,2}'?[\p{L}]{1,14}[\s-][\p{L}]{1,2}'?[\p{L}]{1,14}(?:[\s-][\p{L}]{1,2}'?[\p{L}]{1,14}){0,2}$/u,
   },
-  WALLET_NAME: {
-    MIN_LENGTH: 2,
-    MAX_LENGTH: 50,
-    // To do: REGEX:
+  WALLET: {
+    NAME: {
+      MIN_LENGTH: 2,
+      MAX_LENGTH: 30,
+      CLIENT_REGEX: /^[a-zA-Z0-9 _-]+$/,
+      REGEX: /^[a-zA-Z0-9 _-]{2,30}$/
+    },
+    INITIAL_BALANCE: {
+      MIN_AMOUNT: 0,
+      MAX_AMOUNT: 1000000.99,
+      REGEX: /^\d{1,7}(?:\.\d{1,2})?$/
+    }
   },
+  CURRENCY_CODE_REGEX: /^[A-Z]{3}$/,
+  HEX_COLOR_CODE_REGEX: /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/
 }
 
 export default VALIDATION_RULES;

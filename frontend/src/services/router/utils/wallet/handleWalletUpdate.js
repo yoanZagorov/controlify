@@ -1,4 +1,4 @@
-import { checkWalletName, checkWalletNameDuplicate, getConvertedWalletBalance } from "@/utils/wallet";
+import { getConvertedWalletBalance } from "@/utils/wallet";
 import getDataToChange from "../getDataToChange";
 import { formatEntityNameForFirebase } from "@/utils/formatting";
 import { doc, runTransaction } from "firebase/firestore";
@@ -7,12 +7,13 @@ import { ValidationError } from "@/utils/errors";
 import { db } from "@/services/firebase/firebase.config";
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { getEntity } from "@/services/firebase/db/utils/entity";
-import { validateCurrency } from "@/utils/validation";
+import { validateCurrency, validateWalletName } from "@/utils/validation";
 import { getConvertedAmount } from "@/utils/currency";
+import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
 
 export default async function handleWalletUpdate(userId, walletDocRef, walletId, formData) {
   try {
-    checkWalletName(formData.name);
+    validateWalletName(formData.name);
     const formattedName = formatEntityNameForFirebase(formData.name);
 
     const formattedFormData = {

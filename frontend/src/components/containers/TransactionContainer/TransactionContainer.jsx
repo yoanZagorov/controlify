@@ -20,7 +20,7 @@ export default function TransactionContainer({ fetcher, modal, action, submitBtn
     modalRef
   } = modal;
 
-  const deleteTransactionFetcher = isDeleteBtn ? useFetcher({ key: "deleteTransaction" }) : null;
+  const deleteTransactionFetcher = isDeleteBtn ? useFetcher({ key: "deleteTransaction" }) : {};
 
   const {
     transactionData: {

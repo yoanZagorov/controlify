@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { getCategoriesByType } from "@/utils/category";
 
 import { Button } from "@/components/Button";
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
 import { CategoryGroup } from "./components/CategoryGroup";
+import { isArrayTruthy } from "@/utils/array";
 
 export default function CategoriesVisibilityModal({ categories, closeModal, state }) {
   const [currentCategories, setCurrentCategories] = useState(categories);
@@ -12,19 +13,31 @@ export default function CategoriesVisibilityModal({ categories, closeModal, stat
   const [activeOption, setActiveOption] = useState("expense");
   const isExpenseCategories = activeOption === "expense";
 
-  let visibleWalletCategories = [];
-  let hiddenWalletCategories = [];
+  const { visibleWalletCategories, hiddenWalletCategories } = useMemo(
+    () => {
+      let visibleWalletCategories = [];
+      let hiddenWalletCategories = [];
 
-  for (const category of currentCategories) {
-    if (category.isVisible) {
-      visibleWalletCategories.push(category);
-    } else {
-      hiddenWalletCategories.push(category);
-    }
-  }
+      for (const category of currentCategories) {
+        if (category.isVisible) {
+          visibleWalletCategories.push(category);
+        } else {
+          hiddenWalletCategories.push(category);
+        }
+      }
 
-  const { expenseCategories: visibleExpenseCategories, incomeCategories: visibleIncomeCategories } = getCategoriesByType(visibleWalletCategories);
-  const { expenseCategories: hiddenExpenseCategories, incomeCategories: hiddenIncomeCategories } = getCategoriesByType(hiddenWalletCategories);
+      return { visibleWalletCategories, hiddenWalletCategories };
+    }, [currentCategories]);
+
+  const {
+    expenseCategories: visibleExpenseCategories,
+    incomeCategories: visibleIncomeCategories
+  } = useMemo(() => getCategoriesByType(visibleWalletCategories), [visibleWalletCategories]);
+
+  const {
+    expenseCategories: hiddenExpenseCategories,
+    incomeCategories: hiddenIncomeCategories
+  } = useMemo(() => getCategoriesByType(hiddenWalletCategories), [hiddenWalletCategories]);
 
   function handleVisibilityToggle(toggledCategoryId) {
     const updatedCategories = currentCategories.map(category =>
@@ -51,36 +64,36 @@ export default function CategoriesVisibilityModal({ categories, closeModal, stat
       <div className="mt-6 flex flex-col gap-4">
         {isExpenseCategories ? (
           <>
-            {visibleExpenseCategories.length ?
+            {isArrayTruthy(visibleExpenseCategories) &&
               <CategoryGroup
                 type="visible"
                 categories={visibleExpenseCategories}
                 handleVisibilityToggle={(toggledCategoryId) => handleVisibilityToggle(toggledCategoryId)}
-              /> : ""
+              />
             }
-            {hiddenExpenseCategories.length ?
+            {isArrayTruthy(hiddenExpenseCategories) &&
               <CategoryGroup
                 type="hidden"
                 categories={hiddenExpenseCategories}
                 handleVisibilityToggle={(toggledCategoryId) => handleVisibilityToggle(toggledCategoryId)}
-              /> : ""
+              />
             }
           </>
         ) : (
           <>
-            {visibleIncomeCategories.length ?
+            {isArrayTruthy(visibleIncomeCategories) &&
               <CategoryGroup
                 type="visible"
                 categories={visibleIncomeCategories}
                 handleVisibilityToggle={(toggledCategoryId) => handleVisibilityToggle(toggledCategoryId)}
-              /> : ""
+              />
             }
-            {hiddenIncomeCategories.length ?
+            {isArrayTruthy(hiddenIncomeCategories) &&
               <CategoryGroup
                 type="hidden"
                 categories={hiddenIncomeCategories}
                 handleVisibilityToggle={(toggledCategoryId) => handleVisibilityToggle(toggledCategoryId)}
-              /> : ""
+              />
             }
           </>
         )

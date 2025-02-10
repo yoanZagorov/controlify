@@ -9,13 +9,8 @@ import { SvgIcon } from "@/components/SvgIcon";
 export default function WalletWidget({ wallet, className }) {
   const { iconName, name, balance, currency, color } = wallet;
 
-  const widgetClasses = cn(
-    "relative flex flex-col",
-    className
-  )
-
   return (
-    <Widget className={widgetClasses}>
+    <Widget className={cn("relative flex flex-col", className)}>
       <SvgIcon iconName={iconName} className="size-5" fill={color} />
       <span className="mt-2 uppercase text-sm font-semibold" style={{ color: color }}>{formatEntityName(name)}</span>
 

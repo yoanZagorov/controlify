@@ -1,4 +1,4 @@
-// To do: give the ability to edit the categories
+// To do (Non-MVP): give the ability to edit the categories
 
 import cn from "classnames";
 import { formatEntityName } from "@/utils/formatting";

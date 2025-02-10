@@ -28,9 +28,11 @@ export default async function createUser(userId, email, fullName) {
     // Set user categories collection
     const categoriesCollectionRef = collection(db, `users/${userId}/categories`); // Defined outside of the loop to avoid multiple collection() calls
     let walletCategories = [];
-    defaultCategories.forEach(category => {
+    // ...rest allows to get all properties, apart from the destructured one
+    // or rename it in this case
+    defaultCategories.forEach(({ id, ...rest }) => {
       const categoryDocRef = doc(categoriesCollectionRef);
-      batch.set(categoryDocRef, { ...category, createdAt: serverTimestamp() })
+      batch.set(categoryDocRef, { ...rest, createdAt: serverTimestamp(), rootCategoryId: id });
 
       walletCategories.push({ id: categoryDocRef.id, isVisible: true });
     })

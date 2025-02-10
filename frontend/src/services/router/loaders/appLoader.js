@@ -4,7 +4,7 @@ import { ROUTES } from "@/constants";
 import { PERIODS } from "@/constants";
 
 import { checkUserAuthStatus, getAuthUserId } from "@/services/firebase/auth";
-import { getBaseCurrency } from "@/services/firebase/db/currency";
+import { getBaseCurrency, getCurrencies } from "@/services/firebase/db/currency";
 
 import { createSuccessResponse, createErrorResponse } from "../responses";
 
@@ -60,6 +60,8 @@ export default async function appLoader({ request }) {
     const randomQuote = await getRandomQuote();
     const storedRedirectData = getStoredRedirectData();
 
+    const currencies = await getCurrencies();
+
     const loaderData = {
       userData: {
         ...user,
@@ -67,12 +69,13 @@ export default async function appLoader({ request }) {
         categories,
         balance,
         todayTransactions,
-        balanceOverTimeChartData
+        balanceOverTimeChartData,
       },
       notificationData: {
         quote: randomQuote,
         redirectData: storedRedirectData || {}
-      }
+      },
+      currencies
     }
 
     return createSuccessResponse(loaderData);
