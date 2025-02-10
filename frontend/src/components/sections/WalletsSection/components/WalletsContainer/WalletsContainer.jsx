@@ -42,23 +42,12 @@ export default function WalletsContainer({ fetcher, modal, action, children }) {
     return JSON.stringify(categories.map(category => ({ id: category.id, isVisible: category.isVisible })))
   }, [categories]);
 
-  function handleInitialBalanceInputChange(e) {
-    handleAmountInputChange({
-      state: {
-        updateState: updateWalletData,
-        value: initialBalance,
-        prop: "initialBalance"
-      },
-      value: e.target.value
-    })
-  }
-
   // Keeping all of the data for each field in one big object
   const walletDataConfig = [
     {
       formData: {
         name: "name",
-        value: name
+        value: name.trim()
       },
     },
     {
@@ -73,9 +62,18 @@ export default function WalletsContainer({ fetcher, modal, action, children }) {
           type: "input",
           displayValue: initialBalance,
           controlProps: {
-            onChange: handleInitialBalanceInputChange,
             type: "number",
+            min: VALIDATION_RULES.WALLET.INITIAL_BALANCE.MIN_AMOUNT,
+            max: VALIDATION_RULES.WALLET.INITIAL_BALANCE.MAX_AMOUNT,
             step: INITIAL_BALANCE_INPUT_STEP,
+            onChange: (e) => handleAmountInputChange({
+              state: {
+                updateState: updateWalletData,
+                value: initialBalance,
+                prop: "initialBalance"
+              },
+              value: e.target.value
+            }),
           }
         }
       }
@@ -186,9 +184,9 @@ export default function WalletsContainer({ fetcher, modal, action, children }) {
               type: "simple",
               inputProps: {
                 value: name,
+                minLength: VALIDATION_RULES.WALLET.NAME.MIN_LENGTH,
+                maxLength: VALIDATION_RULES.WALLET.NAME.MAX_LENGTH,
                 onChange: (e) => handleWalletNameInputChange({ value: e.target.value, updateState: updateWalletData }),
-                min: VALIDATION_RULES.WALLET.NAME.MIN_LENGTH,
-                max: VALIDATION_RULES.WALLET.NAME.MAX_LENGTH,
                 className: "selection:text-gray-light selection:bg-[#3390FF]"
               }
             }}

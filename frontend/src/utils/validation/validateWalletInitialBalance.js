@@ -6,11 +6,11 @@ export default function validateWalletInitialBalance(initialBalance) {
     throw new ValidationError("Initial balance should not be empty");
   }
 
-  if (isNaN(initialBalance) || !VALIDATION_RULES.WALLET.INITIAL_BALANCE.REGEX.test(initialBalance)) {
+  if (isNaN(initialBalance) || !VALIDATION_RULES.AMOUNT.REGEX.test(initialBalance)) {
     throw new ValidationError("Initial balance should be a valid monetary value (e.g. 100.00). Please try again");
   }
 
   if (initialBalance < VALIDATION_RULES.WALLET.INITIAL_BALANCE.MIN_AMOUNT || initialBalance > VALIDATION_RULES.WALLET.INITIAL_BALANCE.MAX_AMOUNT) {
-    throw new ValidationError("Initial balance should be between 0 and 1,000,000.99. Please try again");
+    throw new ValidationError("Initial balance should be between 0 and 999,999.99. Please try again");
   }
 }

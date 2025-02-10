@@ -1,3 +1,5 @@
+import { VALIDATION_RULES } from "@/constants";
+
 // Guiding the user towards correct input
 export default function handleAmountInputChange({ state, value }) {
   if (value === "") {
@@ -6,14 +8,13 @@ export default function handleAmountInputChange({ state, value }) {
   }
 
   // Ensures no leading zeros
-  if (/^0\d{1,7}(?:\.\d{1,2})?$/.test(value)) {
+  if (VALIDATION_RULES.AMOUNT.LEADING_ZERO_REGEX.test(value)) {
     const updatedValue = value.replace("0", "");
     state.updateState(state.prop ? { [state.prop]: updatedValue } : updatedValue);
     return;
   }
 
-  const regex = /^\d{1,7}(?:\.\d{1,2})?$/;
-  if (regex.test(value)) {
+  if (VALIDATION_RULES.AMOUNT.REGEX.test(value)) {
     state.updateState(state.prop ? { [state.prop]: value } : value);
     return;
   }

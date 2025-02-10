@@ -3,7 +3,7 @@ import { serverTimestamp } from "firebase/firestore";
 export default function addTransaction({ dbTransaction, docRef, data: { amount, wallet, category, date } }) {
   const newTransaction = {
     amount,
-    category,
+    category, // To do: don't include the createdAt prop
     wallet: {
       id: wallet.id,
       name: wallet.name,

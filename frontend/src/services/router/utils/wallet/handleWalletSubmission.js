@@ -10,11 +10,10 @@ import { getCategories, getCategory } from "@/services/firebase/db/category";
 import { db } from "@/services/firebase/firebase.config";
 
 export default async function handleWalletSubmission(userId, formData) {
-  const { name: untrimmedName, initialBalance: initialBalanceStr, currency, categories: unparsedCategories, color } = formData;
+  const { name, initialBalance: initialBalanceStr, currency, categories: unparsedCategories, color } = formData;
 
   try {
     // Name valdation
-    const name = untrimmedName.trim();
     validateWalletName(name);
     const formattedName = formatEntityNameForFirebase(name);
     await checkWalletNameDuplicate(userId, formattedName);
@@ -54,8 +53,8 @@ export default async function handleWalletSubmission(userId, formData) {
       ...walletSubmissionPayload
     })
 
-    // Manually submit a transaction for the initial balance to include it in the calculations
     if (initialBalance > 0) {
+      // Manually submit a transaction for the initial balance to include it in the calculations
       const otherCategoryQuery = [
         where("name", "==", "other"),
         where("type", "==", "income")
@@ -91,7 +90,7 @@ export default async function handleWalletSubmission(userId, formData) {
   } catch (error) {
     console.error(error);
 
-    // A defined status code means an explicitly thrown specific StatusCodeError which means that its message is specific and should be returned
+    // A defined status code means an explicitly thrown specific StatusCodeError which means that there is a specifi message which should be returned
     if (error.statusCode) {
       return createErrorResponse(error.message, error.statusCode);
     }

@@ -15,7 +15,7 @@ export default function validateWalletName(name) {
   }
 
   if (!VALIDATION_RULES.WALLET.NAME.REGEX.test(name)) {
-    throw new ValidationError("Wallet name can only include letters, numbers, spaces, and - _ .");
+    throw new ValidationError("Wallet name can only include letters, numbers, spaces, and '._-");
   }
 
   const reservedWords = ["deleted, updated, system, all, none, deleted, archived, unknown, admin, root, user, account, balance, null, undefined, true, false, select, insert"];
