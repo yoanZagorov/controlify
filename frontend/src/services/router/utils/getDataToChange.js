@@ -1,3 +1,7 @@
+import { ValidationError } from "@/utils/errors";
+import { isObjTruthy } from "@/utils/obj";
+
+// Utility used to get only the fields that should change when updating an entity
 export default function getDataToChange(hasDataChanged, newData) {
   const dataToChange = {};
 
@@ -7,8 +11,8 @@ export default function getDataToChange(hasDataChanged, newData) {
     };
   }
 
-  if (Object.keys(dataToChange).length === 0) {
-    throw new Error("You haven't performed any changes!");
+  if (!isObjTruthy(dataToChange)) {
+    throw new ValidationError("You haven't performed any changes. Please try again");
   }
 
   return dataToChange;

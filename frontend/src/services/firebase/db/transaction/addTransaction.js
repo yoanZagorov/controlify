@@ -1,20 +1,15 @@
-import { serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../../firebase.config";
 
-export default function addTransaction({ dbTransaction, docRef, data: { amount, wallet, category, date } }) {
-  const newTransaction = {
-    amount,
-    category, // To do: don't include the createdAt prop
-    wallet: {
-      id: wallet.id,
-      name: wallet.name,
-      iconName: wallet.iconName,
-      color: wallet.color,
-      currency: wallet.currency,
-      deletedAt: wallet.deletedAt
-    },
-    date,
-    createdAt: serverTimestamp()
+export default async function addTransaction(userId, walletId, payload) {
+  try {
+    const transactionsCollectionRef = collection(db, `users/${userId}/wallets/${walletId}/transactions`);
+    await addDoc(transactionsCollectionRef, {
+      ...payload,
+      createdAt: serverTimestamp()
+    })
+  } catch (error) {
+    throw new Error("Error fetching transaction", { cause: error });
   }
 
-  dbTransaction.set(docRef, newTransaction);
 }

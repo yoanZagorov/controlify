@@ -1,40 +1,39 @@
 import { db } from "@/services/firebase/firebase.config";
-import { doc, runTransaction } from "firebase/firestore";
-import { createErrorResponse, createSuccessResponse } from "../../responses";
+import { doc, writeBatch } from "firebase/firestore";
+import { createSuccessResponse } from "../../responses";
 import { getEntity } from "@/services/firebase/db/utils/entity";
-import { updateWalletBalance } from "@/services/firebase/db/wallet";
+import { performDecimalCalculation } from "@/utils/number";
+import handleActionError from "../handleActionError";
 
 export default async function handleTransactionDeletion(userId, formData) {
-  const { amount: amountStr } = formData;
-
-  const formattedFormData = {
-    ...formData,
-    amount: Number(amountStr)
-  }
-
-  const { wallet: walletId, transactionId } = formattedFormData;
-
-  const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
-  const transactionDocRef = doc(db, `users/${userId}/wallets/${walletId}/transactions/${transactionId}`);
-
-  const oldTransactionData = await getEntity(transactionDocRef, transactionId, "transaction");
+  // Normalize data
+  formData.amount = Number(formData.amount);
+  const { amount, walletId, transactionId } = formData;
 
   try {
-    await runTransaction(db, async (dbTransaction) => {
-      const categoryType = oldTransactionData.category.type;
-      const correctAmount = categoryType === "expense" ? oldTransactionData.amount : -oldTransactionData.amount;
-      await updateWalletBalance(dbTransaction, walletDocRef, correctAmount);
+    const batch = writeBatch(db);
 
-      dbTransaction.delete(transactionDocRef);
-    })
+    // Update wallet balance
+    const transactionDocRef = doc(db, `users/${userId}/wallets/${walletId}/transactions/${transactionId}`);
+    const { category: { type } } = await getEntity(transactionDocRef, transactionId, "transaction");
+
+    const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
+    const { balance: oldWalletBalance } = await getEntity(walletDocRef, walletId, "wallet");
+
+    const operator = type === "expense" ? "+" : "-"
+    const updatedWalletBalance = performDecimalCalculation(oldWalletBalance, amount, operator);
+    batch.update(walletDocRef, { balance: updatedWalletBalance });
+
+    // Delete the transaction
+    batch.delete(transactionDocRef);
+
+    await batch.commit();
 
     return createSuccessResponse({
       msg: "Transaction deleted successfully!",
       msgType: "success",
     })
   } catch (error) {
-    console.error(error);
-
-    return createErrorResponse(500, "Couldn't delete your transaction. Please try again");
+    return handleActionError(error, "Couldn't delete your transaction. Please try again");
   }
 }

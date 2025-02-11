@@ -38,10 +38,12 @@ export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate
         key={i}
         ref={day.isCurrentDate ? currentDateBtnRef : null}
         type="button"
+        disabled={day.isAfterToday} // To do (Non-MVP): Implement the ability to schedule transactions but for now keep all future ones disabled
         className={cn(
           "size-8 flex justify-center items-center p-1.5 text-sm rounded-full focus-goldenrod",
-          day.value === 1 && colStartMap[startOfMonthDayOfWeek], // initializing the grid-cols correcly
-          (day.isToday && !day.isCurrentDate) && "bg-gray-medium",
+          day.value === 1 && colStartMap[startOfMonthDayOfWeek], // Initializing the grid-cols from the correct day of week
+          (day.isToday && !day.isCurrentDate) && "bg-gray-medium", // Keeping a reference to today if it's not currently selected
+          day.isAfterToday && "opacity-50",
           day.isCurrentDate && "bg-navy text-goldenrod",
         )}
         onClick={() => handleDayClick(day.value)}

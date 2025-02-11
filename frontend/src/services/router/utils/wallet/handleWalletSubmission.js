@@ -1,13 +1,14 @@
-import { createNewWallet } from "@/services/firebase/db/wallet";
 import { formatEntityNameForFirebase } from "@/utils/formatting";
 import { createErrorResponse, createSuccessResponse } from "../../responses";
 import { getCurrencies } from "@/services/firebase/db/currency";
-import { validateColor, validateCurrency, validateWalletInitialBalance, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
+import { validateColor, validateCurrency, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
 import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
-import { COLORS } from "@/constants";
+import { COLORS, VALIDATION_RULES } from "@/constants";
 import { collection, doc, serverTimestamp, where, writeBatch } from "firebase/firestore";
-import { getCategories, getCategory } from "@/services/firebase/db/category";
+import { getCategories } from "@/services/firebase/db/category";
 import { db } from "@/services/firebase/firebase.config";
+import validateAmount from "@/utils/validation/validateAmount";
+import handleActionError from "../handleActionError";
 
 export default async function handleWalletSubmission(userId, formData) {
   const { name, initialBalance: initialBalanceStr, currency, categories: unparsedCategories, color } = formData;
@@ -20,7 +21,7 @@ export default async function handleWalletSubmission(userId, formData) {
 
     // Initial balance validation
     const initialBalance = Number(initialBalanceStr);
-    validateWalletInitialBalance(initialBalance);
+    validateAmount(initialBalance, VALIDATION_RULES.WALLET.INITIAL_BALANCE.MIN_AMOUNT, VALIDATION_RULES.WALLET.INITIAL_BALANCE.MAX_AMOUNT, "initial balance");
 
     // Currency validation
     const supportedCurrencyCodes = (await getCurrencies()).map(currency => currency.code);
@@ -40,8 +41,6 @@ export default async function handleWalletSubmission(userId, formData) {
       color
     }
 
-    // await createNewWallet(userId, walletSubmissionPayload);
-
     const batch = writeBatch(db);
 
     const walletDocRef = doc(collection(db, `users/${userId}/wallets`));
@@ -60,23 +59,24 @@ export default async function handleWalletSubmission(userId, formData) {
         where("type", "==", "income")
       ]
       const otherIncomeCategory = (await getCategories(userId, otherCategoryQuery))[0];
-      const { rootCategoryId, createdAt: otherIncomeCategoryCA, ...transactionCategoryPayload } = otherIncomeCategory; // Using rest syntax to exclude unneeded properties by destructuring them
+      const { rootCategoryId, createdAt: otherIncomeCategoryCA, ...transactionCategoryPayload } = otherIncomeCategory;
 
-      const { balance, categories, isDefault, createdAt: walletCA, ...restOfWalletSubmissionPayload } = walletSubmissionPayload;
       const transactionWalletPayload = {
-        iconName: "wallet",
-        deletedAt: null,
         id: walletDocRef.id,
-        ...restOfWalletSubmissionPayload,
+        name: formattedName,
+        iconName: "wallet",
+        currency,
+        color,
+        deletedAt: null,
       }
 
       const transactionDocRef = doc(collection(walletDocRef, "transactions"));
       batch.set(transactionDocRef, {
         amount: initialBalance,
+        wallet: transactionWalletPayload,
         category: transactionCategoryPayload,
-        createdAt: serverTimestamp(),
         date: serverTimestamp(),
-        wallet: transactionWalletPayload
+        createdAt: serverTimestamp(),
       })
     }
 
@@ -88,14 +88,6 @@ export default async function handleWalletSubmission(userId, formData) {
     })
 
   } catch (error) {
-    console.error(error);
-
-    // A defined status code means an explicitly thrown specific StatusCodeError which means that there is a specifi message which should be returned
-    if (error.statusCode) {
-      return createErrorResponse(error.message, error.statusCode);
-    }
-
-    // A generic fallback error
-    return createErrorResponse("Couldn't create your wallet. Please try again");
+    return handleActionError(error, "Couldn't create your wallet. Please try again");
   }
 }

@@ -1,72 +1,79 @@
-import { addTransaction, editTransaction } from "@/services/firebase/db/transaction";
-import { updateWalletBalance } from "@/services/firebase/db/wallet";
-import { validateTransactionData } from "@/utils/transaction";
-import { collection, doc, runTransaction, Timestamp } from "firebase/firestore";
-import { createErrorResponse, createSuccessResponse } from "../../responses";
+import { doc, writeBatch } from "firebase/firestore";
+import { createSuccessResponse } from "../../responses";
 import { ValidationError } from "@/utils/errors";
 import { db } from "@/services/firebase/firebase.config";
 import { getEntity } from "@/services/firebase/db/utils/entity";
 import getDataToChange from "../getDataToChange";
+import { validateTransactionData } from "@/utils/validation";
+import { performDecimalCalculation } from "@/utils/number";
+import { compareDatesByDay } from "@/utils/date";
+import handleActionError from "../handleActionError";
 
 export default async function handleTransactionUpdate(userId, formData) {
-  const { amount: amountStr, date: dateStr } = formData;
-
-  const formattedFormData = {
-    ...formData,
-    amount: Number(amountStr),
-    date: new Date(dateStr)
-  }
-
-  const { amount, wallet: walletId, category: categoryId, date, transactionId } = formattedFormData;
-
-  const categoryDocRef = doc(db, `users/${userId}/categories/${categoryId}`);
-  const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
-  const transactionDocRef = doc(db, `users/${userId}/wallets/${walletId}/transactions/${transactionId}`);
+  // Normalize data
+  formData.amount = Number(formData.amount);
+  formData.date = new Date(formData.date);
+  const { amount, walletId, categoryId, date, transactionId } = formData;
 
   try {
-    await validateTransactionData({
-      docRefs: { wallet: walletDocRef, category: categoryDocRef, transaction: transactionDocRef },
-      data: formattedFormData
-    });
+    // Primary validation
+    validateTransactionData({ amount, walletId, categoryId, date, transactionId });
 
-    // const formattedDate = Timestamp.fromDate(date);
-
+    // Get the old data
+    const transactionDocRef = doc(db, `users/${userId}/wallets/${walletId}/transactions/${transactionId}`);
     const oldTransactionData = await getEntity(transactionDocRef, transactionId, "transaction");
 
+    // See what has changed
     const hasDataChanged = {
       amount: oldTransactionData.amount !== amount,
-      wallet: false, // The wallet should never change
+      wallet: oldTransactionData.wallet.id !== walletId,
       category: oldTransactionData.category.id !== categoryId,
-      date: oldTransactionData.date.toDate() !== date
+      date: !compareDatesByDay(oldTransactionData.date.toDate(), date, "===")
     }
 
-    const dataToChange = getDataToChange(hasDataChanged, formattedFormData);
+    // Secondary validation
+    // The wallet should never change
+    if (hasDataChanged.wallet) {
+      throw new ValidationError("You can't change the wallet of a transaction");
+    }
 
-    const { type: categoryType } = (await getEntity(categoryDocRef, categoryId, "category"));
+    // Get the new category payload (if needed)
+    let categoryTransactionPayload = oldTransactionData.category;
+    if (hasDataChanged.category) {
+      const categoryDocRef = doc(db, `users/${userId}/categories/${categoryId}`);
+      const { rootCategoryId, createdAt: categoryCA, ...restOfNewCategory } = await getEntity(categoryDocRef, categoryId, "category");
+      categoryTransactionPayload = restOfNewCategory;
 
-    await runTransaction(db, async (dbTransaction) => {
-      if (hasDataChanged.amount) {
-        const amountDifference = categoryType === "expense"
-          ? oldTransactionData.amount - amount
-          : amount - oldTransactionData.amount;
-
-        await updateWalletBalance(dbTransaction, walletDocRef, amountDifference);
+      // Category can change but only to one of the same type - the type should never change
+      if (oldTransactionData.category.type !== categoryTransactionPayload.type) {
+        throw new ValidationError("You can't change the category type of a transaction");
       }
+    }
 
-      await editTransaction({
-        dbTransaction,
-        docRefs: {
-          category: categoryDocRef,
-          wallet: walletDocRef,
-          transaction: transactionDocRef
-        },
-        ids: {
-          category: categoryId,
-          wallet: walletId
-        },
-        data: dataToChange
-      });
-    })
+    // Get only the updated data payload
+    const transactionUpdatePayload = getDataToChange(hasDataChanged, { amount, category: categoryTransactionPayload, date });
+
+    const batch = writeBatch(db);
+
+    // Update wallet balance if amount has changed
+    if (hasDataChanged.amount) {
+      const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
+      const { balance: oldWalletBalance } = await getEntity(walletDocRef, walletId, "wallet");
+
+      const amountDifference = amount - oldTransactionData.amount;
+
+      // If it's an expense, deduct the difference. If it's income, add the difference.
+      const updatedWalletBalance = categoryTransactionPayload.type === "expense"
+        ? performDecimalCalculation(oldWalletBalance, amountDifference, "-")
+        : performDecimalCalculation(oldWalletBalance, amountDifference, "+");
+
+      batch.update(walletDocRef, { balance: updatedWalletBalance });
+    }
+
+    // Update the transaction
+    batch.update(transactionDocRef, transactionUpdatePayload);
+
+    await batch.commit();
 
     return createSuccessResponse({
       msg: "Transaction updated successfully!",
@@ -74,12 +81,6 @@ export default async function handleTransactionUpdate(userId, formData) {
     })
 
   } catch (error) {
-    console.error(error);
-
-    if (error instanceof ValidationError) {
-      return createErrorResponse(error.statusCode, error.message);
-    }
-
-    return createErrorResponse("Couldn't update your transaction. Please try again");
+    return handleActionError(error, "Couldn't update your transaction. Please try again");
   }
 }

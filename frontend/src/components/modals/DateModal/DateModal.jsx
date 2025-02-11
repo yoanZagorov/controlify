@@ -31,8 +31,9 @@ export default function DateModal({ closeModal, state }) {
 
     const isCurrentDate = compareDatesByDay(currentIterationDate, date);
     const isToday = compareDatesByDay(currentIterationDate, today);
+    const isAfterToday = compareDatesByDay(currentIterationDate, today, ">");
 
-    return { value: day, isCurrentDate, isToday };
+    return { value: day, isCurrentDate, isToday, isAfterToday };
   })
 
   // Click handlers

@@ -11,6 +11,8 @@ export default async function handleWalletDeletion(userId, walletId, docRef, tra
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
+  // To do: add some kind of indication on the frontend that the transaction's wallet is deleted
+
   try {
     // Updating the wallet field on each transaction before updating the wallet itself
     const wallet = await getEntity(docRef, walletId, "wallet");

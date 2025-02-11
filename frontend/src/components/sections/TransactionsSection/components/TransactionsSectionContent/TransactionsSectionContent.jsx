@@ -19,7 +19,7 @@ export default function TransactionsSectionContent({ type = "compact", hasFilter
 
   const fetcher = useFetcher({ key: "updateTransaction" });
 
-  // Manual cleanup for last transaction
+  // Manual cleanup for last transaction - needed to properly close the modal
   useEffect(() => {
     if (!hasTransactions) {
       resetFetcher(fetcher);

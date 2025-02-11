@@ -7,7 +7,6 @@ export default async function dashboardAction({ request }) {
   const userId = await getAuthUserId();
 
   const formData = Object.fromEntries(await request.formData());
-
   const { intent } = formData;
 
   if (intent === "addWallet") {

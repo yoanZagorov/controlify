@@ -42,7 +42,7 @@ export default function TransactionContainer({ mode = "add", modal, formProps, c
     },
     {
       formData: {
-        name: "wallet",
+        name: "walletId",
         value: wallet.id
       },
       field: {
@@ -69,7 +69,7 @@ export default function TransactionContainer({ mode = "add", modal, formProps, c
     },
     {
       formData: {
-        name: "category",
+        name: "categoryId",
         value: category.id
       },
       field: {
@@ -154,6 +154,7 @@ export default function TransactionContainer({ mode = "add", modal, formProps, c
                     },
                     value: e.target.value
                   })}
+                  // onChange={(e) => updateTransactionData({ amount: e.target.value })} // used for testing backend functionality
                   isExpense={isExpense}
                   currency={currency}
                   isDeleteBtn={isEditTransaction}

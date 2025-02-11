@@ -3,16 +3,22 @@ import cn from "classnames";
 import { formatEntityNameForUI } from "@/utils/formatting";
 
 import { SvgIcon } from "@/components/SvgIcon";
+import { useRef } from "react";
+import { useAutoFocus } from "@/hooks";
 
 export default function CategoryItem({ category, isActive, handleClick }) {
+  const activeCategoryBtnRef = useRef(null);
+  useAutoFocus({ ref: activeCategoryBtnRef });
+
   return (
     <li key={category.id} className="flex flex-col items-center gap-2 text-center">
       <button
+        ref={isActive ? activeCategoryBtnRef : null}
         type="button"
         onClick={handleClick}
         className={cn(
-          "flex justify-center items-center size-12 rounded-full focus:outline-none focus-visible:ring focus-visible:ring-gray-dark ",
-          isActive && "ring-2 ring-goldenrod bg-navy"
+          "flex justify-center items-center size-12 rounded-full",
+          isActive ? "bg-navy focus-goldenrod" : "focus-gray-dark"
         )}
         style={!isActive ? { backgroundColor: category.color } : {}}
       >
