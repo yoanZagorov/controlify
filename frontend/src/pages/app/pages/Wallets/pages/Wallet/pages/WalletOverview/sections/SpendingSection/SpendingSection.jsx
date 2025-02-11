@@ -1,9 +1,9 @@
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { Section } from "@/components/sections/Section";
-import { CustomPieChart } from "@/components/charts/CustomPieChart";
 import { Notification } from "@/components/Notification";
 import { Carousel } from "@/components/Carousel";
 import { CustomBarChart } from "@/components/charts/CustomBarChart";
+import { CustomPieChartWithIconLabels } from "@/components/charts/pie-charts/CustomPieChartWithIconLabels";
 
 export default function SpendingSection({ isSpaceLimited, charts }) {
   const chartsData = {
@@ -14,7 +14,7 @@ export default function SpendingSection({ isSpaceLimited, charts }) {
         title: "by category"
       },
       componentWrapperClassName: "h-[450px]",
-      Component: CustomPieChart
+      Component: CustomPieChartWithIconLabels
     },
     expensesVsIncome: {
       check: (chartData) => chartData.find(entry => entry.amount) ? true : false,
@@ -36,7 +36,7 @@ export default function SpendingSection({ isSpaceLimited, charts }) {
       <ContentWidget key={index} iconName={widget.iconName} title={widget.title} className="w-full">
         {hasSufficientData ? (
           <div className={componentWrapperClassName}>
-            <Component type={chart.type} data={chart.data} />
+            <Component data={chart.data} />
           </div>
         ) : (
           <Notification className="max-w-64 mx-auto">

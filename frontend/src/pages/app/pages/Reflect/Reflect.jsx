@@ -4,7 +4,6 @@ import { WaterfallChart } from "@/components/charts/WaterfallChart";
 import { useLoaderData, useRouteLoaderData } from "react-router";
 import { useBreakpoint, useLayout, useScrollToTop } from "@/hooks";
 import { Amount } from "@/components/Amount";
-import { CustomPieChart } from "@/components/charts/CustomPieChart";
 import { BalanceLineChart } from "@/components/charts/BalanceLineChart";
 import { OverviewSection } from "./sections/OverviewSection";
 import { CashFlowSection } from "./sections/CashFlowSection";

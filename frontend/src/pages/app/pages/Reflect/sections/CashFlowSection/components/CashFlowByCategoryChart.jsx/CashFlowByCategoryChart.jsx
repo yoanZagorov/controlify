@@ -1,4 +1,3 @@
-import { CustomPieChart } from "@/components/charts/CustomPieChart";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 
 export default function CashFlowByCategoryChart({ iconName, transactionType, chartData }) {
