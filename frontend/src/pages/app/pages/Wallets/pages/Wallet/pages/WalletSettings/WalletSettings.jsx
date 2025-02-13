@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useFetcher, useNavigate, useRouteLoaderData } from "react-router";
 
 import { resetFetcher } from "@/services/router/utils";
@@ -9,32 +9,32 @@ import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { SettingsSection } from "@/components/sections/SettingsSection";
 import { useLayout, useScrollToTop, useWalletUpdate } from "@/hooks";
 import { handleWalletNameInputChange } from "@/utils/input";
-import { COLORS } from "@/constants";
+import { COLORS, ROUTES, VALIDATION_RULES } from "@/constants";
 
 export default function WalletSettings() {
   useScrollToTop();
 
-  const navigate = useNavigate();
+  const fetcher = useFetcher({ key: "updateWallet" });
 
-  const { userData: { categories: userCategories } } = useRouteLoaderData("app");
+  const { userData: { categories: userCategories }, currencies } = useRouteLoaderData("app");
   const { wallet: { id, deletedAt, isDefault } } = useRouteLoaderData("wallet");
 
   const { isSingleColLayout } = useLayout();
 
-  const updateWalletFetcher = useFetcher({ key: "updateWallet" });
-
+  // Manual cleanup since there is no modal
   useEffect(() => {
-    if (updateWalletFetcher.state === "idle" && updateWalletFetcher.data) {
+    if (fetcher.state === "idle" && fetcher.data) {
       window.scrollTo({ top: 0, behavior: "smooth" });
-      resetFetcher(updateWalletFetcher);
+      resetFetcher(fetcher);
     }
-  }, [updateWalletFetcher.data, updateWalletFetcher.state])
+  }, [fetcher.data, fetcher.state])
 
+  // Navigate if the wallet is deleted
   useEffect(() => {
     if (deletedAt) {
-      navigate("/app/wallets");
+      navigate(ROUTES.WALLETS);
     }
-  }, [updateWalletFetcher.data, updateWalletFetcher.state]);
+  }, [fetcher.data, fetcher.state]);
 
   const {
     walletData: {
@@ -46,14 +46,22 @@ export default function WalletSettings() {
     updateWalletData
   } = useWalletUpdate();
 
-  const visibleWalletCategories = categories.filter(category => category.isVisible);
-  const areAllCategoriesVisible = userCategories.length = visibleWalletCategories.length;
+  // Memoizing calculations
+  const visibleWalletCategories = useMemo(() => {
+    return categories.filter(category => category.isVisible);
+  }, [categories]);
+  const areAllCategoriesVisible = visibleWalletCategories.length === userCategories.length;
+
+  const stringifiedCategories = useMemo(() => {
+    // submitting only the neccessary and serializing since the data type is more complex
+    return JSON.stringify(categories.map(category => ({ id: category.id, isVisible: category.isVisible })))
+  }, [categories]);
 
   const settingsDataConfig = [
     {
       formData: {
         name: "name",
-        value: name
+        value: name.trim()
       },
       field: {
         name: "name",
@@ -61,11 +69,11 @@ export default function WalletSettings() {
           iconName: "heading",
           type: "input",
           displayValue: name,
-          inputProps: {
+          controlProps: {
             value: name,
+            minLength: VALIDATION_RULES.WALLET.NAME.MIN_LENGTH,
+            maxLength: VALIDATION_RULES.WALLET.NAME.MAX_LENGTH,
             onChange: (e) => handleWalletNameInputChange({ value: e.target.value, updateState: updateWalletData }),
-            min: 2,
-            max: 50
           }
         },
       }
@@ -88,6 +96,7 @@ export default function WalletSettings() {
           },
           innerModal: {
             Component: CurrencyModal,
+            props: { currencies }
           },
           state: {
             value: currency,
@@ -99,7 +108,7 @@ export default function WalletSettings() {
     {
       formData: {
         name: "categories",
-        value: JSON.stringify(categories.map(category => ({ id: category.id, isVisible: category.isVisible })))
+        value: stringifiedCategories
       },
       field: {
         name: "categories",
@@ -143,7 +152,7 @@ export default function WalletSettings() {
           },
           innerModal: {
             Component: ColorModal,
-            props: { colors: COLORS.ENTITIES.WALLET_COLORS },
+            props: { colors: COLORS.ENTITIES.WALLET_COLORS, colorBrightness: "dark" },
           },
           state: {
             value: color,
@@ -156,9 +165,10 @@ export default function WalletSettings() {
 
   return (
     <SettingsSection
+      entity="wallet"
       formProps={{
-        fetcher: updateWalletFetcher,
-        action: `/app/wallets/${id}`,
+        fetcher: fetcher,
+        action: ROUTES.WALLET.DYNAMIC(id),
         btn: {
           props: {
             value: "updateWallet"
@@ -166,7 +176,7 @@ export default function WalletSettings() {
         }
       }}
       isSpaceLimited={isSingleColLayout}
-      isDeleteBtn={!isDefault}
+      deleteEntityFetcher={isDefault ? {} : fetcher}
       settings={settingsDataConfig}
     />
   )

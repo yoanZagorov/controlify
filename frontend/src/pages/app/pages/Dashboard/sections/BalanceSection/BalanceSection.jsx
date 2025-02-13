@@ -1,6 +1,6 @@
 import { Section } from "@/components/sections/Section";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
-import { BalanceLineChart } from "@/components/charts/BalanceLineChart";
+import { BalanceOverTimeLineChart } from "@/components/charts/line-charts/BalanceOverTimeLineChart";
 import { BalanceAmountWidget } from "@/components/widgets/BalanceAmountWidget";
 
 export default function BalanceSection({ sectionClassName, balance, currency }) {
@@ -18,7 +18,7 @@ export default function BalanceSection({ sectionClassName, balance, currency }) 
       />
 
       <ContentWidget iconName="calendar-months" title="last 30 days" content={{ className: "h-56" }} >
-        <BalanceLineChart data={balance.chartData} lineDataKey="accumulatedBalance" currency={currency} />
+        <BalanceOverTimeLineChart data={balance.chartData} lineDataKey="accumulatedBalance" currency={currency} />
       </ContentWidget>
     </Section>
   )

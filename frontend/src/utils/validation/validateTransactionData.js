@@ -3,7 +3,7 @@ import { compareDatesByDay } from "../date";
 import { ValidationError } from "../errors";
 import validateAmount from "./validateAmount";
 
-export default function validateTransactionData({ amount, walletId, categoryId, date, transactionId }) {
+export default function validateTransactionData({ amount, walletId, categoryId, date, transactionId = null }) {
   // Amount validation
   validateAmount(amount, VALIDATION_RULES.TRANSACTION.AMOUNT.MIN_AMOUNT, VALIDATION_RULES.TRANSACTION.AMOUNT.MAX_AMOUNT, "transaction amount");
 
@@ -31,7 +31,7 @@ export default function validateTransactionData({ amount, walletId, categoryId, 
 
   // Transaction validation
   // Only relevant for transaction updates
-  if (transactionId !== undefined) {
+  if (transactionId !== null) {
     if (!transactionId) {
       throw new ValidationError("Transaction should not be empty");
     }

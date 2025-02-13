@@ -45,8 +45,8 @@ export default async function handleTransactionUpdate(userId, formData) {
       categoryTransactionPayload = restOfNewCategory;
 
       // Category can change but only to one of the same type - the type should never change
-      if (oldTransactionData.category.type !== categoryTransactionPayload.type) {
-        throw new ValidationError("You can't change the category type of a transaction");
+      if (oldTransactionData.type !== categoryTransactionPayload.type) {
+        throw new ValidationError("You can't change the type of a transaction");
       }
     }
 

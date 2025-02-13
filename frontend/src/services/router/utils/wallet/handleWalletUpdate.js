@@ -1,87 +1,101 @@
-import { getConvertedWalletBalance } from "@/utils/wallet";
 import getDataToChange from "../getDataToChange";
 import { formatEntityNameForFirebase } from "@/utils/formatting";
-import { doc, runTransaction } from "firebase/firestore";
+import { doc, runTransaction, writeBatch } from "firebase/firestore";
 import { createErrorResponse, createSuccessResponse } from "../../responses";
 import { ValidationError } from "@/utils/errors";
 import { db } from "@/services/firebase/firebase.config";
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { getEntity } from "@/services/firebase/db/utils/entity";
-import { validateCurrency, validateWalletName } from "@/utils/validation";
-import { getConvertedAmount } from "@/utils/currency";
+import { validateColor, validateCurrency, validateWalletData, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
 import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
+import validateAmount from "@/utils/validation/validateAmount";
+import { COLORS, VALIDATION_RULES } from "@/constants";
+import { getCurrencies } from "@/services/firebase/db/currency";
+import getConvertedWalletBalance from "./getConvertedWalletBalance";
+import { isObjTruthy } from "@/utils/obj";
+import handleActionError from "../handleActionError";
 
-export default async function handleWalletUpdate(userId, walletDocRef, walletId, formData) {
+export default async function handleWalletUpdate(userId, walletId, formData) {
+  // Normalize data
+  formData.categories = JSON.parse(formData.categories);
+  formData.name = formatEntityNameForFirebase(formData.name);
+  const { name, currency, categories, color } = formData;
+
   try {
-    validateWalletName(formData.name);
-    const formattedName = formatEntityNameForFirebase(formData.name);
+    // Get the old data
+    const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
+    const oldWalletData = await getEntity(walletDocRef, walletId, "wallet");
 
-    const formattedFormData = {
-      ...formData,
-      name: formattedName,
-      categories: JSON.parse(formData.categories)
+    // Turn categories array to a map
+    const categoriesVisibilityMap = Object.fromEntries(categories.map(category => [category.id, category.isVisible]))
+
+    const hasDataChanged = {
+      name: oldWalletData.name !== name,
+      currency: oldWalletData.currency !== currency,
+      color: oldWalletData.color !== color,
+      categoriesVisibility: JSON.stringify(oldWalletData.categoriesVisibility) !== JSON.stringify(categoriesVisibilityMap) // To do (Non-MVP): do a more sophisticated array comparison
     }
 
-    const { name, currency, color, categories } = formattedFormData;
+    const batch = writeBatch(db);
 
-    const wallet = await getEntity(walletDocRef, walletId, "wallet");
-    const walletTransactions = await getTransactions({ userId, wallets: [wallet] });
+    // Name validation
+    if (hasDataChanged.name) {
+      validateWalletName(formData.name);
+      await checkWalletNameDuplicate(userId, name);
+    }
 
-    await runTransaction(db, async (transaction) => {
-      const oldWalletData = (await transaction.get(walletDocRef)).data();
+    if (hasDataChanged.currency) {
+      // Currency validation
+      const supportedCurrencies = await getCurrencies();
+      validateCurrency(currency, supportedCurrencies.map(currency => currency.code));
 
-      const hasDataChanged = {
-        name: oldWalletData.name !== name,
-        currency: oldWalletData.currency !== currency,
-        color: oldWalletData.color !== color,
-        categories: true // To do: do a real array comparison
+      // Convert current wallet balance and update it since currency has changed
+      const convertedBalance = await getConvertedWalletBalance(oldWalletData.currency, currency, oldWalletData.balance, supportedCurrencies)
+      batch.update(walletDocRef, { balance: convertedBalance });
+    }
+
+    // Categories validation
+    if (hasDataChanged.categoriesVisibility) {
+      validateWalletVisibleCategories(categories);
+    }
+
+    // Color validation
+    if (hasDataChanged.color) {
+      validateColor(color, COLORS.ENTITIES.WALLET_COLORS);
+    }
+
+    // Updating the wallet field on each transaction to keep in sync 
+    const allWalletTransactions = await getTransactions({ userId, providedWallets: [oldWalletData] });
+    allWalletTransactions.forEach(transaction => {
+      const transactionDocRef = doc(db, `users/${userId}/wallets/${walletId}/transactions/${transaction.id}`);
+
+      // It's okay to update these fields because they're purely presentational but not the currency - it makes more sense to keep it like this  
+      let updates = {};
+      if (hasDataChanged.name) updates["wallet.name"] = name;
+      if (hasDataChanged.color) updates["wallet.color"] = color;
+
+      if (isObjTruthy(updates)) {
+        batch.update(transactionDocRef, updates);
       }
+    });
 
-      if (hasDataChanged.name) {
-        await checkWalletNameDuplicate(userId, formattedName);
-      }
+    // Format the form data so there is no need to create a new obj
+    delete formData.intent;
+    delete formData.categories;
+    formData.categoriesVisibility = categoriesVisibilityMap
 
-      if (hasDataChanged.currency) {
-        validateCurrency(currency);
-        const convertedBalance = await getConvertedWalletBalance(oldWalletData.currency, currency, wallet.balance)
-        transaction.update(walletDocRef, { balance: convertedBalance });
-      }
+    // Update the wallet itself
+    const walletUpdatePayload = getDataToChange(hasDataChanged, formData);
+    batch.update(walletDocRef, walletUpdatePayload);
 
-      const dataToChange = getDataToChange(hasDataChanged, formattedFormData);
-
-      transaction.update(walletDocRef, dataToChange);
-
-      // Updating the wallet field on each transaction to keep in sync 
-      walletTransactions.forEach(walletTransaction => {
-        const transactionDocRef = doc(db, `users/${userId}/wallets/${walletId}/transactions/${walletTransaction.id}`);
-
-        const updates = {};
-
-        if (hasDataChanged.name) {
-          updates["wallet.name"] = name;
-        }
-
-        if (hasDataChanged.color) {
-          updates["wallet.color"] = color;
-        }
-
-        if (Object.keys(updates).length > 0) {
-          transaction.update(transactionDocRef, updates);
-        }
-      });
-    })
+    // Commit all updates
+    await batch.commit();
 
     return createSuccessResponse({
       msg: "Successfully updated wallet settings data!",
       msgType: "success",
     })
   } catch (error) {
-    console.error(error);
-
-    if (error instanceof ValidationError) {
-      return createErrorResponse(error.message, error.statusCode);
-    }
-
-    return createErrorResponse(error.message);
+    return handleActionError(error, "Couldn't create your wallet. Please try again");
   }
 }

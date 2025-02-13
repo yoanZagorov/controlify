@@ -19,7 +19,7 @@ export default function FormField({ type = "select", name, iconName, displayValu
       <SvgIcon iconName={iconName} className="size-6 min-w-6 min-h-6 fill-gray-dark" />
       <span className="text-sm font-bold text-gray-dark">{capitalizeEveryWord(name)}</span>
 
-      {type === "input" ? (
+      {isInput ? (
         <Input
           inputRef={inputRef}
           size="l"

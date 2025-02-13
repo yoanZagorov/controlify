@@ -1,6 +1,12 @@
 import { performDecimalCalculation } from "@/utils/number";
+import { convertTransactionsToPreferredCurrency } from "../currency";
 
-export default async function getUserFinancialScore(periodTransactions, baseCurrency, nonBaseCurrenciesRates) {
+export default async function getUserFinancialScore(periodTransactions, preferredCurrency = null, providedBaseCurrency = null) {
+  // Convert to preferred currency if not already done
+  if (!periodTransactions[0].convertedAmount) {
+    await convertTransactionsToPreferredCurrency(periodTransactions, preferredCurrency, providedBaseCurrency);
+  }
+
   const FINANCIAL_SCORE_AMOUNTS = {
     MIN: 0,
     MAX: 100,
@@ -13,17 +19,12 @@ export default async function getUserFinancialScore(periodTransactions, baseCurr
   let expenseAmount = 0;
 
   for (const transaction of periodTransactions) {
-    const { amount, category: { type }, wallet: { currency } } = transaction;
-
-    let amountInBaseCurrency = amount;
-    if (currency !== baseCurrency.code) {
-      amountInBaseCurrency = performDecimalCalculation(transaction.amount, nonBaseCurrenciesRates[currency], "*", 4);
-    }
+    const { convertedAmount, type } = transaction;
 
     if (type === "income") {
-      incomeAmount = performDecimalCalculation(incomeAmount, amountInBaseCurrency, "+", 4);
+      incomeAmount = performDecimalCalculation(incomeAmount, convertedAmount, "+", 4);
     } else {
-      expenseAmount = performDecimalCalculation(expenseAmount, amountInBaseCurrency, "+", 4);
+      expenseAmount = performDecimalCalculation(expenseAmount, convertedAmount, "+", 4);
     }
   }
 

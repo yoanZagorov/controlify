@@ -10,7 +10,7 @@ import { Amount } from "@/components/Amount";
 import { SvgIcon } from "@/components/SvgIcon";
 import { TransactionContainer } from "../TransactionContainer"
 
-export default function TransactionItem({ action, isExpanded, transaction: { category, wallet, date, amount }, display }) {
+export default function TransactionItem({ action, isExpanded, transaction: { amount, currency, type, category, wallet, date }, display }) {
   const { transactionData, defaultTransactionData, resetTransactionData } = useTransaction();
   const { amount: amountInState } = transactionData;
 
@@ -41,7 +41,7 @@ export default function TransactionItem({ action, isExpanded, transaction: { cat
     ? formatDateShort(new Date(date))
     : formatDateLong(new Date(date));
 
-  const correctSignAmount = category.type === "expense" ? -amount : amount;
+  const correctSignAmount = type === "expense" ? -amount : amount;
 
   return (
     <TransactionContainer
@@ -95,7 +95,7 @@ export default function TransactionItem({ action, isExpanded, transaction: { cat
 
         <Amount
           amount={correctSignAmount}
-          currency={wallet.currency}
+          currency={currency}
           colorContext="light"
           displayPlusSign
           className={cn("text-right font-semibold", isSpaceLimited ? "text-sm" : isExpanded ? "text-lg" : "text-base")}

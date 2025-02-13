@@ -3,9 +3,9 @@ import { Section } from "@/components/sections/Section";
 import { useLayout } from "@/hooks";
 import { CashFlowByCategoryChart } from "./components/CashFlowByCategoryChart.jsx";
 import { useRouteLoaderData } from "react-router";
-import CashFlowLineChart from "@/components/charts/CashFlowLineChart/CashFlowLineChart.jsx";
-import ContentWidget from "@/components/widgets/ContentWidget/ContentWidget.jsx";
 import cn from "classnames";
+import CashFlowLineChart from "@/components/charts/line-charts/CashFlowLineChart/CashFlowLineChart.jsx";
+import ContentWidget from "@/components/widgets/ContentWidget/ContentWidget.jsx";
 
 export default function CashFlowSection() {
   const DEFAULT_PERIOD = "Last 30 Days";

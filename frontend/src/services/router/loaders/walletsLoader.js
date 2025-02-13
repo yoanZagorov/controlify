@@ -4,13 +4,13 @@ import { PERIODS, ROUTES } from "@/constants";
 
 import { checkUserAuthStatus, getAuthUserId } from "@/services/firebase/auth";
 
+import { getUser } from "@/services/firebase/db/user";
 import { getActiveWallets, getWallets } from "@/services/firebase/db/wallet";
-import { getTransactions } from "@/services/firebase/db/transaction";
+import { getPeriodTransactions, getTransactions } from "@/services/firebase/db/transaction";
 
 import { createErrorResponse, createSuccessResponse } from "../responses";
 
-import { getExpensesByWalletChartData } from "../utils/chartData";
-
+import { getCashFlowByEntityPieChartData } from "../utils/charts";
 import { getPeriodInfo } from "@/utils/date";
 
 export default async function walletsLoader({ request }) {
@@ -20,19 +20,26 @@ export default async function walletsLoader({ request }) {
   }
 
   try {
+    // Calculation data
     const allWallets = await getWallets(userId);
-    const activeWallets = await getActiveWallets(userId);
 
-    // To do (Non-MVP): limit the data and implement pagination
+    // Calculation/display data
+    // To do (Non-MVP): limit the data and implement pagination    
     const allTransactions = await getTransactions({ userId, providedWallets: allWallets, sortType: "newestFirst" });
 
+    // Calculation data
     const periodInfo = getPeriodInfo(PERIODS.DEFAULT_PERIOD);
-    const expensesByWalletChartData = await getExpensesByWalletChartData({ userId, periodInfo, providedData: { wallets: allWallets } });
+    const periodTransactions = await getPeriodTransactions({ userId, providedWallets: allWallets, periodInfo });
+    const { currency: userCurrency } = (await getUser(userId));
+    const expensesByWalletPieChartData = await getCashFlowByEntityPieChartData("wallet", "expense", periodTransactions, userCurrency);
+
+    // Display data
+    const activeWallets = await getActiveWallets(userId);
 
     const loaderData = {
       wallets: activeWallets,
       transactions: allTransactions,
-      expensesByWalletChartData
+      expensesByWalletChartData: expensesByWalletPieChartData
     };
 
     return createSuccessResponse(loaderData);

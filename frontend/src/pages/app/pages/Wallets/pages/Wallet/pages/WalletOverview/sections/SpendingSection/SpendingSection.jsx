@@ -1,65 +1,43 @@
-import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { Section } from "@/components/sections/Section";
-import { Notification } from "@/components/Notification";
 import { Carousel } from "@/components/Carousel";
 import { CustomBarChart } from "@/components/charts/CustomBarChart";
 import { CustomPieChartWithIconLabels } from "@/components/charts/pie-charts/CustomPieChartWithIconLabels";
+import { useRouteLoaderData } from "react-router";
+import { useBreakpoint, useLayout } from "@/hooks";
+import { ChartWrapper } from "./components/ChartWrapper";
 
-export default function SpendingSection({ isSpaceLimited, charts }) {
-  const chartsData = {
-    expensesByCategory: {
-      check: (chartData) => chartData.length ? true : false,
-      widget: {
-        iconName: "categories",
-        title: "by category"
-      },
-      componentWrapperClassName: "h-[450px]",
-      Component: CustomPieChartWithIconLabels
-    },
-    expensesVsIncome: {
-      check: (chartData) => chartData.find(entry => entry.amount) ? true : false,
-      widget: {
-        iconName: "stats",
-        title: "expenses vs income"
-      },
-      componentWrapperClassName: "h-[450px]",
-      Component: CustomBarChart
-    },
-  };
+export default function SpendingSection() {
+  const DEFAULT_PERIOD = "Last 30 Days"; // To do (Non-MVP): Change this to a state variable so filtering can be implemented
 
-  const chartEls = charts.map((chart, index) => {
-    const { check, widget, componentWrapperClassName, Component } = chartsData[chart.type];
+  const { isSingleColLayout } = useLayout();
 
-    const hasSufficientData = check(chart.data);
+  const { isMobileS, isMobileM } = useBreakpoint();
+  const { chartData, wallet: { currency } } = useRouteLoaderData("wallet");
 
-    return (
-      <ContentWidget key={index} iconName={widget.iconName} title={widget.title} className="w-full">
-        {hasSufficientData ? (
-          <div className={componentWrapperClassName}>
-            <Component data={chart.data} />
-          </div>
-        ) : (
-          <Notification className="max-w-64 mx-auto">
-            Not enough data available to create the chart yet. Add a few transactions to get started!
-          </Notification>
-        )
-        }
-      </ContentWidget>
-    )
-  })
+  const hasSufficientData = {
+    expensesByCategory: chartData.expensesByCategory.find(entry => entry.amount > 0) ? true : false,
+    expensesVsIncome: chartData.expensesVsIncome.find(entry => entry.amount > 0) ? true : false,
+  }
 
-  // const carouselItems = isSpaceLimited ? charts.map((_, index) => ({ component: chartEls[index] })) : null;
+  const elements = [
+    <ChartWrapper iconName="categories" title="by category" hasSufficientData={hasSufficientData.expensesByCategory}>
+      <CustomPieChartWithIconLabels size={isMobileS ? "s" : isMobileM ? "m" : "l"} entity="category" currency={currency} data={chartData.expensesByCategory} />
+    </ChartWrapper>,
+    <ChartWrapper iconName="stats" title="expenses vs income" hasSufficientData={hasSufficientData.expensesVsIncome}>
+      <CustomBarChart currency={currency} data={chartData.expensesVsIncome} />
+    </ChartWrapper>,
+  ]
 
   return (
     <Section
       title="Wallet Spending"
-      subtitle="Last 30 Days"
+      subtitle={DEFAULT_PERIOD}
     >
-      {isSpaceLimited ? (
-        <Carousel items={chartEls} />
+      {isSingleColLayout ? (
+        <Carousel items={elements} />
       ) : (
-        <div className="flex gap-6">
-          {chartEls}
+        <div className="flex gap-16">
+          {elements}
         </div>
       )}
     </Section>

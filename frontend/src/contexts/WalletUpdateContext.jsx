@@ -6,24 +6,11 @@ export const WalletUpdateContext = createContext(null);
 
 export default function WalletUpdateProvider({ children }) {
   const { userData: { categories: userCategories } } = useRouteLoaderData("app");
-  const { wallet: { name, currency, color, categories: walletCategories } } = useRouteLoaderData("wallet");
-
-  function getCurrentCategories() {
-    const currentCategories = userCategories.map(userCategory => {
-      const currentWalletCategory = walletCategories.find(walletCategory => walletCategory.id === userCategory.id);
-
-      return {
-        ...userCategory,
-        isVisible: currentWalletCategory.isVisible
-      }
-    })
-
-    return currentCategories;
-  }
+  const { wallet: { name, currency, color, categoriesVisibility: walletCategoriesVisibilityMap } } = useRouteLoaderData("wallet");
 
   const defaultWalletData = {
     name: formatEntityNameForUI(name),
-    categories: getCurrentCategories(),
+    categories: userCategories.map(category => ({ ...category, isVisible: walletCategoriesVisibilityMap[category.id] })),
     currency,
     color
   }

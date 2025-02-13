@@ -1,7 +1,7 @@
 import { formatEntityNameForFirebase } from "@/utils/formatting";
-import { createErrorResponse, createSuccessResponse } from "../../responses";
+import { createSuccessResponse } from "../../responses";
 import { getCurrencies } from "@/services/firebase/db/currency";
-import { validateColor, validateCurrency, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
+import { validateColor, validateCurrency, validateWalletData, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
 import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
 import { COLORS, VALIDATION_RULES } from "@/constants";
 import { collection, doc, serverTimestamp, where, writeBatch } from "firebase/firestore";
@@ -11,32 +11,27 @@ import validateAmount from "@/utils/validation/validateAmount";
 import handleActionError from "../handleActionError";
 
 export default async function handleWalletSubmission(userId, formData) {
-  const { name, initialBalance: initialBalanceStr, currency, categories: unparsedCategories, color } = formData;
-
   try {
-    // Name valdation
-    validateWalletName(name);
-    const formattedName = formatEntityNameForFirebase(name);
+    // Primary name valdation
+    validateWalletName(formData.name);
+
+    // Normalize data
+    formData.initialBalance = Number(formData.initialBalance);
+    formData.categories = JSON.parse(formData.categories);
+    formData.name = formatEntityNameForFirebase(name);
+    const { name, initialBalance, currency, categories, color } = formData;
+
+    // Secondary name validation
     await checkWalletNameDuplicate(userId, formattedName);
 
-    // Initial balance validation
-    const initialBalance = Number(initialBalanceStr);
-    validateAmount(initialBalance, VALIDATION_RULES.WALLET.INITIAL_BALANCE.MIN_AMOUNT, VALIDATION_RULES.WALLET.INITIAL_BALANCE.MAX_AMOUNT, "initial balance");
-
-    // Currency validation
+    // Other fields validation
     const supportedCurrencyCodes = (await getCurrencies()).map(currency => currency.code);
-    validateCurrency(currency, supportedCurrencyCodes);
-
-    // Categories validation
-    const categories = JSON.parse(unparsedCategories);
-    validateWalletVisibleCategories(categories);
-    // Color validation
-    validateColor(color, COLORS.ENTITIES.WALLET_COLORS);
+    validateWalletData({ initialBalance, categories, color, supportedCurrencyCodes });
 
     const walletSubmissionPayload = {
-      name: formattedName,
+      name,
       balance: initialBalance,
-      categories,
+      categoriesVisibility: Object.fromEntries(categories.map(category => [category.id, category.isVisible])), // Turn to a map for easier lookups
       currency,
       color
     }

@@ -18,10 +18,10 @@ export default async function handleTransactionSubmission(userId, formData) {
     // Get neccessary entity data
     // Using rest syntax to exclude unneeded properties by destructuring them
     const categoryDocRef = doc(db, `users/${userId}/categories/${categoryId}`);
-    const { rootCategoryId, createdAt: categoryCA, ...transactionCategoryPayload } = await getEntity(categoryDocRef, categoryId, "category");
+    const { type, rootCategoryId, createdAt: categoryCA, ...transactionCategoryPayload } = await getEntity(categoryDocRef, categoryId, "category");
 
     const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
-    const { balance, categories, isDefault, createdAt: walletCA, ...transactionWalletPayload } = await getEntity(walletDocRef, walletId, "wallet");
+    const { currency, balance, categoriesVisibility, isDefault, createdAt: walletCA, ...transactionWalletPayload } = await getEntity(walletDocRef, walletId, "wallet");
 
     const batch = writeBatch(db);
 
@@ -31,12 +31,15 @@ export default async function handleTransactionSubmission(userId, formData) {
     batch.update(walletDocRef, { balance: updatedWalletBalance });
 
     // Add the transaction
+    // The currency and type fields are stored as main fields, regardless of the fact they're just derived from the wallet and category. See the docs for more info
     const transactionDocRef = doc(collection(walletDocRef, "transactions"));
     batch.set(transactionDocRef, {
       amount,
+      currency,
+      type,
+      date,
       wallet: transactionWalletPayload,
       category: transactionCategoryPayload,
-      date,
       createdAt: serverTimestamp(),
     })
 

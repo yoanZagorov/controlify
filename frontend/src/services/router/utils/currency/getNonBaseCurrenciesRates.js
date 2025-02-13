@@ -2,20 +2,21 @@ import { where } from "firebase/firestore";
 import { getCurrencies } from "@/services/firebase/db/currency";
 
 // Fetch the needed currency rates all at once
-export default async function getNonBaseCurrenciesRates({ baseCurrency, transactionsByWallet = [], userCurrency = null }) {
+// Entities could be either wallets or transactions
+export default async function getNonBaseCurrenciesRates({ baseCurrency, entities = [], preferredCurrency = null }) {
   // Create a Set of unique currencies
   const nonBaseCurrenciesSet = new Set();
-  transactionsByWallet.forEach(wallet => {
-    if (wallet.currency !== baseCurrency.code && wallet.transactions) {
-      nonBaseCurrenciesSet.add(wallet.currency);
+  entities.forEach(entity => {
+    if (entity.currency !== baseCurrency.code) {
+      nonBaseCurrenciesSet.add(entity.currency);
     }
   })
 
-  // Include the user currency if different from the base
-  if (userCurrency) {
-    const isPreferredCurrencyBase = userCurrency === baseCurrency.code;
+  // Include the preferred currency if it's provided (so it's needed) and it's different from the base
+  if (preferredCurrency) {
+    const isPreferredCurrencyBase = preferredCurrency === baseCurrency.code;
     if (!isPreferredCurrencyBase) {
-      nonBaseCurrenciesSet.add(userCurrency);
+      nonBaseCurrenciesSet.add(preferredCurrency);
     }
   }
 

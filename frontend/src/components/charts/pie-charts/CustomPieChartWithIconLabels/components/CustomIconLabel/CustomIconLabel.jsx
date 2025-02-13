@@ -37,7 +37,7 @@ export default function CustomIconLabel({ entity, size, cx, cy, midAngle, outerR
       >
       </circle>
       <SvgIcon
-        iconName={payload[entity].iconName}
+        iconName={payload["details"].iconName}
         x={cxWrapper - (0.5 * iconSize)}
         y={cyWrapper - (0.5 * iconSize)}
         width={iconSize}

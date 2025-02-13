@@ -1,4 +1,5 @@
 import { redirect } from "react-router";
+import { where } from "firebase/firestore";
 
 import { ROUTES } from "@/constants";
 import { PERIODS } from "@/constants";
@@ -11,11 +12,11 @@ import { createSuccessResponse, createErrorResponse } from "../responses";
 import { getUser } from "@/services/firebase/db/user";
 import { getActiveWallets, getWallets } from "@/services/firebase/db/wallet";
 import { getCategories } from "@/services/firebase/db/category";
-import { getTodayTransactions } from "@/services/firebase/db/transaction";
+import { getPeriodTransactions, getTodayTransactions } from "@/services/firebase/db/transaction";
 import { getRandomQuote } from "@/services/firebase/db/quote";
 
 import { getCurrentUserBalance } from "../utils/user";
-import { getUserBalanceChartData } from "../utils/chartData";
+import { getBalance, getBalanceOverTimeLineChartData } from "../utils/charts";
 
 import { getStoredRedirectData } from "@/utils/localStorage";
 import { getPeriodInfo } from "@/utils/date";
@@ -27,39 +28,37 @@ export default async function appLoader({ request }) {
   }
 
   try {
+    // Fetch display and calculation data
     const user = await getUser(userId);
-    const categories = await getCategories(userId);
     const activeWallets = await getActiveWallets(userId);
-
-    // Fetching these here, since using for more than one function below
-    const baseCurrency = await getBaseCurrency();
     const allWallets = await getWallets(userId);
 
-    const todayTransactions = await getTodayTransactions(userId, allWallets);
-
-    const balance = await getCurrentUserBalance({
-      userId,
-      providedData: {
-        activeWallets,
-        baseCurrency,
-        userCurrency: user.currency
-      }
-    });
-
+    // Get shared calculation data
+    const baseCurrency = await getBaseCurrency();
     const periodInfo = getPeriodInfo(PERIODS.DEFAULT_PERIOD);
-    const balanceOverTimeChartData = await getUserBalanceChartData({
-      userId,
+
+    // Get the current user balance
+    const currentBalance = await getCurrentUserBalance(activeWallets, user.currency, baseCurrency);
+
+    // Get the opening balance (balance before the period start)
+    const openingBalanceTransactionsQuery = [where("date", "<", periodInfo.start)];
+    const openingBalance = await getBalance({ userId, wallets: allWallets, query: openingBalanceTransactionsQuery, preferredCurrency: user.currency, providedBaseCurrency: baseCurrency });
+
+    // Get the chart data
+    const periodTransactions = await getPeriodTransactions({ userId, periodInfo, providedWallets: allWallets });
+    const balanceOverTimeLineChartData = await getBalanceOverTimeLineChartData({
+      openingBalance,
+      periodTransactions,
       periodInfo,
-      providedData: {
-        wallets: allWallets,
-        baseCurrency,
-        userCurrency: user.currency
-      }
+      preferredCurrency: user.currency,
+      providedBaseCurrency: baseCurrency
     });
 
+    // Fetch pure display data
+    const categories = await getCategories(userId);
+    const todayTransactions = await getTodayTransactions(userId, allWallets);
     const randomQuote = await getRandomQuote();
     const storedRedirectData = getStoredRedirectData();
-
     const currencies = await getCurrencies();
 
     const loaderData = {
@@ -67,9 +66,9 @@ export default async function appLoader({ request }) {
         ...user,
         wallets: activeWallets,
         categories,
-        balance,
+        balance: currentBalance,
         todayTransactions,
-        balanceOverTimeChartData,
+        balanceOverTimeChartData: balanceOverTimeLineChartData,
       },
       notificationData: {
         quote: randomQuote,

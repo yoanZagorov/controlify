@@ -2,7 +2,7 @@ import { getTodayStartAndEnd } from "@/utils/date";
 import { where } from "firebase/firestore";
 import getTransactions from "./getTransactions";
 
-export default async function getTodayTransactions(userId, providedWallets = [], query = []) {
+export default async function getTodayTransactions(userId, providedWallets, query = []) {
   const { start, end } = getTodayStartAndEnd();
   const todayTransactionsQuery = [
     where("date", ">=", start),

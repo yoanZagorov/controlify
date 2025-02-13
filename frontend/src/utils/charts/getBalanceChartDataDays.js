@@ -1,5 +1,6 @@
 import { performDecimalCalculation } from "../number";
 
+// Most likely wouldn't need this func but keep it for now
 export default function getBalanceChartDataDays({ periodInfo, openingBalance, transactionsByDayMap, trackBalanceChange = false }) {
   const { periodLength } = periodInfo;
 

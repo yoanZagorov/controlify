@@ -6,23 +6,20 @@ import { getAuthUserId } from "@/services/firebase/auth";
 import { handleWalletUpdate, handleWalletDeletion } from "../utils/wallet";
 import { handleTransactionDeletion, handleTransactionSubmission, handleTransactionUpdate } from "../utils/transaction";
 
-export default async function walletAction({ request, params }) {
+export default async function walletAction({ request, params: { walletId } }) {
   const userId = await getAuthUserId();
-  const walletId = params.walletId;
 
   const formData = Object.fromEntries(await request.formData());
-
   const { intent } = formData;
 
   const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
 
   if (intent === "updateWallet") {
-    return (await handleWalletUpdate(userId, walletDocRef, walletId, formData));
+    return (await handleWalletUpdate(userId, walletId, formData));
   }
 
   if (intent === "deleteWallet") {
     const transactionsCollectionRef = collection(db, `users/${userId}/wallets/${walletId}/transactions`);
-
     return (await handleWalletDeletion(userId, walletId, walletDocRef, transactionsCollectionRef));
   }
 

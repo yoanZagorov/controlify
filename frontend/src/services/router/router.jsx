@@ -60,7 +60,7 @@ const routes = [
         action: walletsAction
       },
       {
-        path: ROUTES.WALLET,
+        path: ROUTES.WALLET.STATIC,
         element: <Wallet />,
         id: "wallet",
         loader: walletLoader,
@@ -71,16 +71,16 @@ const routes = [
             element: <Navigate to="overview" replace /> // Doesn't work with absolute paths (likely a bug in React Router)
           },
           {
-            path: ROUTES.WALLET_OVERVIEW,
+            path: ROUTES.WALLET_OVERVIEW.STATIC,
             index: true,
             element: <WalletOverview />
           },
           {
-            path: ROUTES.WALLET_TRANSACTIONS,
+            path: ROUTES.WALLET_TRANSACTIONS.STATIC,
             element: <WalletTransactions />
           },
           {
-            path: ROUTES.WALLET_SETTINGS,
+            path: ROUTES.WALLET_SETTINGS.STATIC,
             element:
               <WalletUpdateProvider>
                 <WalletSettings />

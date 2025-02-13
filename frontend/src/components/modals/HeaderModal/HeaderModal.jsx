@@ -9,7 +9,8 @@ import { Form } from "@/components/Form";
 import { FormFieldContainer } from "@/components/containers/FormFieldContainer";
 
 import { FormField } from "./components/FormField";
-import { DeleteEntityHandler } from "./components/DeleteEntityHandler";
+import { DeleteEntityBtn } from "./components/DeleteEntityBtn";
+import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
 
 export default function HeaderModal({ entity, formProps, header, fields, color }) {
   const headerInputRef = useRef(null);
@@ -54,6 +55,18 @@ export default function HeaderModal({ entity, formProps, header, fields, color }
       )
     } : {};
 
+  const deleteEntityHandlerContainerProps = {
+    modalType: {
+      layout: "nested",
+      isBlocking: false
+    },
+    entity,
+    deleteEntityFetcher,
+    deleteBtnComponent: {
+      Component: DeleteEntityBtn
+    }
+  }
+
   return (
     <>
       <Form
@@ -72,15 +85,15 @@ export default function HeaderModal({ entity, formProps, header, fields, color }
             isDeleteEntity ? (
               <div className="flex items-center gap-6">
                 <input {...headerInputProps} />
+                <DeleteEntityHandlerContainer {...deleteEntityHandlerContainerProps} />
 
-                <DeleteEntityHandler entity={entity} deleteEntityFetcher={deleteEntityFetcher} />
               </div>
             ) : (
               <input {...headerInputProps} />
             ) : isDeleteEntity ? (
               <div className="flex items-center gap-6">
                 {header.CustomComponent}
-                <DeleteEntityHandler entity={entity} deleteEntityFetcher={deleteEntityFetcher} />
+                <DeleteEntityHandlerContainer {...deleteEntityHandlerContainerProps} />
               </div>
             ) : header.CustomComponent
           }

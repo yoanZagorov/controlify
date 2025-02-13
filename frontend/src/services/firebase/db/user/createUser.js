@@ -27,16 +27,17 @@ export default async function createUser(userId, email, fullName) {
 
     // Set user categories collection
     const categoriesCollectionRef = collection(db, `users/${userId}/categories`); // Defined outside of the loop to avoid multiple collection() calls
-    let walletCategories = [];
+    // let walletCategories = []; // Consider turning this into a map for faster lookups (Not-MVP)
+    let walletCategoriesVisibilityMap = {};
     // ...rest allows to get all properties, apart from the destructured one
     // or rename it in this case
     defaultCategories.forEach(({ id, ...rest }) => {
       const categoryDocRef = doc(categoriesCollectionRef);
       batch.set(categoryDocRef, { ...rest, createdAt: serverTimestamp(), rootCategoryId: id });
 
-      walletCategories.push({ id: categoryDocRef.id, isVisible: true });
+      // walletCategories.push({ id: categoryDocRef.id, isVisible: true });
+      walletCategoriesVisibilityMap[categoryDocRef.id] = true;
     })
-
     // Set user default wallet doc
     const walletDocRef = doc(collection(db, `users/${userId}/wallets`));
     batch.set(walletDocRef, {
@@ -46,7 +47,8 @@ export default async function createUser(userId, email, fullName) {
       iconName: "wallet",
       isDefault: true,
       color: COLORS.ENTITIES.DEFAULT_WALLET_COLOR,
-      categories: walletCategories,
+      // categories: walletCategories,
+      categoriesVisibility: walletCategoriesVisibilityMap,
       createdAt: serverTimestamp(),
       deletedAt: null,
     })

@@ -6,7 +6,7 @@ export default function CustomLegend({ payload, entity }) {
     const {
       color,
       value,
-      payload: { [entity]: { iconName, id } }
+      payload: { "details": { iconName, id } }
     } = entry;
 
     return (

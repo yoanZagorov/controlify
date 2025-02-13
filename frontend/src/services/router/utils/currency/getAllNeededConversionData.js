@@ -1,11 +1,14 @@
 import { getBaseCurrency } from "@/services/firebase/db/currency";
-import { getWallets } from "@/services/firebase/db/wallet";
+import { getWallet, getWallets } from "@/services/firebase/db/wallet";
 import { getPeriodTransactionsByWallet } from "@/services/firebase/db/transaction";
 import { getUser } from "@/services/firebase/db/user";
 
 import getNonBaseCurrenciesRates from "./getNonBaseCurrenciesRates";
+import { doc } from "firebase/firestore";
+import { db } from "@/services/firebase/firebase.config";
 
-export default async function getAllNeededConversionData({ userId = null, periodInfo = {}, neededData, providedData }) {
+// This function is currently not used, but it'll be refactored and used in the future
+export default async function getAllNeededConversionData({ userId = null, walletId = null, periodInfo = {}, neededData, providedData }) {
   const conversionData = { ...providedData };
 
   if (neededData.includes("wallets") && !conversionData.wallets) {
@@ -25,11 +28,15 @@ export default async function getAllNeededConversionData({ userId = null, period
     conversionData.userCurrency = (await getUser(userId)).currency;
   }
 
+  if (neededData.includes("walletCurrency") && !conversionData.walletCurrency) {
+    conversionData.walletCurrency = (await getWallet(userId, walletId)).currency;
+  }
+
   // Fetch nonBaseCurrenciesRates last, after all dependencies are available
   if (neededData.includes("nonBaseCurrenciesRates") && !conversionData.nonBaseCurrenciesRates) {
     conversionData.nonBaseCurrenciesRates = await getNonBaseCurrenciesRates({
       baseCurrency: conversionData.baseCurrency,
-      transactionsByWallet: conversionData.periodTransactionsByWallet,
+      entities: conversionData.entities,
       ...(neededData.includes("userCurrency") ? { userCurrency: conversionData.userCurrency } : {})
     })
   };

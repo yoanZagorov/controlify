@@ -1,3 +1,4 @@
+import { CustomPieChartWithIconLabels } from "@/components/charts/pie-charts/CustomPieChartWithIconLabels";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 
 export default function CashFlowByCategoryChart({ iconName, transactionType, chartData }) {
@@ -10,7 +11,7 @@ export default function CashFlowByCategoryChart({ iconName, transactionType, cha
       }}
       className="w-full"
     >
-      <CustomPieChart type="byCategory" data={chartData} />
+      <CustomPieChartWithIconLabels entity="category" data={chartData} />
     </ContentWidget>
   )
 }

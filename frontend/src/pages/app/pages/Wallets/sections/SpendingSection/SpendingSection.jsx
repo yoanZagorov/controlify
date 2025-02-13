@@ -20,7 +20,7 @@ export default function SpendingSection({ sectionProps, chart }) {
     >
       <ContentWidget iconName="wallet" title="by wallet">
         {hasSufficientData ? (
-          <div className="mx-auto h-96">
+          <div className="mx-auto h-[400px]">
             <CustomPieChartWithIconLabels entity="wallet" size={isMobileS ? "s" : isMobileM ? "m" : "l"} data={chart.data} />
           </div>
         ) : (

@@ -1,15 +1,18 @@
 import { redirect } from "react-router";
+import { where } from "firebase/firestore";
 
 import { PERIODS, ROUTES } from "@/constants";
 
 import { checkUserAuthStatus, getAuthUserId } from "@/services/firebase/auth";
 
-import { getPeriodTransactionsByWallet, getTransactions } from "@/services/firebase/db/transaction";
+import { getBaseCurrency } from "@/services/firebase/db/currency";
+import { getPeriodTransactions, getTransactions } from "@/services/firebase/db/transaction";
 import { getWallet } from "@/services/firebase/db/wallet";
 
 import { createErrorResponse, createSuccessResponse } from "../responses";
 
-import { getCashFlowByCategoryChartData, getExpensesVsIncomeChartData, getWalletBalanceChartData } from "../utils/chartData";
+import { getBalance, getBalanceOverTimeLineChartData, getCashFlowByEntityPieChartData, getExpensesVsIncomePieChartData } from "../utils/charts";
+import { convertTransactionsToPreferredCurrency } from "../utils/currency";
 
 import { getPeriodInfo } from "@/utils/date";
 
@@ -20,28 +23,38 @@ export default async function walletLoader({ params, request }) {
   }
 
   try {
+    // Get display and calculation data
     const walletId = params.walletId;
     const wallet = await getWallet(userId, walletId);
 
-    const allWalletTransactions = await getTransactions({ userId, providedWallets: [wallet], sortType: "newestFirst" });
-
-    // Used for multiple functions below
+    // Get all the needed data for the calculator functions
     const periodInfo = getPeriodInfo(PERIODS.DEFAULT_PERIOD);
-    const periodTransactionsByWallet = await getPeriodTransactionsByWallet({ userId, providedWallets: [wallet], periodInfo }); // used for both functions below
-    const periodTransactions = periodTransactionsByWallet.flatMap(wallet => wallet.transactions);
+    const periodTransactions = await getPeriodTransactions({ userId, periodInfo, providedWallets: [wallet] });
+    const baseCurrency = await getBaseCurrency();
 
-    const { openingBalance, balanceOverTimeChartData } = await getWalletBalanceChartData({ userId, wallet, periodInfo, periodTransactions });
-    const expensesByCategoryChartData = await getCashFlowByCategoryChartData({ type: "expense", userId, providedData: { periodTransactionsByWallet } });
-    const expensesVsIncomeChartData = await getExpensesVsIncomeChartData({ providedPeriodTransactions: periodTransactions });
+    // Convert all transactions amounts to preferred currency here since they're the same and used in multiple functions (see the docs for more details)
+    await convertTransactionsToPreferredCurrency(periodTransactions, wallet.currency, baseCurrency);
+
+    // Calculate balance before start of period
+    const openingBalanceTransactionsQuery = [where("date", "<", periodInfo.start)];
+    const openingBalance = await getBalance({ userId, wallets: [wallet], query: openingBalanceTransactionsQuery, preferredCurrency: wallet.currency, providedBaseCurrency: baseCurrency });
+
+    // Get the data for the charts
+    const balanceOverTimeLineChartData = await getBalanceOverTimeLineChartData({ openingBalance, periodTransactions, periodInfo });
+    const expensesByCategoryPieChartData = await getCashFlowByEntityPieChartData("category", "expense", periodTransactions);
+    const expensesVsIncomePieChartData = await getExpensesVsIncomePieChartData(periodTransactions);
+
+    // Get the display data
+    const allWalletTransactions = await getTransactions({ userId, providedWallets: [wallet], sortType: "newestFirst" });
 
     return createSuccessResponse({
       wallet,
       transactions: allWalletTransactions,
       openingBalance,
       chartData: {
-        balance: balanceOverTimeChartData,
-        expensesByCategory: expensesByCategoryChartData,
-        expensesVsIncome: expensesVsIncomeChartData
+        balanceOverTime: balanceOverTimeLineChartData,
+        expensesByCategory: expensesByCategoryPieChartData,
+        expensesVsIncome: expensesVsIncomePieChartData
       }
     });
   } catch (error) {

@@ -1,5 +1,4 @@
 import cn from "classnames";
-import { nanoid } from "nanoid";
 import { useState } from "react";
 
 import { SlideButton } from "./components/SlideButton";
@@ -24,10 +23,7 @@ export default function Carousel({ items, className }) {
   }
 
   const classes = {
-    carousel: cn(
-      "rounded-b-lg",
-      className
-    ),
+    carousel: cn("rounded-b-lg", className),
     itemClasses: function (itemIndex) {
       const isActive = itemIndex === activeItemIndex;
       const isBefore = activeItemIndex > itemIndex;

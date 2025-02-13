@@ -5,8 +5,5 @@ export default function getTodayStartAndEnd() {
   const end = new Date();
   end.setHours(23, 59, 59, 999);
 
-  return {
-    start,
-    end
-  }
+  return { start, end };
 }
