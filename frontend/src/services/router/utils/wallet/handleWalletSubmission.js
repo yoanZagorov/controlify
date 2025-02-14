@@ -1,7 +1,7 @@
 import { formatEntityNameForFirebase } from "@/utils/formatting";
 import { createSuccessResponse } from "../../responses";
 import { getCurrencies } from "@/services/firebase/db/currency";
-import { validateColor, validateCurrency, validateWalletData, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
+import { validateColor, validateCurrency, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
 import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
 import { COLORS, VALIDATION_RULES } from "@/constants";
 import { collection, doc, serverTimestamp, where, writeBatch } from "firebase/firestore";
@@ -11,25 +11,32 @@ import validateAmount from "@/utils/validation/validateAmount";
 import handleActionError from "../handleActionError";
 
 export default async function handleWalletSubmission(userId, formData) {
+  // Normalize data
+  formData.initialBalance = Number(formData.initialBalance);
+  formData.categories = JSON.parse(formData.categories);
+  const { name, initialBalance, currency, categories, color } = formData;
+
   try {
-    // Primary name valdation
+    // Name validation
     validateWalletName(formData.name);
-
-    // Normalize data
-    formData.initialBalance = Number(formData.initialBalance);
-    formData.categories = JSON.parse(formData.categories);
-    formData.name = formatEntityNameForFirebase(name);
-    const { name, initialBalance, currency, categories, color } = formData;
-
-    // Secondary name validation
+    const formattedName = formatEntityNameForFirebase(name)
     await checkWalletNameDuplicate(userId, formattedName);
 
-    // Other fields validation
+    // Initial balance validation
+    validateAmount(initialBalance, VALIDATION_RULES.WALLET.INITIAL_BALANCE.MIN_AMOUNT, VALIDATION_RULES.WALLET.INITIAL_BALANCE.MAX_AMOUNT, "initial balance");
+
+    // Currency validation
     const supportedCurrencyCodes = (await getCurrencies()).map(currency => currency.code);
-    validateWalletData({ initialBalance, categories, color, supportedCurrencyCodes });
+    validateCurrency(currency, supportedCurrencyCodes);
+
+    // Categories validation
+    validateWalletVisibleCategories(categories);
+
+    // Color validation
+    validateColor(color, COLORS.ENTITIES.WALLET_COLORS)
 
     const walletSubmissionPayload = {
-      name,
+      name: formattedName,
       balance: initialBalance,
       categoriesVisibility: Object.fromEntries(categories.map(category => [category.id, category.isVisible])), // Turn to a map for easier lookups
       currency,
@@ -38,6 +45,7 @@ export default async function handleWalletSubmission(userId, formData) {
 
     const batch = writeBatch(db);
 
+    // Merging default wallet initialization data with the submitted one
     const walletDocRef = doc(collection(db, `users/${userId}/wallets`));
     batch.set(walletDocRef, {
       iconName: "wallet",
@@ -49,18 +57,18 @@ export default async function handleWalletSubmission(userId, formData) {
 
     if (initialBalance > 0) {
       // Manually submit a transaction for the initial balance to include it in the calculations
+      // The "Other" category is just a generic category used for uncategorizable incomes/expenses (depending on the type)
       const otherCategoryQuery = [
         where("name", "==", "other"),
         where("type", "==", "income")
-      ]
+      ];
       const otherIncomeCategory = (await getCategories(userId, otherCategoryQuery))[0];
-      const { rootCategoryId, createdAt: otherIncomeCategoryCA, ...transactionCategoryPayload } = otherIncomeCategory;
+      const { type, rootCategoryId, createdAt: otherIncomeCategoryCA, ...transactionCategoryPayload } = otherIncomeCategory;
 
       const transactionWalletPayload = {
         id: walletDocRef.id,
         name: formattedName,
         iconName: "wallet",
-        currency,
         color,
         deletedAt: null,
       }
@@ -68,6 +76,8 @@ export default async function handleWalletSubmission(userId, formData) {
       const transactionDocRef = doc(collection(walletDocRef, "transactions"));
       batch.set(transactionDocRef, {
         amount: initialBalance,
+        type,
+        currency,
         wallet: transactionWalletPayload,
         category: transactionCategoryPayload,
         date: serverTimestamp(),

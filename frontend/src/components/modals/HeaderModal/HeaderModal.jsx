@@ -86,7 +86,6 @@ export default function HeaderModal({ entity, formProps, header, fields, color }
               <div className="flex items-center gap-6">
                 <input {...headerInputProps} />
                 <DeleteEntityHandlerContainer {...deleteEntityHandlerContainerProps} />
-
               </div>
             ) : (
               <input {...headerInputProps} />

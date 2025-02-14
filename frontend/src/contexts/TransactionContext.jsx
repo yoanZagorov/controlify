@@ -28,8 +28,8 @@ export default function TransactionProvider({ providedTransactionData = {}, prov
       category: {
         id: "",
         name: "choose",
-        type: ""
       },
+      type: "",
       date: new Date(), // default to today
       // To do (Non-MVP): give the ability to select the specific hour
     }

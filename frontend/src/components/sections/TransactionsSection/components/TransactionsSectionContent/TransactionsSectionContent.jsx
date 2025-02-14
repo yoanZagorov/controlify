@@ -29,7 +29,7 @@ export default function TransactionsSectionContent({ type = "compact", hasFilter
 
   const transactionEls = hasTransactions ?
     transactions.map(transaction => {
-      const { id, amount, wallet, category, date } = transaction;
+      const { id, amount, type, currency, wallet, category, date } = transaction;
 
       return (
         <li key={id}>
@@ -39,9 +39,9 @@ export default function TransactionsSectionContent({ type = "compact", hasFilter
               category: {
                 id: category.id,
                 name: category.name,
-                type: category.type
               },
-              currency: wallet.currency,
+              type,
+              currency,
               date: new Date(date),
               transactionId: transaction.id
             }}

@@ -6,6 +6,7 @@ import { useRouteLoaderData } from "react-router";
 import cn from "classnames";
 import CashFlowLineChart from "@/components/charts/line-charts/CashFlowLineChart/CashFlowLineChart.jsx";
 import ContentWidget from "@/components/widgets/ContentWidget/ContentWidget.jsx";
+import isArrayTruthy from "@/utils/array/isArrayTruthy.js";
 
 export default function CashFlowSection() {
   const DEFAULT_PERIOD = "Last 30 Days";
@@ -19,12 +20,14 @@ export default function CashFlowSection() {
     {
       transactionType: "expenses",
       iconName: "arrow-trend-down",
-      chartData: chartData.expensesByCategory
+      chartData: chartData.expensesByCategory,
+      hasSufficientData: isArrayTruthy(chartData.expensesByCategory)
     },
     {
       transactionType: "income",
       iconName: "arrow-trend-up",
-      chartData: chartData.incomeByCategory
+      chartData: chartData.incomeByCategory,
+      hasSufficientData: isArrayTruthy(chartData.incomeByCategory)
     }
   ]
 

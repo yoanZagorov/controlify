@@ -1,10 +1,11 @@
 import { convertTransactionsToPreferredCurrency } from "@/services/router/utils/currency";
+import { isArrayTruthy } from "@/utils/array";
 import { performDecimalCalculation } from "@/utils/number";
 
 // Entity can be either wallet or category
 export default async function getCashFlowByEntityPieChartData(entity, type, periodTransactions, preferredCurrency = null, providedBaseCurrency = null) {
   // Convert to preferred currency if not already done
-  if (!periodTransactions[0].convertedAmount) {
+  if (isArrayTruthy(periodTransactions) && !periodTransactions[0].convertedAmount) {
     await convertTransactionsToPreferredCurrency(periodTransactions, preferredCurrency, providedBaseCurrency);
   }
 

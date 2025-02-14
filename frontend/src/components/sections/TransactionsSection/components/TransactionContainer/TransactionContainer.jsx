@@ -27,10 +27,10 @@ export default function TransactionContainer({ mode = "add", modal, formProps, c
   const deleteTransactionFetcher = isEditTransaction ? useFetcher({ key: "deleteTransaction" }) : {};
 
   const { transactionData, updateTransactionData } = useTransaction();
-  const { amount, wallet, currency, category, date } = transactionData;
+  const { amount, type, currency, wallet, category, date } = transactionData;
   const { transactionId } = isEditTransaction ? transactionData : {};
 
-  const transactionType = category.type || DEFAULT_TRANSACTION_TYPE;
+  const transactionType = type || DEFAULT_TRANSACTION_TYPE;
   const isExpense = transactionType === "expense";
 
   const transactionDataConfig = [
@@ -64,6 +64,7 @@ export default function TransactionContainer({ mode = "add", modal, formProps, c
             // Spreading the old wallet data to not overwrite the isLocked prop
             updateState: (newWallet) => updateTransactionData({ wallet: { ...wallet, id: newWallet.id, name: newWallet.name }, currency: newWallet.currency })
           },
+          minHeight: "min-h-[40%]"
         }
       }
     },
@@ -85,7 +86,7 @@ export default function TransactionContainer({ mode = "add", modal, formProps, c
           },
           state: {
             value: category,
-            updateState: (newCategory) => updateTransactionData({ category: newCategory })
+            updateState: (newCategory) => updateTransactionData({ category: { id: newCategory.id, name: newCategory.name }, type: newCategory.type })
           },
           minHeight: "min-h-[75%]" // ensures no "jump shifts" in the UI
         }

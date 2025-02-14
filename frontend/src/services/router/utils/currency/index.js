@@ -2,3 +2,4 @@ export { default as convertTransactionsToPreferredCurrency } from "./convertTran
 export { default as convertWalletBalancesToPreferredCurrency } from "./convertWalletBalancesToPreferredCurrency";
 export { default as getAllNeededConversionData } from "./getAllNeededConversionData";
 export { default as getNonBaseCurrenciesRates } from "./getNonBaseCurrenciesRates";
+export { default as getConvertedAmount } from "./getConvertedAmount";

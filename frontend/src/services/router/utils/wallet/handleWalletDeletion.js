@@ -1,37 +1,36 @@
-import { doc, updateDoc } from "firebase/firestore";
-import { createErrorResponse, createSuccessResponse } from "../../responses";
-import { ValidationError } from "@/utils/errors";
-import { storeRedirectData } from "@/utils/localStorage";
-import { redirect } from "react-router";
-import { getEntities, getEntity } from "@/services/firebase/db/utils/entity";
+import { doc, writeBatch } from "firebase/firestore";
+import { createSuccessResponse } from "../../responses";
+import { getEntity } from "@/services/firebase/db/utils/entity";
 import { db } from "@/services/firebase/firebase.config";
 import { getTransactions } from "@/services/firebase/db/transaction";
+import { isArrayTruthy } from "@/utils/array";
+import handleActionError from "../handleActionError";
 
-export default async function handleWalletDeletion(userId, walletId, docRef, transactionsCollectionRef) {
+// To do: add some kind of indication on the frontend that the transaction's wallet is deleted
+export default async function handleWalletDeletion(userId, walletId) {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  // To do: add some kind of indication on the frontend that the transaction's wallet is deleted
+  const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
 
   try {
+    const batch = writeBatch(db);
+
     // Updating the wallet field on each transaction before updating the wallet itself
-    const wallet = await getEntity(docRef, walletId, "wallet");
+    const wallet = await getEntity(walletDocRef, walletId, "wallet");
     const transactions = await getTransactions({ userId, providedWallets: [wallet] });
-
-    if (transactions.length) {
-      const promises = transactions.map(transaction => {
-        const transactionDocRef = doc(transactionsCollectionRef, transaction.id);
-
-        return updateDoc(transactionDocRef, { "wallet.deletedAt": today });
+    if (isArrayTruthy(transactions)) {
+      transactions.forEach(transaction => {
+        const transactionDocRef = doc(db, `users/${userId}/wallets/${walletId}/transactions/${transaction.id}`);
+        batch.update(transactionDocRef, { "wallet.deletedAt": today });
       })
-
-      await Promise.all(promises);
     }
 
-    await updateDoc(docRef, { deletedAt: today });
+    // Soft deleting the wallet doc
+    batch.update(walletDocRef, { deletedAt: today });
+
+    await batch.commit();
 
     return createSuccessResponse({
-      msg: "Successfully deleted wallet!",
+      msg: "Successfully deleted your wallet!",
       msgType: "success",
     })
 
@@ -40,12 +39,6 @@ export default async function handleWalletDeletion(userId, walletId, docRef, tra
     // return redirect("/app/wallets");
 
   } catch (error) {
-    console.error(error);
-
-    if (error instanceof ValidationError) {
-      return createErrorResponse(error.message, error.statusCode);
-    }
-
-    return createErrorResponse(error.message);
+    return handleActionError(error, "Couldn't delete your wallet. Please try again");
   }
 }

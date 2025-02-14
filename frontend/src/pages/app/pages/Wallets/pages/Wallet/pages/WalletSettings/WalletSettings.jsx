@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { useFetcher, useNavigate, useRouteLoaderData } from "react-router";
+import { Navigate, useFetcher, useNavigate, useRouteLoaderData } from "react-router";
 
 import { resetFetcher } from "@/services/router/utils";
 
@@ -13,7 +13,7 @@ import { COLORS, ROUTES, VALIDATION_RULES } from "@/constants";
 
 export default function WalletSettings() {
   useScrollToTop();
-
+  const navigate = useNavigate();
   const fetcher = useFetcher({ key: "updateWallet" });
 
   const { userData: { categories: userCategories }, currencies } = useRouteLoaderData("app");

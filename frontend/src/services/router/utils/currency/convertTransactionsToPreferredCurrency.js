@@ -9,7 +9,7 @@ export default async function convertTransactionsToPreferredCurrency(transaction
     baseCurrency = await getBaseCurrency();
   }
 
-  const nonBaseCurrenciesRates = await getNonBaseCurrenciesRates({ baseCurrency, entites: transactions, preferredCurrency });
+  const nonBaseCurrenciesRates = await getNonBaseCurrenciesRates({ baseCurrency, entities: transactions, preferredCurrency });
 
   for (const transaction of transactions) {
     const { amount, currency } = transaction;

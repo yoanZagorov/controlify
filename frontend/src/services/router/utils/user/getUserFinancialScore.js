@@ -1,9 +1,10 @@
 import { performDecimalCalculation } from "@/utils/number";
 import { convertTransactionsToPreferredCurrency } from "../currency";
+import { isArrayTruthy } from "@/utils/array";
 
 export default async function getUserFinancialScore(periodTransactions, preferredCurrency = null, providedBaseCurrency = null) {
   // Convert to preferred currency if not already done
-  if (!periodTransactions[0].convertedAmount) {
+  if (isArrayTruthy(periodTransactions) && !periodTransactions[0].convertedAmount) {
     await convertTransactionsToPreferredCurrency(periodTransactions, preferredCurrency, providedBaseCurrency);
   }
 
@@ -13,7 +14,8 @@ export default async function getUserFinancialScore(periodTransactions, preferre
     BREAK_EVEN: 50
   }
 
-  if (!periodTransactions.length) return null;
+  // Return early if there are no transactions
+  if (!isArrayTruthy(periodTransactions)) return FINANCIAL_SCORE_AMOUNTS.BREAK_EVEN;
 
   let incomeAmount = 0;
   let expenseAmount = 0;

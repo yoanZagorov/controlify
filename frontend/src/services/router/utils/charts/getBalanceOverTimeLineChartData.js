@@ -1,11 +1,12 @@
 import { convertTransactionsToPreferredCurrency } from "@/services/router/utils/currency";
+import { isArrayTruthy } from "@/utils/array";
+import { calculateBalance } from "@/utils/charts";
 import { performDecimalCalculation } from "@/utils/number";
-import calculateBalance from "../../../../utils/charts/calculateBalance";
 
 // preferredCurrency is provided only if the amounts are not converted beforehand
 export default async function getBalanceOverTimeLineChartData({ openingBalance, periodTransactions, periodInfo, preferredCurrency = null, providedBaseCurrency = null, trackBalanceChange = false }) {
   // Convert to preferred currency if not already done
-  if (!periodTransactions[0].convertedAmount) {
+  if (isArrayTruthy(periodTransactions) && !periodTransactions[0].convertedAmount) {
     await convertTransactionsToPreferredCurrency(periodTransactions, preferredCurrency, providedBaseCurrency);
   }
 

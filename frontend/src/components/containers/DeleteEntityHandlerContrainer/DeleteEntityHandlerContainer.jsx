@@ -25,8 +25,10 @@ export default function DeleteEntityHandlerContainer({ modalType, entity, delete
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
           ref={modalRef}
-          minHeight={modalTypeConfig.layout === "fullscreen" ? "h-[90%] ml: h-60" : "h-3/4"}
+          minHeight={modalTypeConfig.layout === "fullscreen" ? "h-[90%] ml:h-60" : "ls:h-3/4"}
         >
+          {/* Height is like this because on mobile it's convinient for the button to be placed down, close to the user's fingers but 
+           on desktop it would be better to be more central */}
           <DeletionConfirmationModal
             entity={entity}
             closeModal={() => setModalOpen(false)}

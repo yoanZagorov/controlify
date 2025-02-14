@@ -30,7 +30,6 @@ export default async function appLoader({ request }) {
   try {
     // Fetch display and calculation data
     const user = await getUser(userId);
-    const activeWallets = await getActiveWallets(userId);
     const allWallets = await getWallets(userId);
 
     // Get shared calculation data
@@ -38,7 +37,7 @@ export default async function appLoader({ request }) {
     const periodInfo = getPeriodInfo(PERIODS.DEFAULT_PERIOD);
 
     // Get the current user balance
-    const currentBalance = await getCurrentUserBalance(activeWallets, user.currency, baseCurrency);
+    const currentBalance = await getCurrentUserBalance(allWallets, user.currency, baseCurrency);
 
     // Get the opening balance (balance before the period start)
     const openingBalanceTransactionsQuery = [where("date", "<", periodInfo.start)];
@@ -55,6 +54,7 @@ export default async function appLoader({ request }) {
     });
 
     // Fetch pure display data
+    const activeWallets = await getActiveWallets(userId);
     const categories = await getCategories(userId);
     const todayTransactions = await getTodayTransactions(userId, allWallets);
     const randomQuote = await getRandomQuote();

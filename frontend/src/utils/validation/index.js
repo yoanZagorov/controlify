@@ -8,5 +8,4 @@ export { default as validateUsername } from "./validateUsername";
 export { default as validateWalletName } from "./validateWalletName";
 export { default as validateWalletVisibleCategories } from "./validateWalletVisibleCategories";
 export { default as validateColor } from "./validateColor";
-export { default as validateTransactionData } from "./validateTransactionData";
-export { default as validateWalletData } from "./validateWalletData";
+export { default as validateTransactionDate } from "./validateTransactionDate";

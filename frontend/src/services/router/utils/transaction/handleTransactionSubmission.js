@@ -3,8 +3,12 @@ import { createSuccessResponse } from "../../responses";
 import { db } from "@/services/firebase/firebase.config";
 import { getEntity } from "@/services/firebase/db/utils/entity";
 import { performDecimalCalculation } from "@/utils/number";
-import { validateTransactionData } from "@/utils/validation";
+import { validateTransactionDate } from "@/utils/validation";
 import handleActionError from "../handleActionError";
+import { getCategory } from "@/services/firebase/db/category";
+import validateAmount from "@/utils/validation/validateAmount";
+import { ValidationError } from "@/utils/errors";
+import { VALIDATION_RULES } from "@/constants";
 
 export default async function handleTransactionSubmission(userId, formData) {
   // Normalize data
@@ -13,20 +17,30 @@ export default async function handleTransactionSubmission(userId, formData) {
   const { amount, walletId, categoryId, date } = formData;
 
   try {
-    validateTransactionData({ amount, walletId, categoryId, date });
+    // Amount validation
+    validateAmount(amount, VALIDATION_RULES.TRANSACTION.AMOUNT.MIN_AMOUNT, VALIDATION_RULES.TRANSACTION.AMOUNT.MAX_AMOUNT, "transaction amount");
+
+    // Wallet validation
+    if (!walletId) throw new ValidationError("Wallet should not be empty");
+
+    // Category validation
+    if (!categoryId) throw new ValidationError("Category should not be empty");
+
+    // Date validation
+    validateTransactionDate(date)
 
     // Get neccessary entity data
     // Using rest syntax to exclude unneeded properties by destructuring them
-    const categoryDocRef = doc(db, `users/${userId}/categories/${categoryId}`);
-    const { type, rootCategoryId, createdAt: categoryCA, ...transactionCategoryPayload } = await getEntity(categoryDocRef, categoryId, "category");
+    const { type, rootCategoryId, createdAt: categoryCA, ...transactionCategoryPayload } = await getCategory(userId, categoryId,);
 
+    // Using getEntity instead of getWallet because the walletDocRef is used more than once
     const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
     const { currency, balance, categoriesVisibility, isDefault, createdAt: walletCA, ...transactionWalletPayload } = await getEntity(walletDocRef, walletId, "wallet");
 
     const batch = writeBatch(db);
 
     // Update wallet balance
-    const operator = transactionCategoryPayload.type === "expense" ? "-" : "+"
+    const operator = type === "expense" ? "-" : "+"
     const updatedWalletBalance = performDecimalCalculation(balance, amount, operator);
     batch.update(walletDocRef, { balance: updatedWalletBalance });
 
