@@ -56,14 +56,20 @@ export default async function getBalanceOverTimeLineChartData({ openingBalance, 
   });
 
   // Iterate over the days, calculate balance and sum it up
-  days.forEach(day => {
+  days.forEach((day, i) => {
     const currentDayTransactions = transactionsByDayMap[day.dateKey] || [];
 
     const balanceChange = calculateBalance(currentDayTransactions);
 
+    // Used for the waterfall chart variant (with trackBalanceChange)
+    const isLastDay = i === periodLength - 1;
+    // const isLastDay = false;
+
     if (trackBalanceChange) {
-      day.balanceChange = balanceChange;
-      day.prevDayBalance = accumulatedBalance;
+      // Create a Total column, starting from the opening balance and ending with the current balance if it's the last day
+      // Account for the opening balance as well
+      day.balanceChange = isLastDay ? balanceChange + accumulatedBalance + Math.abs(openingBalance) : balanceChange;
+      day.prevDayBalance = isLastDay ? openingBalance : accumulatedBalance;
     }
 
     accumulatedBalance = performDecimalCalculation(accumulatedBalance, balanceChange, "+");

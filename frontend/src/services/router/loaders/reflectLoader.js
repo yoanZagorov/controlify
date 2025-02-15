@@ -12,7 +12,7 @@ import { getPeriodTransactions } from "@/services/firebase/db/transaction";
 import { createErrorResponse, createSuccessResponse } from "../responses";
 
 import { getUserFinancialScore } from "../utils/user";
-import { getBalance, getBalanceOverTimeLineChartData, getCashFlowByEntityPieChartData, getCashFlowOverTimeWaterfallChartData } from "../utils/charts";
+import { getBalance, getBalanceOverTimeLineChartData, getCashFlowByEntityPieChartData, getCashFlowOverTimeLineChartData } from "../utils/charts";
 import { convertTransactionsToPreferredCurrency } from "../utils/currency";
 
 import { getPeriodInfo } from "@/utils/date";
@@ -40,20 +40,19 @@ export default async function reflectLoader({ request }) {
     // Calculate balance before start of period
     const openingBalanceTransactionsQuery = [where("date", "<", periodInfo.start)];
     const openingBalance = await getBalance({ userId, wallets: allWallets, query: openingBalanceTransactionsQuery, preferredCurrency: userCurrency, providedBaseCurrency: baseCurrency });
-
     // Get the data for the charts
-    const balanceOverTimeLineChartData = await getBalanceOverTimeLineChartData({ openingBalance, periodTransactions, periodInfo, trackBalanceChange: true });
+    const balanceOverTimeWaterfallChartData = await getBalanceOverTimeLineChartData({ openingBalance, periodTransactions, periodInfo, trackBalanceChange: true });
     const expensesByCategoryPieChartData = await getCashFlowByEntityPieChartData("category", "expense", periodTransactions);
     const incomeByCategoryPieChartData = await getCashFlowByEntityPieChartData("category", "income", periodTransactions);
-    const cashFlowOverTimeWaterfallChartData = await getCashFlowOverTimeWaterfallChartData(periodTransactions, periodInfo);
+    const cashFlowOverTimeLineChartData = await getCashFlowOverTimeLineChartData(periodTransactions, periodInfo);
 
     const loaderData = {
       financialScore,
       chartData: {
-        balanceOverTime: balanceOverTimeLineChartData,
+        balanceOverTime: balanceOverTimeWaterfallChartData,
         expensesByCategory: expensesByCategoryPieChartData,
         incomeByCategory: incomeByCategoryPieChartData,
-        cashFlowOverTime: cashFlowOverTimeWaterfallChartData
+        cashFlowOverTime: cashFlowOverTimeLineChartData
       }
     }
 

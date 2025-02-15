@@ -31,13 +31,14 @@ export default async function getUserFinancialScore(periodTransactions, preferre
   }
 
   // Simple formula to calculate a rough financial score
+  // To do (Non-MVP): create a more sophisticated formula
   const financialScore =
     Math.trunc(
       Math.max(
         FINANCIAL_SCORE_AMOUNTS.MIN,
         Math.min(
           FINANCIAL_SCORE_AMOUNTS.MAX,
-          (((incomeAmount - expenseAmount) / incomeAmount) * FINANCIAL_SCORE_AMOUNTS.BREAK_EVEN) + FINANCIAL_SCORE_AMOUNTS.BREAK_EVEN
+          FINANCIAL_SCORE_AMOUNTS.BREAK_EVEN + FINANCIAL_SCORE_AMOUNTS.BREAK_EVEN * ((incomeAmount - expenseAmount) / (incomeAmount + expenseAmount))
         )
       )
     );

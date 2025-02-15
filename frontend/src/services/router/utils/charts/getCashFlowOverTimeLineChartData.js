@@ -2,7 +2,7 @@ import { performDecimalCalculation } from "@/utils/number";
 import { convertTransactionsToPreferredCurrency } from "../currency";
 import { isArrayTruthy } from "@/utils/array";
 
-export default async function getCashFlowOverTimeWaterfallChartData(periodTransactions, periodInfo, preferredCurrency = null, providedBaseCurrency = null) {
+export default async function getCashFlowOverTimeLineChartData(periodTransactions, periodInfo, preferredCurrency = null, providedBaseCurrency = null) {
   // Convert to preferred currency if not already done
   if (isArrayTruthy(periodTransactions) && !periodTransactions[0].convertedAmount) {
     await convertTransactionsToPreferredCurrency(periodTransactions, preferredCurrency, providedBaseCurrency);

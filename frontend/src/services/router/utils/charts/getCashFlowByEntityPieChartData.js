@@ -16,11 +16,11 @@ export default async function getCashFlowByEntityPieChartData(entity, type, peri
       const { convertedAmount, [entity]: { id, name, iconName, color } } = transaction;
 
       // Add to the map
-      if (entityAmountsMap.has(name)) {
-        const currentEntity = entityAmountsMap.get(name);
+      if (entityAmountsMap.has(id)) {
+        const currentEntity = entityAmountsMap.get(id);
         currentEntity.amount = performDecimalCalculation(currentEntity.amount, convertedAmount, "+");
       } else {
-        entityAmountsMap.set(name, {
+        entityAmountsMap.set(id, {
           name,
           amount: convertedAmount,
           fill: color,

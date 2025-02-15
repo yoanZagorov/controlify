@@ -13,11 +13,8 @@ export default async function getNonBaseCurrenciesRates({ baseCurrency, entities
   })
 
   // Include the preferred currency if it's provided (so it's needed) and it's different from the base
-  if (preferredCurrency) {
-    const isPreferredCurrencyBase = preferredCurrency === baseCurrency.code;
-    if (!isPreferredCurrencyBase) {
-      nonBaseCurrenciesSet.add(preferredCurrency);
-    }
+  if (preferredCurrency && preferredCurrency !== baseCurrency.code) {
+    nonBaseCurrenciesSet.add(preferredCurrency);
   }
 
   // Create currency lookup table
