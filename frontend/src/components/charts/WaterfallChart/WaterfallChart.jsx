@@ -2,8 +2,8 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveCo
 
 import { CustomXAxisTick } from "../line-charts/BalanceOverTimeLineChart/components/CustomXAxisTick";
 import { CustomYAxisTick } from "../line-charts/BalanceOverTimeLineChart/components/CustomYAxisTick";
-import { CustomTooltip } from "../line-charts/BalanceOverTimeLineChart/components/CustomTooltip";
 import { COLORS } from "@/constants";
+import { CustomTooltip } from "./components/CustomTooltip";
 
 export default function WaterfallChart({ data, currency }) {
   const customCells = data.map((day, index) => {
@@ -15,19 +15,20 @@ export default function WaterfallChart({ data, currency }) {
             : day.balanceChange < 0 ? COLORS.THEME.RED.DARK
               : COLORS.THEME.GREEN.DARK
         }
+        data-actionable={true}
       />
     )
   });
 
   return (
     <ResponsiveContainer className="w-full h-full">
-      <BarChart data={data} margin={{ left: 15 }}>
+      <BarChart data={data} margin={{ top: 10, left: 10, right: 15 }}> {/* Margin is essential, or else the labels on the x and y axis don't render correctly */}
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="presentationKey" tick={<CustomXAxisTick />} />
         <YAxis tick={<CustomYAxisTick currency={currency} />} />
-        <Tooltip wrapperClassName="rounded-lg" content={<CustomTooltip chartType="waterfall" currency={currency} />} />
+        <Tooltip wrapperClassName="rounded-lg" content={<CustomTooltip currency={currency} />} />
         <Bar dataKey="prevDayBalance" stackId="a" fill="transparent" isAnimationActive={false} />
-        <Bar dataKey="balanceChange" stackId="a" isAnimationActive={false}>
+        <Bar dataKey="balanceChange" stackId="a" isAnimationActive={false} data-actionable={true}>
           {customCells}
         </Bar>
       </BarChart>

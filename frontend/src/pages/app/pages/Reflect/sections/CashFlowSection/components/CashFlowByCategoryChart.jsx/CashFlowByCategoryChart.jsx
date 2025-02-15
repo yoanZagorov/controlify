@@ -2,7 +2,7 @@ import { CustomPieChartWithIconLabels } from "@/components/charts/pie-charts/Cus
 import { Notification } from "@/components/Notification";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 
-export default function CashFlowByCategoryChart({ iconName, transactionType, hasSufficientData, chartData }) {
+export default function CashFlowByCategoryChart({ iconName, transactionType, hasSufficientData, chartSize, chartData }) {
   return (
     <ContentWidget
       iconName={iconName}
@@ -13,7 +13,7 @@ export default function CashFlowByCategoryChart({ iconName, transactionType, has
       className="w-full"
     >
       {hasSufficientData ? (
-        <CustomPieChartWithIconLabels entity="category" data={chartData} />
+        <CustomPieChartWithIconLabels size={chartSize} entity="category" data={chartData} />
       ) : (
         <Notification className="max-w-64">
           Not enough data available to create the chart yet. Add a few transactions to get started!

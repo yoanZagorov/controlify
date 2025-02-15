@@ -20,10 +20,10 @@ export default function SpendingSection() {
   }
 
   const elements = [
-    <ChartWrapper iconName="categories" title="by category" hasSufficientData={hasSufficientData.expensesByCategory}>
+    <ChartWrapper key="chartWrapper-1" iconName="categories" title="by category" hasSufficientData={hasSufficientData.expensesByCategory}>
       <CustomPieChartWithIconLabels size={isMobileS ? "s" : isMobileM ? "m" : "l"} entity="category" currency={currency} data={chartData.expensesByCategory} />
     </ChartWrapper>,
-    <ChartWrapper iconName="stats" title="expenses vs income" hasSufficientData={hasSufficientData.expensesVsIncome}>
+    <ChartWrapper key="chartWrapper-2" iconName="stats" title="expenses vs income" hasSufficientData={hasSufficientData.expensesVsIncome}>
       <CustomBarChart currency={currency} data={chartData.expensesVsIncome} />
     </ChartWrapper>,
   ]

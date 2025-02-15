@@ -1,7 +1,7 @@
 export default function Needle({ value, data, cx, cy, innerRadius, outerRadius, color }) {
   const RADIAN = Math.PI / 180;
 
-  const total = data.reduce((acc, section) => acc += section.value, 0);
+  const total = data.reduce((acc, section) => acc + section.value, 0);
 
   const ang = 180 * (1 - value / total);
   const length = (innerRadius + 2 * outerRadius) / 3;

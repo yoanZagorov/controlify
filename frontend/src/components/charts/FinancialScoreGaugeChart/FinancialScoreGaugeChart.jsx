@@ -1,13 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Customized } from 'recharts';
 import { Needle } from './components/Needle';
+import { COLORS } from '@/constants';
 
 export default function FinancialScoreGaugeChart({ financialScore, size = "m" }) {
-  const RED = "#CC0000";
-  const YELLOW = "#FFC107";
-  const GREEN = "#008000";
-  const NAVY = "#002B5B";
-
   // Need to use dynamic calculating to be able to draw the needle
   const chartRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -21,6 +17,7 @@ export default function FinancialScoreGaugeChart({ financialScore, size = "m" })
     };
 
     updateSize();
+
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
   }, []);
@@ -35,12 +32,12 @@ export default function FinancialScoreGaugeChart({ financialScore, size = "m" })
   const value = financialScore;
 
   const data = [
-    { name: "Poor", value: 33.33, color: RED },
-    { name: "Stable", value: 33.33, color: YELLOW },
-    { name: "Excellent", value: 33.33, color: GREEN }
+    { name: "Poor", value: 33.33, color: COLORS.THEME.RED.DARK },
+    { name: "Stable", value: 33.33, color: COLORS.THEME.GOLDENROD },
+    { name: "Excellent", value: 33.33, color: COLORS.THEME.GREEN.DARK }
   ];
 
-  // Need to return it like this or else it doesn't work
+  // Need to return it like this (through an intermediary component) or else it doesn't work
   function CustomizedNeedle() {
     return (
       <Needle
@@ -50,7 +47,7 @@ export default function FinancialScoreGaugeChart({ financialScore, size = "m" })
         cy={cy}
         innerRadius={innerRadius}
         outerRadius={outerRadius}
-        color={NAVY}
+        color={COLORS.THEME.NAVY}
       />
     )
   }
@@ -67,7 +64,7 @@ export default function FinancialScoreGaugeChart({ financialScore, size = "m" })
           cy={cy}
           innerRadius={innerRadius}
           outerRadius={outerRadius}
-          isAnimationActive={false} // To do: investigate the rendering issues
+          isAnimationActive={false} // To do (Non-MVP): investigate the rendering issues
         >
           {data.map((section, index) => (
             <Cell key={`cell-${index}`} fill={section.color} />

@@ -6,7 +6,8 @@ const COLORS = {
     GREEN: {
       DARK: "#008000"
     },
-    NAVY: "#002B5B"
+    NAVY: "#002B5B",
+    GOLDENROD: "#DAA520"
   },
   ENTITIES: {
     DEFAULT_WALLET_COLOR: "#4A001F",

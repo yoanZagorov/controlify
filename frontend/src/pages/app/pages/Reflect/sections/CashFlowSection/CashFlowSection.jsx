@@ -1,12 +1,12 @@
 import { Carousel } from "@/components/Carousel";
 import { Section } from "@/components/sections/Section";
-import { useLayout } from "@/hooks";
+import { useBreakpoint, useLayout } from "@/hooks";
 import { CashFlowByCategoryChart } from "./components/CashFlowByCategoryChart.jsx";
 import { useRouteLoaderData } from "react-router";
 import cn from "classnames";
-import CashFlowLineChart from "@/components/charts/line-charts/CashFlowLineChart/CashFlowLineChart.jsx";
 import ContentWidget from "@/components/widgets/ContentWidget/ContentWidget.jsx";
 import isArrayTruthy from "@/utils/array/isArrayTruthy.js";
+import CashFlowOverTimeLineChart from "@/components/charts/line-charts/CashFlowOverTimeLineChart/CashFlowOverTimeLineChart.jsx";
 
 export default function CashFlowSection() {
   const DEFAULT_PERIOD = "Last 30 Days";
@@ -14,6 +14,7 @@ export default function CashFlowSection() {
   const { chartData } = useRouteLoaderData("reflect");
   const { userData: { currency: userCurrency } } = useRouteLoaderData("app")
 
+  const { isMobileS, isMobileM } = useBreakpoint();
   const { isSingleColLayout } = useLayout();
 
   const pieChartItems = [
@@ -32,7 +33,12 @@ export default function CashFlowSection() {
   ]
 
   const pieChartElements = pieChartItems.map((item, index) => (
-    <CashFlowByCategoryChart key={`chart-${index}`} {...item} className={cn(!isSingleColLayout && "col-span-1")} />
+    <CashFlowByCategoryChart
+      key={`chart-${index}`}
+      {...item}
+      chartSize={isMobileS ? "s" : isMobileM ? "m" : "l"}
+      className={cn(!isSingleColLayout && "col-span-1")}
+    />
   ))
 
   return (
@@ -57,7 +63,7 @@ export default function CashFlowSection() {
         }}
         className={cn(!isSingleColLayout && "col-span-2")}
       >
-        <CashFlowLineChart data={chartData.cashFlowOverTime} currency={userCurrency} />
+        <CashFlowOverTimeLineChart data={chartData.cashFlowOverTime} currency={userCurrency} />
       </ContentWidget>
     </Section >
   )

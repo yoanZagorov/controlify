@@ -21,6 +21,7 @@ export default function BalanceSection() {
 
   const elements = [
     <BalanceAmountWidget
+      key="balanceAmountWidget-1"
       iconName="scale"
       title="current"
       amount={balance}
@@ -29,6 +30,7 @@ export default function BalanceSection() {
       className="h-full"
     />,
     <BalanceAmountWidget
+      key="balanceAmountWidget-2"
       iconName="history"
       title="30 days ago"
       amount={openingBalance}

@@ -5,27 +5,27 @@ import { WaterfallChart } from "@/components/charts/WaterfallChart";
 import { Section } from "@/components/sections/Section";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { HeaderContentWidget } from "@/components/widgets/HeaderContentWidget";
+import { COLORS } from "@/constants";
 import { useLayout } from "@/hooks";
 import cn from "classnames";
 import { useRouteLoaderData } from "react-router";
 
 
 export default function OverviewSection({ className }) {
-  const RED = "#CC0000";
-  const YELLOW = "#DAA520";
-  const GREEN = "#008000";
+  const DEFAULT_PERIOD = "Last 30 Days";
 
   const { userData: { balance, currency: userCurrency } } = useRouteLoaderData("app");
+
   const { financialScore, chartData } = useRouteLoaderData("reflect");
   const isFinancialScorePoor = financialScore <= 33;
   const isFinancialScoreStable = financialScore > 33 && financialScore <= 66;
 
   const { isSingleColLayout } = useLayout();
-  const period = "Last 30 Days";
 
   // Using an array to avoid repetition when passing the components to the Carousel 
   const elements = [
     <HeaderContentWidget
+      key="headerContentWidget-1"
       contentWidget={{
         props: {
           iconName: "gauge",
@@ -33,13 +33,10 @@ export default function OverviewSection({ className }) {
         },
         content: (
           <span
-            className="text-xl font-bold"
-            style={{
-              color:
-                isFinancialScorePoor ? RED
-                  : isFinancialScoreStable ? YELLOW
-                    : GREEN
-            }}
+            className={cn("text-xl font-bold",
+              isFinancialScorePoor ? "text-red-dark"
+                : isFinancialScoreStable ? "text-goldenrod"
+                  : "text-green-dark")}
           >
             {financialScore}
           </span>
@@ -50,9 +47,10 @@ export default function OverviewSection({ className }) {
           <FinancialScoreGaugeChart financialScore={financialScore} />
         </div>
       }
-      className="col-span-1"
+      className={cn(!isSingleColLayout && "col-span-1")}
     />,
     <HeaderContentWidget
+      key="headerContentWidget-2"
       contentWidget={{
         props: {
           iconName: "scale",
@@ -72,14 +70,14 @@ export default function OverviewSection({ className }) {
           <WaterfallChart data={chartData.balanceOverTime} currency={userCurrency} />
         </div>
       }
-      className="col-span-2"
+      className={cn(!isSingleColLayout && "col-span-2")}
     />
   ]
 
   return (
     <Section
       title="Overview"
-      subtitle={period}
+      subtitle={DEFAULT_PERIOD}
       className={className}
     >
       {isSingleColLayout ? (
