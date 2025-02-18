@@ -1,10 +1,10 @@
 import { redirect } from "react-router";
-import { where } from "firebase/firestore";
+import { orderBy, where } from "firebase/firestore";
 
 import { ROUTES } from "@/constants";
 import { PERIODS } from "@/constants";
 
-import { checkUserAuthStatus, getAuthUserId } from "@/services/firebase/auth";
+import { checkAuthEmailVerification, checkUserAuthStatus, getAuthUserId } from "@/services/firebase/auth";
 import { getBaseCurrency, getCurrencies } from "@/services/firebase/db/currency";
 
 import { createSuccessResponse, createErrorResponse } from "../responses";
@@ -26,6 +26,9 @@ export default async function appLoader({ request }) {
   if (!checkUserAuthStatus(userId, request.url)) {
     return redirect(ROUTES.LOGIN);
   }
+
+  // Sync the state between Firebase Auth and Firestore (if needed; used for email updates)
+  await checkAuthEmailVerification(userId);
 
   try {
     // Fetch display and calculation data
@@ -55,7 +58,10 @@ export default async function appLoader({ request }) {
 
     // Fetch pure display data
     const activeWallets = await getActiveWallets(userId);
-    const categories = await getCategories(userId);
+
+    const categoriesQuery = [orderBy("createdAt", "desc")];
+    const categories = await getCategories(userId, categoriesQuery);
+
     const todayTransactions = await getTodayTransactions(userId, allWallets);
     const randomQuote = await getRandomQuote();
     const storedRedirectData = getStoredRedirectData();

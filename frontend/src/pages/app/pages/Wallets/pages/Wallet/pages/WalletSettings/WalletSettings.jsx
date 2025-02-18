@@ -167,7 +167,7 @@ export default function WalletSettings() {
     <SettingsSection
       entity="wallet"
       formProps={{
-        fetcher: fetcher,
+        fetcher,
         action: ROUTES.WALLET.DYNAMIC(id),
         btn: {
           props: {

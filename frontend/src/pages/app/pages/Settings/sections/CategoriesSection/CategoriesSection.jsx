@@ -1,8 +1,9 @@
 import { useFetcher, useRouteLoaderData } from "react-router";
-import { Content } from "./components/Content";
 import { useCategory, useLayout, useModal } from "@/hooks";
 import cn from "classnames";
-import { CategoryContainer } from "@/components/containers/CategoryContainer";
+import { CategoryContainer } from "./components/CategoryContainer";
+import { ROUTES } from "@/constants";
+import { CategoriesContent } from "./components/CategoriesContent";
 
 export default function CategoriesSection({ className }) {
   const { isSingleColLayout } = useLayout();
@@ -16,18 +17,20 @@ export default function CategoriesSection({ className }) {
 
   return (
     <CategoryContainer
-      fetcher={fetcher}
-      modal={modal}
-      action="/app/settings"
-      submitBtn={{
-        text: "add category",
-        props: {
-          value: "addCategory",
-          disabled: !iconName
+      formProps={{
+        fetcher,
+        action: ROUTES.SETTINGS,
+        btn: {
+          props: {
+            value: "addCategory",
+            disabled: !iconName
+          },
+          text: "add category"
         }
       }}
+      modal={modal}
     >
-      <Content
+      <CategoriesContent
         openModal={() => setModalOpen(true)}
         type={isSingleColLayout ? "compact" : "expanded"}
         className={cn("mt-12", className)}

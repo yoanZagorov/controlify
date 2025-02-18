@@ -5,7 +5,7 @@ import { createSuccessResponse } from "../../responses";
 import { db } from "@/services/firebase/firebase.config";
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { getEntity } from "@/services/firebase/db/utils/entity";
-import { validateColor, validateCurrency, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
+import { validateColor, validateCurrency, validateEntityName, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
 import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
 import { COLORS } from "@/constants";
 import { getCurrencies } from "@/services/firebase/db/currency";
@@ -15,6 +15,7 @@ import { getConvertedAmount } from "../currency";
 
 export default async function handleWalletUpdate(userId, walletId, formData) {
   // Normalize data
+  formData.name = formatEntityNameForFirebase(formData.name.trim()); // Need to format it up here to be able to perform the check against the old data
   formData.categories = JSON.parse(formData.categories);
   const { name, currency, categories, color } = formData;
 
@@ -38,7 +39,13 @@ export default async function handleWalletUpdate(userId, walletId, formData) {
 
     // Name validation
     if (hasDataChanged.name) {
-      validateWalletName(formData.name);
+      validateEntityName({
+        name,
+        entity: "wallet",
+        minLength: VALIDATION_RULES.WALLET.NAME.MIN_LENGTH,
+        maxLength: VALIDATION_RULES.WALLET.NAME.MAX_LENGTH,
+        regex: VALIDATION_RULES.WALLET.NAME.REGEX
+      });
       await checkWalletNameDuplicate(userId, name);
     }
 
@@ -78,7 +85,6 @@ export default async function handleWalletUpdate(userId, walletId, formData) {
     // Format the form data so there is no need to create a new obj
     delete formData.intent;
     delete formData.categories;
-    formData.name = formatEntityNameForFirebase(name);
     formData.categoriesVisibility = categoriesVisibilityMap;
 
     // Update the wallet itself

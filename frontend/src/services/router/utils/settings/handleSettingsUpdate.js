@@ -1,80 +1,80 @@
 import { db } from "@/services/firebase/firebase.config";
-import { doc, runTransaction } from "firebase/firestore"
-import { validateCurrency, validateEmail, validateFullName } from "@/utils/validation";
+import { doc, updateDoc } from "firebase/firestore"
+import { validateCurrency, validateEmail, validateFullName, validateProfilePic } from "@/utils/validation";
 import getDataToChange from "../getDataToChange";
-import { createErrorResponse, createSuccessResponse } from "../../responses";
-import { ValidationError } from "@/utils/errors";
-import validateProfilePic from "./validateProfilePic";
-import updateAuthEmail from "./updateAuthEmail";
-import { redirect } from "react-router";
-import uploadProfilePicToCloudinary from "./uploadProfilePicToCloudinary";
+import { createSuccessResponse } from "../../responses";
+import { deleteProfilePicFromCloudinary, uploadProfilePicToCloudinary } from "@/services/cloudinary";
+import { getEntity } from "@/services/firebase/db/utils/entity";
+import { updateAuthEmail } from "@/services/firebase/auth";
+import { getCurrencies } from "@/services/firebase/db/currency";
+import handleActionError from "../handleActionError";
 
 export default async function handleSettingsUpdate(userId, formData) {
-  const userDocRef = doc(db, `users/${userId}`);
+  // Normalize form data
+  formData.fullName = formData.fullName.trim();
+  formData.email = formData.email.toLowerCase().trim();
 
-  const formattedFormData = {
-    ...formData,
-    fullName: formData.fullName.trim(),
-    email: formData.email.toLowerCase()
-  }
-
-  const { profilePic, fullName, email, currency } = formattedFormData;
+  const { profilePic, fullName, email, currency } = formData;
 
   try {
-    await runTransaction(db, async (dbTransaction) => {
-      const oldUserData = (await dbTransaction.get(userDocRef)).data();
+    const userDocRef = doc(db, `users/${userId}`);
+    const oldUserData = await getEntity(userDocRef, userId, "user");
 
-      const oldProfilePicName = oldUserData.profilePic?.name || ""; // Default to an empty string so the comparison below correctly yields false if there is no profilePic
+    const hasProfilePicChanged = profilePic.name
+      ? oldUserData.profilePic?.name !== profilePic.name // If there is a name, a proper file was submitted so check if it's different from the old one
+      : false; // No name means an empty file -> there weren't any changes
 
-      const hasDataChanged = {
-        profilePic: profilePic.name
-          ? oldProfilePicName !== profilePic.name
-          : false, // an empty file was submitted
-        fullName: oldUserData.fullName !== fullName,
-        email: oldUserData.email !== email,
-        currency: oldUserData.currency !== currency,
-      }
+    const hasDataChanged = {
+      profilePic: hasProfilePicChanged,
+      fullName: oldUserData.fullName !== fullName,
+      email: oldUserData.email !== email,
+      currency: oldUserData.currency !== currency,
+    }
 
-      if (hasDataChanged.profilePic) {
-        validateProfilePic(profilePic);
-        const cloudinaryData = await uploadProfilePicToCloudinary(oldUserData.profilePic?.publicId, profilePic);
+    if (hasDataChanged.profilePic) {
+      validateProfilePic(profilePic);
 
-        const url = cloudinaryData.secure_url;
-        const fileName = cloudinaryData.display_name.concat(`.${cloudinaryData.format}`);
-        const publicId = cloudinaryData.public_id;
+      // To do (Non-MVP): Delete the old profile pic first (if there is one)
+      // if (oldUserData.profilePic) {
+      //   await deleteProfilePicFromCloudinary(oldUserData.profilePic.publicId);
+      // }
 
-        formattedFormData.profilePic = { publicId, name: fileName, url };
-      }
+      // Upload the new pic
+      const cloudinaryData = await uploadProfilePicToCloudinary(profilePic);
 
-      if (hasDataChanged.fullName) {
-        validateFullName(fullName);
-      }
+      const url = cloudinaryData.secure_url;
+      // Store the file extension so it's easier to check if the file has changed in future settings updates
+      const fileName = cloudinaryData.display_name.concat(`.${cloudinaryData.format}`);
+      const publicId = cloudinaryData.public_id;
 
-      if (hasDataChanged.email) {
-        validateEmail(email);
-        await updateAuthEmail(email);
-      }
+      // Modify the data to the format that will be stored in Firestore
+      formData.profilePic = { publicId, name: fileName, url };
+    }
 
-      if (hasDataChanged.currency) {
-        validateCurrency(currency);
-      }
+    if (hasDataChanged.fullName) {
+      validateFullName(fullName);
+    }
 
-      const dataToChange = getDataToChange(hasDataChanged, formattedFormData);
+    if (hasDataChanged.email) {
+      // To do (Non-MVP): Find a way to commit all the changes (see the docs)
+      validateEmail(email);
+      await updateAuthEmail(email);
+    }
 
-      dbTransaction.update(userDocRef, dataToChange);
-    });
+    if (hasDataChanged.currency) {
+      const supportedCurrencyCodes = (await getCurrencies()).map(currency => currency.code);
+      validateCurrency(currency, supportedCurrencyCodes);
+    }
+
+    const dataToChange = getDataToChange(hasDataChanged, formData);
+
+    await updateDoc(userDocRef, dataToChange);
 
     return createSuccessResponse({
       msg: `Successfully updated profile settings data!`,
       msgType: "success",
     })
   } catch (error) {
-    console.error(error);
-
-    if (error instanceof ValidationError) {
-      return createErrorResponse(error.message, error.statusCode);
-    }
-
-    return createErrorResponse(error.message);
+    return handleActionError(error, "Couldn't update your profile settings data. Please try again");
   }
 }

@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useFetcher } from "react-router";
 
 import { useBreakpoint, useModal, useTransaction } from "@/hooks";
@@ -23,15 +23,10 @@ export default function TransactionItem({ action, isExpanded, transaction: { amo
   const isSpaceLimited = isMobileS || isMobileM;
 
   // To do: (Non-MVP): Replace JSON.stringify() with a proper complex object deep compare function
-  const [hasTransactionDataChanged, setHasTransactionDataChanged] = useState(JSON.stringify(transactionData) === JSON.stringify(defaultTransactionData))
-
-  useEffect(() => {
-    if (JSON.stringify(transactionData) === JSON.stringify(defaultTransactionData)) {
-      setHasTransactionDataChanged(false);
-    } else {
-      setHasTransactionDataChanged(true);
-    }
-  }, [transactionData]);
+  const hasTransactionDataChanged = useMemo(
+    () => JSON.stringify(transactionData) !== JSON.stringify(defaultTransactionData),
+    [transactionData]
+  )
 
   const isWalletActive = wallet.deletedAt === null;
 

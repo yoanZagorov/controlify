@@ -42,12 +42,40 @@ const VALIDATION_RULES = {
       MAX_AMOUNT: 999999.99
     }
   },
+  CATEGORY: {
+    NAME: {
+      MIN_LENGTH: 2,
+      MAX_LENGTH: 30,
+      CLIENT_REGEX: /^[a-zA-Z0-9 '._-]+$/,
+      REGEX: /^[a-zA-Z0-9 '._-]{2,30}$/
+    },
+  },
   AMOUNT: {
     REGEX: /^\d{1,6}(?:\.\d{1,2})?$/,
     LEADING_ZERO_REGEX: /^0\d{1,6}(?:\.\d{1,2})?$/
   },
   CURRENCY_CODE_REGEX: /^[A-Z]{3}$/,
-  HEX_COLOR_CODE_REGEX: /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/
+  HEX_COLOR_CODE_REGEX: /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/,
+  RESERVED_WORDS: [
+    "deleted",
+    "updated",
+    "system",
+    "all",
+    "none",
+    "deleted",
+    "archived",
+    "unknown",
+    "admin",
+    "root",
+    "user",
+    "account",
+    "balance",
+    "null",
+    "undefined",
+    "true",
+    "false", "select",
+    "insert"
+  ]
 }
 
 export default VALIDATION_RULES;

@@ -1,7 +1,7 @@
 {
-  "name": "backend",
+  "name": "functions",
   "type": "module",
-  "description": "Controlify backend",
+  "description": "Controlify Cloud Functions",
   "scripts": {
     "lint": "",
     "serve": "firebase emulators:start --only functions",

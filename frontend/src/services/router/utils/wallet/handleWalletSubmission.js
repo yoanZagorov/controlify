@@ -1,7 +1,7 @@
 import { formatEntityNameForFirebase } from "@/utils/formatting";
 import { createSuccessResponse } from "../../responses";
 import { getCurrencies } from "@/services/firebase/db/currency";
-import { validateColor, validateCurrency, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
+import { validateColor, validateCurrency, validateEntityName, validateWalletVisibleCategories } from "@/utils/validation";
 import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
 import { COLORS, VALIDATION_RULES } from "@/constants";
 import { collection, doc, serverTimestamp, where, writeBatch } from "firebase/firestore";
@@ -12,13 +12,20 @@ import handleActionError from "../handleActionError";
 
 export default async function handleWalletSubmission(userId, formData) {
   // Normalize data
+  formData.name = formData.name.trim();
   formData.initialBalance = Number(formData.initialBalance);
   formData.categories = JSON.parse(formData.categories);
   const { name, initialBalance, currency, categories, color } = formData;
 
   try {
     // Name validation
-    validateWalletName(formData.name);
+    validateEntityName({
+      name,
+      entity: "wallet",
+      minLength: VALIDATION_RULES.WALLET.NAME.MIN_LENGTH,
+      maxLength: VALIDATION_RULES.WALLET.NAME.MAX_LENGTH,
+      regex: VALIDATION_RULES.WALLET.NAME.REGEX
+    });
     const formattedName = formatEntityNameForFirebase(name)
     await checkWalletNameDuplicate(userId, formattedName);
 

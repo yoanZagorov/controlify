@@ -1,30 +1,26 @@
+import { COLORS } from "@/constants";
+import CATEGORY from "@/constants/category";
+import { isObjTruthy } from "@/utils/obj";
 import { createContext, useState } from "react"
 
 export const CategoryContext = createContext(null);
 
-export default function CategoryProvider({ prepopulatedCategoryData = null, type = null, children }) {
-  const DEFAULT_COLOR = "#009688";
-
-  const defaultCategoryData = prepopulatedCategoryData ?
-    {
-      ...prepopulatedCategoryData,
-      ...(type ? {
-        type: {
-          value: type,
-          isPreselected: true
-        }
-      } : {})
-    } :
-    {
-      id: "",
-      name: "New Category",
-      type: {
-        value: type || "expense",
-        isPreselected: !!type
-      },
-      iconName: null,
-      color: DEFAULT_COLOR
-    }
+export default function CategoryProvider({ providedCategoryData = {}, providedType = null, children }) {
+  const defaultCategoryData = isObjTruthy(providedCategoryData) ? {
+    ...providedCategoryData,
+    type: providedType
+      ? { value: providedType, isLocked: true }
+      : { value: providedCategoryData.type, isLocked: false }
+  } : {
+    id: "",
+    name: "New Category",
+    type: {
+      value: providedType || CATEGORY.DEFAULT_TYPE,
+      isLocked: !!providedType
+    },
+    iconName: "",
+    color: COLORS.ENTITIES.DEFAULT_CATEGORY_COLOR
+  }
 
   const [categoryData, setCategoryData] = useState(defaultCategoryData);
 

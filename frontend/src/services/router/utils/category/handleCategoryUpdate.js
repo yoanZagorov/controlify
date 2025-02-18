@@ -1,89 +1,97 @@
 import { getTransactions } from "@/services/firebase/db/transaction";
-import { getEntities } from "@/services/firebase/db/utils/entity";
+import { getEntity } from "@/services/firebase/db/utils/entity";
 import { db } from "@/services/firebase/firebase.config";
-import { categoriesColors, categoriesIconNames, checkCategoryNameDuplicate } from "@/utils/category";
 import { ValidationError } from "@/utils/errors";
 import { formatEntityNameForFirebase } from "@/utils/formatting";
-import { validateEntityName } from "@/utils/validation";
-import { collection, doc, runTransaction, where } from "firebase/firestore";
+import { doc, where, writeBatch } from "firebase/firestore";
 import getDataToChange from "../getDataToChange";
-import { createErrorResponse, createSuccessResponse } from "../../responses";
+import { createSuccessResponse } from "../../responses";
+import { COLORS, ICON_NAMES, VALIDATION_RULES } from "@/constants";
+import checkCategoryNameDuplicate from "./checkCategoryNameDuplicate";
+import { validateColor, validateEntityName, validateIconName } from "@/utils/validation";
+import { getActiveWallets } from "@/services/firebase/db/wallet";
+import handleActionError from "../handleActionError";
 
 export default async function handleCategoryUpdate(userId, formData) {
-  const { id: categoryId } = formData;
-  delete formData.id;
-  delete formData.intent;
-
-  formData.name = formatEntityNameForFirebase(formData.name.trim());
+  // Normalize data
+  formData.name = formatEntityNameForFirebase(formData.name.trim()); // Need to format it up here to be able to perform the check against the old data
   formData.type = formData.type.toLowerCase();
 
-  const { name, type, iconName, color } = formData;
+  const { id, name, type, iconName, color } = formData;
 
   try {
-    await runTransaction(db, async (dbTransaction) => {
-      const categoryDocRef = doc(db, `users/${userId}/categories/${categoryId}`);
-      const oldCategoryData = (await dbTransaction.get(categoryDocRef)).data();
+    // Get the old data
+    const categoryDocRef = doc(db, `users/${userId}/categories/${id}`);
+    const oldCategoryData = await getEntity(categoryDocRef, id, "category");
 
-      const hasDataChanged = {
-        name: oldCategoryData.name !== name,
-        type: oldCategoryData.type !== type,
-        iconName: oldCategoryData.iconName !== iconName,
-        color: oldCategoryData.color !== color,
+    const hasDataChanged = {
+      name: oldCategoryData.name !== name,
+      type: oldCategoryData.type !== type,
+      iconName: oldCategoryData.iconName !== iconName,
+      color: oldCategoryData.color !== color,
+    }
+
+    if (hasDataChanged.type) {
+      throw new ValidationError("You can't change the type of a category");
+    }
+
+    // Write to the db
+    const batch = writeBatch(db);
+
+    if (hasDataChanged.name || hasDataChanged.iconName || hasDataChanged.color) {
+      // Name validation
+      if (hasDataChanged.name) {
+        validateEntityName({
+          name,
+          entity: "category",
+          minLength: VALIDATION_RULES.CATEGORY.NAME.MIN_LENGTH,
+          maxLength: VALIDATION_RULES.CATEGORY.NAME.MAX_LENGTH,
+          regex: VALIDATION_RULES.CATEGORY.NAME.REGEX
+        });
+        await checkCategoryNameDuplicate(userId, formData.name);
       }
 
-      if (hasDataChanged.type) {
-        throw new Error("Category type should not change!");
+      // Icon validation
+      if (hasDataChanged.iconName) {
+        validateIconName(iconName, ICON_NAMES.CATEGORIES);
       }
 
-      if (hasDataChanged.name || hasDataChanged.iconName || hasDataChanged.color) {
-        if (hasDataChanged.name) {
-          validateEntityName("category", name);
-          await checkCategoryNameDuplicate(userId, name);
-        }
+      // Color validation
+      if (hasDataChanged.color) {
+        validateColor(color, COLORS.ENTITIES.CATEGORY_COLORS);
+      }
 
-        if (hasDataChanged.iconName && !categoriesIconNames.includes(iconName)) {
-          throw new ValidationError("Invalid category icon name!");
-        }
+      // Update the presentational fields on each active wallet transaction with this category
+      const activeWallets = await getActiveWallets(userId);
+      const transactionsQuery = [where("category.id", "==", id)];
+      const transactions = await getTransactions({ userId, providedWallets: activeWallets, query: transactionsQuery });
 
-        if (hasDataChanged.color && !categoriesColors.includes(color)) {
-          throw new ValidationError("Invalid category color code!");
-        }
-
-        const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
-        const allWallets = await getEntities(walletsCollectionRef, "wallets");
-
-        const transactionsQuery = [
-          where("category.id", "==", categoryId)
-        ]
-        const transactionsByWallet = await getTransactions({ userId, wallets: allWallets, query: transactionsQuery, dataFormat: "structured" });
-
-        transactionsByWallet.forEach(wallet => {
-          wallet.transactions.forEach(transaction => {
-            const transactionDocRef = doc(db, `users/${userId}/wallets/${wallet.id}/transactions/${transaction.id}`);
-            dbTransaction.update(transactionDocRef, {
-              ...(hasDataChanged.name ? { "category.name": name } : {}),
-              ...(hasDataChanged.iconName ? { "category.iconName": iconName } : {}),
-              ...(hasDataChanged.color ? { "category.color": color } : {}),
-            })
-          })
+      transactions.forEach(transaction => {
+        const transactionDocRef = doc(db, `users/${userId}/wallets/${transaction.wallet.id}/transactions/${transaction.id}`);
+        // Updating only the relevant fields
+        batch.update(transactionDocRef, {
+          ...(hasDataChanged.name ? { "category.name": name } : {}),
+          ...(hasDataChanged.iconName ? { "category.iconName": iconName } : {}),
+          ...(hasDataChanged.color ? { "category.color": color } : {}),
         })
-      }
+      })
+    }
 
-      const dataToChange = getDataToChange(hasDataChanged, formData);
-      dbTransaction.update(categoryDocRef, dataToChange);
-    });
+    // Format the original formData object
+    delete formData.id;
+    delete formData.intent;
+    delete formData.type;
+
+    const dataToChange = getDataToChange(hasDataChanged, formData);
+    batch.update(categoryDocRef, dataToChange);
+
+    await batch.commit();
 
     return createSuccessResponse({
-      msg: `Successfully updated the category!`,
+      msg: `Successfully updated your category!`,
       msgType: "success",
     })
   } catch (error) {
-    console.error(error);
-
-    if (error instanceof ValidationError) {
-      return createErrorResponse(error.message, error.statusCode);
-    }
-
-    return createErrorResponse(error.message);
+    return handleActionError(error, "Couldn't update your category. Please try again");
   }
 } 

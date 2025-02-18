@@ -1,84 +1,69 @@
-import { createNewCategory } from "@/services/firebase/db/category";
-import { categoriesColors, categoriesIconNames, checkCategoryNameDuplicate } from "@/utils/category";
-import { ValidationError } from "@/utils/errors";
 import { formatEntityNameForFirebase } from "@/utils/formatting";
-import { validateEntityName } from "@/utils/validation";
-import { createErrorResponse, createSuccessResponse } from "../../responses";
-import { arrayUnion, collection, doc, serverTimestamp, where, writeBatch } from "firebase/firestore";
+import { validateCategoryType, validateColor, validateEntityName, validateIconName } from "@/utils/validation";
+import { createSuccessResponse } from "../../responses";
+import { collection, doc, serverTimestamp, writeBatch } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
-import { getEntities } from "@/services/firebase/db/utils/entity";
+import { COLORS, ICON_NAMES, VALIDATION_RULES } from "@/constants";
+import { getActiveWallets } from "@/services/firebase/db/wallet";
+import handleActionError from "../handleActionError";
+import checkCategoryNameDuplicate from "./checkCategoryNameDuplicate";
 
 export default async function handleCategorySubmission(userId, formData) {
+  formData.name = formData.name.trim();
+  formData.type = formData.type.toLowerCase();
   const { name, type, iconName, color } = formData;
-  const trimmedName = name.trim();
-  const lcType = type.toLowerCase();
 
   try {
-    // Name checks
-    validateEntityName("category", trimmedName);
-    const formattedName = formatEntityNameForFirebase(trimmedName);
+    // Name validation
+    validateEntityName({
+      name,
+      entity: "category",
+      minLength: VALIDATION_RULES.CATEGORY.NAME.MIN_LENGTH,
+      maxLength: VALIDATION_RULES.CATEGORY.NAME.MAX_LENGTH,
+      regex: VALIDATION_RULES.CATEGORY.NAME.REGEX
+    });
+    const formattedName = formatEntityNameForFirebase(name);
     await checkCategoryNameDuplicate(userId, formattedName);
 
-    // Type checks
-    const validTypes = ["expense", "income"];
-    if (!validTypes.includes(lcType)) {
-      throw new ValidationError("The category type must be either expense or income!");
-    }
+    // Type validation
+    validateCategoryType(type);
 
-    // Icon checks
-    if (!categoriesIconNames.includes(iconName)) {
-      throw new ValidationError("Invalid category icon name!");
-    }
+    // Icon validation
+    validateIconName(iconName, ICON_NAMES.CATEGORIES);
 
-    // Color checks
-    if (!categoriesColors.includes(color)) {
-      throw new ValidationError("Invalid category color code!");
-    }
+    // Color validation
+    validateColor(color, COLORS.ENTITIES.CATEGORY_COLORS)
+
+    // Write to the db
+    const batch = writeBatch(db);
 
     const newCategoryPayload = {
       name: formattedName,
-      type: lcType,
+      type,
       iconName,
       color,
       createdAt: serverTimestamp()
     }
 
-    const batch = writeBatch(db);
-
-    const categoriesCollectionRef = collection(db, `users/${userId}/categories`);
-    const newCategoryDocRef = doc(categoriesCollectionRef);
+    // Create the category
+    const newCategoryDocRef = doc(collection(db, `users/${userId}/categories`));
     batch.set(newCategoryDocRef, newCategoryPayload);
 
-    const walletsCollectionRef = collection(db, `users/${userId}/wallets`);
-    const walletsQuery = [
-      where("deletedAt", "==", null)
-    ]
-    const activeWallets = await getEntities(walletsCollectionRef, "wallets", walletsQuery);
+    // Update the categories visibility field on each active wallet
+    const activeWallets = await getActiveWallets(userId);
     activeWallets.forEach(wallet => {
       const walletDocRef = doc(db, `users/${userId}/wallets/${wallet.id}`);
-
-      batch.update(walletDocRef, {
-        categories: arrayUnion({
-          id: newCategoryDocRef.id,
-          isVisible: true
-        })
-      })
+      batch.update(walletDocRef, { [`categoriesVisibility.${newCategoryDocRef.id}`]: true }) // Updating only the specific field of the map
     })
 
     await batch.commit();
 
     return createSuccessResponse({
-      msg: "Successfully created the category!",
+      msg: "Successfully created your category!",
       msgType: "success",
     })
 
   } catch (error) {
-    console.error(error);
-
-    if (error instanceof ValidationError) {
-      return createErrorResponse(error.message, error.statusCode);
-    }
-
-    return createErrorResponse(error.message);
+    return handleActionError(error, "Couldn't create your category. Please try again");
   }
 }

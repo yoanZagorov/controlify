@@ -4,35 +4,29 @@ import { IconModal } from "@/components/modals/IconModal";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { SvgIcon } from "@/components/SvgIcon";
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
+import { COLORS, ICON_NAMES, VALIDATION_RULES } from "@/constants";
 import { useCategory } from "@/hooks";
-import { categoriesColors, categoriesIconNames } from "@/utils/category";
-import { useFetcher } from "react-router";
 
-export default function CategoryContainer({ fetcher, modal, action, submitBtn, isDeleteBtn = false, children }) {
+export default function CategoryContainer({ mode = "add", formProps, modal, children }) {
+  const isEditMode = mode === "edit";
+
   const {
     modalState: [isModalOpen, setModalOpen],
     hasTransitioned,
     modalRef
   } = modal;
 
-  const {
-    categoryData: {
-      id,
-      name,
-      type,
-      iconName,
-      color
-    },
-    updateCategoryData
-  } = useCategory();
+  const { categoryData, updateCategoryData } = useCategory();
+  const { name, type, iconName, color } = categoryData;
+  const { id } = isEditMode ? categoryData : {}; // Only needed to edit a category
 
   const categoryDataConfig = [
-    {
+    ...(isEditMode ? [{
       formData: {
         name: "id",
         value: id
-      },
-    },
+      }
+    }] : []),
     {
       formData: {
         name: "name",
@@ -49,13 +43,13 @@ export default function CategoryContainer({ fetcher, modal, action, submitBtn, i
         props: {
           iconName: "stats",
           type: "custom",
-          customType: {
+          customComponent: {
             Component: CategoriesTypeToggleSwitch,
             props: {
               activeOption: type.value,
               handleToggle: () => updateCategoryData({ type: { value: type.value === "expense" ? "income" : "expense" } }),
               className: "ml-auto",
-              isToggleSwitchDisabled: type.isPreselected
+              isToggleSwitchDisabled: type.isLocked
             },
           }
         }
@@ -64,7 +58,7 @@ export default function CategoryContainer({ fetcher, modal, action, submitBtn, i
     {
       formData: {
         name: "iconName",
-        value: iconName || ""
+        value: iconName
       },
       field: {
         name: "icon",
@@ -76,12 +70,12 @@ export default function CategoryContainer({ fetcher, modal, action, submitBtn, i
               <SvgIcon iconName={iconName} className="size-1/2 fill-gray-light" />
             </div>
           ) : "Choose"
-          // To do: decide if a custom component would look better
+          // To do (Non-MVP): decide if a custom component would look better
         },
         modal: {
           innerModal: {
             Component: IconModal,
-            props: { iconNames: categoriesIconNames }
+            props: { iconNames: ICON_NAMES.CATEGORIES }
           },
           state: {
             value: iconName,
@@ -105,7 +99,7 @@ export default function CategoryContainer({ fetcher, modal, action, submitBtn, i
         modal: {
           innerModal: {
             Component: ColorModal,
-            props: { colors: categoriesColors },
+            props: { colors: COLORS.ENTITIES.CATEGORY_COLORS },
           },
           state: {
             value: color,
@@ -115,6 +109,18 @@ export default function CategoryContainer({ fetcher, modal, action, submitBtn, i
       }
     },
   ]
+
+  // More performant than chaining .filter and .map - looping only once
+  let headerModalFields = [];
+  categoryDataConfig.forEach(option => { if (option.field) headerModalFields.push(option.field) });
+
+  function handleNameInputChange(e) {
+    const value = e.target.value;
+    if (value === "" || VALIDATION_RULES.CATEGORY.NAME.CLIENT_REGEX.test(value)) {
+      updateCategoryData({ name: value })
+    };
+  }
+
   return (
     <>
       {children}
@@ -124,30 +130,24 @@ export default function CategoryContainer({ fetcher, modal, action, submitBtn, i
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
           ref={modalRef}
-          minHeight="h-[90%]"
+          minHeight="h-[90%]" // Keep it like this or on smaller screens it doesn't stretch to the bottom
         >
           <HeaderModal
-            entity={{
-              id,
-              name: "category"
-            }}
+            entity="category"
             formProps={{
-              fetcher,
-              action,
               fields: categoryDataConfig.map(option => option.formData),
-              btn: submitBtn
+              ...formProps
             }}
             header={{
-              input: {
-                props: {
-                  value: name,
-                  onChange: (e) => updateCategoryData({ name: e.target.value }), // To do: more robust checks
-                  min: 2,
-                  max: 50
-                }
-              },
+              type: "simple",
+              inputProps: {
+                value: name,
+                minLength: VALIDATION_RULES.CATEGORY.NAME.MIN_LENGTH,
+                maxLength: VALIDATION_RULES.CATEGORY.NAME.MAX_LENGTH,
+                onChange: handleNameInputChange
+              }
             }}
-            fields={categoryDataConfig.filter(option => option.field).map(option => option.field)}
+            fields={headerModalFields}
             color={color}
           />
         </ModalWrapper>

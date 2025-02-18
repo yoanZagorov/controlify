@@ -9,7 +9,7 @@ import { Select } from "@/components/Select";
 import { useSelectInput } from "@/hooks";
 import cn from "classnames";
 
-export default function SettingWidgetFormField({ type = "select", name, iconName, displayValue, controlProps = {}, customType = {} }) {
+export default function SettingWidgetFormField({ type = "select", name, iconName, displayValue, controlProps = {}, customComponent = {} }) {
   const isInput = type === "input";
   const inputRef = isInput ? useRef(null) : null;
   isInput && useSelectInput(inputRef);
@@ -30,7 +30,7 @@ export default function SettingWidgetFormField({ type = "select", name, iconName
           className="ml-auto max-w-44 ml:max-w-48 tab:max-w-56 text-right font-semibold"
         />
       ) : type === "custom" ? (
-        <customType.Component {...customType.props} />
+        <customComponent.Component {...customComponent.props} />
       ) : (
         <Select
           btnProps={{

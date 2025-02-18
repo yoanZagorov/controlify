@@ -11,7 +11,6 @@ import { useLayout, useModal, useScrollToTop, useSettings, useWalletUpdate } fro
 import { handleFullNameInputChange, handleWalletNameInputChange } from "@/utils/input";
 import { capitalize } from "@/utils/str";
 import { SvgIcon } from "@/components/SvgIcon";
-import { CustomProfilePicType } from "./components/CustomProfilePicType";
 import { Section } from "@/components/sections/Section";
 import { OverallSettingsSection } from "./sections/OverallSettingsSection";
 import { CategoriesSection } from "./sections/CategoriesSection";
@@ -20,17 +19,12 @@ import { CategoryProvider, SettingsProvider } from "@/contexts";
 import { DeletionConfirmationModal } from "@/components/modals/DeletionConfirmationModal";
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { Form } from "@/components/Form";
+import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
 
 export default function Settings() {
   useScrollToTop();
 
   const deleteAccountFetcher = useFetcher({ key: "deleteAccount" });
-  const {
-    modalState: [isDeletionConfirmationModalOpen, setDeletionConfirmationModalOpen] = [],
-    hasTransitioned: hasDeletionConfirmationModalTransitioned,
-    modalRef: deletionConfirmationModalRef
-  } = useModal({ fetcher: deleteAccountFetcher });
-
   const { isSingleColLayout } = useLayout();
 
   return (
@@ -44,30 +38,22 @@ export default function Settings() {
           <CategoriesSection className="mt-12" />
         </CategoryProvider>
 
-        <Button size="l" colorPalette="danger" onClick={() => setDeletionConfirmationModalOpen(true)} className="mt-12 mx-auto">
-          delete account
-        </Button>
-      </div>
-
-      {(isDeletionConfirmationModalOpen || hasDeletionConfirmationModalTransitioned) &&
-        <Form
-          action="/app/settings"
-          fetcher={deleteAccountFetcher}
-          className="absolute"
-        >
-          <ModalWrapper
-            isModalOpen={isDeletionConfirmationModalOpen}
-            hasTransitioned={hasDeletionConfirmationModalTransitioned}
-            ref={deletionConfirmationModalRef}
-            minHeight="h-[27.5%]"
-          >
-            <DeletionConfirmationModal
-              entity="account"
-              closeModal={() => setDeletionConfirmationModalOpen(false)}
-            />
-          </ModalWrapper>
+        <Form fetcher={deleteAccountFetcher} btn={{ isBtn: false }} className="mx-auto">
+          <DeleteEntityHandlerContainer
+            entity="account"
+            deleteEntityFetcher={deleteAccountFetcher}
+            deleteBtnComponent={{
+              Component: Button,
+              props: {
+                size: "l",
+                colorPalette: "danger",
+                className: "mt-12"
+              },
+              text: "delete account"
+            }}
+          />
         </Form>
-      }
+      </div>
     </>
   )
 }

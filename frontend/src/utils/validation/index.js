@@ -9,3 +9,6 @@ export { default as validateWalletName } from "./validateWalletName";
 export { default as validateWalletVisibleCategories } from "./validateWalletVisibleCategories";
 export { default as validateColor } from "./validateColor";
 export { default as validateTransactionDate } from "./validateTransactionDate";
+export { default as validateProfilePic } from "./validateProfilePic";
+export { default as validateCategoryType } from "./validateCategoryType";
+export { default as validateIconName } from "./validateIconName";

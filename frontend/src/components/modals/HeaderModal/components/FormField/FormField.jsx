@@ -8,7 +8,7 @@ import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
 
 // controlProps refer to either input/selectBtn, depending on what is the type
-export default function FormField({ type = "select", name, iconName, displayValue, controlProps = {}, customType = {} }) {
+export default function FormField({ type = "select", name, iconName, displayValue, controlProps = {}, customComponent = {} }) {
   const isInput = type === "input";
 
   const inputRef = isInput ? useRef(null) : null;
@@ -30,9 +30,9 @@ export default function FormField({ type = "select", name, iconName, displayValu
           className="ml-auto w-full max-w-44 text-right font-semibold"
         />
       ) : type === "custom" ? (
-        <customType.Component {...customType.props} />
+        <customComponent.Component {...customComponent.props} />
       ) : type === "customBtn" ? (
-        <customType.Component {...customType.props} {...controlProps} />
+        <customComponent.Component {...customComponent.props} {...controlProps} />
       ) : (
         <Select
           btnProps={{

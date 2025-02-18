@@ -2,6 +2,7 @@ import { DeletionConfirmationModal } from "@/components/modals/DeletionConfirmat
 import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { useModal } from "@/hooks";
 
+// This components handles just the modal logic. It doesn't handle deletion by itself - it must be used inside a form
 export default function DeleteEntityHandlerContainer({ modalType, entity, deleteEntityFetcher, deleteBtnComponent }) {
   const modalTypeConfig = {
     layout: "fullscreen",
@@ -17,7 +18,9 @@ export default function DeleteEntityHandlerContainer({ modalType, entity, delete
 
   return (
     <>
-      <deleteBtnComponent.Component {...deleteBtnComponent.props} onClick={() => setModalOpen(true)} />
+      <deleteBtnComponent.Component {...deleteBtnComponent.props} onClick={() => setModalOpen(true)}>
+        {deleteBtnComponent.text && deleteBtnComponent.text}
+      </deleteBtnComponent.Component>
 
       {(isModalOpen || hasTransitioned) &&
         <ModalWrapper
@@ -27,7 +30,7 @@ export default function DeleteEntityHandlerContainer({ modalType, entity, delete
           ref={modalRef}
           minHeight={modalTypeConfig.layout === "fullscreen" ? "h-[90%] ml:h-60" : "ls:h-3/4"}
         >
-          {/* Height is like this because on mobile it's convinient for the button to be placed down, close to the user's fingers but 
+          {/* Height is like this because on mobile it's convenient for the button to be placed down, close to the user's fingers but 
            on desktop it would be better to be more central */}
           <DeletionConfirmationModal
             entity={entity}

@@ -20,8 +20,6 @@ export default function useModal({ isBlocking = true, fetcher = {}, resetModalDa
   isFetcher && useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data) {
       setModalOpen(false);
-      // To do (Non-MVP): find a way to implement state reset without sacrificing the smooth animation
-      // resetModalData && resetModalData(); 
       resetFetcher(fetcher);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
