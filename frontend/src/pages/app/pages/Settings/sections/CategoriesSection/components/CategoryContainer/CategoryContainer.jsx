@@ -99,7 +99,7 @@ export default function CategoryContainer({ mode = "add", formProps, modal, chil
         modal: {
           innerModal: {
             Component: ColorModal,
-            props: { colors: COLORS.ENTITIES.CATEGORY_COLORS },
+            props: { colors: COLORS.ENTITIES.CATEGORY_COLORS, colorBrightness: "bright" },
           },
           state: {
             value: color,

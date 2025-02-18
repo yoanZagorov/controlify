@@ -32,7 +32,7 @@ export default function TransactionsSectionContent({ type = "compact", hasFilter
       const { id, amount, type, currency, wallet, category, date } = transaction;
 
       return (
-        <li key={id}>
+        <li key={id} data-actionable="true">
           <TransactionProvider
             providedTransactionData={{
               amount: amount.toString(),

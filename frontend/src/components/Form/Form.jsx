@@ -19,6 +19,7 @@ export default function Form({ fetcher = {}, btn = {}, fields = [], className, c
       type: "submit",
       size: "l",
       name: "intent",
+      "data-actionable": true,
       ...btn.props
     },
   };

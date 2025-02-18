@@ -17,9 +17,9 @@ export default function BalanceSection({ sectionClassName, balance, currency }) 
         currency={currency}
       />
 
-      <ContentWidget iconName="calendar-months" title="last 30 days" content={{ className: "h-56" }} >
+      <ContentWidget iconName="calendar-months" title="last 30 days" content={{ className: "h-56", props: { "data-actionable": true } }} >
         <BalanceOverTimeLineChart data={balance.chartData} lineDataKey="accumulatedBalance" currency={currency} />
       </ContentWidget>
-    </Section>
+    </Section >
   )
 }

@@ -30,7 +30,7 @@ export default function ToggleSwitch({ options, activeOption, handleToggle, isDi
   )
 
   return (
-    <div className={toggleSwitchClasses}>
+    <div className={toggleSwitchClasses} data-actionable={true}>
       {renderOption(firstOption)}
       {renderOption(secondOption)}
     </div>

@@ -23,7 +23,7 @@ export default function ContentWidget({ iconName, title, className = "", content
       <SvgIcon iconName={iconName} className="size-5 fill-gray-dark" />
       <span className="mt-2 uppercase text-sm text-gray-dark opacity-50 font-semibold">{title}</span>
 
-      <div className={classes.content}>
+      <div className={classes.content} {...contentConfig.props}>
         {children}
       </div>
     </Widget>

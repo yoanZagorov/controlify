@@ -66,7 +66,7 @@ export default function OverviewSection({ className }) {
         )
       }}
       widgetContent={
-        <div className={`p-4 bg-gray-light rounded-md ${isSingleColLayout ? "h-48" : "h-64"}`}>
+        <div className={`p-4 bg-gray-light rounded-md ${isSingleColLayout ? "h-48" : "h-64"}`} data-actionable={true}>
           <WaterfallChart data={chartData.balanceOverTime} currency={userCurrency} />
         </div>
       }

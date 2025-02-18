@@ -27,7 +27,7 @@ export default function SettingWidgetFormField({ type = "select", name, iconName
           required
           value={displayValue}
           {...controlProps}
-          className="ml-auto max-w-44 ml:max-w-48 tab:max-w-56 text-right font-semibold"
+          className="ml-auto w-2/3 ml:w-1/2 text-right font-semibold"
         />
       ) : type === "custom" ? (
         <customComponent.Component {...customComponent.props} />
@@ -36,6 +36,7 @@ export default function SettingWidgetFormField({ type = "select", name, iconName
           btnProps={{
             ...controlProps,
             className: "ml-auto border-0 bg-gray-light",
+            "data-actionable": true,
           }}
           value={displayValue}
         />

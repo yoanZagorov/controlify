@@ -134,10 +134,7 @@ export default function OverallSettingsSection({ className }) {
       }}
       isSpaceLimited={isSingleColLayout}
       settings={settingsDataConfig}
-      sectionProps={{
-        title: "Overall",
-        // className: cn("relative", className)
-      }}
+      sectionProps={{ title: "Overall" }}
     />
   )
 }

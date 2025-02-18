@@ -19,9 +19,9 @@ export default function ProfilePicPreview({ profilePic, handleChange }) {
 
   return (
     <label htmlFor="profilePicInput" className="ml-auto">
-      <div className="size-12 rounded-full border border-gray-dark cursor-pointer">
+      <div className="size-12 rounded-full cursor-pointer">
         {profilePic ? (
-          <img src={imgPreview} className="size-full rounded-full object-cover" />
+          <img src={imgPreview} className="size-full rounded-full object-cover" alt="Avatar" /> // Object cover is needed or else the image gets distorted
         ) : (
           <SvgIcon iconName="user-circle" className="size-full fill-gray-dark" />
         )}

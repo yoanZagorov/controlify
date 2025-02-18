@@ -53,7 +53,7 @@ export default function BalanceSection() {
         </div>
       )}
 
-      <ContentWidget iconName="calendar-months" title={DEFAULT_PERIOD} content={{ className: "h-52" }} className={cn(!isSingleColLayout && "col-span-2")} >
+      <ContentWidget iconName="calendar-months" title={DEFAULT_PERIOD} content={{ className: "h-52", props: { "data-actionable": true } }} className={cn(!isSingleColLayout && "col-span-2")} >
         <BalanceOverTimeLineChart data={chartData.balanceOverTime} lineDataKey="accumulatedBalance" currency={currency} />
       </ContentWidget>
     </Section>

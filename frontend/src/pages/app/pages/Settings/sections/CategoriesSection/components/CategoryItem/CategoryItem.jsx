@@ -50,7 +50,7 @@ export default function CategoryItem({ isExpanded, action, category: { id, type,
       }}
       modal={modal}
     >
-      <div className="p-3 flex items-center gap-4 rounded-lg bg-gray-light" >
+      <div className="p-3 flex items-center gap-4 rounded-lg bg-gray-light" data-actionable={true} >
         <button
           onClick={() => setModalOpen(true)}
           className={cn(

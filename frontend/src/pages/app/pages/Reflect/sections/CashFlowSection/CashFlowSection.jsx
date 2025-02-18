@@ -59,7 +59,8 @@ export default function CashFlowSection() {
         iconName="line-chart"
         title="over time"
         content={{
-          className: isSingleColLayout ? "h-56" : "h-72"
+          className: isSingleColLayout ? "h-56" : "h-72",
+          props: { "data-actionable": true }
         }}
         className={cn(!isSingleColLayout && "col-span-2")}
       >

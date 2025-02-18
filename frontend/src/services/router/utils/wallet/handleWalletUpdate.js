@@ -7,7 +7,7 @@ import { getTransactions } from "@/services/firebase/db/transaction";
 import { getEntity } from "@/services/firebase/db/utils/entity";
 import { validateColor, validateCurrency, validateEntityName, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
 import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
-import { COLORS } from "@/constants";
+import { COLORS, VALIDATION_RULES } from "@/constants";
 import { getCurrencies } from "@/services/firebase/db/currency";
 import { isObjTruthy } from "@/utils/obj";
 import handleActionError from "../handleActionError";

@@ -43,7 +43,7 @@ export default function Sidebar() {
 
       <div className="mt-8 ll:mt-10 size-20 tab:size-24 lm:size-28 ll:size-32 rounded-full">
         {profilePic?.url ?
-          <img src={profilePic.url} className="rounded-full size-full object-cover" alt="Profile Picture" /> // To do: test with an actual image
+          <img src={profilePic.url} className="rounded-full size-full" alt="Avatar" />
           :
           <SvgIcon iconName="user-circle" className="size-full fill-current" />
         }
