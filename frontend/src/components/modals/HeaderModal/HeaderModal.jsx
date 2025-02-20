@@ -13,10 +13,11 @@ import { DeleteEntityBtn } from "./components/DeleteEntityBtn";
 import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
 
 export default function HeaderModal({ entity, formProps, header, fields, color }) {
-  const headerInputRef = useRef(null);
-  useAutoFocus({ ref: headerInputRef, selectOnFocus: true });
+  const headerConfig = { type: "simple", deleteEntityFetcher: {}, autoFocus: false, ...header };
 
-  const headerConfig = { type: "simple", deleteEntityFetcher: {}, ...header };
+  const headerInputRef = useRef(null);
+  headerConfig.autoFocus && useAutoFocus({ ref: headerInputRef, selectOnFocus: true });
+
   const isHeaderSimple = headerConfig.type === "simple";
 
   const { deleteEntityFetcher } = headerConfig;

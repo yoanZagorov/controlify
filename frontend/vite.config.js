@@ -10,7 +10,8 @@ export default defineConfig({
     postcss: "config/postcss.config.js",
   },
   server: {
-    open: "/"
+    open: "/",
+    host: "0.0.0.0",
   },
   resolve: {
     alias: {

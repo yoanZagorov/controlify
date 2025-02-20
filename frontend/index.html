@@ -1,18 +1,32 @@
 <!doctype html>
 <html lang="en">
-  <head>    
-    <!-- Meta tags -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Scripts -->
-    <script type="module" src="/src/index.jsx" defer></script>
-
+  <head>
     <!-- Title -->
     <title>Controlify</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.svg">
+    <!-- Primary SVG favicon -->
+    <link rel="icon" href="/icons/controlify-icon-favicon.svg" type="image/svg+xml">
+    
+    <!-- Fallback for browsers that do not support SVG favicons -->
+    <link rel="icon" href="/icons/controlify-icon-32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/icons/controlify-icon-16.png" sizes="16x16" type="image/png">    
+    
+    <!-- Meta tags -->
+    <meta charset="UTF-8" />
+    
+    <!-- Mobile -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Allow web app to be run in full-screen mode - iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <!-- Allow web app to be run in full-screen mode - Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Scripts -->
+    <script type="module" src="/src/index.jsx" defer></script>
   </head>
   <body class="font-inter">
     <div id="root" class="flex flex-col min-h-screen bg-gray-light"></div>
