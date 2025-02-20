@@ -5,7 +5,7 @@
   "start_url": "/",
   "icons": [
     {
-      "src": "/icons/controlify-icon.svg",
+      "src": "/icons/controlify-icon-transparent.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "maskable"
