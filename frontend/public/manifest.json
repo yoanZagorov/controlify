@@ -5,28 +5,39 @@
   "start_url": "/",
   "icons": [
     {
-      "src": "/icons/controlify-icon-transparent.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icons/controlify-logo.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-      "src": "/icons/controlify-icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icons/controlify-icon-512.png",
+      "src": "/icons/controlify-android-icon-512.png",
       "sizes": "512x512",
-      "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "/icons/controlify-android-icon-192.png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/controlify-android-icon-144.png",
+      "sizes": "144x144",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/controlify-android-icon-96.png",
+      "sizes": "96x96",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/controlify-android-icon-72.png",
+      "sizes": "72x72",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/controlify-android-icon-48.png",
+      "sizes": "48x48",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/controlify-android-icon-512.png",
+      "sizes": "512x512",
+      "purpose": "any"
     }
   ],
   "background_color": "#f5f5f5",
