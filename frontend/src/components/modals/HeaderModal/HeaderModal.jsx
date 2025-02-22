@@ -65,7 +65,8 @@ export default function HeaderModal({ entity, formProps, submitBtn, header, pare
     deleteBtnComponent: {
       Component: DeleteEntityBtn
     },
-    parentModalRef
+    parentModalRef,
+    isDeleteConfirmationBtnDisabled: formProps.fetcher.state === "submitting" || formProps.fetcher.state === "loading",
   }
 
   return (

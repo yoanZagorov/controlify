@@ -34,8 +34,9 @@ export default function Settings() {
                 className: "mt-12",
                 "data-actionable": true
               },
-              text: "delete account"
+              text: "delete account",
             }}
+            isDeleteConfirmationBtnDisabled={deleteAccountFetcher.state === "submitting" || deleteAccountFetcher.state === "loading"}
           />
         </Form>
       </div>

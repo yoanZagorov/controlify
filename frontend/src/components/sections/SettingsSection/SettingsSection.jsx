@@ -12,6 +12,7 @@ import { FormFieldContainer } from "./components/FormFieldContainer";
 
 export default function SettingsSection({ entity, formProps, sectionProps, settings, deleteEntityFetcher = {}, isSpaceLimited }) {
   const isDeleteEntity = isObjTruthy(deleteEntityFetcher);
+  const isFetcherSubmitting = formProps.fetcher.state === "submitting" || formProps.fetcher.state === "loading";
 
   // Slightly less performant to loop twice with the .filter and .map than a strandard loop, but way more readable
   const settingEls = settings.filter(option => option.field).map(({ field }, index) => {
@@ -42,6 +43,7 @@ export default function SettingsSection({ entity, formProps, sectionProps, setti
           props: {
             ...formProps.btn.props,
             className: "w-full mt-12 mx-auto max-w-72",
+            disabled: isFetcherSubmitting
           },
           text: "save changes",
         }}
@@ -59,6 +61,7 @@ export default function SettingsSection({ entity, formProps, sectionProps, setti
             deleteBtnComponent={{
               Component: DeleteEntityBtn
             }}
+            isDeleteConfirmationBtnDisabled={isFetcherSubmitting}
           />
         )}
       </Form>

@@ -33,6 +33,11 @@ export default function CategoryItem({ isExpanded, action, category: { id, type,
     fields: [{ name: "id", value: id }, { name: "type", value: type }],
     className: "ml-auto"
   }
+  const deleteEntityHandlerContainerProps = {
+    entity: "category",
+    deleteEntityFetcher: deleteCategoryFetcher,
+    isDeleteConfirmationBtnDisabled: deleteCategoryFetcher.state === "submitting" || deleteCategoryFetcher.state === "loading"
+  }
 
   return (
     <CategoryContainer
@@ -41,7 +46,7 @@ export default function CategoryItem({ isExpanded, action, category: { id, type,
       submitBtn={{
         props: {
           value: "updateCategory",
-          disabled: !hasCategoryDataChanged
+          disabled: updateCategoryFetcher.state === "submitting" || updateCategoryFetcher.state === "loading" || !hasCategoryDataChanged
         },
         text: "update category"
       }}
@@ -80,8 +85,7 @@ export default function CategoryItem({ isExpanded, action, category: { id, type,
 
             <Form {...deleteCategoryFormProps}>
               <DeleteEntityHandlerContainer
-                entity="category"
-                deleteEntityFetcher={deleteCategoryFetcher}
+                {...deleteEntityHandlerContainerProps}
                 deleteBtnComponent={{ Component: Button, props: { colorPalette: "dangerSecondary" }, text: "Delete" }}
               />
             </Form>
@@ -89,8 +93,7 @@ export default function CategoryItem({ isExpanded, action, category: { id, type,
         ) : (
           <Form {...deleteCategoryFormProps}>
             <DeleteEntityHandlerContainer
-              entity="category"
-              deleteEntityFetcher={deleteCategoryFetcher}
+              {...deleteEntityHandlerContainerProps}
               deleteBtnComponent={{ Component: IconDeleteBtn }}
             />
           </Form>

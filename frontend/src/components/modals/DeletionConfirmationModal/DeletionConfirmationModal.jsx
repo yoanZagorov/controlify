@@ -2,7 +2,7 @@ import { capitalize } from "@/utils/str";
 import { Button } from "@/components/Button";
 import cn from "classnames";
 
-export default function DeletionConfirmationModal({ isFullScreen = true, entity, closeModal }) {
+export default function DeletionConfirmationModal({ isFullScreen = true, entity, closeModal, isDeleteConfirmationBtnDisabled = false }) {
   return (
     <div className={cn(
       "px-6 py-8 rounded-t-lg ml:rounded-lg border-gray-dark bg-gray-light text-center text-balance shadow",
@@ -25,6 +25,8 @@ export default function DeletionConfirmationModal({ isFullScreen = true, entity,
           colorPalette="dangerSecondary"
           name="intent"
           value={`delete${capitalize(entity)}`}
+          disabled={isDeleteConfirmationBtnDisabled}
+          className={cn(isDeleteConfirmationBtnDisabled && "opacity-50")}
         >
           Delete
         </Button>

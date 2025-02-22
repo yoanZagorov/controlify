@@ -24,7 +24,7 @@ export default function CategoriesSection({ className }) {
       submitBtn={{
         props: {
           value: "addCategory",
-          disabled: !iconName
+          disabled: !iconName || fetcher.state === "submitting" || fetcher.state === "loading"
         },
         text: "add category"
       }}

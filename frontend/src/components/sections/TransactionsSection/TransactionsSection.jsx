@@ -24,7 +24,7 @@ export default function TransactionsSection({ action, contentProps }) {
         text: "complete transaction",
         props: {
           value: "addTransaction",
-          disabled: amount === "0" || category.name === "choose" // Default data
+          disabled: fetcher.state === "submitting" || fetcher.state === "loading" || amount === "0" || category.name === "choose"// Default data
         }
       }}
     >

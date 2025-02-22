@@ -171,7 +171,8 @@ export default function WalletContainer({ formProps, modal, children }) {
             submitBtn={{
               text: "add wallet",
               props: {
-                value: "addWallet"
+                value: "addWallet",
+                disabled: formProps.fetcher.state === "submitting" || formProps.fetcher.state === "loading"
               }
             }}
             header={{

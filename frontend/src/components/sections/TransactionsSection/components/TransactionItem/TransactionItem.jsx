@@ -47,7 +47,7 @@ export default function TransactionItem({ action, isExpanded, transaction: { amo
         text: "update transaction",
         props: {
           value: "updateTransaction",
-          disabled: amountInState === "0" || !hasTransactionDataChanged
+          disabled: fetcher.state === "submitting" || fetcher.state === "loading" || amountInState === "0" || !hasTransactionDataChanged
         }
       }}
     >
