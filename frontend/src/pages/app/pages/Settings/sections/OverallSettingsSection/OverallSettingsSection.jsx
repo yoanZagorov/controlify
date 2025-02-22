@@ -5,7 +5,6 @@ import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { useFetcher, useRouteLoaderData } from "react-router";
 import { useEffect } from "react";
 import { resetFetcher } from "@/services/router/utils";
-import cn from "classnames";
 import { ROUTES, VALIDATION_RULES } from "@/constants";
 
 export default function OverallSettingsSection({ className }) {
@@ -104,9 +103,6 @@ export default function OverallSettingsSection({ className }) {
           displayValue: currency,
         },
         modal: {
-          type: {
-            layout: "fullscreen",
-          },
           innerModal: {
             Component: CurrencyModal,
             props: { currencies }

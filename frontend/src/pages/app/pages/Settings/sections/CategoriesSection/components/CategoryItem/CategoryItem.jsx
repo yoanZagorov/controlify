@@ -37,16 +37,13 @@ export default function CategoryItem({ isExpanded, action, category: { id, type,
   return (
     <CategoryContainer
       mode="edit"
-      formProps={{
-        fetcher: updateCategoryFetcher,
-        action,
-        btn: {
-          props: {
-            value: "updateCategory",
-            disabled: !hasCategoryDataChanged
-          },
-          text: "update category"
-        }
+      formProps={{ fetcher: updateCategoryFetcher, action }}
+      submitBtn={{
+        props: {
+          value: "updateCategory",
+          disabled: !hasCategoryDataChanged
+        },
+        text: "update category"
       }}
       modal={modal}
     >

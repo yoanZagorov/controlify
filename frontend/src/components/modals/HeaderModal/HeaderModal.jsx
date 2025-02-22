@@ -59,15 +59,13 @@ export default function HeaderModal({ entity, formProps, submitBtn, header, pare
     } : {};
 
   const deleteEntityHandlerContainerProps = {
-    modalType: {
-      layout: "nested",
-      isBlocking: false
-    },
+    modalType: "nested",
     entity,
     deleteEntityFetcher,
     deleteBtnComponent: {
       Component: DeleteEntityBtn
-    }
+    },
+    parentModalRef
   }
 
   return (

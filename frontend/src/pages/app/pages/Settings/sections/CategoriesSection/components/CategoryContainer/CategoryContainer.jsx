@@ -1,3 +1,4 @@
+import { FullScreenModalWrapper } from "@/components/modal-wrappers/FullScreenModalWrapper";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { HeaderModal } from "@/components/modals/HeaderModal";
 import { IconModal } from "@/components/modals/IconModal";
@@ -7,7 +8,7 @@ import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/Categor
 import { COLORS, ICON_NAMES, VALIDATION_RULES } from "@/constants";
 import { useCategory } from "@/hooks";
 
-export default function CategoryContainer({ mode = "add", formProps, modal, children }) {
+export default function CategoryContainer({ mode = "add", formProps, submitBtn, modal, children }) {
   const isEditMode = mode === "edit";
 
   const {
@@ -126,11 +127,14 @@ export default function CategoryContainer({ mode = "add", formProps, modal, chil
       {children}
 
       {(isModalOpen || hasTransitioned) &&
-        <ModalWrapper
+        <FullScreenModalWrapper
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
-          ref={modalRef}
-          minHeight="h-[90%]" // Keep it like this or on smaller screens it doesn't stretch to the bottom
+          modalRef={modalRef}
+          layoutProps={{
+            height: "h-[90%]", // Avoid using vh, since it causes problems on mobile
+            handleOverflow: false // Overflow is handled in the HeaderModal
+          }}
         >
           <HeaderModal
             entity="category"
@@ -138,6 +142,7 @@ export default function CategoryContainer({ mode = "add", formProps, modal, chil
               fields: categoryDataConfig.map(option => option.formData),
               ...formProps
             }}
+            submitBtn={submitBtn}
             header={{
               type: "simple",
               inputProps: {
@@ -147,10 +152,11 @@ export default function CategoryContainer({ mode = "add", formProps, modal, chil
                 onChange: handleNameInputChange
               }
             }}
+            parentModalRef={modalRef}
             fields={headerModalFields}
             color={color}
           />
-        </ModalWrapper>
+        </FullScreenModalWrapper>
       }
     </>
   )

@@ -6,7 +6,7 @@ import { VALIDATION_RULES } from "@/constants";
 export default function CustomAmountInput({ isExpense, currency, isDeleteBtn = false, ...inputProps }) {
   const amountInputRef = useRef(null);
   const { isMobile } = useBreakpoint();
-  !isMobile && useAutoFocus({ ref: amountInputRef }); // On mobile it doesn't look well since the keyboard hides half of the screen
+  // useAutoFocus({ ref: isMobile ? null : amountInputRef }); // On mobile it doesn't look well since the keyboard hides half of the screen
 
   const isUsingKeyboard = document.body.classList.contains("using-keyboard");
 

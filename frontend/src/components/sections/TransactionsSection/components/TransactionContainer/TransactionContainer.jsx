@@ -11,8 +11,9 @@ import { WalletModal } from "@/components/modals/WalletModal";
 import { CustomAmountInput } from "@/components/sections/TransactionsSection/components/CustomAmountInput";
 import { useFetcher, useRouteLoaderData } from "react-router";
 import { COLORS } from "@/constants";
+import { FullScreenModalWrapper } from "@/components/modal-wrappers/FullScreenModalWrapper";
 
-export default function TransactionContainer({ mode = "add", modal, formProps, children }) {
+export default function TransactionContainer({ mode = "add", modal, formProps, submitBtn, children }) {
   const DEFAULT_TRANSACTION_TYPE = "expense";
 
   const isEditTransaction = mode === "edit";
@@ -130,11 +131,14 @@ export default function TransactionContainer({ mode = "add", modal, formProps, c
       {children}
 
       {(isModalOpen || hasTransitioned) &&
-        <ModalWrapper
+        <FullScreenModalWrapper
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
-          ref={modalRef}
-          minHeight="h-[90%]" // Keep it like this or on smaller screens it doesn't stretch to the bottom
+          modalRef={modalRef}
+          layoutProps={{
+            height: "h-[90%]", // Avoid using vh, since it causes problems on mobile
+            handleOverflow: false // Overflow is handled in the HeaderModal
+          }}
         >
           <HeaderModal
             entity="transaction"
@@ -142,6 +146,7 @@ export default function TransactionContainer({ mode = "add", modal, formProps, c
               fields: transactionDataConfig.map(option => option.formData),
               ...formProps
             }}
+            submitBtn={submitBtn}
             header={{
               type: "custom",
               CustomComponent:
@@ -162,10 +167,11 @@ export default function TransactionContainer({ mode = "add", modal, formProps, c
                 />,
               deleteEntityFetcher: deleteTransactionFetcher
             }}
+            parentModalRef={modalRef}
             fields={headerModalFields}
             color={COLORS.THEME.NAVY}
           />
-        </ModalWrapper>
+        </FullScreenModalWrapper>
       }
     </>
   )

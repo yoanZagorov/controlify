@@ -61,7 +61,7 @@ export default function WalletSettings() {
     {
       formData: {
         name: "name",
-        value: name.trim()
+        value: name
       },
       field: {
         name: "name",
@@ -91,9 +91,6 @@ export default function WalletSettings() {
           displayValue: currency,
         },
         modal: {
-          type: {
-            layout: "fullscreen",
-          },
           innerModal: {
             Component: CurrencyModal,
             props: { currencies }
@@ -118,10 +115,6 @@ export default function WalletSettings() {
           displayValue: areAllCategoriesVisible ? "All" : visibleWalletCategories.length,
         },
         modal: {
-          type: {
-            layout: "fullscreen",
-            blocking: true
-          },
           innerModal: {
             Component: CategoriesVisibilityModal,
             props: { categories },
@@ -130,7 +123,7 @@ export default function WalletSettings() {
             value: categories,
             updateState: (newCategories) => updateWalletData({ categories: newCategories })
           },
-          minHeight: "min-h-[90%]"
+          height: "h-[90%]" // Used to keep the income and expense equal in height
         }
       }
     },
@@ -147,9 +140,6 @@ export default function WalletSettings() {
           displayValue: <div className="size-6 rounded-full" style={{ backgroundColor: color }}></div>,
         },
         modal: {
-          type: {
-            layout: "fullscreen",
-          },
           innerModal: {
             Component: ColorModal,
             props: { colors: COLORS.ENTITIES.WALLET_COLORS, colorBrightness: "dark" },

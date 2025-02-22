@@ -20,13 +20,13 @@ export default function CategoriesSection({ className }) {
       formProps={{
         fetcher,
         action: ROUTES.SETTINGS,
-        btn: {
-          props: {
-            value: "addCategory",
-            disabled: !iconName
-          },
-          text: "add category"
-        }
+      }}
+      submitBtn={{
+        props: {
+          value: "addCategory",
+          disabled: !iconName
+        },
+        text: "add category"
       }}
       modal={modal}
     >

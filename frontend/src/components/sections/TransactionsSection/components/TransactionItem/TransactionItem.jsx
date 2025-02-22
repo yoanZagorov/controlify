@@ -42,15 +42,12 @@ export default function TransactionItem({ action, isExpanded, transaction: { amo
     <TransactionContainer
       mode="edit"
       modal={modal}
-      formProps={{
-        fetcher,
-        action,
-        btn: {
-          text: "update transaction",
-          props: {
-            value: "updateTransaction",
-            disabled: amountInState === "0" || !hasTransactionDataChanged
-          }
+      formProps={{ fetcher, action }}
+      submitBtn={{
+        text: "update transaction",
+        props: {
+          value: "updateTransaction",
+          disabled: amountInState === "0" || !hasTransactionDataChanged
         }
       }}
     >

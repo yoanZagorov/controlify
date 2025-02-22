@@ -9,7 +9,7 @@ import useBodyScrollLock from "./useBodyScrollLock";
 import useParentScrollLock from "./useParentScrollLock";
 
 // Single hook combining all modal related functionality
-export default function useModal({ type = "fullScreen", fetcher = {}, parentModalRef = null, unmountDelay = 300, resetModalData }) {
+export default function useModal({ type = "fullScreen", fetcher = {}, parentModalRef = null, unmountDelay = 300, resetModalData } = {}) {
   const isFullScreen = type === "fullScreen";
 
   const [isModalOpen, setModalOpen] = useState(false);

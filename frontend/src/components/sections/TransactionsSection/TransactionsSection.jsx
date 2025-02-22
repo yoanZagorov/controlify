@@ -19,12 +19,12 @@ export default function TransactionsSection({ action, contentProps }) {
       formProps={{
         fetcher,
         action,
-        btn: {
-          text: "complete transaction",
-          props: {
-            value: "addTransaction",
-            disabled: amount === "0" || category.name === "choose" // Default data
-          }
+      }}
+      submitBtn={{
+        text: "complete transaction",
+        props: {
+          value: "addTransaction",
+          disabled: amount === "0" || category.name === "choose" // Default data
         }
       }}
     >

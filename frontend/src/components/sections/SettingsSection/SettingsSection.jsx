@@ -3,12 +3,12 @@ import cn from "classnames";
 import { isObjTruthy } from "@/utils/obj";
 
 import { Form } from "@/components/Form";
-import { FormFieldContainer } from "@/components/containers/FormFieldContainer";
 import { Section } from "../Section";
 import { SettingWidgetFormField } from "./components/SettingWidgetFormField";
 
 import { DeleteEntityBtn } from "./components/DeleteEntityBtn";
 import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
+import { FormFieldContainer } from "./components/FormFieldContainer";
 
 export default function SettingsSection({ entity, formProps, sectionProps, settings, deleteEntityFetcher = {}, isSpaceLimited }) {
   const isDeleteEntity = isObjTruthy(deleteEntityFetcher);

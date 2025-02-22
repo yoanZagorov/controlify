@@ -1,20 +1,21 @@
+import { FullScreenModalWrapper } from "@/components/modal-wrappers/FullScreenModalWrapper";
+import { NestedModalWrapper } from "@/components/modal-wrappers/NestedModalWrapper";
 import { DeletionConfirmationModal } from "@/components/modals/DeletionConfirmationModal";
-import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { useModal } from "@/hooks";
 
 // This components handles just the modal logic. It doesn't handle deletion by itself - it must be used inside a form
-export default function DeleteEntityHandlerContainer({ modalType, entity, deleteEntityFetcher, deleteBtnComponent }) {
-  const modalTypeConfig = {
-    layout: "fullscreen",
-    blocking: true,
-    ...modalType
-  }
+export default function DeleteEntityHandlerContainer({ modalType = "fullScreen", entity, deleteEntityFetcher, deleteBtnComponent, parentModalRef = null }) {
+  const isFullScreen = modalType === "fullScreen";
 
   const {
     modalState: [isModalOpen, setModalOpen],
     hasTransitioned,
     modalRef
-  } = useModal({ isBlocking: modalTypeConfig.blocking, fetcher: deleteEntityFetcher });
+  } = useModal({
+    type: modalType,
+    fetcher: deleteEntityFetcher,
+    ...(!isFullScreen ? { parentModalRef } : {})
+  });
 
   return (
     <>
@@ -22,21 +23,33 @@ export default function DeleteEntityHandlerContainer({ modalType, entity, delete
         {deleteBtnComponent.text && deleteBtnComponent.text}
       </deleteBtnComponent.Component>
 
-      {(isModalOpen || hasTransitioned) &&
-        <ModalWrapper
-          type={modalTypeConfig}
-          isModalOpen={isModalOpen}
-          hasTransitioned={hasTransitioned}
-          ref={modalRef}
-          minHeight={modalTypeConfig.layout === "fullscreen" ? "h-[90%] ml:h-60" : "ls:h-3/4"}
-        >
-          {/* Height is like this because on mobile it's convenient for the button to be placed down, close to the user's fingers but 
-           on desktop it would be better to be more central */}
-          <DeletionConfirmationModal
-            entity={entity}
-            closeModal={() => setModalOpen(false)}
-          />
-        </ModalWrapper>
+      {(isModalOpen || hasTransitioned) ?
+        isFullScreen ? (
+          <FullScreenModalWrapper
+            isModalOpen={isModalOpen}
+            hasTransitioned={hasTransitioned}
+            modalRef={modalRef}
+          >
+            <DeletionConfirmationModal
+              isFullScreen={isFullScreen}
+              entity={entity}
+              closeModal={() => setModalOpen(false)}
+            />
+          </FullScreenModalWrapper>
+        ) : (
+          <NestedModalWrapper
+            isModalOpen={isModalOpen}
+            hasTransitioned={hasTransitioned}
+            parentModalRef={parentModalRef}
+            modalRef={modalRef}
+          >
+            <DeletionConfirmationModal
+              isFullScreen={isFullScreen}
+              entity={entity}
+              closeModal={() => setModalOpen(false)}
+            />
+          </NestedModalWrapper>
+        ) : null
       }
     </>
   )

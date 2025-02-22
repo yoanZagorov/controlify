@@ -1,4 +1,4 @@
-import { FulscreenModalWrapper } from "@/components/modal-wrappers/FulscreenModalWrapper";
+import { FullScreenModalWrapper } from "@/components/modal-wrappers/FullScreenModalWrapper";
 import { CategoriesVisibilityModal } from "@/components/modals/CategoriesVisibilityModal";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
@@ -154,7 +154,7 @@ export default function WalletContainer({ formProps, modal, children }) {
       {children}
 
       {(isModalOpen || hasTransitioned) &&
-        <FulscreenModalWrapper
+        <FullScreenModalWrapper
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
           modalRef={modalRef}
@@ -188,7 +188,7 @@ export default function WalletContainer({ formProps, modal, children }) {
             fields={headerModalFields}
             color={color}
           />
-        </FulscreenModalWrapper>
+        </FullScreenModalWrapper>
       }
     </>
   )

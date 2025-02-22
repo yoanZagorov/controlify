@@ -1,7 +1,8 @@
 import cn from "classnames"
+import { useMemo } from "react";
 
 // See the docs for more info regarding the nested modal implementation
-export default function NestedModalWrapper({ isModalOpen, hasTransitioned, layoutProps, parentModalRef, modalRef, children }) {
+export default function NestedModalWrapper({ isModalOpen, hasTransitioned, layoutProps = {}, parentModalRef, modalRef, children }) {
   const layoutPropsConfig = {
     minHeight: "min-h-0",
     handleOverflow: true,
@@ -13,7 +14,10 @@ export default function NestedModalWrapper({ isModalOpen, hasTransitioned, layou
     },
   };
   // Get the current scrolled distance in the parent
-  const parentModalScrolledDistance = parentModalRef.current.scrollTop;
+  const parentModalScrolledDistance = useMemo(
+    () => parentModalRef?.current?.scrollTop,
+    [parentModalRef?.current]
+  );
 
   const classes = {
     overlay: cn(
@@ -35,7 +39,7 @@ export default function NestedModalWrapper({ isModalOpen, hasTransitioned, layou
     <>
       <div className={classes.overlay}></div>
 
-      <div ref={modalRef} className={classes.modal} style={{ bottom: -parentModalScrolledDistance }} >
+      <div ref={modalRef} className={classes.modal} style={{ bottom: -parentModalScrolledDistance || 0 }} >
         {children}
       </div>
     </>
