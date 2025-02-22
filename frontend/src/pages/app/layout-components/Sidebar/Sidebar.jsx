@@ -31,8 +31,8 @@ export default function Sidebar() {
 
   const classes = {
     sidebar: cn(
-      "fixed h-screen w-64 ml:w-72 tab:w-80 ll:w-96 pt-8 pb-4 tab:pt-10 ll:pt-12 flex flex-col items-center text-gray-light bg-navy z-10 transition-[left] tab:duration-500",
-      isSidebarExpanded ? "left-0" : "-left-full"
+      "fixed inset-y-0 left-0 h-screen w-64 ml:w-72 tab:w-80 ll:w-96 pt-8 pb-4 tab:pt-10 ll:pt-12 flex flex-col items-center text-gray-light bg-navy overflow-y-auto z-10 transition-transform tab:duration-500",
+      !isSidebarExpanded && "-translate-x-full"
     )
   }
 

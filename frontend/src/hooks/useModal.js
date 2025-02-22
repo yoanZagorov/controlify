@@ -1,20 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { resetFetcher } from "@/services/router/utils";
 
-import useScrollLock from "./useScrollLock";
 import useMountTransition from "./useMountTransition";
 import useOutsideClick from "./useOutsideClick";
 import { isObjTruthy } from "@/utils/obj";
+import useBodyScrollLock from "./useBodyScrollLock";
+import useParentScrollLock from "./useParentScrollLock";
 
 // Single hook combining all modal related functionality
-export default function useModal({ isBlocking = true, fetcher = {}, resetModalData, unmountDelay = 300 }) {
+export default function useModal({ type = "fullScreen", fetcher = {}, parentModalRef = null, unmountDelay = 300, resetModalData }) {
+  const isFullScreen = type === "fullScreen";
+
   const [isModalOpen, setModalOpen] = useState(false);
-  const hasTransitioned = useMountTransition(isModalOpen, unmountDelay);
+  const modalRef = useRef(null);
 
-  const modalRef = useOutsideClick(isModalOpen, () => setModalOpen(false));
-
-  isBlocking && useScrollLock(isModalOpen);
+  const hasTransitioned = useMountTransition(isModalOpen, unmountDelay); // Used for smooth animations
+  useOutsideClick(modalRef, isModalOpen, () => setModalOpen(false)); // Used to close the modal on outside click
+  isFullScreen ? useBodyScrollLock(isModalOpen) : useParentScrollLock(parentModalRef, isModalOpen); // Lock the right element's scroll
 
   const isFetcher = isObjTruthy(fetcher);
   isFetcher && useEffect(() => {

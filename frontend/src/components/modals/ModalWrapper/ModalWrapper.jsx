@@ -1,7 +1,7 @@
 import cn from "classnames"
 import { forwardRef } from "react"
 
-const ModalWrapper = forwardRef(function ModalWrapper({ type, isModalOpen, hasTransitioned, minHeight, zIndex, children }, ref) {
+const ModalWrapper = forwardRef(function ModalWrapper({ type, isModalOpen, hasTransitioned, minHeight, zIndex, bgColor, children }, ref) {
   const modalWrapperConfig = {
     type: {
       layout: "fullscreen",
@@ -37,8 +37,8 @@ const ModalWrapper = forwardRef(function ModalWrapper({ type, isModalOpen, hasTr
     ),
     modal: cn(
       sharedClasses,
-      // flexbox needed for the overflow of the modal itself to work + for nested modals to feel the full height 
-      "bottom-0 flex flex-col rounded-t-lg ml:rounded-lg transition-transform",
+      // flexbox needed for the overflow of the modal itself to work + for nested modals to fill the full height
+      "bottom-0 flex flex-col rounded-t-lg ml:rounded-lg transition-transform overflow-auto",
       modalWrapperConfig.zIndex.modal,
       isNested
         ? "max-h-[75%]"
@@ -48,6 +48,7 @@ const ModalWrapper = forwardRef(function ModalWrapper({ type, isModalOpen, hasTr
           !isBlocking && "ml:h-fit"
         ),
       minHeight,
+      bgColor,
       !(isModalOpen && hasTransitioned) && "translate-y-[100vh]"
     )
   }

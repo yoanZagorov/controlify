@@ -1,8 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
-export default function useOutsideClick(isOpen, close, { eventListenerCondition = true, clickCondition = true } = {}) {
-  const ref = useRef(null);
-
+export default function useOutsideClick(ref, isOpen, close, { eventListenerCondition = true, clickCondition = true } = {}) {
   useEffect(() => {
     if (eventListenerCondition) {
       document.addEventListener("mousedown", handleMouseOutsideClick);
@@ -28,10 +26,6 @@ export default function useOutsideClick(isOpen, close, { eventListenerCondition 
   }
 
   function handleKeyboardOutsideClick(e) {
-    if (e.key === "Escape" && clickCondition) {
-      close();
-    }
+    if (e.key === "Escape" && clickCondition) close();
   }
-
-  return ref;
 }

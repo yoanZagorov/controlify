@@ -1,8 +1,8 @@
+import { FulscreenModalWrapper } from "@/components/modal-wrappers/FulscreenModalWrapper";
 import { CategoriesVisibilityModal } from "@/components/modals/CategoriesVisibilityModal";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { HeaderModal } from "@/components/modals/HeaderModal";
-import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { COLORS, VALIDATION_RULES } from "@/constants";
 import { useWalletSubmission } from "@/hooks";
 import { handleAmountInputChange, handleWalletNameInputChange } from "@/utils/input";
@@ -19,13 +19,7 @@ export default function WalletContainer({ formProps, modal, children }) {
   } = modal;
 
   const {
-    walletData: {
-      name,
-      initialBalance,
-      currency,
-      categories,
-      color
-    },
+    walletData: { name, initialBalance, currency, categories, color },
     updateWalletData
   } = useWalletSubmission();
 
@@ -45,7 +39,7 @@ export default function WalletContainer({ formProps, modal, children }) {
     {
       formData: {
         name: "name",
-        value: name.trim()
+        value: name
       },
     },
     {
@@ -148,7 +142,7 @@ export default function WalletContainer({ formProps, modal, children }) {
           }
         }
       }
-    },
+    }
   ]
 
   // Traversing the array once (On), instead of filtering and mapping (2On)
@@ -160,22 +154,25 @@ export default function WalletContainer({ formProps, modal, children }) {
       {children}
 
       {(isModalOpen || hasTransitioned) &&
-        <ModalWrapper
+        <FulscreenModalWrapper
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
-          ref={modalRef}
-          minHeight="h-[90%]" // Keep it like this or on smaller screens it doesn't stretch to the bottom
+          modalRef={modalRef}
+          layoutProps={{
+            height: "h-[90%]", // Avoid using vh, since it causes problems on mobile
+            handleOverflow: false // Overflow is handled in the HeaderModal
+          }}
         >
           <HeaderModal
             formProps={{
               fields: walletDataConfig.map(option => option.formData),
-              btn: {
-                text: "add wallet",
-                props: {
-                  value: "addWallet"
-                }
-              },
               ...formProps
+            }}
+            submitBtn={{
+              text: "add wallet",
+              props: {
+                value: "addWallet"
+              }
             }}
             header={{
               type: "simple",
@@ -187,10 +184,11 @@ export default function WalletContainer({ formProps, modal, children }) {
                 className: "selection:text-gray-light selection:bg-[#3390FF]"
               }
             }}
+            parentModalRef={modalRef}
             fields={headerModalFields}
             color={color}
           />
-        </ModalWrapper>
+        </FulscreenModalWrapper>
       }
     </>
   )

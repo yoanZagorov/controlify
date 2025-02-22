@@ -16,3 +16,6 @@ export { default as useScrollToTop } from "./useScrollToTop";
 export { default as useInnerModal } from "./useInnerModal";
 export { default as useSelectInput } from "./useSelectInput";
 export { default as useSubmitModalForm } from "./useSubmitModalForm";
+export { default as useParentScrollLock } from "./useParentScrollLock";
+export { default as useBodyScrollLock } from "./useBodyScrollLock";
+export { default as useViewportHeight } from "./useViewportHeight";

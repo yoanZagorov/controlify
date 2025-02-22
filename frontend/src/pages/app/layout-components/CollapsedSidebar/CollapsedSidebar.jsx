@@ -25,8 +25,8 @@ export default function CollapsedSidebar() {
 
   const classes = {
     collapsedSidebar: cn(
-      "fixed h-full w-20 pt-10 px-2.5 pb-8 flex flex-col items-center bg-navy text-gray-light transition-[left] duration-500",
-      isSidebarExpanded ? "-left-full" : "left-0"
+      "fixed inset-y-0 left-0 h-full w-20 pt-10 px-2.5 pb-8 flex flex-col items-center bg-navy text-gray-light overflow-y-auto transition-transform duration-500",
+      isSidebarExpanded && "-translate-x-full"
     )
   }
 

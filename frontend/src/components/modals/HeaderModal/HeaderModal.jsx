@@ -6,13 +6,14 @@ import { useAutoFocus } from "@/hooks";
 import { isObjTruthy } from "@/utils/obj";
 
 import { Form } from "@/components/Form";
-import { FormFieldContainer } from "@/components/containers/FormFieldContainer";
 
 import { FormField } from "./components/FormField";
 import { DeleteEntityBtn } from "./components/DeleteEntityBtn";
 import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
+import { Button } from "@/components/Button";
+import { FormFieldContainer } from "./components/FormFieldContainer";
 
-export default function HeaderModal({ entity, formProps, header, fields, color }) {
+export default function HeaderModal({ entity, formProps, submitBtn, header, parentModalRef, fields, color }) {
   const headerConfig = { type: "simple", deleteEntityFetcher: {}, autoFocus: false, ...header };
 
   const headerInputRef = useRef(null);
@@ -35,6 +36,7 @@ export default function HeaderModal({ entity, formProps, header, fields, color }
             controlProps: { ...field.props.controlProps, colorPalette: "secondaryDark" }
           }
         }}
+        parentModalRef={parentModalRef}
         modal={field.modal}
       />
     ) : (
@@ -72,11 +74,8 @@ export default function HeaderModal({ entity, formProps, header, fields, color }
     <>
       <Form
         {...formProps}
-        btn={{
-          ...formProps.btn,
-          props: { ...formProps.btn.props, className: "mt-12 ll:py-4 self-center focus:ring-4" }
-        }}
-        className="relative w-full h-full flex flex-col rounded-t-lg ml:rounded-lg bg-gray-light"
+        btn={{ isBtn: false }}
+        className="flex-1 relative h-full flex flex-col rounded-t-lg ml:rounded-lg"
       >
         <header
           className="py-10 px-4 tab:px-6 flex items-end gap-4 rounded-t-lg font-semibold tracking-wide shadow transition-colors"
@@ -99,10 +98,13 @@ export default function HeaderModal({ entity, formProps, header, fields, color }
           }
         </header >
 
-        <div className="mt-16 px-4 pb-4 tab:px-6 flex flex-col">
+        <div className="flex-1 pt-16 px-4 tab:px-6 pb-4 flex flex-col gap-12 ml:rounded-b-lg bg-gray-light overflow-auto"> {/* Handling the overflow here so the header can look fixed */}
           <div className="flex flex-col gap-8">
             {itemFields}
           </div>
+          <Button size="l" {...submitBtn.props} type="submit" name="intent" className={cn("ll:py-4 self-center focus:ring-4", submitBtn.props?.className)}>
+            {submitBtn.text}
+          </Button>
         </div>
       </Form>
     </>
