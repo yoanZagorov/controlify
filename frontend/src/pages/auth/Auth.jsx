@@ -4,12 +4,12 @@ import { loginAction, createAccountAction } from "@/services/router/actions";
 
 import { useFlashMsg } from "@/hooks";
 
-import LogoNavy from "@/assets/logos/logo-navy.svg?react";
 import { AuthForm } from "./components/AuthForm";
 import { InfoWidget } from "@/components/widgets/InfoWidget";
 import { AuthProvider } from "@/contexts";
 import { useEffect, useState } from "react";
 import { ROUTES } from "@/constants";
+import { FullLogo } from "@/assets/logos/FullLogo";
 
 export default function Auth({ type }) {
   const isCreateAccount = type === "createAccount";
@@ -58,7 +58,7 @@ export default function Auth({ type }) {
       <main
         className="my-auto flex flex-col tab:flex-row tab:items-center gap-12 ls:gap-20">
         <div className="tab:w-1/2">
-          <LogoNavy />
+          <FullLogo />
           <p className="ml:text-lg fhd:text-xl text-gray-dark">Take control of your finances</p>
         </div>
 

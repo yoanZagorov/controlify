@@ -1,8 +1,8 @@
 import { Link } from "react-router";
-import Logo from "@/assets/logos/logo-navy.svg?react";
 import { Widget } from "@/components/widgets/Widget";
 import { Button } from "@/components/Button";
 import { ROUTES } from "@/constants";
+import { FullLogo } from "@/assets/logos/FullLogo";
 
 export default function ErrorWrapper({ error }) {
   const errorConfig = {
@@ -16,7 +16,7 @@ export default function ErrorWrapper({ error }) {
   return (
     <main className="h-screen mx-auto w-full max-w-[500px] flex flex-col justify-center gap-10 p-4 text-center">
       <div>
-        <Logo />
+        <FullLogo />
         <p className="mt-1.5 ml:text-lg text-gray-dark">Take control of your finances</p>
       </div>
 
