@@ -7,7 +7,7 @@ import { SvgIcon } from "@/components/SvgIcon";
 import { NavItem } from "../NavItem";
 import { primaryNavPages, secondaryNavPages } from "../data";
 import { FullLogo } from "@/assets/logos/FullLogo";
-import { COLORS } from "@/constants";
+import { COLORS, ROUTES } from "@/constants";
 
 export default function Sidebar() {
   const { userData: { profilePic, email, fullName } } = useRouteLoaderData("app");
@@ -38,7 +38,9 @@ export default function Sidebar() {
 
   return (
     <div className={classes.sidebar} ref={sidebarRef}>
-      <FullLogo color={COLORS.THEME.GRAY.LIGHT} className="mx-4" />
+      <div className="w-full px-4">
+        <FullLogo color={COLORS.THEME.GRAY.LIGHT} />
+      </div>
       <p className="text-sm ml:text-base ll:text-lg tracking-wider font-light">Take control of your finances</p>
 
       <div className="mt-8 ll:mt-10 size-20 tab:size-24 lm:size-28 ll:size-32 rounded-full">
@@ -59,12 +61,12 @@ export default function Sidebar() {
       </nav>
 
       <nav className="mt-auto w-full">
-        <ul>
+        <ul className="mt-12"> {/* Ensures primary and secondary nav bars are never squished together */}
           {secondaryNavItems}
 
           <NavItem
             variants={{ layout: "iconWithText", type: "secondary", purpose: "logout" }}
-            action="/app"
+            action={ROUTES.APP}
             handleClose={!isDesktop ? toggleSidebar : null}
           />
         </ul>

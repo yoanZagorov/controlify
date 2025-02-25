@@ -14,17 +14,19 @@ export default function FullLogo({ color = COLORS.THEME.NAVY, className }) {
   // Using a layout effect to prevent layout UI jumps
   useLayoutEffect(() => {
     if (svgRef?.current && textRef?.current) {
-      const svgViewBoxWidth = svgRef.current.viewBox.baseVal.width;
-      const svgWidth = svgRef.current.getBoundingClientRect().width;
-      // Since svgWidth is in pixels, but the textGap would need to be set as a unitless value used for the viewport, calculate the conversion ratio
-      const pixelToViewBoxRatio = svgWidth / svgViewBoxWidth;
+      document.fonts.ready.then(() => { // have to await the fonts to ensure proper calculations (this causes a little bit of flickering but calculations are sure to be correct)
+        const svgViewBoxWidth = svgRef.current.viewBox.baseVal.width;
+        const svgWidth = svgRef.current.getBoundingClientRect().width;
+        // Since svgWidth is in pixels, but the textGap would need to be set as a unitless value used for the viewport, calculate the conversion ratio
+        const pixelToViewBoxRatio = svgWidth / svgViewBoxWidth;
 
-      const textWidth = textRef.current.getBoundingClientRect().width;
+        const textWidth = textRef.current.getBoundingClientRect().width;
 
-      const spaceLeft = svgWidth - textWidth; // Calculate how much free space there is 
-      const textGapWidthPx = spaceLeft / (LABEL_NUM_LETTERS - 1); // Calculate the individual letters gap
+        const spaceLeft = svgWidth - textWidth; // Calculate how much free space there is 
+        const textGapWidthPx = spaceLeft / (LABEL_NUM_LETTERS - 1); // Calculate the individual letters gap
 
-      setTextGapWidth(textGapWidthPx / pixelToViewBoxRatio); // Convert to viewBox value and set the state
+        setTextGapWidth(textGapWidthPx / pixelToViewBoxRatio); // Convert to viewBox value and set the state
+      })
     }
   }, []);
 
@@ -34,7 +36,7 @@ export default function FullLogo({ color = COLORS.THEME.NAVY, className }) {
 
   // Can't use the same size for the y viewBox value and the fontSize because the <text> applies additional vertical spacing 
   return (
-    <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 100" className={cn("w-full", className)}>
+    <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 100" className={cn("w-full h-full", className)}>
       {/* "CONTROLIFY" Text */}
       {/* centering vertically with y=60% because using capital letters */}
       <text
