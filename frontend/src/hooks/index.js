@@ -19,3 +19,4 @@ export { default as useSubmitModalForm } from "./useSubmitModalForm";
 export { default as useParentScrollLock } from "./useParentScrollLock";
 export { default as useBodyScrollLock } from "./useBodyScrollLock";
 export { default as useViewportHeight } from "./useViewportHeight";
+export { default as useIsOnScreenKeyboardOpen } from "./useIsOnScreenKeyboardOpen";

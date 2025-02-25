@@ -1,19 +1,11 @@
 import { COLORS } from "@/constants";
 import cn from "classnames";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 // The textLength property doesn't work on iOS - that's why manual calculation is needed to space the letters evenly
 export default function FullLogo({ color = COLORS.THEME.NAVY, className }) {
   const LOGO_LABEL = "CONTROLIFY";
   const LABEL_NUM_LETTERS = LOGO_LABEL.split("").length;
-
-  const [fontLoaded, setFontLoaded] = useState(false);
-  // Wait for font to load before rendering
-  useEffect(() => {
-    document.fonts.ready.then(() => {
-      setFontLoaded(true);
-    });
-  }, []);
 
   const textRef = useRef(null);
   const svgRef = useRef(null);
@@ -21,22 +13,20 @@ export default function FullLogo({ color = COLORS.THEME.NAVY, className }) {
 
   // Using a layout effect to prevent layout UI jumps
   useLayoutEffect(() => {
-    if (fontLoaded && svgRef?.current && textRef?.current) {
-      document.fonts.ready.then(() => {
-        const svgViewBoxWidth = svgRef.current.viewBox.baseVal.width;
-        const svgWidth = svgRef.current.getBoundingClientRect().width;
-        // Since svgWidth is in pixels, but the textGap would need to be set as a unitless value used for the viewport, calculate the conversion ratio
-        const pixelToViewBoxRatio = svgWidth / svgViewBoxWidth;
+    if (svgRef?.current && textRef?.current) {
+      const svgViewBoxWidth = svgRef.current.viewBox.baseVal.width;
+      const svgWidth = svgRef.current.getBoundingClientRect().width;
+      // Since svgWidth is in pixels, but the textGap would need to be set as a unitless value used for the viewport, calculate the conversion ratio
+      const pixelToViewBoxRatio = svgWidth / svgViewBoxWidth;
 
-        const textWidth = textRef.current.getBoundingClientRect().width;
+      const textWidth = textRef.current.getBoundingClientRect().width;
 
-        const spaceLeft = svgWidth - textWidth; // Calculate how much free space there is 
-        const textGapWidthPx = spaceLeft / (LABEL_NUM_LETTERS - 1); // Calculate the individual letters gap
+      const spaceLeft = svgWidth - textWidth; // Calculate how much free space there is 
+      const textGapWidthPx = spaceLeft / (LABEL_NUM_LETTERS - 1); // Calculate the individual letters gap
 
-        setTextGapWidth(textGapWidthPx / pixelToViewBoxRatio); // Convert to viewBox value and set the state
-      })
+      setTextGapWidth(textGapWidthPx / pixelToViewBoxRatio); // Convert to viewBox value and set the state
     }
-  }, [fontLoaded]);
+  }, []);
 
   const letterEls = LOGO_LABEL.split("").map((letter, i) => (
     <tspan key={`tspan-${i}`} dx={i === 0 ? 0 : textGapWidth}>{letter}</tspan>
@@ -44,7 +34,7 @@ export default function FullLogo({ color = COLORS.THEME.NAVY, className }) {
 
   // Can't use the same size for the y viewBox value and the fontSize because the <text> applies additional vertical spacing 
   return (
-    <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 100" className={cn(className)}>
+    <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 100" className={cn("w-full", className)}>
       {/* "CONTROLIFY" Text */}
       {/* centering vertically with y=60% because using capital letters */}
       <text
@@ -57,7 +47,7 @@ export default function FullLogo({ color = COLORS.THEME.NAVY, className }) {
         fill={color}
         className="font-inter font-medium"
       >
-        {fontLoaded && letterEls}
+        {letterEls}
       </text>
 
       {/* Gold Coin replacing the second "O" */}
