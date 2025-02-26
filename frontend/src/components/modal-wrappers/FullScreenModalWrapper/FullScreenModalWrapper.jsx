@@ -2,7 +2,7 @@ import cn from "classnames"
 
 export default function FullScreenModalWrapper({ isModalOpen, hasTransitioned, layoutProps = {}, modalRef, children }) {
   const layoutPropsConfig = {
-    height: "h-max",
+    height: "h-max", // had to use min-h-max instead of h-max because else it breaks on iOS
     handleOverflow: true,
     ...layoutProps, // Spread here so z-index isn't completely overwritten
     zIndex: {
@@ -22,7 +22,8 @@ export default function FullScreenModalWrapper({ isModalOpen, hasTransitioned, l
       // Flexbox used so the modal can use flex-1 and grow to fill the wrapper's height if it has been declared but the modal's content isn't enough to actually fill it
       // On smaller screens, a full-screen modal spans the full width and is stuck to the bottom. On larger, it gets fixed in the center
       // Width: calculate ml breakpoint - the padding
-      "fixed left-0 bottom-0 w-screen max-h-[90vh] ml:inset-0 ml:m-auto ml:w-[calc(425px-2*16px)] flex flex-col rounded-t-lg ml:rounded-lg shadow transition-transform duration-300",
+      // used dvh to ensure modal never exceeds 90% of the viewport (iOS scroll lock bug)
+      "fixed left-0 bottom-0 w-screen max-h-[90dvh] ml:inset-0 ml:m-auto ml:w-[calc(425px-2*16px)] flex flex-col rounded-t-lg ml:rounded-lg shadow transition-transform duration-300",
       // Defined height is provided if the potential overflow should be handled in a more specific way in the modal itself (so the scroll is applied there)
       // Else h-max is used to center the modal vertically in case it doesn't reach the max-h constraint
       layoutPropsConfig.height,

@@ -1,14 +1,11 @@
 import { useRef } from "react";
 import cn from "classnames"
-import { useAutoFocus, useBreakpoint } from "@/hooks";
+import { useAutoFocus } from "@/hooks";
 import { VALIDATION_RULES } from "@/constants";
 
-export default function CustomAmountInput({ isExpense, currency, isDeleteBtn = false, ...inputProps }) {
+export default function CustomAmountInput({ isEditTransaction = false, isExpense, currency, ...inputProps }) {
   const amountInputRef = useRef(null);
-  const { isMobile } = useBreakpoint();
-  // useAutoFocus({ ref: isMobile ? null : amountInputRef }); // On mobile it doesn't look well since the keyboard hides half of the screen
-
-  const isUsingKeyboard = document.body.classList.contains("using-keyboard");
+  !isEditTransaction && useAutoFocus({ ref: amountInputRef }); // Focusing directly, so users don't miss the input
 
   return (
     <>
@@ -30,9 +27,8 @@ export default function CustomAmountInput({ isExpense, currency, isDeleteBtn = f
             id="transactionAmount"
             min={VALIDATION_RULES.TRANSACTION.AMOUNT.MIN_AMOUNT}
             className={cn(
-              "rounded bg-transparent focus:outline-none",
-              isDeleteBtn ? "w-[60%]" : "w-full",
-              isUsingKeyboard && "focus-visible-goldenrod"
+              "px-1 rounded bg-transparent focus:outline-none focus-goldenrod", // Use focus in all instances, since users had problems finding the input
+              isEditTransaction ? "w-[60%]" : "w-full",
             )}
             {...inputProps}
           />

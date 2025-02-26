@@ -5,7 +5,7 @@ import cn from "classnames";
 export default function DeletionConfirmationModal({ isFullScreen = true, entity, closeModal, isDeleteConfirmationBtnDisabled = false }) {
   return (
     <div className={cn(
-      "px-6 py-8 rounded-t-lg ml:rounded-lg border-gray-dark bg-gray-light text-center text-balance shadow",
+      "flex-1 px-6 py-8 rounded-t-lg ml:rounded-lg border-gray-dark bg-gray-light text-center text-balance overflow-auto shadow",
       isFullScreen ? "border" : "border-t"
     )}>
       <h1 className="text-2xl text-gray-dark font-semibold">Delete {capitalize(entity)}?</h1>

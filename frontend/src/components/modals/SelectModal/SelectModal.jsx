@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { capitalize } from "@/utils/str";
+import { capitalizeEveryWord } from "@/utils/str";
 
 export default function SelectModal({ type = "fullscreen", name, contentMaxWidth = "max-w-none", children }) {
   const isNested = type === "nested";
@@ -12,7 +12,7 @@ export default function SelectModal({ type = "fullscreen", name, contentMaxWidth
   return (
     <div className={modalClassName}>
       <div className={`mx-auto ${contentMaxWidth}`}>
-        <span className="text-gray-dark font-semibold">Select {capitalize(name)}</span>
+        <span className="text-gray-dark font-semibold">Select {capitalizeEveryWord(name)}</span>
         <div className="mt-6">
           {children}
         </div>

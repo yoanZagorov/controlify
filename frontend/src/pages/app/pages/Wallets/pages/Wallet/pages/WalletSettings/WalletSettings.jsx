@@ -123,7 +123,7 @@ export default function WalletSettings() {
             value: categories,
             updateState: (newCategories) => updateWalletData({ categories: newCategories })
           },
-          height: "h-[90%]" // Used to keep the income and expense equal in height
+          height: "h-[90dvh]" // Used to keep the income and expense equal in height
         }
       }
     },

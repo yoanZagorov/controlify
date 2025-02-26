@@ -132,7 +132,7 @@ export default function CategoryContainer({ mode = "add", formProps, submitBtn, 
           hasTransitioned={hasTransitioned}
           modalRef={modalRef}
           layoutProps={{
-            height: "h-[90%]", // Avoid using vh, since it causes problems on mobile
+            height: "h-[90dvh]",
             handleOverflow: false // Overflow is handled in the HeaderModal
           }}
         >

@@ -6,7 +6,6 @@ import { getDateBtnValue } from "@/utils/date";
 import { CategoryModal } from "@/components/modals/CategoryModal";
 import { DateModal } from "@/components/modals/DateModal";
 import { HeaderModal } from "@/components/modals/HeaderModal";
-import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { WalletModal } from "@/components/modals/WalletModal";
 import { CustomAmountInput } from "@/components/sections/TransactionsSection/components/CustomAmountInput";
 import { useFetcher, useRouteLoaderData } from "react-router";
@@ -136,7 +135,7 @@ export default function TransactionContainer({ mode = "add", modal, formProps, s
           hasTransitioned={hasTransitioned}
           modalRef={modalRef}
           layoutProps={{
-            height: "h-[90%]", // Avoid using vh, since it causes problems on mobile
+            height: "h-[90dvh]",
             handleOverflow: false // Overflow is handled in the HeaderModal
           }}
         >
@@ -160,12 +159,11 @@ export default function TransactionContainer({ mode = "add", modal, formProps, s
                     },
                     value: e.target.value
                   })}
-                  // onChange={(e) => updateTransactionData({ amount: e.target.value })} // used for testing backend functionality
                   isExpense={isExpense}
                   currency={currency}
-                  isDeleteBtn={isEditTransaction}
+                  isEditTransaction={isEditTransaction}
                 />,
-              deleteEntityFetcher: deleteTransactionFetcher
+              deleteEntityFetcher: deleteTransactionFetcher,
             }}
             parentModalRef={modalRef}
             fields={headerModalFields}
