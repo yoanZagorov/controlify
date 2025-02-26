@@ -1,0 +1,21 @@
+{
+  "name": "controlify",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "cd frontend && npx vite -c vite.config.js",
+    "build": "cd frontend && npx vite build",
+    "preview": "cd frontend && npx vite preview",
+    "lint:frontend": "eslint -c frontend/eslint.config.js frontend",
+    "lint:backend": "eslint -c backend/eslint.config.js backend",
+    "lint": "npm run lint:frontend && npm run lint:backend"
+  },
+  "dependencies": {
+    "firebase": "^11.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "eslint": "^9.21.0",
+    "globals": "^16.0.0"
+  }
+}
