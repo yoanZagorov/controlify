@@ -2,13 +2,13 @@
   "name": "controlify",
   "version": "1.0.0",
   "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "backend/cloud-functions"
+  ],
   "scripts": {
-    "dev": "cd frontend && npx vite -c vite.config.js",
-    "build": "cd frontend && npx vite build",
-    "preview": "cd frontend && npx vite preview",
-    "lint:frontend": "eslint -c frontend/eslint.config.js frontend",
-    "lint:backend": "eslint -c backend/eslint.config.js backend",
-    "lint": "npm run lint:frontend && npm run lint:backend"
+    "lint": "npm run lint --workspace=frontend --workspace=backend"
   },
   "dependencies": {
     "firebase": "^11.3.1"

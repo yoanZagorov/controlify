@@ -1,5 +1,4 @@
 // Make more precise calculations by avoiding decimals
-
 export default function performDecimalCalculation(firstNum, secondNum, operator, decimals = 2) {
   const multiplier = 10 ** decimals;
 

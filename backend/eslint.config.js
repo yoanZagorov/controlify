@@ -1,10 +1,10 @@
 import globals from 'globals';
-import sharedConfig from "../shared/eslint.config";
+import sharedConfig from "../shared/eslint.config.js";
 
 export default [
+  ...sharedConfig,
   {
-    ...sharedConfig,
-    languageOption: {
+    languageOptions: {
       globals: globals.node
     }
   }

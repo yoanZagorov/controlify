@@ -1,1 +1,1 @@
-export { default as performDecimalCalculation } from "./performDecimalCalculation";
+export { performDecimalCalculation } from "../../../../shared/utils/number";

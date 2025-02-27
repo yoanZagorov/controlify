@@ -1,4 +1,4 @@
-import { db } from "../../../firebase.config.js";
+import { db } from "../../firebase.config.js";
 
 export default async function getActiveCurrencies() {
   try {

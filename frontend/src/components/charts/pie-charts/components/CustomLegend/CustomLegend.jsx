@@ -1,7 +1,7 @@
 import { formatEntityNameForUI } from "@/utils/formatting";
 import { SvgIcon } from "@/components/SvgIcon";
 
-export default function CustomLegend({ payload, entity }) {
+export default function CustomLegend({ payload }) {
   const legendEls = payload.map(entry => {
     const {
       color,
