@@ -12,15 +12,15 @@
 
 ## **Features**
 - **Transactions:** Create, edit, and delete income or expense transactions.
-- **Wallets:** Organize your transactions by wallets. Create, edit and delete multiple wallets in different currencies with various purposes (e.g., savings, travel, etc.). 
-- **Categories:** Create, edit, delete and assign categories to transactions (e.g., groceries, entertainment, salary) to easily track spending and income.
+- **Wallets:** Organize your transactions by wallets. Create, edit, and delete multiple wallets in different currencies with various purposes (e.g., savings, travel, etc.). 
+- **Categories:** Create, edit, delete, and assign categories to transactions (e.g., groceries, entertainment, salary) to easily track spending and income.
 - **Data Visualization:** Visualize your financial data with beautiful, interactive charts and graphs powered by Recharts.
 - **Account Management:** Sign up, log in, and manage your account seamlessly with Firebase Authentication.
 
 ## **Tech Stack**
 - **Frontend:** React, React Router, Tailwind CSS
 - **Backend:** Node.js, Firebase Cloud Functions
-- **Database:** Firebase Firestore
+- **Database:** Firebase Cloud Firestore
 - **Authentication:** Firebase Authentication
 - **Data Visualization:** Recharts
 - **Image Storage and Transformation:** Cloudinary
