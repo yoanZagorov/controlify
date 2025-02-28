@@ -8,7 +8,7 @@
 
 #### **Check out the live demo here:** https://controlify.netlify.app/create-account
 ## Overview
-**Controlify** is a  personal finance manager demo designed to help users manage their personal finances by tracking income and expenses over time. With an intuitive UI and powerful data visualizations, the progressive web app enables users to keep track of their transactions, organize them into wallets, and gain valuable insights from their financial data. Built with modern web technologies, the application lets users manage their finances effortlessly.
+**Controlify** is a personal finance manager demo designed to help users manage their personal finances by tracking income and expenses over time. With its intuitive UI and informative data visualizations, the progressive web app enables users to keep track of their transactions, organize them into wallets, and gain valuable insights from their financial data.
 
 ## **Features**
 - **Transactions:** Create, edit, and delete income or expense transactions.
