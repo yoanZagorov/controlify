@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 
+// Lock the scroll of the parent modal. Used for nested modals
 export default function useParentScrollLock(parentModalRef, isModalOpen) {
   useEffect(() => {
-    const initialParentModalOverflow = parentModalRef?.current.style.overflow;
-    if (parentModalRef?.current && isModalOpen) parentModalRef.current.style.overflow = "hidden";
+    if (parentModalRef?.current && isModalOpen) {
+      const initialParentModalOverflow = window.getComputedStyle(parentModalRef.current).overflow;
 
-    return () => {
-      if (parentModalRef?.current) {
-        parentModalRef.current.style.overflow = initialParentModalOverflow;
-      }
+      parentModalRef.current.style.overflow = "hidden";
+
+      return () => { parentModalRef.current.style.overflow = initialParentModalOverflow; }
     }
   }, [isModalOpen]);
 }

@@ -23,8 +23,8 @@ export default function useModal({ type = "fullScreen", fetcher = {}, parentModa
   isFetcher && useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data) {
       setModalOpen(false);
-      resetFetcher(fetcher);
       window.scrollTo({ top: 0, behavior: "smooth" });
+      resetFetcher(fetcher);
     }
 
   }, [fetcher.data, fetcher.state]);

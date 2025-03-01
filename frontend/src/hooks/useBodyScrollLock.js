@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 
-export default function useBodyScrollLock(isLocked) {
-
+// Lock the scroll of the body. Used primarily for modals
+export default function useBodyScrollLock(isModalOpen) {
   useEffect(() => {
-    const initialBodyOverflow = document.body.style.overflow;
+    if (isModalOpen) {
+      const initialBodyOverflow = window.getComputedStyle(document.body).overflow;
 
-    if (isLocked) {
       document.body.style.overflow = "hidden";
-    }
 
-    return () => document.body.style.overflow = initialBodyOverflow;
-  }, [isLocked]);
+      return () => { document.body.style.overflow = initialBodyOverflow; }
+    }
+  }, [isModalOpen]);
 }

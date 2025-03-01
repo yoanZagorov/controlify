@@ -26,6 +26,7 @@
 - **Image Storage and Transformation:** Cloudinary
 - **Bundling:** Vite
 - **Hosting:** Netlify
+- **Version control:** Git
 
 ## **Installation**  
 
