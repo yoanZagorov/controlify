@@ -1,5 +1,6 @@
 import cn from "classnames";
 
+// Used to display amount in various ways in the application
 export default function Amount({ amount, currency, colorContext, displayPlusSign = false, className }) {
   const isNegative = amount < 0;
   const isDark = colorContext === "dark";

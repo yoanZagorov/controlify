@@ -2,7 +2,8 @@ import { COLORS } from "@/constants";
 import cn from "classnames";
 import { useLayoutEffect, useRef, useState } from "react";
 
-// The textLength property doesn't work on iOS - that's why manual calculation is needed to space the letters evenly
+// A custom component wrapper around the logo to evenly distribute the letters across the available space
+// The textLength property doesn't work on iOS - that's why manual calculation is needed
 export default function FullLogo({ color = COLORS.THEME.NAVY, className }) {
   const LOGO_LABEL = "CONTROLIFY";
   const LABEL_NUM_LETTERS = LOGO_LABEL.split("").length;
@@ -17,7 +18,7 @@ export default function FullLogo({ color = COLORS.THEME.NAVY, className }) {
       document.fonts.ready.then(() => { // have to await the fonts to ensure proper calculations (this causes a little bit of flickering but calculations are sure to be correct)
         const svgViewBoxWidth = svgRef.current.viewBox.baseVal.width;
         const svgWidth = svgRef.current.getBoundingClientRect().width;
-        // Since svgWidth is in pixels, but the textGap would need to be set as a unitless value used for the viewport, calculate the conversion ratio
+        // Since svgWidth is in pixels, but the textGap would need to be set as a unitless value used for the svg viewport, calculate the conversion ratio
         const pixelToViewBoxRatio = svgWidth / svgViewBoxWidth;
 
         const textWidth = textRef.current.getBoundingClientRect().width;
@@ -25,7 +26,7 @@ export default function FullLogo({ color = COLORS.THEME.NAVY, className }) {
         const spaceLeft = svgWidth - textWidth; // Calculate how much free space there is 
         const textGapWidthPx = spaceLeft / (LABEL_NUM_LETTERS - 1); // Calculate the individual letters gap
 
-        setTextGapWidth(textGapWidthPx / pixelToViewBoxRatio); // Convert to viewBox value and set the state
+        setTextGapWidth(textGapWidthPx / pixelToViewBoxRatio); // Convert to viewBox value and keep in state
       })
     }
   }, []);

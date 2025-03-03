@@ -1,8 +1,8 @@
 import cn from "classnames";
 import { useState } from "react";
-
 import { SlideButton } from "./components/SlideButton";
 
+// Used where space is limited to cycle between sections
 export default function Carousel({ items, className }) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
 
@@ -22,43 +22,30 @@ export default function Carousel({ items, className }) {
     setActiveItemIndex(newActiveItemIndex);
   }
 
-  const classes = {
-    carousel: cn("rounded-b-lg", className),
-    itemClasses: function (itemIndex) {
-      const isActive = itemIndex === activeItemIndex;
-      const isBefore = activeItemIndex > itemIndex;
-
-      return cn(
-        "w-full transition-transform",
-        !isActive && `absolute ${isBefore ? "translate-x-[-100vw]" : "translate-x-[100vw]"}`
-      )
-    }
-  }
-
   const itemsEls = items.map((item, index) => (
-    <li key={index} className={classes.itemClasses(index)}>
+    <li
+      key={index}
+      className={cn(
+        "w-full transition-transform",
+        index !== activeItemIndex && `absolute ${activeItemIndex > index ? "-translate-x-[100vw]" : "translate-x-[100vw]"}`
+      )}
+    >
       {item}
     </li>
   ))
 
-  const dotEls = Array.from({ length: items.length }, (_, index) => {
-    const isActive = index === activeItemIndex;
-
-    return (
-      <div
-        key={index}
-        className={`size-1 rounded-full bg-gray-dark ${isActive ? "opacity-100" : "opacity-50"}`}
-      >
-      </div>
-    )
-  })
+  const dotEls = Array.from({ length: items.length }, (_, index) => (
+    <div
+      key={index}
+      className={`size-1 rounded-full bg-gray-dark ${index === activeItemIndex ? "opacity-100" : "opacity-50"}`}
+    >
+    </div>
+  ))
 
   return (
-    <div>
-      <ul className={classes.carousel}>
-        <div className="relative flex">
-          {itemsEls}
-        </div>
+    <div className={cn(className)}>
+      <ul className="relative flex">
+        {itemsEls}
       </ul>
       <div className="mt-4 flex justify-center items-center gap-6">
         <SlideButton

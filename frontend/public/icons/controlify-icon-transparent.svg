@@ -1,4 +1,3 @@
-<!-- Same as the normal icon with the only difference that the bg is transparent -->
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
   <!-- 80% of the square (used for to stay safe when the icon is masked on different OS-s) -->
   <svg width="819.2" height="819.2" viewBox="0 0 291.764 291.764" x="102.4" y="102.4"> 

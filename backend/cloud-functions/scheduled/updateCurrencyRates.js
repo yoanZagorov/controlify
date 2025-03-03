@@ -6,7 +6,7 @@ import { db } from "../../firebase.config.js";
 import { getActiveCurrencies, getBaseCurrency } from "../../db/currencies/index.js";
 import { performDecimalCalculation } from "../../../shared/utils/number/index.js";
 
-// Fetch the most recent currency rates
+// A cron job running every 24 hours to fetch the most recent currency rates
 async function fetchCurrencyRates(baseCurrency) {
   const URL = `https://v6.exchangerate-api.com/v6/c9d6d9fb221d6baf099f9d4e/latest/${baseCurrency.code}`;
 

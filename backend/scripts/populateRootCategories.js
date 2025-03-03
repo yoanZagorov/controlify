@@ -1,6 +1,7 @@
 import { FieldValue } from "firebase-admin/firestore";
 import { db } from "../firebase.config.js";
 
+// A one-time script to populate the default categories root Firestore collection programatically
 const rootCategories = [
   // Expense
   { name: "groceries", iconName: "shopping-cart", type: "expense", color: "#4CAF50" },

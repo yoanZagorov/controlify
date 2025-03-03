@@ -7,6 +7,8 @@ import cn from "classnames";
 import ContentWidget from "@/components/widgets/ContentWidget/ContentWidget.jsx";
 import isArrayTruthy from "@/utils/array/isArrayTruthy.js";
 import CashFlowOverTimeLineChart from "@/components/charts/line-charts/CashFlowOverTimeLineChart/CashFlowOverTimeLineChart.jsx";
+import ChartWrapper from "@/components/charts/ChartWrapper/ChartWrapper.jsx";
+import CustomPieChartWithIconLabels from "@/components/charts/pie-charts/CustomPieChartWithIconLabels/CustomPieChartWithIconLabels.jsx";
 
 export default function CashFlowSection() {
   const DEFAULT_PERIOD = "Last 30 Days";
@@ -32,13 +34,10 @@ export default function CashFlowSection() {
     }
   ]
 
-  const pieChartElements = pieChartItems.map((item, index) => (
-    <CashFlowByCategoryChart
-      key={`chart-${index}`}
-      {...item}
-      chartSize={isMobileS ? "s" : isMobileM ? "m" : "l"}
-      className={cn(!isSingleColLayout && "col-span-1")}
-    />
+  const pieChartElements = pieChartItems.map(({ transactionType, chartData, ...item }, index) => (
+    <ChartWrapper key={`chartWrapper-${index}`} title={`${transactionType} by category`} {...item}>
+      <CustomPieChartWithIconLabels size={isMobileS ? "s" : isMobileM ? "m" : "l"} entity="category" data={chartData} />
+    </ChartWrapper >
   ))
 
   return (

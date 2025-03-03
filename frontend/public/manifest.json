@@ -1,41 +1,36 @@
 {
   "name": "Controlify",
-  "description": "Always stay on top of your spending with Controlify - a personal finance manager application used to track your expenses and incomes over time, as well as give you useful insights into your financial habits.",
+  "description": "Controlify is a personal finance manager demo designed to help users manage their personal finances by tracking income and expenses over time, as well as give them useful insights into their financial habits.",
   "display": "standalone",
   "start_url": "/",
   "icons": [
     {
-      "src": "/icons/controlify-android-icon-512.png",
-      "sizes": "512x512",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icons/controlify-android-icon-192.png",
-      "sizes": "192x192",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icons/controlify-android-icon-144.png",
-      "sizes": "144x144",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icons/controlify-android-icon-96.png",
-      "sizes": "96x96",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icons/controlify-android-icon-72.png",
-      "sizes": "72x72",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icons/controlify-android-icon-48.png",
+      "src": "/icons/android/controlify-android-icon-48.png",
       "sizes": "48x48",
       "purpose": "maskable"
     },
     {
-      "src": "/icons/controlify-android-icon-512.png",
+      "src": "/icons/android/controlify-android-icon-72.png",
+      "sizes": "72x72",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/android/controlify-android-icon-96.png",
+      "sizes": "96x96",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/android/controlify-android-icon-144.png",
+      "sizes": "144x144",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/android/controlify-android-icon-192.png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/android/controlify-android-icon-512.png",
       "sizes": "512x512",
       "purpose": "any"
     }

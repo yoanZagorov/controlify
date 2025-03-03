@@ -4,7 +4,7 @@ import { CustomBarChart } from "@/components/charts/CustomBarChart";
 import { CustomPieChartWithIconLabels } from "@/components/charts/pie-charts/CustomPieChartWithIconLabels";
 import { useRouteLoaderData } from "react-router";
 import { useBreakpoint, useLayout } from "@/hooks";
-import { ChartWrapper } from "./components/ChartWrapper";
+import { ChartWrapper } from "@/components/charts/ChartWrapper";
 
 export default function SpendingSection() {
   const DEFAULT_PERIOD = "Last 30 Days"; // To do (Non-MVP): Change this to a state variable so filtering can be implemented
@@ -25,7 +25,7 @@ export default function SpendingSection() {
     </ChartWrapper>,
     <ChartWrapper key="chartWrapper-2" iconName="stats" title="expenses vs income" hasSufficientData={hasSufficientData.expensesVsIncome}>
       <CustomBarChart currency={currency} data={chartData.expensesVsIncome} />
-    </ChartWrapper>,
+    </ChartWrapper>
   ]
 
   return (

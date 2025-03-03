@@ -1,5 +1,6 @@
 import cn from "classnames";
 
+// Custom app button
 export default function Button({ size = "m", variant = "solid", colorPalette = "primary", className, children, ...props }) {
   const btnConfig = {
     type: "button",
@@ -27,7 +28,7 @@ export default function Button({ size = "m", variant = "solid", colorPalette = "
     secondaryDark: `${btnSecondary} bg-gray-medium`,
     danger: cn(
       "font-bold uppercase bg-navy text-red-light focus:ring-goldenrod",
-      // !disabled && "hover:bg-navy-dark active:bg-navy-dark"
+      !btnConfig.disabled && "hover:bg-navy-dark active:bg-navy-dark"
     ),
     dangerSecondary: "font-semibold bg-red-dark text-gray-light focus:ring-goldenrod"
   }
