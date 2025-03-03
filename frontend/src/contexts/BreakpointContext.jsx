@@ -1,6 +1,7 @@
-import { useCurrentBreakpointValue } from "@/hooks";
 import { createContext } from "react";
+import { useCurrentBreakpointValue } from "@/hooks";
 
+// Used to always have access to the current breakpoint
 export const BreakpointContext = createContext(null);
 
 export default function BreakpointProvider({ children }) {

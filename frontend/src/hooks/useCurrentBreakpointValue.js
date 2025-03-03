@@ -13,42 +13,22 @@ export default function useCurrentBreakpointValue() {
     { name: "4K", query: "(min-width: 2560px)" },
   ]
 
-  const [breakpoint, setBreakpoint] = useState(getCurrentBreakpoint());
-
-  function getCurrentBreakpoint() {
-    return breakpoints.find(breakpoint => {
-      // console.log(breakpoint);
-      // console.log(window.matchMedia(breakpoint.query));
-      return window.matchMedia(breakpoint.query).matches
-    })?.name
-  }
+  const [breakpoint, setBreakpoint] = useState(breakpoints.find(breakpoint => window.matchMedia(breakpoint.query).matches)?.name);
 
   useEffect(() => {
-    const mediaQueryLists = breakpoints.map(breakpoint =>
-      window.matchMedia(breakpoint.query)
-    )
+    const mediaQueryLists = breakpoints.map(breakpoint => window.matchMedia(breakpoint.query));
 
-    function handleChange(e) {
+    function handleChange() {
       const matchedBreakpoint = mediaQueryLists.find(mql => mql.matches);
 
       if (matchedBreakpoint) {
-        const breakpointName = breakpoints.find(breakpoint =>
-          breakpoint.query === matchedBreakpoint.media
-        ).name
-
-        setBreakpoint(breakpointName);
+        setBreakpoint(breakpoints.find(breakpoint => breakpoint.query === matchedBreakpoint.media).name);
       }
     }
 
-    mediaQueryLists.forEach(mql =>
-      mql.addEventListener("change", handleChange)
-    )
+    mediaQueryLists.forEach(mql => mql.addEventListener("change", handleChange));
 
-    return () => (
-      mediaQueryLists.forEach(mql =>
-        mql.removeEventListener("change", handleChange)
-      )
-    )
+    return () => { mediaQueryLists.forEach(mql => mql.removeEventListener("change", handleChange)); }
   }, [])
 
   return breakpoint;
