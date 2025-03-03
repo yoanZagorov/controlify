@@ -4,7 +4,7 @@ import { CustomPieChart } from "@/components/charts/CustomPieChart";
 import { Widget } from "@/components/widgets/Widget";
 import { Notification } from "@/components/Notification";
 import { Carousel } from "@/components/Carousel";
-import { CustomBarChart } from "@/components/charts/CustomBarChart";
+import { ExpensesVsIncomeVerticalBarChart } from "@/components/charts/ExpensesVsIncomeVerticalBarChart";
 
 export default function SpendingSection({ type = "single", section, charts }) {
   const isCarousel = type === "carousel";
@@ -35,7 +35,7 @@ export default function SpendingSection({ type = "single", section, charts }) {
         title: "expenses vs income"
       },
       componentWrapperClassName: "mx-auto h-80 mm:h-96 ml:h-[420px]",
-      Component: CustomBarChart
+      Component: ExpensesVsIncomeVerticalBarChart
     },
   };
 

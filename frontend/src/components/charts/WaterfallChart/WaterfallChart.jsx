@@ -1,8 +1,9 @@
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
+import { COLORS } from "@/constants";
+
 import { CustomXAxisTick } from "../line-charts/BalanceOverTimeLineChart/components/CustomXAxisTick";
 import { CustomYAxisTick } from "../line-charts/BalanceOverTimeLineChart/components/CustomYAxisTick";
-import { COLORS } from "@/constants";
 import { CustomTooltip } from "./components/CustomTooltip";
 
 export default function WaterfallChart({ data, currency }) {
@@ -21,12 +22,12 @@ export default function WaterfallChart({ data, currency }) {
   });
 
   return (
-    <ResponsiveContainer className="w-full h-full">
+    <ResponsiveContainer>
       <BarChart data={data} margin={{ top: 10, left: 10, right: 15 }}> {/* Margin is essential, or else the labels on the x and y axis don't render correctly */}
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="presentationKey" tick={<CustomXAxisTick />} />
         <YAxis tick={<CustomYAxisTick currency={currency} />} />
-        <Tooltip wrapperClassName="rounded-lg" content={<CustomTooltip currency={currency} />} />
+        <Tooltip content={<CustomTooltip currency={currency} />} />
         <Bar dataKey="prevDayBalance" stackId="a" fill="transparent" isAnimationActive={false} />
         <Bar dataKey="balanceChange" stackId="a" isAnimationActive={false} data-actionable={true}>
           {customCells}

@@ -1,6 +1,6 @@
 import { Section } from "@/components/sections/Section";
 import { Carousel } from "@/components/Carousel";
-import { CustomBarChart } from "@/components/charts/CustomBarChart";
+import { ExpensesVsIncomeVerticalBarChart } from "@/components/charts/ExpensesVsIncomeVerticalBarChart";
 import { CustomPieChartWithIconLabels } from "@/components/charts/pie-charts/CustomPieChartWithIconLabels";
 import { useRouteLoaderData } from "react-router";
 import { useBreakpoint, useLayout } from "@/hooks";
@@ -24,7 +24,7 @@ export default function SpendingSection() {
       <CustomPieChartWithIconLabels size={isMobileS ? "s" : isMobileM ? "m" : "l"} entity="category" currency={currency} data={chartData.expensesByCategory} />
     </ChartWrapper>,
     <ChartWrapper key="chartWrapper-2" iconName="stats" title="expenses vs income" hasSufficientData={hasSufficientData.expensesVsIncome}>
-      <CustomBarChart currency={currency} data={chartData.expensesVsIncome} />
+      <ExpensesVsIncomeVerticalBarChart currency={currency} data={chartData.expensesVsIncome} />
     </ChartWrapper>
   ]
 

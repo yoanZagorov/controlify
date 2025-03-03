@@ -12,7 +12,7 @@ export default function CustomPieChartWithIconLabels({ entity, size = "m", data 
   }
 
   return (
-    <ResponsiveContainer className="w-full h-full">
+    <ResponsiveContainer>
       <PieChart>
         <Pie
           data={data}
@@ -22,7 +22,7 @@ export default function CustomPieChartWithIconLabels({ entity, size = "m", data 
           labelLine={<CustomLabelLine size={size} />}
         />
         <Legend
-          wrapperStyle={{ width: "100%", left: "50%", transform: "translateX(-50%)" }} // center it
+          wrapperStyle={{ width: "100%", left: "50%", transform: "translateX(-50%)" }} // center the legend
           content={<CustomLegend entity={entity} />}
         />
       </PieChart>

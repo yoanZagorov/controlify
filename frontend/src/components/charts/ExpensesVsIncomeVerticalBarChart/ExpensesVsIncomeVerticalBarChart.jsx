@@ -2,12 +2,12 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recha
 import { CustomLabel } from "./components/CustomLabel";
 import { CustomTooltip } from "./components/CustomTooltip";
 
-export default function CustomBarChart({ currency, data }) {
+export default function ExpensesVsIncomeVerticalBarChart({ currency, data }) {
   return (
-    <ResponsiveContainer className="w-full h-full">
-      <BarChart data={data} layout="vertical" barCategoryGap={10} margin={{ top: 70, right: 0, left: 0, bottom: 50 }} >
-        <Bar dataKey="amount" label={<CustomLabel />} barSize={35} />
-        <XAxis type="number" hide={true} domain={[0, "dataMax"]} />
+    <ResponsiveContainer>
+      <BarChart data={data} layout="vertical" barCategoryGap={10} barSize={35} margin={{ top: 70, bottom: 50 }} > {/* Need margin to control the barGap */}
+        <Bar dataKey="amount" label={<CustomLabel />} />
+        <XAxis type="number" hide={true} />
         <YAxis type="category" hide={true} />
         <Tooltip content={<CustomTooltip currency={currency} />} cursor={false} />
       </BarChart>

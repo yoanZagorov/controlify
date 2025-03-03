@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Customized } from 'recharts';
-import { Needle } from './components/Needle';
 import { COLORS } from '@/constants';
+import { Needle } from './components/Needle';
 
 export default function FinancialScoreGaugeChart({ financialScore, size = "m" }) {
-  // Need to use dynamic calculating to be able to draw the needle
+  // Need to use dynamic calculations to be able to draw the needle
   const chartRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
@@ -53,8 +53,8 @@ export default function FinancialScoreGaugeChart({ financialScore, size = "m" })
   }
 
   return (
-    <ResponsiveContainer ref={chartRef} className="w-full h-full">
-      <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+    <ResponsiveContainer ref={chartRef}>
+      <PieChart>
         <Pie
           dataKey="value"
           startAngle={180}
@@ -64,7 +64,7 @@ export default function FinancialScoreGaugeChart({ financialScore, size = "m" })
           cy={cy}
           innerRadius={innerRadius}
           outerRadius={outerRadius}
-          isAnimationActive={false} // To do (Non-MVP): investigate the rendering issues
+          isAnimationActive={false} // To do: Investigate why the animation doesn't work
         >
           {data.map((section, index) => (
             <Cell key={`cell-${index}`} fill={section.color} />
