@@ -1,6 +1,5 @@
 import cn from "classnames";
 
-// Custom app button
 export default function Button({ size = "m", variant = "solid", colorPalette = "primary", className, children, ...props }) {
   const btnConfig = {
     type: "button",

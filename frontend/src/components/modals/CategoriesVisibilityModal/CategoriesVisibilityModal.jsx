@@ -1,16 +1,19 @@
 import { useMemo, useState } from "react";
 
 import { getCategoriesByType } from "@/utils/category";
+import { isArrayTruthy } from "@/utils/array";
 
 import { Button } from "@/components/Button";
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
 import { CategoryGroup } from "./components/CategoryGroup";
-import { isArrayTruthy } from "@/utils/array";
+import { CATEGORY } from "@/constants";
 
+// Used to select which wallet categories should be visible and which not
+// Since it's used in a larger context (there is a higher state), it keeps a local state to avoid multiple rerenders
 export default function CategoriesVisibilityModal({ categories, closeModal, state }) {
   const [currentCategories, setCurrentCategories] = useState(categories);
 
-  const [activeOption, setActiveOption] = useState("expense");
+  const [activeOption, setActiveOption] = useState(CATEGORY.DEFAULT_TYPE);
   const isExpenseCategories = activeOption === "expense";
 
   const { visibleWalletCategories, hiddenWalletCategories } = useMemo(

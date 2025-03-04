@@ -1,6 +1,6 @@
 import cn from "classnames";
 
-// To do (Non-MVP): change the inputRef to ref when update to React 19
+// To do: change the inputRef to ref when update to React 19
 export default function Input({ inputRef = null, size = "m", variant = "solid", colorPalette = "primaryDark", className, ...props }) {
   const inputBase = "placeholder-opacity-50 transition-[box-shadow] focus:border-opacity-0 focus:outline-none focus:ring";
 

@@ -3,10 +3,10 @@ import { useModal } from "@/hooks";
 import { SelectModal } from "@/components/modals/SelectModal";
 import { FullScreenModalWrapper } from "@/components/modal-wrappers/FullScreenModalWrapper";
 
-// The FormFieldContainer provides the logic for form fields that open nested modals
+// Provides the logic for form fields that open nested modals
 export default function FormFieldContainer({ field, modal }) {
   const {
-    modalState: [isSelectModalOpen, setSelectModalOpen],
+    modalState: [isModalOpen, setSelectModalOpen],
     hasTransitioned,
     modalRef
   } = useModal();
@@ -18,9 +18,9 @@ export default function FormFieldContainer({ field, modal }) {
         controlProps={{ ...field.props.controlProps, onClick: () => setSelectModalOpen(true) }}
       />
 
-      {(isSelectModalOpen || hasTransitioned) &&
+      {(isModalOpen || hasTransitioned) &&
         <FullScreenModalWrapper
-          isModalOpen={isSelectModalOpen}
+          isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
           layoutProps={{
             handleOverflow: false,

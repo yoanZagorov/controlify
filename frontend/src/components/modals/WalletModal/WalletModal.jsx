@@ -6,11 +6,9 @@ import { SvgIcon } from "@/components/SvgIcon";
 import { Amount } from "@/components/Amount";
 
 export default function WalletModal({ wallets, closeModal, state }) {
-  const [walletInState, setWalletInState] = [state.value, state.updateState];
-
   function handleClick(selectedWallet) {
     closeModal();
-    setWalletInState(selectedWallet);
+    state.updateState(selectedWallet);
   }
 
   const walletsEls = wallets.map(({ id, name, iconName, balance, currency, color }) => (
@@ -33,7 +31,7 @@ export default function WalletModal({ wallets, closeModal, state }) {
         </div>
 
         <div className="ml-auto size-6 rounded-full bg-navy flex justify-center items-center">
-          <div className={cn("size-2.5 rounded-full", walletInState.name === name ? "bg-goldenrod" : "bg-gray-light")}></div>
+          <div className={cn("size-2.5 rounded-full", state.value.name === name ? "bg-goldenrod" : "bg-gray-light")}></div>
         </div>
       </button>
     </li>

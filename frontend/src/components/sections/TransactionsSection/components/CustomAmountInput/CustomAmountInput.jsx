@@ -27,7 +27,7 @@ export default function CustomAmountInput({ isEditTransaction = false, isExpense
             id="transactionAmount"
             min={VALIDATION_RULES.TRANSACTION.AMOUNT.MIN_AMOUNT}
             className={cn(
-              "px-1 rounded bg-transparent focus:outline-none focus-goldenrod", // Use focus in all instances, since users had problems finding the input
+              "px-1 rounded bg-transparent focus-goldenrod", // Use focus in all instances, since users had problems finding the input
               isEditTransaction ? "w-[60%]" : "w-full",
             )}
             {...inputProps}

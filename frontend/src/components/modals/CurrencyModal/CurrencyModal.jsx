@@ -1,6 +1,7 @@
 import { SvgIcon } from "@/components/SvgIcon"
 import { Widget } from "@/components/widgets/Widget"
 
+// Currency selection
 export default function CurrencyModal({ closeModal, currencies, state }) {
   function handleClick(currencyCode) {
     state.updateState(currencyCode);
@@ -9,7 +10,6 @@ export default function CurrencyModal({ closeModal, currencies, state }) {
 
   const currencyEls = currencies.map((currency, index) => {
     const { code, iconName } = currency;
-
     const isActive = code === state.value;
 
     return (

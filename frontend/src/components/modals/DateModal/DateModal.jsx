@@ -11,7 +11,7 @@ export default function DateModal({ closeModal, state }) {
 
   const [date, setDate] = useProvidedState(state, today);
 
-  // Keeping the month and day local, to prevent unnecessary rerenders of the provider
+  // Keeping the month and day local to prevent unnecessary rerenders of the provider
   const [localDate, setLocalDate] = useState({
     month: date.getMonth(),
     year: date.getFullYear()
@@ -25,7 +25,7 @@ export default function DateModal({ closeModal, state }) {
   const numDaysInMonth = getNumDaysInMonth(localDate.month, localDate.year);
 
   const daysOfMonth = Array.from({ length: numDaysInMonth }, (_, i) => {
-    const day = i + 1;
+    const day = i + 1; // Normalize the number
 
     const currentIterationDate = new Date(localDate.year, localDate.month, day);
 

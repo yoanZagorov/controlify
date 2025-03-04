@@ -3,8 +3,8 @@ import { useModal } from "@/hooks";
 import { SelectModal } from "@/components/modals/SelectModal";
 import { NestedModalWrapper } from "@/components/modal-wrappers/NestedModalWrapper";
 
-// The FormFieldContainer provides the logic for form fields that open nested modals
-export default function FormFieldContainer({ field, parentModalRef, modal }) {
+// Provides the logic for form fields that open nested modals
+export default function FormFieldContainer({ field, modal, parentModalRef }) {
   const {
     modalState: [isModalOpen, setModalOpen],
     hasTransitioned,
@@ -23,8 +23,8 @@ export default function FormFieldContainer({ field, parentModalRef, modal }) {
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
           layoutProps={{
-            minHeight: modal.minHeight,
-            handleOverflow: false
+            handleOverflow: false,
+            ...(modal.minHeight ? { minHeight: modal.minHeight } : {}),
           }}
           parentModalRef={parentModalRef}
           modalRef={modalRef}

@@ -1,10 +1,13 @@
 import { Form as RouterForm } from "react-router"
-import { Button } from "../Button"
-import { isObjTruthy } from "@/utils/obj";
 import cn from "classnames";
+
+import { isObjTruthy } from "@/utils/obj";
 import { isArrayTruthy } from "@/utils/array";
 
-// The Form component tries to keep the logic as isolated as possible, keeping all the controlled inputs here and using presentational once for the UI
+import { Button } from "../Button"
+
+// A wrapper on top of the react router Form component
+// The goals is clear separation of concerns - keep all the controlled inputs here and use presentational ones for the UI
 export default function Form({ fetcher = {}, btn = {}, fields = [], className, children, ...props }) {
   const formConfig = {
     method: "post",

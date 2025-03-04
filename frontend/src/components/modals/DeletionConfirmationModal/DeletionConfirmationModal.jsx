@@ -1,11 +1,12 @@
+import cn from "classnames";
 import { capitalize } from "@/utils/str";
 import { Button } from "@/components/Button";
-import cn from "classnames";
 
+// Used to delete an entity
 export default function DeletionConfirmationModal({ isFullScreen = true, entity, closeModal, isDeleteConfirmationBtnDisabled = false }) {
   return (
     <div className={cn(
-      "flex-1 px-6 py-8 rounded-t-lg ml:rounded-lg border-gray-dark bg-gray-light text-center text-balance overflow-auto shadow",
+      "flex-1 px-6 py-8 rounded-t-lg ml:rounded-lg border-gray-dark bg-gray-light text-center text-balance overflow-auto",
       isFullScreen ? "border" : "border-t"
     )}>
       <h1 className="text-2xl text-gray-dark font-semibold">Delete {capitalize(entity)}?</h1>

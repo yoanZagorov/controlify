@@ -1,8 +1,11 @@
 import { Link } from "react-router";
+
+import { ROUTES } from "@/constants";
+
+import { FullLogo } from "@/assets/logos/FullLogo";
+
 import { Widget } from "@/components/widgets/Widget";
 import { Button } from "@/components/Button";
-import { ROUTES } from "@/constants";
-import { FullLogo } from "@/assets/logos/FullLogo";
 
 export default function ErrorWrapper({ error }) {
   const errorConfig = {
@@ -26,7 +29,7 @@ export default function ErrorWrapper({ error }) {
           {msg}
         </p>
         <Button size="l" className="mt-6 ml:mt-10">
-          <Link to={ROUTES.INDEX}>BACK TO HOME PAGE</Link>
+          <Link to={ROUTES.INDEX}>back to home page</Link>
         </Button>
       </Widget>
     </main>

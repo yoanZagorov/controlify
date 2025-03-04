@@ -5,15 +5,15 @@ import { getCategoriesByType } from "@/utils/category";
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
 import { CategoryItem } from "./components/CategoryItem";
 
+// Used to select a transaction's category 
 export default function CategoryModal({ categories, defaultType, isToggleSwitchDisabled, closeModal, state }) {
-  const [category, setCategory] = [state.value, state.updateState];
-  const [activeOption, setActiveOption] = useState(category.type || defaultType);
+  const [activeOption, setActiveOption] = useState(state.value.type || defaultType);
 
   function handleCategoryChange(selectedCategory) {
     const { id, name, type } = selectedCategory;
 
     closeModal();
-    setCategory({ id, name, type });
+    state.updateState({ id, name, type });
   }
 
   const { expenseCategories, incomeCategories } = getCategoriesByType(categories);
@@ -23,7 +23,7 @@ export default function CategoryModal({ categories, defaultType, isToggleSwitchD
       <CategoryItem
         key={currentCategory.id}
         category={currentCategory}
-        isActive={currentCategory.id === category.id}
+        isActive={currentCategory.id === state.value.id}
         handleClick={() => handleCategoryChange(currentCategory)}
       />
     ))

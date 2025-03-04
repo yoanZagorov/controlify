@@ -1,8 +1,10 @@
 import cn from "classnames"
 
+// A wrapper for a full-screen modal
+// See the docs for more info
 export default function FullScreenModalWrapper({ isModalOpen, hasTransitioned, layoutProps = {}, modalRef, children }) {
   const layoutPropsConfig = {
-    height: "h-max", // had to use min-h-max instead of h-max because else it breaks on iOS
+    height: "min-h-max", // Had to use min-h-max instead of h-max because else it breaks on iOS
     handleOverflow: true,
     ...layoutProps, // Spread here so z-index isn't completely overwritten
     zIndex: {

@@ -1,5 +1,6 @@
 import { SvgIcon } from "@/components/SvgIcon";
 
+// Color selection
 export default function ColorModal({ colors, colorBrightness = "dark", closeModal, state }) {
   function handleClick(color) {
     state.updateState(color);

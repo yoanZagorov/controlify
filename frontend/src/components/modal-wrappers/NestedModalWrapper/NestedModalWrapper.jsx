@@ -1,7 +1,7 @@
 import cn from "classnames"
-import { useMemo } from "react";
 
-// See the docs for more info regarding the nested modal implementation
+// A wrapper for a nested modal
+// See the docs for more info
 export default function NestedModalWrapper({ isModalOpen, hasTransitioned, layoutProps = {}, modalRef, children }) {
   const layoutPropsConfig = {
     minHeight: "min-h-0",

@@ -1,9 +1,8 @@
-// To do (Non-MVP): give the ability to edit the categories
-
 import cn from "classnames";
 import { formatEntityNameForUI } from "@/utils/formatting";
 import { SvgIcon } from "@/components/SvgIcon";
 
+// To do: give the ability to edit the categories
 export default function CategoryItem({ category: { id, iconName, name, isVisible, color }, handleVisibilityToggle }) {
   const btnClasses = cn(
     "ml-auto relative size-5",

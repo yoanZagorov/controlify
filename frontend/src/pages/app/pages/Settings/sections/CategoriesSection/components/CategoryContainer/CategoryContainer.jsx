@@ -2,7 +2,6 @@ import { FullScreenModalWrapper } from "@/components/modal-wrappers/FullScreenMo
 import { ColorModal } from "@/components/modals/ColorModal";
 import { HeaderModal } from "@/components/modals/HeaderModal";
 import { IconModal } from "@/components/modals/IconModal";
-import { ModalWrapper } from "@/components/modals/ModalWrapper";
 import { SvgIcon } from "@/components/SvgIcon";
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
 import { COLORS, ICON_NAMES, VALIDATION_RULES } from "@/constants";
@@ -150,7 +149,8 @@ export default function CategoryContainer({ mode = "add", formProps, submitBtn, 
                 minLength: VALIDATION_RULES.CATEGORY.NAME.MIN_LENGTH,
                 maxLength: VALIDATION_RULES.CATEGORY.NAME.MAX_LENGTH,
                 onChange: handleNameInputChange
-              }
+              },
+              autoFocus: mode === "add" ? true : false
             }}
             parentModalRef={modalRef}
             fields={headerModalFields}

@@ -6,13 +6,14 @@ import { useAutoFocus } from "@/hooks";
 import { isObjTruthy } from "@/utils/obj";
 
 import { Form } from "@/components/Form";
+import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
+import { Button } from "@/components/Button";
 
 import { FormField } from "./components/FormField";
 import { DeleteEntityBtn } from "./components/DeleteEntityBtn";
-import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
-import { Button } from "@/components/Button";
 import { FormFieldContainer } from "./components/FormFieldContainer";
 
+// A big modal component, used primaraly to house entire forms
 export default function HeaderModal({ entity, formProps, submitBtn, header, parentModalRef, fields, color }) {
   const headerConfig = { type: "simple", deleteEntityFetcher: {}, autoFocus: false, ...header };
 
@@ -36,15 +37,13 @@ export default function HeaderModal({ entity, formProps, submitBtn, header, pare
             controlProps: { ...field.props.controlProps, colorPalette: "secondaryDark" }
           }
         }}
-        parentModalRef={parentModalRef}
         modal={field.modal}
+        parentModalRef={parentModalRef}
       />
     ) : (
       <FormField key={index} name={field.name} {...field.props} />
     )
   })
-
-  const isUsingKeyboard = document.body.classList.contains("using-keyboard");
 
   const headerInputProps = isHeaderSimple
     ? {
@@ -52,8 +51,7 @@ export default function HeaderModal({ entity, formProps, submitBtn, header, pare
       required: true,
       ...header.inputProps,
       className: cn(
-        "w-full px-3 py-2 bg-transparent rounded text-2xl text-gray-light focus:outline-none",
-        isUsingKeyboard && "focus-visible-goldenrod",
+        "w-full px-3 py-2 bg-transparent rounded text-2xl text-gray-light focus-goldenrod",
         header?.inputProps.className
       )
     } : {};

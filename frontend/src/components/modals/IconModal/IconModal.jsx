@@ -1,5 +1,6 @@
 import { SvgIcon } from "@/components/SvgIcon";
 
+// Icon selection
 export default function IconModal({ iconNames, closeModal, state }) {
   function handleClick(iconName) {
     state.updateState(iconName);

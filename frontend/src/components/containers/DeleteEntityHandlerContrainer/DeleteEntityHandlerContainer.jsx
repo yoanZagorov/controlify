@@ -1,10 +1,18 @@
+import { useModal } from "@/hooks";
+
 import { FullScreenModalWrapper } from "@/components/modal-wrappers/FullScreenModalWrapper";
 import { NestedModalWrapper } from "@/components/modal-wrappers/NestedModalWrapper";
 import { DeletionConfirmationModal } from "@/components/modals/DeletionConfirmationModal";
-import { useModal } from "@/hooks";
 
-// This components handles just the modal logic. It doesn't handle deletion by itself - it must be used inside a form
-export default function DeleteEntityHandlerContainer({ modalType = "fullScreen", entity, deleteEntityFetcher, deleteBtnComponent, isDeleteConfirmationBtnDisabled, parentModalRef = null }) {
+// Handles just the modal logic. It doesn't handle deletion by itself - it must be used inside a form
+export default function DeleteEntityHandlerContainer({
+  modalType = "fullScreen",
+  entity,
+  deleteEntityFetcher,
+  deleteBtnComponent,
+  isDeleteConfirmationBtnDisabled,
+  parentModalRef = null
+}) {
   const isFullScreen = modalType === "fullScreen";
 
   const {

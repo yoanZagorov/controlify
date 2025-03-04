@@ -142,7 +142,7 @@ export default function WalletContainer({ formProps, modal, children }) {
           }
         }
       }
-    }
+    },
   ]
 
   // Traversing the array once (On), instead of filtering and mapping (2On)
@@ -183,7 +183,8 @@ export default function WalletContainer({ formProps, modal, children }) {
                 maxLength: VALIDATION_RULES.WALLET.NAME.MAX_LENGTH,
                 onChange: (e) => handleWalletNameInputChange({ value: e.target.value, updateState: updateWalletData }),
                 className: "selection:text-gray-light selection:bg-[#3390FF]"
-              }
+              },
+              autoFocus: true
             }}
             parentModalRef={modalRef}
             fields={headerModalFields}

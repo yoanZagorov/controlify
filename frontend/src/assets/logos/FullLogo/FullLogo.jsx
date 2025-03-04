@@ -1,6 +1,6 @@
-import { COLORS } from "@/constants";
-import cn from "classnames";
 import { useLayoutEffect, useRef, useState } from "react";
+import cn from "classnames";
+import { COLORS } from "@/constants";
 
 // A custom component wrapper around the logo to evenly distribute the letters across the available space
 // The textLength property doesn't work on iOS - that's why manual calculation is needed
@@ -37,7 +37,7 @@ export default function FullLogo({ color = COLORS.THEME.NAVY, className }) {
 
   // Can't use the same size for the y viewBox value and the fontSize because the <text> applies additional vertical spacing 
   return (
-    <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 100" className={cn("w-full h-full", className)}>
+    <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 100" className={cn("w-full", className)}>
       {/* "CONTROLIFY" Text */}
       {/* centering vertically with y=60% because using capital letters */}
       <text
