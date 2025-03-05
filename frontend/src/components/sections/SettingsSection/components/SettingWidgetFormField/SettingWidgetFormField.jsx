@@ -1,14 +1,15 @@
 import { useRef } from "react";
 
+import { useSelectInput } from "@/hooks";
 import { capitalizeEveryWord } from "@/utils/str";
 
 import { SvgIcon } from "@/components/SvgIcon";
 import { Widget } from "@/components/widgets/Widget";
 import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
-import { useSelectInput } from "@/hooks";
-import cn from "classnames";
 
+// UI for the form field
+// controlProps refer to either input/selectBtn, depending on the type
 export default function SettingWidgetFormField({ type = "select", name, iconName, displayValue, controlProps = {}, customComponent = {} }) {
   const isInput = type === "input";
   const inputRef = isInput ? useRef(null) : null;
@@ -16,7 +17,7 @@ export default function SettingWidgetFormField({ type = "select", name, iconName
 
   return (
     <Widget className="flex items-center gap-3 text-gray-dark">
-      <SvgIcon iconName={iconName} className="size-6 min-w-6 max-w-6 fill-current" />
+      <SvgIcon iconName={iconName} className="size-6 min-w-6 fill-current" />
       <span className="text-xs font-bold">{capitalizeEveryWord(name)}</span>
 
       {isInput ? (
@@ -40,8 +41,7 @@ export default function SettingWidgetFormField({ type = "select", name, iconName
           }}
           value={displayValue}
         />
-      )
-      }
+      )}
     </Widget>
   )
 }

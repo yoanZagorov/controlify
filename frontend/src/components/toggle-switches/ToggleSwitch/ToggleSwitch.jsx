@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { capitalize } from "@/utils/str";
 
-export default function ToggleSwitch({ options, activeOption, handleToggle, isDisabled, className }) {
+export default function ToggleSwitch({ options, activeOption, handleToggle, isDisabled = false, className }) {
   const { firstOption, secondOption } = options;
 
   function renderOption(option) {

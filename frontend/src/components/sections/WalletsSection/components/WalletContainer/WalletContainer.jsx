@@ -1,14 +1,18 @@
+import { useMemo } from "react";
+import { useRouteLoaderData } from "react-router";
+
+import { COLORS, VALIDATION_RULES } from "@/constants";
+
+import { useWalletSubmission } from "@/hooks";
+import { handleAmountInputChange, handleWalletNameInputChange } from "@/utils/input";
+
 import { FullScreenModalWrapper } from "@/components/modal-wrappers/FullScreenModalWrapper";
 import { CategoriesVisibilityModal } from "@/components/modals/CategoriesVisibilityModal";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { HeaderModal } from "@/components/modals/HeaderModal";
-import { COLORS, VALIDATION_RULES } from "@/constants";
-import { useWalletSubmission } from "@/hooks";
-import { handleAmountInputChange, handleWalletNameInputChange } from "@/utils/input";
-import { useMemo } from "react";
-import { useRouteLoaderData } from "react-router";
 
+// Keeps the logic for a wallet submission
 export default function WalletContainer({ formProps, modal, children }) {
   const { userData: { categories: userCategories }, currencies } = useRouteLoaderData("app");
 
@@ -24,15 +28,17 @@ export default function WalletContainer({ formProps, modal, children }) {
   } = useWalletSubmission();
 
   // Memoizing calculations
-  const visibleWalletCategories = useMemo(() => {
-    return categories.filter(category => category.isVisible);
-  }, [categories]);
+  const visibleWalletCategories = useMemo(
+    () => categories.filter(category => category.isVisible),
+    [categories]
+  );
   const areAllCategoriesVisible = visibleWalletCategories.length === userCategories.length;
 
-  const stringifiedCategories = useMemo(() => {
-    // submitting only the neccessary and serializing since the data type is more complex
-    return JSON.stringify(categories.map(category => ({ id: category.id, isVisible: category.isVisible })))
-  }, [categories]);
+  // submitting only the neccessary data and serializing since the data type is more complex
+  const stringifiedCategories = useMemo(
+    () => JSON.stringify(categories.map(category => ({ id: category.id, isVisible: category.isVisible }))),
+    [categories]
+  );
 
   // Keeping all of the data for each field in one big object
   const walletDataConfig = [
@@ -145,7 +151,7 @@ export default function WalletContainer({ formProps, modal, children }) {
     },
   ]
 
-  // Traversing the array once (On), instead of filtering and mapping (2On)
+  // Using a forEach and standard pushing to a new arr because it's more performant than chaining .filter and .map
   let headerModalFields = [];
   walletDataConfig.forEach(option => { if (option.field) headerModalFields.push(option.field) });
 

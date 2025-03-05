@@ -1,6 +1,7 @@
 import cn from "classnames";
 import { useEffect } from "react";
 
+// Used to display a notification message
 export default function Notification({ msgType = "notification", size = "m", clearMsg = null, className, children }) {
   const UNMOUNT_DELAYS = {
     SUCCESS: 5000,
@@ -13,35 +14,38 @@ export default function Notification({ msgType = "notification", size = "m", cle
       : (msgType === "error" || msgType === "alert") ? UNMOUNT_DELAYS.ERROR
         : UNMOUNT_DELAYS.NOTIFICATION;
 
-  if (clearMsg) {
-    useEffect(() => {
+  useEffect(() => {
+    if (clearMsg) {
       const timeoutId = setTimeout(() => {
         clearMsg();
-      }, unmountDelay)
+      }, unmountDelay);
 
       return () => clearTimeout(timeoutId);
-    }, [])
-  }
-
-  const classes = {
-    type:
-      (msgType === "error" || msgType === "alert") ? "text-red-dark"
-        : msgType === "success" ? "text-green-dark"
-          : "text-navy",
-    size:
-      size === "s" ? "text-sm"
-        : size === "m" ? "text-base"
-          : size === "l" ? "text-lg"
-            : "text-xl",
-    notification: function () { // Turned to a function to access properties with the this keyword
-      return cn(
-        "text-center text-balanced font-semibold",
-        this.type,
-        this.size,
-        className
-      )
     }
+  }, []);
+
+  const notificationBase = "text-center text-balanced font-semibold";
+
+  const sizes = {
+    s: "text-sm",
+    m: "text-base",
+    l: "text-lg",
+    xl: "text-xl"
   }
 
-  return <p className={classes.notification()}>{children}</p>
+  const types = {
+    error: "text-red-dark",
+    alert: "text-red-dark",
+    success: "text-green-dark",
+    notification: "navy",
+  }
+
+  const notificationClasses = cn(
+    notificationBase,
+    sizes[size] || sizes.m,
+    types[msgType] || types.notification,
+    className
+  )
+
+  return <p className={notificationClasses}>{children}</p>
 }

@@ -5,9 +5,10 @@ import { useBreakpoint } from "@/hooks";
 
 import { Section } from "@/components/sections/Section";
 import { Widget } from "@/components/widgets/Widget";
+import { SvgIcon } from "@/components/SvgIcon";
 import { WalletWidget } from "../WalletWidget"
-import PlusCircleIcon from "@/assets/icons/plus-circle-icon.svg?react";
 
+// Handles the UI display for the WalletSection
 export default function WalletsContent({ wallets, section, openModal }) {
   const { isMobileS } = useBreakpoint();
 
@@ -43,7 +44,7 @@ export default function WalletsContent({ wallets, section, openModal }) {
               className="size-12 rounded-full focus:outline-none focus-visible:ring focus-visible:ring-goldenrod"
               data-actionable="true"
             >
-              <PlusCircleIcon />
+              <SvgIcon iconName="plus-circle" />
             </button>
           </Widget>
         </div>

@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useFetcher } from "react-router";
 
 import { useBreakpoint, useModal, useTransaction } from "@/hooks";
@@ -10,6 +10,7 @@ import { Amount } from "@/components/Amount";
 import { SvgIcon } from "@/components/SvgIcon";
 import { TransactionContainer } from "../TransactionContainer"
 
+// Handles the UI display for a single transaction
 export default function TransactionItem({ action, isExpanded, transaction: { amount, currency, type, category, wallet, date }, display }) {
   const { transactionData, defaultTransactionData, resetTransactionData } = useTransaction();
   const { amount: amountInState } = transactionData;
@@ -22,11 +23,11 @@ export default function TransactionItem({ action, isExpanded, transaction: { amo
   const { isMobileS, isMobileM } = useBreakpoint();
   const isSpaceLimited = isMobileS || isMobileM;
 
-  // To do: (Non-MVP): Replace JSON.stringify() with a proper complex object deep compare function
+  // To do: Replace JSON.stringify() with a proper complex object deep compare function
   const hasTransactionDataChanged = useMemo(
     () => JSON.stringify(transactionData) !== JSON.stringify(defaultTransactionData),
     [transactionData]
-  )
+  );
 
   const isWalletActive = wallet.deletedAt === null;
 
@@ -61,7 +62,7 @@ export default function TransactionItem({ action, isExpanded, transaction: { amo
         <div className={`flex items-center ${isExpanded ? "gap-4" : "gap-2.5"}`}>
           <div
             // ensure icon keeps its shape
-            className={cn("flex justify-center items-center rounded-full", isSpaceLimited ? "min-h-8 min-w-8 max-h-8 max-w-8" : isExpanded ? "size-12" : "size-10")}
+            className={cn("flex justify-center items-center rounded-full", isSpaceLimited ? "size-8 min-w-8" : isExpanded ? "size-12" : "size-10")}
             style={{ backgroundColor: category.color }}
           >
             <SvgIcon iconName={category.iconName} className="size-1/2 fill-gray-light" />
@@ -73,7 +74,7 @@ export default function TransactionItem({ action, isExpanded, transaction: { amo
             </span>
             {display.wallet &&
               <div className={cn("flex items-center gap-1.5 font-bold", !isWalletActive && "opacity-50")} style={{ color: wallet.color }}>
-                <SvgIcon iconName={wallet.iconName} className="size-3 min-w-3 min-h-3 fill-current" />
+                <SvgIcon iconName={wallet.iconName} className="size-3 min-w-3 fill-current" />
                 <span className="text-left text-xs lm:text-sm">{formattedWalletName}</span>
               </div>
             }

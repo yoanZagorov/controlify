@@ -1,7 +1,9 @@
 import { useRef } from "react";
 import cn from "classnames"
-import { useAutoFocus } from "@/hooks";
+
 import { VALIDATION_RULES } from "@/constants";
+
+import { useAutoFocus } from "@/hooks";
 
 export default function CustomAmountInput({ isEditTransaction = false, isExpense, currency, ...inputProps }) {
   const amountInputRef = useRef(null);

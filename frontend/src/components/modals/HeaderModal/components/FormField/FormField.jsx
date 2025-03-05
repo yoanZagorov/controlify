@@ -8,7 +8,7 @@ import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
 
 // UI for the form field
-// controlProps refer to either input/selectBtn, depending on what is the type
+// controlProps refer to either input/selectBtn, depending on the type
 export default function FormField({ type = "select", name, iconName, displayValue, controlProps = {}, customComponent = {} }) {
   const isInput = type === "input";
 
@@ -39,6 +39,7 @@ export default function FormField({ type = "select", name, iconName, displayValu
           btnProps={{
             ...controlProps,
             className: "ml-auto border-0 bg-gray-light",
+            "data-actionable": true,
           }}
           value={displayValue}
         />

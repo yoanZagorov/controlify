@@ -21,18 +21,13 @@ export default function CategoriesTypeToggleSwitch({ activeOption, handleToggle,
     baseActiveOptionClasses: "bg-navy"
   }
 
-  const toggleSwitchClasses = cn(
-    "border border-gray-dark bg-gray-light",
-    className
-  )
-
   return (
     <ToggleSwitch
       options={toggleSwitchOptions}
       activeOption={activeOption}
       handleToggle={handleToggle}
       isDisabled={isToggleSwitchDisabled}
-      className={toggleSwitchClasses}
+      className={cn("border border-gray-dark bg-gray-light", className)}
     />
   )
 }

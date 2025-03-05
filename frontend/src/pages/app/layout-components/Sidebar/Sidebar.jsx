@@ -38,21 +38,21 @@ export default function Sidebar() {
 
   return (
     <div className={classes.sidebar} ref={sidebarRef}>
-      <div className="w-full px-4">
+      <div className="w-full px-4 flex flex-col items-center text-center">
         <FullLogo color={COLORS.THEME.GRAY.LIGHT} />
-      </div>
-      <p className="text-sm ml:text-base ll:text-lg tracking-wider font-light">Take control of your finances</p>
+        <p className="text-sm ml:text-base ll:text-lg tracking-wider font-light">Take control of your finances</p>
 
-      <div className="mt-8 ll:mt-10 size-20 tab:size-24 lm:size-28 ll:size-32 rounded-full">
-        {profilePic?.url ?
-          <img src={profilePic.url} className="rounded-full size-full" alt="Avatar" />
-          :
-          <SvgIcon iconName="user-circle" className="size-full fill-current" />
-        }
-      </div>
+        <div className="mt-8 ll:mt-10 size-20 tab:size-24 lm:size-28 ll:size-32 rounded-full">
+          {profilePic?.url ?
+            <img src={profilePic.url} className="rounded-full size-full" alt="Avatar" />
+            :
+            <SvgIcon iconName="user-circle" className="size-full fill-current" />
+          }
+        </div>
 
-      <p className="mt-4 text-xs ll:text-sm font-light">{email}</p>
-      <p className="mt-2 text-2xl">{fullName}</p>
+        <p className="mt-4 text-xs ll:text-sm font-light">{email}</p>
+        <p className="mt-2 text-2xl">{fullName}</p>
+      </div>
 
       <nav className="w-full mt-8">
         <ul>

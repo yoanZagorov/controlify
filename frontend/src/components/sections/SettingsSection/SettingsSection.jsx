@@ -3,19 +3,19 @@ import cn from "classnames";
 import { isObjTruthy } from "@/utils/obj";
 
 import { Form } from "@/components/Form";
+import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
+
 import { Section } from "../Section";
 import { SettingWidgetFormField } from "./components/SettingWidgetFormField";
-
 import { DeleteEntityBtn } from "./components/DeleteEntityBtn";
-import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
 import { FormFieldContainer } from "./components/FormFieldContainer";
 
-export default function SettingsSection({ entity, formProps, sectionProps, settings, deleteEntityFetcher = {}, isSpaceLimited }) {
+// A section that the user can use to change settings. Used in the settings and wallet/settings
+export default function SettingsSection({ entity, formProps, sectionProps, fields, deleteEntityFetcher = {}, isSpaceLimited }) {
   const isDeleteEntity = isObjTruthy(deleteEntityFetcher);
   const isFetcherSubmitting = formProps.fetcher.state === "submitting" || formProps.fetcher.state === "loading";
 
-  // Slightly less performant to loop twice with the .filter and .map than a strandard loop, but way more readable
-  const settingEls = settings.filter(option => option.field).map(({ field }, index) => {
+  const settingEls = fields.map((field, index) => {
     return field.modal ? (
       <FormFieldContainer
         key={index}
@@ -47,7 +47,6 @@ export default function SettingsSection({ entity, formProps, sectionProps, setti
           },
           text: "save changes",
         }}
-        fields={settings.map(option => option.formData)}
       >
 
         <div className={cn("grid gap-8", isSpaceLimited ? "grid-cols-1" : "grid-cols-2")}>

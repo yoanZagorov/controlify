@@ -1,7 +1,7 @@
 import { Section } from "@/components/sections/Section";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { BalanceOverTimeLineChart } from "@/components/charts/line-charts/BalanceOverTimeLineChart";
-import { BalanceAmountWidget } from "@/components/widgets/BalanceAmountWidget";
+import { BalanceWidget } from "@/components/widgets/BalanceWidget";
 
 export default function BalanceSection({ sectionClassName, balance, currency }) {
   return (
@@ -10,7 +10,7 @@ export default function BalanceSection({ sectionClassName, balance, currency }) 
       className={sectionClassName}
       contentClassName="flex flex-col gap-6"
     >
-      <BalanceAmountWidget
+      <BalanceWidget
         iconName="scale"
         title="current"
         amount={balance.amount}

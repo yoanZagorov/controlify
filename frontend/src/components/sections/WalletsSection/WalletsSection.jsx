@@ -1,9 +1,11 @@
 import { useFetcher } from "react-router";
 
 import { useModal } from "@/hooks";
+
 import { WalletsContent } from "./components/WalletsContent";
 import { WalletContainer } from "./components/WalletContainer";
 
+// Used to display and edit wallets
 export default function WalletsSection({ action, contentProps }) {
   const fetcher = useFetcher({ key: "addWallet" });
 

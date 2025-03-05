@@ -6,6 +6,7 @@ import { Amount } from "@/components/Amount";
 import { Widget } from "@/components/widgets/Widget";
 import { SvgIcon } from "@/components/SvgIcon";
 
+// Handles the UI display for a single wallet
 export default function WalletWidget({ wallet, className }) {
   const { iconName, name, balance, currency, color } = wallet;
 

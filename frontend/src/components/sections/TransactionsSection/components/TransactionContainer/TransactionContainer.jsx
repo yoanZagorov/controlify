@@ -1,3 +1,7 @@
+import { useFetcher, useRouteLoaderData } from "react-router";
+
+import { COLORS } from "@/constants";
+
 import { useTransaction } from "@/hooks";
 import { formatEntityNameForUI } from "@/utils/formatting";
 import { handleAmountInputChange } from "@/utils/input";
@@ -8,14 +12,14 @@ import { DateModal } from "@/components/modals/DateModal";
 import { HeaderModal } from "@/components/modals/HeaderModal";
 import { WalletModal } from "@/components/modals/WalletModal";
 import { CustomAmountInput } from "@/components/sections/TransactionsSection/components/CustomAmountInput";
-import { useFetcher, useRouteLoaderData } from "react-router";
-import { COLORS } from "@/constants";
 import { FullScreenModalWrapper } from "@/components/modal-wrappers/FullScreenModalWrapper";
 
+// Keeps the logic for a transaction operation. Used for both adding and editing
 export default function TransactionContainer({ mode = "add", modal, formProps, submitBtn, children }) {
   const DEFAULT_TRANSACTION_TYPE = "expense";
 
   const isEditTransaction = mode === "edit";
+
   const {
     modalState: [isModalOpen, setModalOpen],
     hasTransitioned,
@@ -28,7 +32,7 @@ export default function TransactionContainer({ mode = "add", modal, formProps, s
 
   const { transactionData, updateTransactionData } = useTransaction();
   const { amount, type, currency, wallet, category, date } = transactionData;
-  const { transactionId } = isEditTransaction ? transactionData : {};
+  const { transactionId } = isEditTransaction ? transactionData : {}; // The id is available only if it's an edit
 
   const transactionType = type || DEFAULT_TRANSACTION_TYPE;
   const isExpense = transactionType === "expense";
@@ -122,6 +126,7 @@ export default function TransactionContainer({ mode = "add", modal, formProps, s
     }] : [])
   ];
 
+  // Using a forEach and standard pushing to a new arr because it's more performant than chaining .filter and .map
   let headerModalFields = [];
   transactionDataConfig.forEach(option => { if (option.field) headerModalFields.push(option.field) });
 

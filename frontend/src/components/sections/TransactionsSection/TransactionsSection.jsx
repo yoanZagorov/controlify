@@ -5,6 +5,8 @@ import { useModal, useTransaction } from "@/hooks";
 import { TransactionContainer } from "./components/TransactionContainer"
 import { TransactionsSectionContent } from "./components/TransactionsSectionContent";
 
+// Used to display, create and edit transactions
+// Always wrapped by a TransactionProvider
 export default function TransactionsSection({ action, contentProps }) {
   const { transactionData: { amount, category }, resetTransactionData } = useTransaction();
 
@@ -16,10 +18,7 @@ export default function TransactionsSection({ action, contentProps }) {
   return (
     <TransactionContainer
       modal={modal}
-      formProps={{
-        fetcher,
-        action,
-      }}
+      formProps={{ fetcher, action }}
       submitBtn={{
         text: "complete transaction",
         props: {

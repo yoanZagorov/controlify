@@ -52,7 +52,7 @@ export default function OverallSettingsSection({ className }) {
     {
       formData: {
         name: "fullName",
-        value: fullName.trim()
+        value: fullName
       },
       field: {
         name: "full name",
@@ -116,6 +116,9 @@ export default function OverallSettingsSection({ className }) {
     },
   ]
 
+  let fields = [];
+  settingsDataConfig.forEach(option => { if (option.field) fields.push(option.field) });
+
   return (
     <SettingsSection
       formProps={{
@@ -126,10 +129,11 @@ export default function OverallSettingsSection({ className }) {
             value: "updateSettings"
           }
         },
-        encType: "multipart/form-data" // Submitting a file (the profilePic)
+        encType: "multipart/form-data", // Submitting a file (the profilePic)
+        fields: settingsDataConfig.map(option => option.formData)
       }}
       isSpaceLimited={isSingleColLayout}
-      settings={settingsDataConfig}
+      fields={fields}
       sectionProps={{ title: "Overall" }}
     />
   )

@@ -5,7 +5,7 @@ import { Carousel } from "@/components/Carousel";
 import { Section } from "@/components/sections/Section";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { BalanceOverTimeLineChart } from "@/components/charts/line-charts/BalanceOverTimeLineChart";
-import { BalanceAmountWidget } from "@/components/widgets/BalanceAmountWidget";
+import { BalanceWidget } from "@/components/widgets/BalanceWidget";
 import cn from "classnames";
 import { useLayout } from "@/hooks";
 import { useRouteLoaderData } from "react-router";
@@ -20,8 +20,8 @@ export default function BalanceSection() {
   const balanceChange = performDecimalCalculation(balance, openingBalance, "-");
 
   const elements = [
-    <BalanceAmountWidget
-      key="balanceAmountWidget-1"
+    <BalanceWidget
+      key="balancWidget-1"
       iconName="scale"
       title="current"
       amount={balance}
@@ -29,8 +29,8 @@ export default function BalanceSection() {
       balanceChange={balanceChange}
       className="h-full"
     />,
-    <BalanceAmountWidget
-      key="balanceAmountWidget-2"
+    <BalanceWidget
+      key="balanceWidget-2"
       iconName="history"
       title="30 days ago"
       amount={openingBalance}

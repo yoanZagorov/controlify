@@ -1,25 +1,28 @@
 import cn from "classnames";
 
+// Used a lot throughout the application so content isn't just "floating"
 export default function Widget({ size = "m", colorPalette = "primary", className, children }) {
-  const widget = "rounded-lg shadow";
+  const widgetBase = "rounded-lg shadow";
 
-  const widgetS = "p-3";
-  const widgetM = "p-4";
+  const sizes = {
+    s: "p-3",
+    m: "p-4"
+  }
 
-  const widgetPrimary = "bg-gray-medium";
-  const widgetSecondary = "bg-gray-light";
+  const colorPalettes = {
+    primary: "bg-gray-medium",
+    secondary: "bg-gray-light"
+  }
 
-  const classes = cn(
-    widget,
-    size === "s" ? widgetS
-      : widgetM,
-    colorPalette === "primary" ? widgetPrimary
-      : widgetSecondary,
+  const widgetClasses = cn(
+    widgetBase,
+    sizes[size] || sizes.m,
+    colorPalettes[colorPalette] || colorPalettes.primary,
     className
   )
 
   return (
-    <div className={classes}>
+    <div className={widgetClasses}>
       {children}
     </div>
   )

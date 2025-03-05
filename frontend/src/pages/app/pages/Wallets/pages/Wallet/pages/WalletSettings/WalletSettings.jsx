@@ -153,6 +153,9 @@ export default function WalletSettings() {
     },
   ]
 
+  let fields = [];
+  settingsDataConfig.forEach(option => { if (option.field) fields.push(option.field) });
+
   return (
     <SettingsSection
       entity="wallet"
@@ -163,11 +166,12 @@ export default function WalletSettings() {
           props: {
             value: "updateWallet"
           }
-        }
+        },
+        fields: settingsDataConfig.map(option => option.formData)
       }}
       isSpaceLimited={isSingleColLayout}
       deleteEntityFetcher={isDefault ? {} : fetcher}
-      settings={settingsDataConfig}
+      fields={fields}
     />
   )
 }

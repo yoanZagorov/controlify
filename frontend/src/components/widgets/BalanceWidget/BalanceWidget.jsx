@@ -1,9 +1,11 @@
 import cn from "classnames";
+
 import { ContentWidget } from "../ContentWidget";
 import { Amount } from "@/components/Amount";
 import { SvgIcon } from "@/components/SvgIcon";
 
-export default function BalanceAmountWidget({ iconName, title, amount, currency, balanceChange, className }) {
+// Displays the balance of the entity
+export default function BalanceWidget({ iconName, title, amount, currency, balanceChange, className }) {
   const isBalanceChangePositive = balanceChange >= 0;
 
   return (
@@ -20,6 +22,7 @@ export default function BalanceAmountWidget({ iconName, title, amount, currency,
         className="text-2xl font-bold"
       />
 
+      {/* Display balance change if provided */}
       {balanceChange !== undefined &&
         <div className="absolute top-4 right-4 flex items-center gap-2 py-1.5 px-2 rounded font-bold bg-gray-light">
           {isBalanceChangePositive

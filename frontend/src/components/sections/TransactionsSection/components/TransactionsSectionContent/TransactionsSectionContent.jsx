@@ -1,17 +1,19 @@
-import cn from "classnames";
+import { useEffect } from "react";
+import { useFetcher } from "react-router";
+
+import { resetFetcher } from "@/services/router/utils";
 
 import { TransactionProvider } from "@/contexts";
+
+import { isArrayTruthy } from "@/utils/array";
 
 import { Section } from "@/components/sections/Section";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { Notification } from "@/components/Notification";
 import { Button } from "@/components/Button";
 import { TransactionItem } from "../TransactionItem";
-import { useFetcher } from "react-router";
-import { useEffect } from "react";
-import { resetFetcher } from "@/services/router/utils";
-import { isArrayTruthy } from "@/utils/array";
 
+// Handles the UI display for the TransactionSection
 export default function TransactionsSectionContent({ type = "compact", hasFilter = true, period = "allTime", sectionProps, widget, display, transactions, action, openModal }) {
   const hasTransactions = isArrayTruthy(transactions);
   const isExpanded = type === "expanded";
@@ -89,7 +91,7 @@ export default function TransactionsSectionContent({ type = "compact", hasFilter
             add transaction
           </Button>
 
-          {/* To do (Non-MVP): Implement filtering functionality */}
+          {/* To do: Implement filtering functionality */}
           {/* {hasFilter && (
             <button
               onClick={() => console.log("Filtering...")}
