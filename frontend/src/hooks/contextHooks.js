@@ -1,8 +1,6 @@
 import { useContext } from "react";
 import {
   TransactionContext,
-  NotificationContext,
-  UserContext,
   LayoutContext,
   BreakpointContext,
   AuthContext,
@@ -12,16 +10,9 @@ import {
   CategoryContext
 } from "@/contexts";
 
+// Define all context hooks
 export function useTransaction() {
   return useContext(TransactionContext);
-}
-
-export function useNotification() {
-  return useContext(NotificationContext);
-}
-
-export function useUser() {
-  return useContext(UserContext);
 }
 
 export function useLayout() {

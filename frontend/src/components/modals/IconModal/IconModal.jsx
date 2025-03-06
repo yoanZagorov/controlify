@@ -1,7 +1,12 @@
+import { useRef } from "react";
 import { SvgIcon } from "@/components/SvgIcon";
+import { useAutoFocus } from "@/hooks";
 
 // Icon selection
 export default function IconModal({ iconNames, closeModal, state }) {
+  const activeIconBtnRef = useRef(null);
+  useAutoFocus({ ref: activeIconBtnRef });
+
   function handleClick(iconName) {
     state.updateState(iconName);
     closeModal();
@@ -13,6 +18,7 @@ export default function IconModal({ iconNames, closeModal, state }) {
     return (
       <li key={iconName}>
         <button
+          ref={isActive ? activeIconBtnRef : null}
           type="button"
           onClick={() => handleClick(iconName)}
           className="relative flex justify-center items-center size-12 rounded-full bg-gray-light focus-goldenrod"

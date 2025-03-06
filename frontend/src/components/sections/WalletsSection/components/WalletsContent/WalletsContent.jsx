@@ -42,7 +42,7 @@ export default function WalletsContent({ wallets, section, openModal }) {
             <button
               onClick={openModal}
               className="size-12 rounded-full focus:outline-none focus-visible:ring focus-visible:ring-goldenrod"
-              data-actionable="true"
+              data-actionable={true}
             >
               <SvgIcon iconName="plus-circle" />
             </button>

@@ -3,10 +3,11 @@ import cn from "classnames"
 
 import { VALIDATION_RULES } from "@/constants";
 
-import { useAutoFocus } from "@/hooks";
+import { useAutoFocus, useSelectInput } from "@/hooks";
 
 export default function CustomAmountInput({ isEditTransaction = false, isExpense, currency, ...inputProps }) {
   const amountInputRef = useRef(null);
+  useSelectInput(amountInputRef);
   !isEditTransaction && useAutoFocus({ ref: amountInputRef }); // Focusing directly, so users don't miss the input
 
   return (

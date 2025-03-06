@@ -37,7 +37,7 @@ export default function Notification({ msgType = "notification", size = "m", cle
     error: "text-red-dark",
     alert: "text-red-dark",
     success: "text-green-dark",
-    notification: "navy",
+    notification: "text-navy",
   }
 
   const notificationClasses = cn(

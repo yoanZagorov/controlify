@@ -1,8 +1,15 @@
-import { SvgIcon } from "@/components/SvgIcon"
-import { Widget } from "@/components/widgets/Widget"
+import { useRef } from "react";
+
+import { useAutoFocus } from "@/hooks";
+
+import { SvgIcon } from "@/components/SvgIcon";
+import { Widget } from "@/components/widgets/Widget";
 
 // Currency selection
 export default function CurrencyModal({ closeModal, currencies, state }) {
+  const activeCurrencyBtnRef = useRef(null);
+  useAutoFocus({ ref: activeCurrencyBtnRef });
+
   function handleClick(currencyCode) {
     state.updateState(currencyCode);
     closeModal();
@@ -13,7 +20,13 @@ export default function CurrencyModal({ closeModal, currencies, state }) {
     const isActive = code === state.value;
 
     return (
-      <button key={index} type="button" onClick={() => handleClick(code)} className="rounded-lg focus-goldenrod">
+      <button
+        ref={isActive ? activeCurrencyBtnRef : null}
+        key={index}
+        type="button"
+        onClick={() => handleClick(code)}
+        className="rounded-lg focus-goldenrod"
+      >
         <Widget colorPalette="secondary" className="flex items-center gap-4 focus-goldenrod">
           <SvgIcon iconName={iconName} className="w-[50px] h-[30px]" />
           <span className="text-lg text-gray-dark font-semibold">{code}</span>

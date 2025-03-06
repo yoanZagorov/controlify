@@ -10,7 +10,7 @@ export default function useMountTransition(isMounted, unmountDelay = 300) {
     if (isMounted && !hasTransitioned) {
       setHasTransitioned(true);
     } else if (!isMounted && hasTransitioned) {
-      timeoutId = setTimeout(() => setHasTransitioned(false), unmountDelay)
+      timeoutId = setTimeout(() => setHasTransitioned(false), unmountDelay);
     }
 
     return () => clearTimeout(timeoutId);

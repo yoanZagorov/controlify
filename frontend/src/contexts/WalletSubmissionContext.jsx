@@ -1,10 +1,11 @@
-import { COLORS } from "@/constants";
 import { createContext, useState } from "react"
 import { useRouteLoaderData } from "react-router";
 
+import { COLORS } from "@/constants";
+
+// Used to keep the state for adding a new wallet
 export const WalletSubmissionContext = createContext(null);
 
-// Keeps the state while adding a new wallet
 export default function WalletSubmissionProvider({ children }) {
   const { userData: { currency, categories: userCategories } } = useRouteLoaderData("app");
 

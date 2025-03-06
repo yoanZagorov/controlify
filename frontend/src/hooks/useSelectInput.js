@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+// Select an input element
 export default function useSelectInput(inputRef) {
   useEffect(() => {
     function selectInput() {

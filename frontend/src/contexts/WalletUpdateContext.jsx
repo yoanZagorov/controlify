@@ -1,7 +1,9 @@
-import { formatEntityNameForUI } from "@/utils/formatting";
 import { createContext, useState } from "react"
 import { useRouteLoaderData } from "react-router";
 
+import { formatEntityNameForUI } from "@/utils/formatting";
+
+// Used to keep the state for updating an existing wallet
 export const WalletUpdateContext = createContext(null);
 
 export default function WalletUpdateProvider({ children }) {

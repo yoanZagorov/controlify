@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+// Get the current breakpoint value in a readable format
 export default function useCurrentBreakpointValue() {
   const breakpoints = [
     { name: "mobileS", query: "(max-width: 374px)" },

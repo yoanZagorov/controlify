@@ -1,5 +1,6 @@
-import { createContext, useState } from "react"
+import { createContext, useState } from "react";
 
+// Keeps the state for the login and create-account pages
 export const AuthContext = createContext(null);
 
 export default function AuthProvider({ children }) {

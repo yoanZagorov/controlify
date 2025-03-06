@@ -1,7 +1,12 @@
+import { useRef } from "react";
 import { SvgIcon } from "@/components/SvgIcon";
+import { useAutoFocus } from "@/hooks";
 
 // Color selection
 export default function ColorModal({ colors, colorBrightness = "dark", closeModal, state }) {
+  const activeColorBtnRef = useRef(null);
+  useAutoFocus({ ref: activeColorBtnRef });
+
   function handleClick(color) {
     state.updateState(color);
     closeModal();
@@ -13,6 +18,7 @@ export default function ColorModal({ colors, colorBrightness = "dark", closeModa
     return (
       <li key={color}>
         <button
+          ref={isActive ? activeColorBtnRef : null}
           type="button"
           onClick={() => handleClick(color)}
           className={`relative size-12 rounded-full ${colorBrightness === "bright" ? "focus-gray-dark" : "focus-goldenrod"}`}

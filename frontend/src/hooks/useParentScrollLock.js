@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-// Lock the scroll of the parent modal. Used for nested modals
+// Lock the scroll of the parent modal. Used primarily for nested modals
 export default function useParentScrollLock(parentModalRef, isModalOpen) {
   useEffect(() => {
     if (parentModalRef?.current && isModalOpen) {

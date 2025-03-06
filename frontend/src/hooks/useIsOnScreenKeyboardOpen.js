@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 
+// Avoid function redefinitions
 function isInput(element) {
   return element.tagName === "INPUT";
 }
 
+// Check if the Virtual Keyboard is open (mobile)
+// Currently not used but very high chance to do so
 export default function useIsOnScreenKeyboardOpen() {
   const [isOpen, setOpen] = useState(false);
 

@@ -1,4 +1,4 @@
-import { Link, Outlet, useLoaderData, useLocation } from "react-router"
+import { Link, Outlet, useLoaderData } from "react-router"
 
 import BackArrow from "@/assets/icons/arrow-back.png";
 
@@ -19,7 +19,7 @@ export default function Wallet() {
 
   return (
     <div className="relative">
-      <Link to=".." relative="path" className="inline-block">
+      <Link to=".." relative="path" className="inline-block" data-actionable={true}>
         <img src={BackArrow} />
       </Link>
 

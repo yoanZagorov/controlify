@@ -23,7 +23,7 @@ export default function AuthForm({ originalPath = "", isCreateAccount, config, c
   } = useAuth();
 
   const emailInputRef = useRef(null);
-  useAutoFocus({ ref: emailInputRef, deps: [isCreateAccount] });
+  useAutoFocus({ ref: emailInputRef, deps: [isCreateAccount] }); // Run the hook again if the page is changed
 
   const { isMobileS, isMobileM } = useBreakpoint();
   const isSmallScreen = isMobileS || isMobileM;

@@ -18,8 +18,8 @@ export default function useNavigationMethod() {
     document.addEventListener("mousedown", handleMousedown);
 
     return () => {
-      document.removeEventListener("keydown", handleKeydown)
-      document.removeEventListener("mousedown", handleMousedown)
+      document.removeEventListener("keydown", handleKeydown);
+      document.removeEventListener("mousedown", handleMousedown);
     }
-  }, [])
+  }, []);
 }

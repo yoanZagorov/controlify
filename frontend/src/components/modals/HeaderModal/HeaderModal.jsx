@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { useRef } from "react";
 
-import { useAutoFocus } from "@/hooks";
+import { useAutoFocus, useSelectInput } from "@/hooks";
 
 import { isObjTruthy } from "@/utils/obj";
 
@@ -18,7 +18,9 @@ export default function HeaderModal({ entity, formProps, submitBtn, header, pare
   const headerConfig = { type: "simple", deleteEntityFetcher: {}, autoFocus: false, ...header };
 
   const headerInputRef = useRef(null);
-  headerConfig.autoFocus && useAutoFocus({ ref: headerInputRef, selectOnFocus: true });
+
+  useSelectInput(headerInputRef); // Important to call this hook first, so the event listener is already bound when the element receives focus
+  headerConfig.autoFocus && useAutoFocus({ ref: headerInputRef });
 
   const isHeaderSimple = headerConfig.type === "simple";
 

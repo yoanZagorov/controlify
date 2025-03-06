@@ -2,13 +2,15 @@ import { useEffect, useRef, useState } from "react";
 
 import { resetFetcher } from "@/services/router/utils";
 
+import { isObjTruthy } from "@/utils/obj";
+
 import useMountTransition from "./useMountTransition";
 import useOutsideClick from "./useOutsideClick";
-import { isObjTruthy } from "@/utils/obj";
 import useBodyScrollLock from "./useBodyScrollLock";
 import useParentScrollLock from "./useParentScrollLock";
 
 // Single hook combining all modal related functionality
+// Modal data reset is currently not implemented but could be done through the resetModalData param
 export default function useModal({ type = "fullScreen", fetcher = {}, parentModalRef = null, unmountDelay = 300, resetModalData } = {}) {
   const isFullScreen = type === "fullScreen";
 
@@ -28,5 +30,6 @@ export default function useModal({ type = "fullScreen", fetcher = {}, parentModa
     }
 
   }, [fetcher.data, fetcher.state]);
+
   return { modalState: [isModalOpen, setModalOpen], hasTransitioned, modalRef };
 }

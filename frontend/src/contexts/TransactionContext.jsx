@@ -2,11 +2,15 @@ import { isObjTruthy } from "@/utils/obj";
 import { createContext, useState } from "react"
 import { useRouteLoaderData } from "react-router";
 
+// Used to keep the state for transaction submissions and updates
+// The providedTransactionData is used when the operation is a transaction update so there already is initial data
+// The providedWallet is used when the wallet should be set to a certain value and not change
 export const TransactionContext = createContext(null);
 
 export default function TransactionProvider({ providedTransactionData = {}, providedWallet = null, children }) {
   const { userData: { wallets } } = useRouteLoaderData("app");
   const defaultWallet = wallets.find(wallet => wallet.isDefault);
+  // If there is a provided wallet - use it. Else - fallback to the default one
   const { name: walletName, id: walletId, currency: walletCurrency } = providedWallet ? providedWallet : defaultWallet;
 
   // The default transaction data can be either provided (in the context of editing a transaction) or not (creating a new one)
@@ -31,7 +35,7 @@ export default function TransactionProvider({ providedTransactionData = {}, prov
       },
       type: "",
       date: new Date(), // default to today
-      // To do (Non-MVP): give the ability to select the specific hour
+      // To do: give the ability to select the specific hour
     }
 
   const [transactionData, setTransactionData] = useState(defaultTransactionData)

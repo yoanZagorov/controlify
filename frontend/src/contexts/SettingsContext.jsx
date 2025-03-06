@@ -1,6 +1,7 @@
 import { createContext, useState } from "react"
 import { useRouteLoaderData } from "react-router";
 
+// Used to keep the state for profile settings updates
 export const SettingsContext = createContext(null);
 
 export default function SettingsProvider({ children }) {
@@ -11,7 +12,7 @@ export default function SettingsProvider({ children }) {
     fullName,
     email,
     currency,
-    categories,
+    categories
   }
 
   const [settingsData, setSettingsData] = useState(defaultSettingsData);
