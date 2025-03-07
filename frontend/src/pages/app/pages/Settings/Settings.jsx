@@ -1,12 +1,15 @@
 import { useFetcher } from "react-router";
+
 import { useScrollToTop } from "@/hooks";
-import { OverallSettingsSection } from "./sections/OverallSettingsSection";
-import { CategoriesSection } from "./sections/CategoriesSection";
-import { Button } from "@/components/Button";
+
 import { CategoryProvider, SettingsProvider } from "@/contexts";
+import { Button } from "@/components/Button";
 import { Form } from "@/components/Form";
 import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
+import { OverallSettingsSection } from "./sections/OverallSettingsSection";
+import { CategoriesSection } from "./sections/CategoriesSection";
 
+// Rendered on /settings
 export default function Settings() {
   useScrollToTop();
   const deleteAccountFetcher = useFetcher({ key: "deleteAccount" });

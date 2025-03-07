@@ -15,6 +15,7 @@ import { getBalance, getBalanceOverTimeLineChartData, getCashFlowByEntityPieChar
 import { convertTransactionsToPreferredCurrency } from "../utils/currency";
 
 import { getPeriodInfo } from "@/utils/date";
+import { dashToCamelCase } from "@/utils/str";
 
 export default async function walletLoader({ params, request }) {
   const userId = await getAuthUserId();
@@ -28,7 +29,7 @@ export default async function walletLoader({ params, request }) {
     const wallet = await getWallet(userId, walletId);
 
     // Get all the needed data for the calculator functions
-    const periodInfo = getPeriodInfo(PERIODS.DEFAULT_PERIOD);
+    const periodInfo = getPeriodInfo(dashToCamelCase(PERIODS.DEFAULT_PERIOD));
     const periodTransactions = await getPeriodTransactions({ userId, periodInfo, providedWallets: [wallet] });
     const baseCurrency = await getBaseCurrency();
 

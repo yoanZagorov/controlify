@@ -1,13 +1,18 @@
-import { SettingsSection } from "@/components/sections/SettingsSection";
-import { useLayout, useSettings } from "@/hooks";
-import { ProfilePicPreview } from "../../components/ProfilePicPreview";
-import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { useFetcher, useRouteLoaderData } from "react-router";
 import { useEffect } from "react";
+
 import { resetFetcher } from "@/services/router/utils";
+
 import { ROUTES, VALIDATION_RULES } from "@/constants";
 
-export default function OverallSettingsSection({ className }) {
+import { useLayout, useSettings } from "@/hooks";
+
+import { SettingsSection } from "@/components/sections/SettingsSection";
+import { CurrencyModal } from "@/components/modals/CurrencyModal";
+import { ProfilePicPreview } from "./components/ProfilePicPreview";
+
+// The Settings Section for the Reflect Page
+export default function OverallSettingsSection() {
   const { currencies } = useRouteLoaderData("app");
 
   const fetcher = useFetcher({ key: "updateSettings" });
@@ -17,7 +22,7 @@ export default function OverallSettingsSection({ className }) {
       window.scrollTo({ top: 0, behavior: "smooth" });
       resetFetcher(fetcher);
     }
-  }, [fetcher.data, fetcher.state])
+  }, [fetcher.data, fetcher.state]);
 
   const { isSingleColLayout } = useLayout();
 
@@ -116,6 +121,7 @@ export default function OverallSettingsSection({ className }) {
     },
   ]
 
+  // Improve performance by looping only one instead of chaining .filter and .map
   let fields = [];
   settingsDataConfig.forEach(option => { if (option.field) fields.push(option.field) });
 

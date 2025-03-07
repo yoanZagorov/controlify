@@ -12,6 +12,7 @@ import { createErrorResponse, createSuccessResponse } from "../responses";
 
 import { getCashFlowByEntityPieChartData } from "../utils/charts";
 import { getPeriodInfo } from "@/utils/date";
+import { dashToCamelCase } from "@/utils/str";
 
 export default async function walletsLoader({ request }) {
   const userId = await getAuthUserId();
@@ -28,7 +29,7 @@ export default async function walletsLoader({ request }) {
     const allTransactions = await getTransactions({ userId, providedWallets: allWallets, sortType: "newestFirst" });
 
     // Calculation data
-    const periodInfo = getPeriodInfo(PERIODS.DEFAULT_PERIOD);
+    const periodInfo = getPeriodInfo(dashToCamelCase(PERIODS.DEFAULT_PERIOD));
     const periodTransactions = await getPeriodTransactions({ userId, providedWallets: allWallets, periodInfo });
     const { currency: userCurrency } = (await getUser(userId));
     const expensesByWalletPieChartData = await getCashFlowByEntityPieChartData("wallet", "expense", periodTransactions, userCurrency);

@@ -6,6 +6,8 @@ import { capitalize } from "@/utils/str";
 import { SvgIcon } from "@/components/SvgIcon";
 import { Form } from "@/components/Form";
 
+// A nav item for the navigation components
+// Would be better off split in different components, but it works so leave it as is
 export default function NavItem({
   variants = { layout: "iconOnly", type: "primary", purpose: "navigation" },
   to = null,
@@ -13,7 +15,6 @@ export default function NavItem({
   iconName = "house",
   handleClose = null
 }) {
-
   const { layout: layoutVariant, type: typeVariant } = variants;
   const isLogout = variants.purpose === "logout";
 
@@ -58,8 +59,8 @@ export default function NavItem({
   )
 
   const classes = {
-    navItem: ({ isActive }) => getClasses(true, isActive),
     logoutBtn: getClasses(),
+    navItem: ({ isActive }) => getClasses(true, isActive),
     icon: cn(
       "fill-current",
       variantClasses.type[typeVariant].icon

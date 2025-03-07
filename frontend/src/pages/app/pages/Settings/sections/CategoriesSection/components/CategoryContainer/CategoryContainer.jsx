@@ -1,12 +1,15 @@
+import { COLORS, ICON_NAMES, VALIDATION_RULES } from "@/constants";
+
+import { useCategory } from "@/hooks";
+
 import { FullScreenModalWrapper } from "@/components/modal-wrappers/FullScreenModalWrapper";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { HeaderModal } from "@/components/modals/HeaderModal";
 import { IconModal } from "@/components/modals/IconModal";
 import { SvgIcon } from "@/components/SvgIcon";
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
-import { COLORS, ICON_NAMES, VALIDATION_RULES } from "@/constants";
-import { useCategory } from "@/hooks";
 
+// Keeps the logic for a category operation. Used for both adding and editing
 export default function CategoryContainer({ mode = "add", formProps, submitBtn, modal, children }) {
   const isEditMode = mode === "edit";
 
@@ -21,12 +24,6 @@ export default function CategoryContainer({ mode = "add", formProps, submitBtn, 
   const { id } = isEditMode ? categoryData : {}; // Only needed to edit a category
 
   const categoryDataConfig = [
-    ...(isEditMode ? [{
-      formData: {
-        name: "id",
-        value: id
-      }
-    }] : []),
     {
       formData: {
         name: "name",
@@ -108,6 +105,12 @@ export default function CategoryContainer({ mode = "add", formProps, submitBtn, 
         }
       }
     },
+    ...(isEditMode ? [{
+      formData: {
+        name: "id",
+        value: id
+      }
+    }] : []),
   ]
 
   // More performant than chaining .filter and .map - looping only once
@@ -117,7 +120,7 @@ export default function CategoryContainer({ mode = "add", formProps, submitBtn, 
   function handleNameInputChange(e) {
     const value = e.target.value;
     if (value === "" || VALIDATION_RULES.CATEGORY.NAME.CLIENT_REGEX.test(value)) {
-      updateCategoryData({ name: value })
+      updateCategoryData({ name: value });
     };
   }
 

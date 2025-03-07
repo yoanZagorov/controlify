@@ -20,6 +20,7 @@ import { getBalance, getBalanceOverTimeLineChartData } from "../utils/charts";
 
 import { getStoredRedirectData } from "@/utils/localStorage";
 import { getPeriodInfo } from "@/utils/date";
+import { dashToCamelCase } from "@/utils/str";
 
 export default async function appLoader({ request }) {
   const userId = await getAuthUserId();
@@ -37,7 +38,7 @@ export default async function appLoader({ request }) {
 
     // Get shared calculation data
     const baseCurrency = await getBaseCurrency();
-    const periodInfo = getPeriodInfo(PERIODS.DEFAULT_PERIOD);
+    const periodInfo = getPeriodInfo(dashToCamelCase(PERIODS.DEFAULT_PERIOD));
 
     // Get the current user balance
     const currentBalance = await getCurrentUserBalance(allWallets, user.currency, baseCurrency);

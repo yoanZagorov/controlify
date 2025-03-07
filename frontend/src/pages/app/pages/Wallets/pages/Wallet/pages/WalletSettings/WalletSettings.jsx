@@ -1,16 +1,19 @@
 import { useEffect, useMemo } from "react";
-import { Navigate, useFetcher, useNavigate, useRouteLoaderData } from "react-router";
+import { useFetcher, useNavigate, useRouteLoaderData } from "react-router";
 
 import { resetFetcher } from "@/services/router/utils";
+
+import { COLORS, ROUTES, VALIDATION_RULES } from "@/constants";
+
+import { useLayout, useScrollToTop, useWalletUpdate } from "@/hooks";
+import { handleWalletNameInputChange } from "@/utils/input";
 
 import { CategoriesVisibilityModal } from "@/components/modals/CategoriesVisibilityModal";
 import { ColorModal } from "@/components/modals/ColorModal";
 import { CurrencyModal } from "@/components/modals/CurrencyModal";
 import { SettingsSection } from "@/components/sections/SettingsSection";
-import { useLayout, useScrollToTop, useWalletUpdate } from "@/hooks";
-import { handleWalletNameInputChange } from "@/utils/input";
-import { COLORS, ROUTES, VALIDATION_RULES } from "@/constants";
 
+// The Settings page for a single wallet
 export default function WalletSettings() {
   useScrollToTop();
   const navigate = useNavigate();
@@ -27,7 +30,7 @@ export default function WalletSettings() {
       window.scrollTo({ top: 0, behavior: "smooth" });
       resetFetcher(fetcher);
     }
-  }, [fetcher.data, fetcher.state])
+  }, [fetcher.data, fetcher.state]);
 
   // Navigate if the wallet is deleted
   useEffect(() => {
@@ -47,15 +50,17 @@ export default function WalletSettings() {
   } = useWalletUpdate();
 
   // Memoizing calculations
-  const visibleWalletCategories = useMemo(() => {
-    return categories.filter(category => category.isVisible);
-  }, [categories]);
+  const visibleWalletCategories = useMemo(
+    () => categories.filter(category => category.isVisible),
+    [categories]
+  );
   const areAllCategoriesVisible = visibleWalletCategories.length === userCategories.length;
 
-  const stringifiedCategories = useMemo(() => {
-    // submitting only the neccessary and serializing since the data type is more complex
-    return JSON.stringify(categories.map(category => ({ id: category.id, isVisible: category.isVisible })))
-  }, [categories]);
+  // submitting only the neccessary and serializing since the data type is more complex
+  const stringifiedCategories = useMemo(
+    () => JSON.stringify(categories.map(category => ({ id: category.id, isVisible: category.isVisible }))),
+    [categories]
+  );
 
   const settingsDataConfig = [
     {
@@ -153,6 +158,7 @@ export default function WalletSettings() {
     },
   ]
 
+  // Improve performance by looping only once
   let fields = [];
   settingsDataConfig.forEach(option => { if (option.field) fields.push(option.field) });
 

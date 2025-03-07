@@ -9,7 +9,7 @@ import { Form } from "@/components/Form";
 import { VALIDATION_RULES } from "@/constants";
 
 // Using a controlled inputs approach to guide the user
-// To do (Non-MVP): create handleChange functions for the inputs
+// To do: create handleChange functions for the inputs
 export default function AuthForm({ originalPath = "", isCreateAccount, config, className }) {
   const { action, btnText, path, msg, CTA } = config;
 

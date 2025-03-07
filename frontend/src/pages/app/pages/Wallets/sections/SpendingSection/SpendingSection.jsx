@@ -1,21 +1,25 @@
+import cn from "classnames";
+
+import { PERIODS } from "@/constants";
+
+import { useBreakpoint } from "@/hooks";
+import { formatPeriodNameForUI } from "@/utils/formatting";
+
 import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { Section } from "@/components/sections/Section";
 import { Notification } from "@/components/Notification";
-import cn from "classnames";
 import { CustomPieChartWithIconLabels } from "@/components/charts/pie-charts/CustomPieChartWithIconLabels";
-import { useBreakpoint } from "@/hooks";
 
+// The Spending Section for the Wallets page
 export default function SpendingSection({ sectionProps, chart }) {
-  const DEFAULT_PERIOD = "Last 30 Days"; // To do (Non-MVP): Change this to a state variable so filtering can be implemented
-
-  // Ensure there is at least one wallet with some expenses
   const { isMobileS, isMobileM } = useBreakpoint();
+  // Ensure there is at least one wallet with some expenses
   const hasSufficientData = chart.data.find(entry => entry.amount > 0) ? true : false;
 
   return (
     <Section
       title="Wallets Spending"
-      subtitle={DEFAULT_PERIOD}
+      subtitle={formatPeriodNameForUI(PERIODS.DEFAULT_PERIOD)}
       className={cn(sectionProps.className)}
     >
       <ContentWidget iconName="wallet" title="by wallet">

@@ -1,14 +1,19 @@
+import { useRouteLoaderData } from "react-router";
+
+import { PERIODS } from "@/constants";
+
+import { useBreakpoint, useLayout } from "@/hooks";
+import { formatPeriodNameForUI } from "@/utils/formatting";
+
 import { Section } from "@/components/sections/Section";
 import { Carousel } from "@/components/Carousel";
 import { ExpensesVsIncomeVerticalBarChart } from "@/components/charts/ExpensesVsIncomeVerticalBarChart";
 import { CustomPieChartWithIconLabels } from "@/components/charts/pie-charts/CustomPieChartWithIconLabels";
-import { useRouteLoaderData } from "react-router";
-import { useBreakpoint, useLayout } from "@/hooks";
 import { ChartWrapper } from "@/components/charts/ChartWrapper";
 
+// The Spending Section for the Wallet Overview page
+// Displays an expenses by category pie chart + income vs expenses ratio
 export default function SpendingSection() {
-  const DEFAULT_PERIOD = "Last 30 Days"; // To do (Non-MVP): Change this to a state variable so filtering can be implemented
-
   const { isSingleColLayout } = useLayout();
 
   const { isMobileS, isMobileM } = useBreakpoint();
@@ -31,7 +36,7 @@ export default function SpendingSection() {
   return (
     <Section
       title="Wallet Spending"
-      subtitle={DEFAULT_PERIOD}
+      subtitle={formatPeriodNameForUI(PERIODS.DEFAULT_PERIOD)}
     >
       {isSingleColLayout ? (
         <Carousel items={elements} />

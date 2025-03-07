@@ -1,14 +1,18 @@
+import { useState } from "react";
 import { Outlet, useFetcher, useLoaderData } from "react-router";
+import cn from "classnames";
 
 import { useBreakpoint, useLayout, useFlashMsg } from "@/hooks";
-import cn from "classnames";
+import { createFetcherMsg } from "@/utils/general";
+
+import { InfoWidget } from "@/components/widgets/InfoWidget";
 import { CollapsedSidebar } from "./layout-components/CollapsedSidebar";
 import { Sidebar } from "./layout-components/Sidebar";
 import { TopBar } from "./layout-components/TopBar";
-import { useState } from "react";
-import { InfoWidget } from "@/components/widgets/InfoWidget";
-import { createFetcherMsg } from "@/utils/general";
 
+// The layout for the entire app
+// Keeps the central state for all the flash messages
+// Decides which sidebar component should be displayed 
 export default function AppLayout() {
   const { isSidebarExpanded } = useLayout();
   const { isMobile, isTablet, isLaptopS, isDesktop } = useBreakpoint();
@@ -109,19 +113,6 @@ export default function AppLayout() {
     redirectMsg
   ]);
 
-  const classes = {
-    page: cn(
-      "min-h-screen pt-24 px-4 pb-8 tab:pt-10 ll:pt-12 ls:px-8 ll:px-10 overflow-x-hidden rounded-b-lg",
-      isSidebarExpanded ? "tab:ml-80 ll:ml-96" : "tab:ml-20"
-    ),
-    content: cn(
-      "w-full mx-auto rounded-b-lg",
-      isDesktop || (isLaptopS && !isSidebarExpanded)
-        ? "max-w-6xl"
-        : "max-w-lg"
-    )
-  }
-
   return (
     <>
       <header>
@@ -140,8 +131,16 @@ export default function AppLayout() {
         )}
       </header>
 
-      <main className={classes.page}>
-        <div className={classes.content}>
+      <main className={cn(
+        "min-h-screen pt-24 px-4 pb-8 tab:pt-10 ll:pt-12 ls:px-8 ll:px-10 overflow-x-hidden rounded-b-lg",
+        isSidebarExpanded ? "tab:ml-80 ll:ml-96" : "tab:ml-20"
+      )}>
+        <div className={cn(
+          "w-full mx-auto rounded-b-lg",
+          isDesktop || (isLaptopS && !isSidebarExpanded)
+            ? "max-w-6xl"
+            : "max-w-lg"
+        )}>
           <InfoWidget
             flashMsg={flashMsg}
             clearFlashMsg={clearFlashMsg}

@@ -16,7 +16,7 @@ export default function WalletsContent({ wallets, section, openModal }) {
     <Link
       key={wallet.id}
       to={`/app/wallets/${wallet.id}`}
-      data-actionable="true"
+      data-actionable={true}
     >
       <WalletWidget
         wallet={wallet}

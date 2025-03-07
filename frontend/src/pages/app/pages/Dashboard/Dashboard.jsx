@@ -1,15 +1,16 @@
 import cn from "classnames";
 import { useRouteLoaderData } from "react-router";
 
-import { TransactionProvider, WalletSubmissionProvider } from "@/contexts";
+import { ROUTES } from "@/constants";
 
 import { useLayout, useScrollToTop } from "@/hooks";
 
+import { TransactionProvider, WalletSubmissionProvider } from "@/contexts";
 import { TransactionsSection } from "@/components/sections/TransactionsSection";
 import { WalletsSection } from "@/components/sections/WalletsSection";
 import { BalanceSection } from "./sections/BalanceSection";
-import { ROUTES } from "@/constants";
 
+// Rendered on /dashboard
 export default function Dashboard() {
   useScrollToTop();
 
@@ -30,9 +31,7 @@ export default function Dashboard() {
       <div
         className={cn(
           "grid gap-16 ll:gap-x-20 fhd:gap-x-24",
-          isSingleColLayout
-            ? "grid-cols-1"
-            : "grid-cols-12 grid-flow-col gap-x-12",
+          !isSingleColLayout && "grid-cols-12 grid-flow-col gap-x-12",
         )}
       >
         <BalanceSection

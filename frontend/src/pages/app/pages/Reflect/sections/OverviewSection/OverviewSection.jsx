@@ -1,19 +1,21 @@
+import cn from "classnames";
+import { useRouteLoaderData } from "react-router";
+
+import { PERIODS } from "@/constants";
+
+import { useLayout } from "@/hooks";
+import { formatPeriodNameForUI } from "@/utils/formatting";
+
 import { Amount } from "@/components/Amount";
 import { Carousel } from "@/components/Carousel";
 import { FinancialScoreGaugeChart } from "@/components/charts/FinancialScoreGaugeChart";
 import { WaterfallChart } from "@/components/charts/WaterfallChart";
 import { Section } from "@/components/sections/Section";
-import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { HeaderContentWidget } from "@/components/widgets/HeaderContentWidget";
-import { COLORS } from "@/constants";
-import { useLayout } from "@/hooks";
-import cn from "classnames";
-import { useRouteLoaderData } from "react-router";
 
-
+// The Reflect page Overview section
+// Displays a financial score gauge chart + a balance waterfall chart
 export default function OverviewSection({ className }) {
-  const DEFAULT_PERIOD = "Last 30 Days";
-
   const { userData: { balance, currency: userCurrency } } = useRouteLoaderData("app");
 
   const { financialScore, chartData } = useRouteLoaderData("reflect");
@@ -77,7 +79,7 @@ export default function OverviewSection({ className }) {
   return (
     <Section
       title="Overview"
-      subtitle={DEFAULT_PERIOD}
+      subtitle={formatPeriodNameForUI(PERIODS.DEFAULT_PERIOD)}
       className={className}
     >
       {isSingleColLayout ? (

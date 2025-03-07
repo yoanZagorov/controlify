@@ -1,15 +1,16 @@
 import cn from "classnames";
 import { useLoaderData } from "react-router";
 
+import { ROUTES } from "@/constants";
+
 import { useLayout, useScrollToTop } from "@/hooks";
 
 import { TransactionProvider, WalletSubmissionProvider } from "@/contexts";
-
 import { WalletsSection } from "@/components/sections/WalletsSection";
 import { TransactionsSection } from "@/components/sections/TransactionsSection";
 import { SpendingSection } from "./sections/SpendingSection";
-import { ROUTES } from "@/constants";
 
+// Rendered on /wallets
 export default function Wallets() {
   useScrollToTop();
 
@@ -18,7 +19,7 @@ export default function Wallets() {
 
   return (
     <>
-      <div className={cn("grid gap-16 ll:gap-x-20 fhd:gap-x-24", isSingleColLayout ? "grid-cols-1" : "grid-cols-12 gap-x-12",)}>
+      <div className={cn("grid gap-16 ll:gap-x-20 fhd:gap-x-24", isSingleColLayout ? "grid-cols-1" : "grid-cols-12 gap-x-12")}>
         <WalletSubmissionProvider>
           <WalletsSection
             action={ROUTES.WALLETS}

@@ -1,18 +1,22 @@
+import { useEffect, useMemo, useState } from "react";
+import { useFetcher, useRouteLoaderData } from "react-router";
+
+import { resetFetcher } from "@/services/router/utils";
+
+import { CATEGORY, ROUTES } from "@/constants";
+
+import { isArrayTruthy } from "@/utils/array";
+import { getCategoriesByType } from "@/utils/category";
+import { formatEntityNameForUI } from "@/utils/formatting";
+
+import { CategoryProvider } from "@/contexts";
 import { Section } from "@/components/sections/Section";
 import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
 import { ContentWidget } from "@/components/widgets/ContentWidget";
-import { getCategoriesByType } from "@/utils/category";
-import { useEffect, useMemo, useState } from "react";
-import { useFetcher, useRouteLoaderData } from "react-router";
-import { CategoryItem } from "../CategoryItem";
 import { Button } from "@/components/Button";
-import { CategoryProvider } from "@/contexts";
-import { formatEntityNameForUI } from "@/utils/formatting";
-import { resetFetcher } from "@/services/router/utils";
-import { isArrayTruthy } from "@/utils/array";
-import CATEGORY from "@/constants/category";
-import { ROUTES } from "@/constants";
+import { CategoryItem } from "../CategoryItem";
 
+// Handles the UI display for the CategorySection
 export default function CategoriesContent({ type = "compact", openModal, className }) {
   const isExpanded = type === "expanded";
 
@@ -44,9 +48,10 @@ export default function CategoriesContent({ type = "compact", openModal, classNa
   const { expenseCategories, incomeCategories } = getCategoriesByType(categories);
 
   function renderCategoriesEls(categories) {
-    // Destructuring what is not needed 
     return categories.map(category => {
+      // Destructuring what is not needed 
       const { rootCategoryId, createdAt, ...restOfCategory } = category;
+
       return (
         <CategoryProvider
           key={category.id}
@@ -102,7 +107,7 @@ export default function CategoriesContent({ type = "compact", openModal, classNa
         )
         }
 
-        <Button size="l" className="mt-8 mx-auto" onClick={openModal} data-actionable="true">
+        <Button size="l" className="mt-8 mx-auto" onClick={openModal} data-actionable={true}>
           add category
         </Button>
       </ContentWidget>

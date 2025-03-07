@@ -1,18 +1,22 @@
-import { Carousel } from "@/components/Carousel";
-import { Section } from "@/components/sections/Section";
-import { useBreakpoint, useLayout } from "@/hooks";
-import { CashFlowByCategoryChart } from "./components/CashFlowByCategoryChart.jsx";
 import { useRouteLoaderData } from "react-router";
 import cn from "classnames";
-import ContentWidget from "@/components/widgets/ContentWidget/ContentWidget.jsx";
-import isArrayTruthy from "@/utils/array/isArrayTruthy.js";
-import CashFlowOverTimeLineChart from "@/components/charts/line-charts/CashFlowOverTimeLineChart/CashFlowOverTimeLineChart.jsx";
-import ChartWrapper from "@/components/charts/ChartWrapper/ChartWrapper.jsx";
-import CustomPieChartWithIconLabels from "@/components/charts/pie-charts/CustomPieChartWithIconLabels/CustomPieChartWithIconLabels.jsx";
 
+import { PERIODS } from "@/constants";
+
+import { useBreakpoint, useLayout } from "@/hooks";
+import { isArrayTruthy } from "@/utils/array";
+
+import { Carousel } from "@/components/Carousel";
+import { Section } from "@/components/sections/Section";
+import { ContentWidget } from "@/components/widgets/ContentWidget";
+import { CashFlowOverTimeLineChart } from "@/components/charts/line-charts/CashFlowOverTimeLineChart";
+import { CustomPieChartWithIconLabels } from "@/components/charts/pie-charts/CustomPieChartWithIconLabels";
+import { ChartWrapper } from "@/components/charts/ChartWrapper";
+import { formatPeriodNameForUI } from "@/utils/formatting";
+
+// The Reflect page Cash Flow section
+// Displays two pie charts - one breakin expenses by category and one breaking income by category
 export default function CashFlowSection() {
-  const DEFAULT_PERIOD = "Last 30 Days";
-
   const { chartData } = useRouteLoaderData("reflect");
   const { userData: { currency: userCurrency } } = useRouteLoaderData("app")
 
@@ -43,7 +47,7 @@ export default function CashFlowSection() {
   return (
     <Section
       title="Cash Flow"
-      subtitle={DEFAULT_PERIOD}
+      subtitle={formatPeriodNameForUI(PERIODS.DEFAULT_PERIOD)}
       contentClassName={cn(
         "grid gap-x-16 gap-y-12",
         !isSingleColLayout && "grid-cols-2",

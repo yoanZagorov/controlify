@@ -15,8 +15,8 @@ export default function NavItem({ page, index }) {
   );
 
   return (
-    <li data-actionable="true" data-close="false">
-      <NavLink to={page} className={linkClasses}>
+    <li>
+      <NavLink to={page} className={linkClasses} data-actionable={true}>
         <span>{capitalize(page)}</span>
       </NavLink>
     </li>

@@ -3,6 +3,7 @@ import { ContentWidget } from "@/components/widgets/ContentWidget";
 import { BalanceOverTimeLineChart } from "@/components/charts/line-charts/BalanceOverTimeLineChart";
 import { BalanceWidget } from "@/components/widgets/BalanceWidget";
 
+// Section to display the balance on the dashboard
 export default function BalanceSection({ sectionClassName, balance, currency }) {
   return (
     <Section

@@ -1,19 +1,21 @@
-import { Link, Outlet, useLoaderData } from "react-router"
+import { Link, Outlet, useLoaderData } from "react-router";
 
-import BackArrow from "@/assets/icons/arrow-back.png";
+import { PAGES } from "@/constants";
 
 import { useScrollToTop } from "@/hooks";
 import { formatEntityNameForUI } from "@/utils/formatting";
 
+import BackArrow from "@/assets/icons/arrow-back.png";
+
 import { NavItem } from "./layout-components/NavItem";
 
+// The Wallet page layout
 export default function Wallet() {
   useScrollToTop();
 
   const { wallet } = useLoaderData();
 
-  const pages = ["overview", "transactions", "settings"];
-  const navElements = pages.map((page, index) => (
+  const navElements = PAGES.WALLET.map((page, index) => (
     <NavItem key={index} page={page} index={index} />
   ))
 

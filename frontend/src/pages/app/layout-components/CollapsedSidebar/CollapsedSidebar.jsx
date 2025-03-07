@@ -1,11 +1,13 @@
 import cn from "classnames";
 
+import { PAGES } from "@/constants";
+
 import { useLayout } from "@/hooks";
-import { primaryNavPages, secondaryNavPages } from "../data";
 
 import { SvgIcon } from "@/components/SvgIcon";
 import { NavItem } from "../NavItem";
 
+// The sidebar appearing on tablet screens
 export default function CollapsedSidebar() {
   const { isSidebarExpanded, toggleSidebar } = useLayout();
 
@@ -20,8 +22,8 @@ export default function CollapsedSidebar() {
     ));
   }
 
-  const primaryNavItems = renderNavItems(primaryNavPages, "iconOnly", "primary");
-  const secondaryNavItems = renderNavItems(secondaryNavPages, "iconOnly", "secondary");
+  const primaryNavItems = renderNavItems(PAGES.PRIMARY, "iconOnly", "primary");
+  const secondaryNavItems = renderNavItems(PAGES.SECONDARY, "iconOnly", "secondary");
 
   const classes = {
     collapsedSidebar: cn(

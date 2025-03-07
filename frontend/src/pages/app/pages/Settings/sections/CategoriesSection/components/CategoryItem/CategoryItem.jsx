@@ -1,15 +1,18 @@
-import { Button } from "@/components/Button";
-import { CategoryContainer } from "@/pages/app/pages/Settings/sections/CategoriesSection/components/CategoryContainer";
-import { SvgIcon } from "@/components/SvgIcon";
+import cn from "classnames";
+import { useMemo } from "react";
+import { useFetcher } from "react-router";
+
 import { useCategory, useModal } from "@/hooks";
 import { formatEntityNameForUI } from "@/utils/formatting";
-import cn from "classnames";
-import { useEffect, useMemo } from "react";
-import { useFetcher } from "react-router";
-import { IconDeleteBtn } from "./components/IconDeleteBtn";
+
+import { SvgIcon } from "@/components/SvgIcon";
+import { Button } from "@/components/Button";
 import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
 import { Form } from "@/components/Form";
+import { CategoryContainer } from "../CategoryContainer";
+import { IconDeleteBtn } from "./components/IconDeleteBtn";
 
+// Handles the UI display for a single category as well as the deletion
 export default function CategoryItem({ isExpanded, action, category: { id, type, iconName, name, color } }) {
   const { categoryData, defaultCategoryData, resetCategoryData } = useCategory();
 
@@ -20,7 +23,7 @@ export default function CategoryItem({ isExpanded, action, category: { id, type,
 
   const { modalState: [isModalOpen, setModalOpen] } = modal;
 
-  // To do: (Non-MVP): Replace JSON.stringify() with a proper complex object deep compare function
+  // To do: Replace JSON.stringify() with a proper complex object deep compare function
   const hasCategoryDataChanged = useMemo(
     () => JSON.stringify(categoryData) !== JSON.stringify(defaultCategoryData),
     [categoryData]

@@ -16,6 +16,7 @@ import { getBalance, getBalanceOverTimeLineChartData, getCashFlowByEntityPieChar
 import { convertTransactionsToPreferredCurrency } from "../utils/currency";
 
 import { getPeriodInfo } from "@/utils/date";
+import { dashToCamelCase } from "@/utils/str";
 
 export default async function reflectLoader({ request }) {
   const userId = await getAuthUserId();
@@ -26,7 +27,7 @@ export default async function reflectLoader({ request }) {
   try {
     // Get shared calculation data
     const baseCurrency = await getBaseCurrency();
-    const periodInfo = getPeriodInfo(PERIODS.DEFAULT_PERIOD);
+    const periodInfo = getPeriodInfo(dashToCamelCase(PERIODS.DEFAULT_PERIOD));
     const allWallets = await getWallets(userId);
     const periodTransactions = await getPeriodTransactions({ userId, providedWallets: allWallets, periodInfo });
 

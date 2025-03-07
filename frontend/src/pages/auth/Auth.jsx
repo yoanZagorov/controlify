@@ -1,21 +1,25 @@
+import { useEffect, useState } from "react";
 import { useActionData, useLoaderData } from "react-router";
+
+import { ROUTES } from "@/constants";
+
+import { AuthProvider } from "@/contexts";
 
 import { loginAction, createAccountAction } from "@/services/router/actions";
 
 import { useFlashMsg } from "@/hooks";
 
-import { AuthForm } from "./components/AuthForm";
-import { InfoWidget } from "@/components/widgets/InfoWidget";
-import { AuthProvider } from "@/contexts";
-import { useEffect, useState } from "react";
-import { ROUTES } from "@/constants";
 import { FullLogo } from "@/assets/logos/FullLogo";
 
+import { AuthForm } from "./components/AuthForm";
+import { InfoWidget } from "@/components/widgets/InfoWidget";
+
+// Rendered at /login and /create-account
 export default function Auth({ type }) {
   const isCreateAccount = type === "createAccount";
 
   const actionData = useActionData() ?? {};
-  const [errorMsg, setErrorMsg] = useState({ msg: actionData.msg, msgType: actionData.msgType }) // using local state to ensure no stale data (refreshing the actionData)
+  const [errorMsg, setErrorMsg] = useState({ msg: actionData.msg, msgType: actionData.msgType }); // using local state to ensure no stale data (refreshing the actionData)
   useEffect(() => {
     if (actionData.msg !== errorMsg.msg) {
       setErrorMsg({ msg: actionData.msg, msgType: actionData.msgType });
@@ -65,7 +69,7 @@ export default function Auth({ type }) {
         <div className="hidden tab:block min-h-96 ll:min-h-[450px] h-full border-r border-navy"></div>
 
         <div className="tab:w-1/2">
-          <AuthProvider isCreateAccount={isCreateAccount}>
+          <AuthProvider>
             <AuthForm
               originalPath={originalPath}
               isCreateAccount={isCreateAccount}

@@ -1,14 +1,16 @@
 import cn from "classnames";
 import { useRouteLoaderData } from "react-router";
 
+import { COLORS, PAGES, ROUTES } from "@/constants";
+
 import { useBreakpoint, useLayout } from "@/hooks";
+
+import { FullLogo } from "@/assets/logos/FullLogo";
 
 import { SvgIcon } from "@/components/SvgIcon";
 import { NavItem } from "../NavItem";
-import { primaryNavPages, secondaryNavPages } from "../data";
-import { FullLogo } from "@/assets/logos/FullLogo";
-import { COLORS, ROUTES } from "@/constants";
 
+// The primary sidebar
 export default function Sidebar() {
   const { userData: { profilePic, email, fullName } } = useRouteLoaderData("app");
   const { isSidebarExpanded, toggleSidebar, sidebarRef } = useLayout();
@@ -26,8 +28,8 @@ export default function Sidebar() {
     ));
   }
 
-  const primaryNavItems = renderNavItems(primaryNavPages, "iconWithText", "primary", !isDesktop ? toggleSidebar : null);
-  const secondaryNavItems = renderNavItems(secondaryNavPages, "iconWithText", "secondary", !isDesktop ? toggleSidebar : null);
+  const primaryNavItems = renderNavItems(PAGES.PRIMARY, "iconWithText", "primary", !isDesktop ? toggleSidebar : null);
+  const secondaryNavItems = renderNavItems(PAGES.SECONDARY, "iconWithText", "secondary", !isDesktop ? toggleSidebar : null);
 
   const classes = {
     sidebar: cn(

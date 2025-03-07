@@ -8,11 +8,7 @@ export default function useParentScrollLock(parentModalRef, isModalOpen) {
 
       parentModalRef.current.style.overflow = "hidden";
 
-      return () => {
-        if (parentModalRef.current) {
-          parentModalRef.current.style.overflow = initialParentModalOverflow;
-        }
-      }
+      return () => { parentModalRef.current.style.overflow = initialParentModalOverflow; }
     }
   }, [isModalOpen]);
 }

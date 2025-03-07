@@ -1,12 +1,14 @@
-import { SvgIcon } from "@/components/SvgIcon";
 import { useEffect, useMemo } from "react";
+import { SvgIcon } from "@/components/SvgIcon";
 
+// Displays a preview for a profile pic
+// The native input is hidden and replaced by the preview
 export default function ProfilePicPreview({ profilePic, handleChange }) {
   const imgPreview = useMemo(
     () => (
       profilePic
-        ? profilePic instanceof File
-          ? URL.createObjectURL(profilePic) // create a profilePic preview on the fly, as the user chooses it, before submitting
+        ? profilePic instanceof File // the profile pic is a truthy value - check its contents
+          ? URL.createObjectURL(profilePic) // the user is at the submitting process - create a profilePic preview on the fly
           : profilePic.url // user already has a profile pic - display it
         : null), [profilePic]); // no profile pic yet
 

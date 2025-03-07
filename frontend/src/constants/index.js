@@ -6,3 +6,4 @@ export { default as COLORS } from "./colors";
 export { default as VALIDATION_RULES } from "./validationRules";
 export { default as ICON_NAMES } from "./iconNames";
 export { default as CATEGORY } from "./category";
+export { default as PAGES } from "./pages";

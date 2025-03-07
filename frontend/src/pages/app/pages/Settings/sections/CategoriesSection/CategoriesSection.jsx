@@ -1,10 +1,15 @@
-import { useFetcher, useRouteLoaderData } from "react-router";
-import { useCategory, useLayout, useModal } from "@/hooks";
+import { useFetcher } from "react-router";
 import cn from "classnames";
-import { CategoryContainer } from "./components/CategoryContainer";
+
 import { ROUTES } from "@/constants";
+
+import { useCategory, useLayout, useModal } from "@/hooks";
+
+import { CategoryContainer } from "./components/CategoryContainer";
 import { CategoriesContent } from "./components/CategoriesContent";
 
+// The Categories section for the Settings page
+// To do: Move this to a separate route
 export default function CategoriesSection({ className }) {
   const { isSingleColLayout } = useLayout();
 
@@ -17,16 +22,13 @@ export default function CategoriesSection({ className }) {
 
   return (
     <CategoryContainer
-      formProps={{
-        fetcher,
-        action: ROUTES.SETTINGS,
-      }}
+      formProps={{ fetcher, action: ROUTES.SETTINGS }}
       submitBtn={{
+        text: "add category",
         props: {
           value: "addCategory",
           disabled: !iconName || fetcher.state === "submitting" || fetcher.state === "loading"
-        },
-        text: "add category"
+        }
       }}
       modal={modal}
     >
