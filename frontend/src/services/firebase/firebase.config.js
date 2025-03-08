@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDXdd8tw86Td77Oc7YBZFJAhc5yuDX5lHs",
+  apiKey: "AIzaSyDXdd8tw86Td77Oc7YBZFJAhc5yuDX5lHs", // Safe - Firebase relies on security rules, not on the apiKey for keeping the routes secure
   authDomain: "controlify-3bdd8.firebaseapp.com",
   projectId: "controlify-3bdd8",
   storageBucket: "controlify-3bdd8.appspot.com",

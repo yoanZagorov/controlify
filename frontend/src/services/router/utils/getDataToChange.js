@@ -8,7 +8,7 @@ export default function getDataToChange(hasDataChanged, newData) {
   for (const property in hasDataChanged) {
     if (hasDataChanged[property]) {
       dataToChange[property] = newData[property];
-    };
+    }
   }
 
   if (!isObjTruthy(dataToChange)) {

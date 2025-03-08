@@ -4,10 +4,10 @@ import { orderBy, where } from "firebase/firestore";
 import { ROUTES } from "@/constants";
 import { PERIODS } from "@/constants";
 
+import { createSuccessResponse, createErrorResponse } from "../responses";
+
 import { checkAuthEmailVerification, checkUserAuthStatus, getAuthUserId } from "@/services/firebase/auth";
 import { getBaseCurrency, getCurrencies } from "@/services/firebase/db/currency";
-
-import { createSuccessResponse, createErrorResponse } from "../responses";
 
 import { getUser } from "@/services/firebase/db/user";
 import { getActiveWallets, getWallets } from "@/services/firebase/db/wallet";

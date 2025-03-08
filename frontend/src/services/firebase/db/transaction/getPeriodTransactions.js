@@ -1,6 +1,7 @@
 import { where } from "firebase/firestore";
 import getTransactions from "./getTransactions";
 
+// Get transactions for a specified period
 export default async function getPeriodTransactions({ userId, periodInfo, providedWallets, byWallet = false }) {
   const { start, end } = periodInfo;
 

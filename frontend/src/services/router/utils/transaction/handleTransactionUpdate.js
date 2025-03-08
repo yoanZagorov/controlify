@@ -1,17 +1,22 @@
 import { doc, writeBatch } from "firebase/firestore";
+
+import { VALIDATION_RULES } from "@/constants";
+
 import { createSuccessResponse } from "../../responses";
-import { ValidationError } from "@/utils/errors";
+
 import { db } from "@/services/firebase/firebase.config";
 import { getEntity } from "@/services/firebase/db/utils/entity";
-import getDataToChange from "../getDataToChange";
+
+import validateAmount from "@/utils/validation/validateAmount";
+import { getCategory } from "@/services/firebase/db/category";
+import { ValidationError } from "@/utils/errors";
 import { validateTransactionDate } from "@/utils/validation";
 import { performDecimalCalculation } from "@/utils/number";
 import { compareDatesByDay } from "@/utils/date";
-import handleActionError from "../handleActionError";
-import validateAmount from "@/utils/validation/validateAmount";
-import { VALIDATION_RULES } from "@/constants";
-import { getCategory } from "@/services/firebase/db/category";
+
 import { getConvertedAmount } from "../currency";
+import getDataToChange from "../getDataToChange";
+import handleActionError from "../handleActionError";
 
 export default async function handleTransactionUpdate(userId, formData) {
   // Normalize data

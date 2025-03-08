@@ -1,8 +1,6 @@
 import { getAuthUserId } from "@/services/firebase/auth";
-
 import { handleAccountDeletion, handleSettingsUpdate } from "../utils/settings";
 import { handleCategoryDeletion, handleCategorySubmission, handleCategoryUpdate } from "../utils/category";
-
 
 export default async function settingsAction({ request }) {
   const userId = await getAuthUserId();

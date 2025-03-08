@@ -1,6 +1,6 @@
 import { performDecimalCalculation } from "@/utils/number";
-import { convertTransactionsToPreferredCurrency } from "../currency";
 import { isArrayTruthy } from "@/utils/array";
+import { convertTransactionsToPreferredCurrency } from "../currency";
 
 export default async function getUserFinancialScore(periodTransactions, preferredCurrency = null, providedBaseCurrency = null) {
   // Convert to preferred currency if not already done
@@ -31,7 +31,7 @@ export default async function getUserFinancialScore(periodTransactions, preferre
   }
 
   // Simple formula to calculate a rough financial score
-  // To do (Non-MVP): create a more sophisticated formula
+  // To do: Create a more sophisticated formula
   const financialScore =
     Math.trunc(
       Math.max(

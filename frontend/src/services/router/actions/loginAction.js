@@ -1,22 +1,23 @@
 import { redirect } from "react-router";
-
 import { signInWithEmailAndPassword } from "firebase/auth";
+
+import { ROUTES } from "@/constants";
+
+import { createErrorResponse } from "../responses";
+
 import { auth } from "@/services/firebase/firebase.config";
+import { firebaseAuthErrorsMap } from "@/services/firebase/auth";
 
 import { ValidationError } from "@/utils/errors";
 import { storeRedirectData } from "@/utils/localStorage";
-import { createErrorResponse } from "../responses";
 import { validateLoginFields } from "@/utils/validation";
-import { ROUTES } from "@/constants";
-import { firebaseAuthErrorsMap } from "@/services/firebase/auth";
 
 export default async function loginAction({ request }) {
   const formData = Object.fromEntries(await request.formData());
-  const formattedFormData = {
-    ...formData,
-    email: formData.email.toLowerCase() // Normalize emails, since this is how they are stored
-  }
-  const { originalPath, email, password } = formattedFormData;
+  // Normalize data
+  formData.email = formData.email.toLowerCase().trim();
+  formData.password = formData.password.trim();
+  const { originalPath, email, password } = formData;
 
   try {
     // No need for complex checks - they are done when creating an account
@@ -40,6 +41,6 @@ export default async function loginAction({ request }) {
       return createErrorResponse(firebaseError.message, firebaseError.statusCode);
     };
 
-    return createErrorResponse("Couldn't log you in. Please try again.");
+    return createErrorResponse("Couldn't log you in. Please try again");
   }
 }

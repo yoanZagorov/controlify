@@ -1,14 +1,20 @@
+import { collection, doc, serverTimestamp, writeBatch } from "firebase/firestore";
+
+import { COLORS, ICON_NAMES, VALIDATION_RULES } from "@/constants";
+
+import { createSuccessResponse } from "../../responses";
+
+import { db } from "@/services/firebase/firebase.config";
+import { getActiveWallets } from "@/services/firebase/db/wallet";
+
 import { formatEntityNameForFirebase } from "@/utils/formatting";
 import { validateCategoryType, validateColor, validateEntityName, validateIconName } from "@/utils/validation";
-import { createSuccessResponse } from "../../responses";
-import { collection, doc, serverTimestamp, writeBatch } from "firebase/firestore";
-import { db } from "@/services/firebase/firebase.config";
-import { COLORS, ICON_NAMES, VALIDATION_RULES } from "@/constants";
-import { getActiveWallets } from "@/services/firebase/db/wallet";
+
 import handleActionError from "../handleActionError";
 import checkCategoryNameDuplicate from "./checkCategoryNameDuplicate";
 
 export default async function handleCategorySubmission(userId, formData) {
+  // Normalize the data
   formData.name = formData.name.trim();
   formData.type = formData.type.toLowerCase();
   const { name, type, iconName, color } = formData;

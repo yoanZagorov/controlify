@@ -2,6 +2,7 @@ import { getTransactions } from "@/services/firebase/db/transaction";
 import { calculateBalance } from "@/utils/charts";
 import { convertTransactionsToPreferredCurrency } from "../currency";
 
+// Get a specific balance
 export default async function getBalance({ userId, wallets, query, preferredCurrency, providedBaseCurrency = null }) {
   // Fetch the transactions
   const transactions = await getTransactions({ userId, providedWallets: wallets, query });

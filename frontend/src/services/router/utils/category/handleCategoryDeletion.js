@@ -1,11 +1,16 @@
 import { deleteField, doc, writeBatch } from "firebase/firestore";
+
+import { CATEGORY } from "@/constants";
+
 import { createSuccessResponse } from "../../responses";
+
 import { db } from "@/services/firebase/firebase.config";
 import { getActiveWallets } from "@/services/firebase/db/wallet";
-import handleActionError from "../handleActionError";
 import { getCategories } from "@/services/firebase/db/category";
+
 import { ValidationError } from "@/utils/errors";
-import { CATEGORY } from "@/constants";
+
+import handleActionError from "../handleActionError";
 
 export default async function handleCategoryDeletion(userId, formData) {
   const { id, type } = formData;
@@ -42,6 +47,6 @@ export default async function handleCategoryDeletion(userId, formData) {
       msgType: "success",
     })
   } catch (error) {
-    return handleActionError(error, "Couldn't update your category. Please try again");
+    return handleActionError(error, "Couldn't delete your category. Please try again");
   }
 }

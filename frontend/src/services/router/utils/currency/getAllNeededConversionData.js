@@ -1,11 +1,9 @@
 import { getBaseCurrency } from "@/services/firebase/db/currency";
 import { getWallet, getWallets } from "@/services/firebase/db/wallet";
-import { getPeriodTransactionsByWallet } from "@/services/firebase/db/transaction";
+import { getPeriodTransactions } from "@/services/firebase/db/transaction";
 import { getUser } from "@/services/firebase/db/user";
 
 import getNonBaseCurrenciesRates from "./getNonBaseCurrenciesRates";
-import { doc } from "firebase/firestore";
-import { db } from "@/services/firebase/firebase.config";
 
 // This function is currently not used, but it'll be refactored and used in the future
 export default async function getAllNeededConversionData({ userId = null, walletId = null, periodInfo = {}, neededData, providedData }) {
@@ -17,7 +15,7 @@ export default async function getAllNeededConversionData({ userId = null, wallet
 
   if (neededData.includes("periodTransactionsByWallet") && !conversionData.periodTransactionsByWallet) {
     const providedWallets = providedData.wallets || await getWallets(userId); // Useful if you need back only the transactions but not the wallets themselves
-    conversionData.periodTransactionsByWallet = await getPeriodTransactionsByWallet({ userId, providedWallets, periodInfo })
+    conversionData.periodTransactionsByWallet = await getPeriodTransactions({ userId, providedWallets, periodInfo, byWallet: true })
   }
 
   if (neededData.includes("baseCurrency") && !conversionData.baseCurrency) {

@@ -1,17 +1,22 @@
 import { collection, doc, serverTimestamp, writeBatch } from "firebase/firestore";
-import { createSuccessResponse } from "../../responses";
-import { db } from "@/services/firebase/firebase.config";
-import { getEntity } from "@/services/firebase/db/utils/entity";
-import { performDecimalCalculation } from "@/utils/number";
-import { validateTransactionDate } from "@/utils/validation";
-import handleActionError from "../handleActionError";
-import { getCategory } from "@/services/firebase/db/category";
-import validateAmount from "@/utils/validation/validateAmount";
-import { ValidationError } from "@/utils/errors";
+
 import { VALIDATION_RULES } from "@/constants";
 
+import { createSuccessResponse } from "../../responses";
+
+import { db } from "@/services/firebase/firebase.config";
+import { getEntity } from "@/services/firebase/db/utils/entity";
+import { getCategory } from "@/services/firebase/db/category";
+
+import { performDecimalCalculation } from "@/utils/number";
+import { validateTransactionDate } from "@/utils/validation";
+import validateAmount from "@/utils/validation/validateAmount";
+import { ValidationError } from "@/utils/errors";
+
+import handleActionError from "../handleActionError";
+
 export default async function handleTransactionSubmission(userId, formData) {
-  // Normalize data
+  // Normalize the data
   formData.amount = Number(formData.amount);
   formData.date = new Date(formData.date);
   const { amount, walletId, categoryId, date } = formData;

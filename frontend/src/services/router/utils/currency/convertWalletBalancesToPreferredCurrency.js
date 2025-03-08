@@ -1,6 +1,6 @@
 import { getBaseCurrency } from "@/services/firebase/db/currency";
-import getNonBaseCurrenciesRates from "./getNonBaseCurrenciesRates";
 import { convertAmountToPreferredCurrency } from "@/utils/currency";
+import getNonBaseCurrenciesRates from "./getNonBaseCurrenciesRates";
 
 // If ended up converting the wallets, the baseCurrency and nonBaseCurrencyRates were most likely not readily unavailable. So they're directly fetched here 
 export default async function convertWalletBalancesToPreferredCurrency(wallets, preferredCurrency, providedBaseCurrency = null) {

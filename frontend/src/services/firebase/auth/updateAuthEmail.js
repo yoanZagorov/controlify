@@ -1,11 +1,15 @@
-import { ROUTES } from "@/constants";
-import { getAuthUser } from "@/services/firebase/auth";
-import { auth } from "@/services/firebase/firebase.config";
-import { StatusCodeError } from "@/utils/errors";
-import { storeRedirectData } from "@/utils/localStorage";
 import { signOut, verifyBeforeUpdateEmail } from "firebase/auth";
 import { redirect } from "react-router";
 
+import { ROUTES } from "@/constants";
+
+import { getAuthUser } from "@/services/firebase/auth";
+import { auth } from "@/services/firebase/firebase.config";
+
+import { StatusCodeError } from "@/utils/errors";
+import { storeRedirectData } from "@/utils/localStorage";
+
+// Update the user email in their Firebase Auth account 
 export default async function updateAuthEmail(email) {
   const authUser = await getAuthUser();
 

@@ -2,10 +2,14 @@ import { collection, getDocs, query as firebaseQuery } from "firebase/firestore"
 import { db } from "@/services/firebase/firebase.config";
 import { getWallets } from "../wallet";
 
+// Get transactions
+// dataFormat
+// "flat" -> all of the transactions are returned in a normal array, not grouped by wallet
+// "structured" -> the transactions are returned in a 2-d array, grouped by wallet
 export default async function getTransactions({ userId, providedWallets = [], query = [], dataFormat = "flat", sortType = "none" }) {
   let wallets = providedWallets;
   if (!wallets) {
-    wallets = await getWallets(userId);
+    wallets = await getWallets(userId); // default to all of the wallets
   }
 
   const promises = wallets.map(async (wallet) => {
@@ -50,6 +54,7 @@ export default async function getTransactions({ userId, providedWallets = [], qu
 
       return sortedTransactions;
     } else {
+      // To do: implement sorting for the structured dataFormat (if needed)
       return transactionsByWallet;
     }
   } catch (error) {

@@ -1,5 +1,5 @@
-import { getActiveWallets } from "@/services/firebase/db/wallet";
 import { HTTP_STATUS_CODES } from "@/constants";
+import { getActiveWallets } from "@/services/firebase/db/wallet";
 import { StatusCodeError } from "@/utils/errors";
 
 export default async function checkWalletNameDuplicate(userId, name) {

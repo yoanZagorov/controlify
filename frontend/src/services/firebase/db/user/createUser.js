@@ -1,16 +1,19 @@
-import { db } from "@/services/firebase/firebase.config";
 import { collection, doc, serverTimestamp, writeBatch } from "firebase/firestore";
+
+import { COLORS } from "@/constants";
+
+import { db } from "@/services/firebase/firebase.config";
+import { getUserDefaultCurrency } from "@/services/location";
 
 import { getBaseCurrency } from "../currency";
 import { getRootCategories } from "../rootCategory";
-import { COLORS } from "@/constants";
 
+// Create a user's account
 export default async function createUser(userId, email, fullName) {
   try {
-    // To do (Non-MVP): get the default user currency through the Geolocation API
-    // const defaultCurrency = getUserDefaultCurrency() || await getBaseCurrency();
+    // To do: get the default user currency through the Geolocation API
+    const defaultCurrency = getUserDefaultCurrency() || (await getBaseCurrency()).code;
 
-    const defaultCurrency = (await getBaseCurrency()).code;
     const defaultCategories = await getRootCategories();
 
     const batch = writeBatch(db);
@@ -27,17 +30,16 @@ export default async function createUser(userId, email, fullName) {
 
     // Set user categories collection
     const categoriesCollectionRef = collection(db, `users/${userId}/categories`); // Defined outside of the loop to avoid multiple collection() calls
-    // let walletCategories = []; // Consider turning this into a map for faster lookups (Not-MVP)
-    let walletCategoriesVisibilityMap = {};
+    let walletCategoriesVisibilityMap = {}; // Using a map for faster lookups
+
     // ...rest allows to get all properties, apart from the destructured one
-    // or rename it in this case
     defaultCategories.forEach(({ id, ...rest }) => {
       const categoryDocRef = doc(categoriesCollectionRef);
       batch.set(categoryDocRef, { ...rest, createdAt: serverTimestamp(), rootCategoryId: id });
 
-      // walletCategories.push({ id: categoryDocRef.id, isVisible: true });
       walletCategoriesVisibilityMap[categoryDocRef.id] = true;
     })
+
     // Set user default wallet doc
     const walletDocRef = doc(collection(db, `users/${userId}/wallets`));
     batch.set(walletDocRef, {
@@ -47,7 +49,6 @@ export default async function createUser(userId, email, fullName) {
       iconName: "wallet",
       isDefault: true,
       color: COLORS.ENTITIES.DEFAULT_WALLET_COLOR,
-      // categories: walletCategories,
       categoriesVisibility: walletCategoriesVisibilityMap,
       createdAt: serverTimestamp(),
       deletedAt: null,
@@ -55,6 +56,6 @@ export default async function createUser(userId, email, fullName) {
 
     await batch.commit();
   } catch (error) {
-    throw new Error("Couldn't create the user's Firestore account.", { cause: error });
+    throw new Error("Couldn't create the user's Firestore account", { cause: error });
   }
 }

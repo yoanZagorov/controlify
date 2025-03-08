@@ -14,11 +14,12 @@ import { Reflect } from "@/pages/app/pages/Reflect";
 
 import { NotFound, RootError } from "@/components/errors";
 
-// To do: find the reason for the infinite loop bug, when defining all routes as children of INDEX
+// To do: find the reason for the infinite loop bug when defining all routes as children of INDEX
+// Create the routes
 const routes = [
   {
     path: ROUTES.INDEX,
-    element: <Navigate to="app" replace />,
+    element: <Navigate to="app" replace />, // Doesn't work with absolute paths (likely a bug in React Router)
     errorElement: <RootError />,
   },
   {
@@ -71,7 +72,7 @@ const routes = [
         children: [
           {
             index: true,
-            element: <Navigate to="overview" replace /> // Doesn't work with absolute paths (likely a bug in React Router)
+            element: <Navigate to="overview" replace />
           },
           {
             path: ROUTES.WALLET_OVERVIEW.STATIC,
@@ -115,6 +116,7 @@ const routes = [
   }
 ]
 
+// Create the app's router
 const router = createBrowserRouter(routes, {
   future: {
     v7_relativeSplatPath: true,

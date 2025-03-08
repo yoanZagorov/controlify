@@ -23,30 +23,35 @@ export default function Calendar({ daysOfMonth, startOfMonthDayOfWeek, localDate
   })
 
   const daysOfMonthEls = daysOfMonth.map((day, i) => (
-    <button
+    <div
       key={i}
-      ref={day.isCurrentDate ? currentDateBtnRef : null}
-      type="button"
-      disabled={day.isAfterToday} // To do: Implement the ability to schedule transactions but for now keep all future ones disabled
-      className={cn(
-        "size-8 w-full h-full flex justify-center items-center p-1.5 text-sm rounded-full focus-goldenrod",
-        (day.isToday && !day.isCurrentDate) && "bg-gray-medium", // Keeping a reference to today if it's not currently selected
-        day.isAfterToday && "opacity-50",
-        day.isCurrentDate && "bg-navy text-goldenrod",
-      )}
+      className="w-full h-full flex justify-center items-center"
       style={day.value === 1 ? { gridColumnStart: startOfMonthDayOfWeek + 1 } : {}} // Initializing the grid-cols from the correct day of week
-      onClick={() => handleDayClick(day.value)}
     >
-      {day.value}
-    </button>
+      <button
+        ref={day.isCurrentDate ? currentDateBtnRef : null}
+        type="button"
+        disabled={day.isAfterToday} // To do: Implement the ability to schedule transactions but for now keep all future ones disabled
+        className={cn(
+          "size-8 flex justify-center items-center p-1.5 text-sm rounded-full focus-goldenrod",
+          (day.isToday && !day.isCurrentDate) && "bg-gray-medium", // Keeping a reference to today if it's not currently selected
+          day.isAfterToday && "opacity-50",
+          day.isCurrentDate && "bg-navy text-goldenrod",
+        )}
+
+        onClick={() => handleDayClick(day.value)}
+      >
+        {day.value}
+      </button>
+    </div>
   ))
 
   return (
     <div className="flex flex-col items-center gap-6 p-6 bg-gray-light rounded-lg mt-6">
       <div className="flex items-center gap-4 text-gray-dark font-semibold">
-        <button type="button" onClick={handleMonthDecrement} className="focus-goldenrod rounded">{"<"}</button>
+        <button type="button" onClick={handleMonthDecrement} className="focus-visible-goldenrod rounded">{"<"}</button>
         <span>{monthsMap[localDate.month]} {localDate.year}</span>
-        <button type="button" onClick={handleMonthIncrement} className="focus-goldenrod rounded">{">"}</button>
+        <button type="button" onClick={handleMonthIncrement} className="focus-visible-goldenrod rounded">{">"}</button>
       </div>
 
       <div className="w-full grid grid-cols-7">

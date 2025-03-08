@@ -1,6 +1,8 @@
 import { redirect } from "react-router";
 import { where } from "firebase/firestore";
 
+import { createErrorResponse, createSuccessResponse } from "../responses";
+
 import { PERIODS, ROUTES } from "@/constants";
 
 import { checkUserAuthStatus, getAuthUserId } from "@/services/firebase/auth";
@@ -8,8 +10,6 @@ import { getBaseCurrency } from "@/services/firebase/db/currency";
 import { getWallets } from "@/services/firebase/db/wallet";
 import { getUser } from "@/services/firebase/db/user";
 import { getPeriodTransactions } from "@/services/firebase/db/transaction";
-
-import { createErrorResponse, createSuccessResponse } from "../responses";
 
 import { getUserFinancialScore } from "../utils/user";
 import { getBalance, getBalanceOverTimeLineChartData, getCashFlowByEntityPieChartData, getCashFlowOverTimeLineChartData } from "../utils/charts";

@@ -2,6 +2,7 @@ import { getCategories } from "@/services/firebase/db/category";
 import { HTTP_STATUS_CODES } from "@/constants";
 import { StatusCodeError } from "@/utils/errors";
 
+// Check if there is a category name duplicate
 export default async function checkCategoryNameDuplicate(userId, name) {
   const categoryNames = (await getCategories(userId)).map(category => category.name);
 

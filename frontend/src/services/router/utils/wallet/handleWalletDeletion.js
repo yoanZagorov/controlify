@@ -1,12 +1,15 @@
 import { doc, writeBatch } from "firebase/firestore";
+
 import { createSuccessResponse } from "../../responses";
+
 import { getEntity } from "@/services/firebase/db/utils/entity";
 import { db } from "@/services/firebase/firebase.config";
 import { getTransactions } from "@/services/firebase/db/transaction";
+
 import { isArrayTruthy } from "@/utils/array";
+
 import handleActionError from "../handleActionError";
 
-// To do: add some kind of indication on the frontend that the transaction's wallet is deleted
 export default async function handleWalletDeletion(userId, walletId) {
   const today = new Date();
   const walletDocRef = doc(db, `users/${userId}/wallets/${walletId}`);
@@ -33,10 +36,6 @@ export default async function handleWalletDeletion(userId, walletId) {
       msg: "Successfully deleted your wallet!",
       msgType: "success",
     })
-
-    // Another variant
-    // storeRedirectData("Successfully deleted wallet!", "success");
-    // return redirect("/app/wallets");
 
   } catch (error) {
     return handleActionError(error, "Couldn't delete your wallet. Please try again");

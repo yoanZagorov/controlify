@@ -1,11 +1,13 @@
 import { redirect } from "react-router";
 import { signOut } from "firebase/auth";
 
+import { ROUTES } from "@/constants";
+
+import { createErrorResponse } from "../responses";
+
 import { auth } from "@/services/firebase/firebase.config";
 
 import { storeRedirectData } from "@/utils/localStorage";
-import { createErrorResponse } from "../responses";
-import { ROUTES } from "@/constants";
 
 export default async function appAction({ request }) {
   const formData = Object.fromEntries(await request.formData());

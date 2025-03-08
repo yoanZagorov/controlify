@@ -1,13 +1,18 @@
-import { formatEntityNameForFirebase } from "@/utils/formatting";
-import { createSuccessResponse } from "../../responses";
-import { getCurrencies } from "@/services/firebase/db/currency";
-import { validateColor, validateCurrency, validateEntityName, validateWalletVisibleCategories } from "@/utils/validation";
-import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
-import { COLORS, VALIDATION_RULES } from "@/constants";
 import { collection, doc, serverTimestamp, where, writeBatch } from "firebase/firestore";
+
+import { COLORS, VALIDATION_RULES } from "@/constants";
+
+import { createSuccessResponse } from "../../responses";
+
+import { getCurrencies } from "@/services/firebase/db/currency";
 import { getCategories } from "@/services/firebase/db/category";
 import { db } from "@/services/firebase/firebase.config";
+
+import { validateColor, validateCurrency, validateEntityName, validateWalletVisibleCategories } from "@/utils/validation";
+import { formatEntityNameForFirebase } from "@/utils/formatting";
 import validateAmount from "@/utils/validation/validateAmount";
+
+import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
 import handleActionError from "../handleActionError";
 
 export default async function handleWalletSubmission(userId, formData) {
@@ -45,7 +50,7 @@ export default async function handleWalletSubmission(userId, formData) {
     const walletSubmissionPayload = {
       name: formattedName,
       balance: initialBalance,
-      categoriesVisibility: Object.fromEntries(categories.map(category => [category.id, category.isVisible])), // Turn to a map for easier lookups
+      categoriesVisibility: Object.fromEntries(categories.map(category => [category.id, category.isVisible])),
       currency,
       color
     }

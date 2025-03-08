@@ -1,17 +1,22 @@
-import getDataToChange from "../getDataToChange";
-import { formatEntityNameForFirebase } from "@/utils/formatting";
 import { doc, writeBatch } from "firebase/firestore";
+
+import { COLORS, VALIDATION_RULES } from "@/constants";
+
 import { createSuccessResponse } from "../../responses";
+
 import { db } from "@/services/firebase/firebase.config";
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { getEntity } from "@/services/firebase/db/utils/entity";
-import { validateColor, validateCurrency, validateEntityName, validateWalletName, validateWalletVisibleCategories } from "@/utils/validation";
-import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
-import { COLORS, VALIDATION_RULES } from "@/constants";
 import { getCurrencies } from "@/services/firebase/db/currency";
+
 import { isObjTruthy } from "@/utils/obj";
+import { validateColor, validateCurrency, validateEntityName, validateWalletVisibleCategories } from "@/utils/validation";
+import { formatEntityNameForFirebase } from "@/utils/formatting";
+
+import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
 import handleActionError from "../handleActionError";
 import { getConvertedAmount } from "../currency";
+import getDataToChange from "../getDataToChange";
 
 export default async function handleWalletUpdate(userId, walletId, formData) {
   // Normalize data
@@ -32,7 +37,7 @@ export default async function handleWalletUpdate(userId, walletId, formData) {
       name: oldWalletData.name !== name,
       currency: oldWalletData.currency !== currency,
       color: oldWalletData.color !== color,
-      categoriesVisibility: JSON.stringify(oldWalletData.categoriesVisibility) !== JSON.stringify(categoriesVisibilityMap) // To do (Non-MVP): do a more sophisticated array comparison
+      categoriesVisibility: JSON.stringify(oldWalletData.categoriesVisibility) !== JSON.stringify(categoriesVisibilityMap) // To do: do a more sophisticated array comparison
     }
 
     const batch = writeBatch(db);
@@ -99,6 +104,6 @@ export default async function handleWalletUpdate(userId, walletId, formData) {
       msgType: "success",
     })
   } catch (error) {
-    return handleActionError(error, "Couldn't create your wallet. Please try again");
+    return handleActionError(error, "Couldn't update your wallet. Please try again");
   }
 }

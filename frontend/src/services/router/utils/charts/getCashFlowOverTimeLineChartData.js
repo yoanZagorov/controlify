@@ -1,7 +1,8 @@
 import { performDecimalCalculation } from "@/utils/number";
-import { convertTransactionsToPreferredCurrency } from "../currency";
 import { isArrayTruthy } from "@/utils/array";
+import { convertTransactionsToPreferredCurrency } from "../currency";
 
+// Get income and expenses over time
 export default async function getCashFlowOverTimeLineChartData(periodTransactions, periodInfo, preferredCurrency = null, providedBaseCurrency = null) {
   // Convert to preferred currency if not already done
   if (isArrayTruthy(periodTransactions) && !periodTransactions[0].convertedAmount) {

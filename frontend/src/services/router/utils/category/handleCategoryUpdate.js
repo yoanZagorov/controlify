@@ -1,15 +1,20 @@
+import { doc, where, writeBatch } from "firebase/firestore";
+
+import { COLORS, ICON_NAMES, VALIDATION_RULES } from "@/constants";
+
+import { createSuccessResponse } from "../../responses";
+
 import { getTransactions } from "@/services/firebase/db/transaction";
 import { getEntity } from "@/services/firebase/db/utils/entity";
 import { db } from "@/services/firebase/firebase.config";
+import { getActiveWallets } from "@/services/firebase/db/wallet";
+
 import { ValidationError } from "@/utils/errors";
 import { formatEntityNameForFirebase } from "@/utils/formatting";
-import { doc, where, writeBatch } from "firebase/firestore";
-import getDataToChange from "../getDataToChange";
-import { createSuccessResponse } from "../../responses";
-import { COLORS, ICON_NAMES, VALIDATION_RULES } from "@/constants";
-import checkCategoryNameDuplicate from "./checkCategoryNameDuplicate";
 import { validateColor, validateEntityName, validateIconName } from "@/utils/validation";
-import { getActiveWallets } from "@/services/firebase/db/wallet";
+
+import getDataToChange from "../getDataToChange";
+import checkCategoryNameDuplicate from "./checkCategoryNameDuplicate";
 import handleActionError from "../handleActionError";
 
 export default async function handleCategoryUpdate(userId, formData) {

@@ -1,5 +1,6 @@
 import { HTTP_STATUS_CODES } from "@/constants";
 
+// A successful response
 export default function createSuccessResponse(data, isStringified = false) {
   return new Response(
     isStringified

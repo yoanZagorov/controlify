@@ -1,13 +1,17 @@
-import { db } from "@/services/firebase/firebase.config";
 import { doc, updateDoc } from "firebase/firestore"
-import { validateCurrency, validateEmail, validateFullName, validateProfilePic } from "@/utils/validation";
-import getDataToChange from "../getDataToChange";
+
 import { createSuccessResponse } from "../../responses";
+
+import { db } from "@/services/firebase/firebase.config";
 import { deleteProfilePicFromCloudinary, uploadProfilePicToCloudinary } from "@/services/cloudinary";
 import { getEntity } from "@/services/firebase/db/utils/entity";
 import { updateAuthEmail } from "@/services/firebase/auth";
 import { getCurrencies } from "@/services/firebase/db/currency";
+
+import { validateCurrency, validateEmail, validateFullName, validateProfilePic } from "@/utils/validation";
+
 import handleActionError from "../handleActionError";
+import getDataToChange from "../getDataToChange";
 
 export default async function handleSettingsUpdate(userId, formData) {
   // Normalize form data
@@ -34,7 +38,7 @@ export default async function handleSettingsUpdate(userId, formData) {
     if (hasDataChanged.profilePic) {
       validateProfilePic(profilePic);
 
-      // To do (Non-MVP): Delete the old profile pic first (if there is one)
+      // To do: Delete the old profile pic first (if there is one)
       // if (oldUserData.profilePic) {
       //   await deleteProfilePicFromCloudinary(oldUserData.profilePic.publicId);
       // }
@@ -71,7 +75,7 @@ export default async function handleSettingsUpdate(userId, formData) {
     await updateDoc(userDocRef, dataToChange);
 
     return createSuccessResponse({
-      msg: `Successfully updated profile settings data!`,
+      msg: "Successfully updated profile settings data!",
       msgType: "success",
     })
   } catch (error) {

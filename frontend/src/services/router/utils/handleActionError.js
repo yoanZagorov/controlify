@@ -1,5 +1,6 @@
 import { createErrorResponse } from "../responses";
 
+// Unified error handling approach
 export default function handleActionError(error, msg) {
   console.error(error);
 

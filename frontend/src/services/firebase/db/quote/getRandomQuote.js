@@ -1,9 +1,12 @@
 import { collection } from "firebase/firestore";
+
+import { HTTP_STATUS_CODES } from "@/constants";
+
 import { getRandomDocQuery } from "@/services/firebase/db/utils/query";
 import { db } from "@/services/firebase/firebase.config";
 import getQuotes from "./getQuotes";
-import { HTTP_STATUS_CODES } from "@/constants";
 
+// Get a random quote
 export default async function getRandomQuote() {
   const quotesCollectionRef = collection(db, "quotes");
   const [randomQuoteDocQuery, fallback] = await getRandomDocQuery(quotesCollectionRef);

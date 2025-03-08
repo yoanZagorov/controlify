@@ -2,16 +2,17 @@ import { redirect } from "react-router";
 
 import { ROUTES } from "@/constants";
 
+import { createErrorResponse, createSuccessResponse } from "../responses";
+
 import { getAuthUserId } from "@/services/firebase/auth";
 import { getRandomQuote } from "@/services/firebase/db/quote";
-
-import { createErrorResponse, createSuccessResponse } from "../responses";
 
 import { getStoredRedirectData } from "@/utils/localStorage";
 
 export default async function authLoader() {
   const userId = await getAuthUserId();
 
+  // If there is already a session, just send the user to the app route
   if (userId) {
     return redirect(ROUTES.APP);
   }

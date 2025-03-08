@@ -1,6 +1,7 @@
 import { orderBy, where } from "firebase/firestore";
 import getWallets from "./getWallets";
 
+// Get all the active wallets
 export default async function getActiveWallets(userId, query = []) {
   const activeWalletsQuery = [
     where("deletedAt", "==", null),
