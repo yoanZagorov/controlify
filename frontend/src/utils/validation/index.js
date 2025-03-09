@@ -4,8 +4,6 @@ export { default as validateCurrency } from "./validateCurrency";
 export { default as validateEntityName } from "./validateEntityName";
 export { default as validateLoginFields } from "./validateLoginFields";
 export { default as validateSignupCredentials } from "./validateSignupCredentials";
-export { default as validateUsername } from "./validateUsername";
-export { default as validateWalletName } from "./validateWalletName";
 export { default as validateWalletVisibleCategories } from "./validateWalletVisibleCategories";
 export { default as validateColor } from "./validateColor";
 export { default as validateTransactionDate } from "./validateTransactionDate";

@@ -10,8 +10,8 @@ export const monthsMap = {
   8: "September",
   9: "October",
   10: "November",
-  11: "December",
-};
+  11: "December"
+}
 
 export const daysOfWeekMap = {
   0: "Sun",
@@ -20,5 +20,5 @@ export const daysOfWeekMap = {
   3: "Wed",
   4: "Thu",
   5: "Fri",
-  6: "Sat",
+  6: "Sat"
 }

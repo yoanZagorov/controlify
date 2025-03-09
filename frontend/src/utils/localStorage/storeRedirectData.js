@@ -1,5 +1,6 @@
 import { LOCAL_STORAGE } from "@/constants";
 
+// Store flash msg data to display on the next page after a redirect
 export default function storeRedirectData(msg, msgType, pathname = "") {
   const redirectData = {
     msg,
