@@ -2,16 +2,20 @@
   "name": "controlify",
   "version": "1.0.0",
   "type": "module",
+  "private": "true",
+  "author": {
+    "name": "Yoan Zagorov",
+    "email": "yoan.zagorov@gmail.com"
+  },
   "workspaces": [
     "frontend",
     "backend",
     "backend/cloud-functions"
   ],
   "scripts": {
-    "lint": "npm run lint --workspace=frontend --workspace=backend"
-  },
-  "dependencies": {
-    "firebase": "^11.3.1"
+    "lint": "npm run lint --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "dev": "npm run dev --workspace=frontend"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

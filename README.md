@@ -77,6 +77,26 @@ For a smoother, app-like experience, you can **install Controlify** on your devi
 - **Editing Your Account:** Navigate to the **"Settings"** page, scroll to the **"Overall"**, then update your details as needed.
 - **Deleting Your Account:** Scroll to the bottom of the **"Settings"** page and click **"DELETE ACCOUNT"** (⚠This action is irreversible).  
 
+## **Local development**
+1. Clone the repository
+
+    ```
+    git clone https://github.com/yoanZagorov/controlify.git
+    cd controlify
+    ```
+
+2. Install dependencies 
+
+    ```
+    npm install
+    ```
+
+3. Start the project
+
+    ```
+    npm run dev
+    ```
+
 ## **Contact**
 For any questions, feedback, or support, feel free to reach out:
 - Email: yoan.zagorov@gmail.com
