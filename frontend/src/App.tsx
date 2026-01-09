@@ -1,17 +1,15 @@
-import { RouterProvider } from "react-router";
+import { RouterProvider } from 'react-router'
 
-import { BreakpointProvider } from "./contexts";
-import { useNavigationMethod } from "./hooks";
-import router from "./services/router/router";
+import { BreakpointProvider } from './contexts'
+import { useNavigationMethod } from './hooks'
+import router from './services/router/router'
 
 export default function App() {
-  useNavigationMethod();
+  useNavigationMethod()
 
   return (
     <BreakpointProvider>
-      <RouterProvider
-        router={router}
-      />
+      <RouterProvider router={router} />
     </BreakpointProvider>
   )
 }

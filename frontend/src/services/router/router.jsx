@@ -1,18 +1,44 @@
-import { createBrowserRouter, Navigate } from "react-router";
+import { createBrowserRouter, Navigate } from 'react-router'
 
-import { ROUTES } from "#constants";
+import { ROUTES } from '#constants'
 
-import { appAction, createAccountAction, dashboardAction, loginAction, reflectAction, resetFetcherAction, settingsAction, walletAction, walletsAction } from "./actions";
-import { appLoader, dashboardLoader, walletsLoader, authLoader, walletLoader, settingsLoader, reflectLoader } from "./loaders";
+import {
+  appAction,
+  createAccountAction,
+  dashboardAction,
+  loginAction,
+  reflectAction,
+  resetFetcherAction,
+  settingsAction,
+  walletAction,
+  walletsAction,
+} from './actions'
+import {
+  appLoader,
+  dashboardLoader,
+  walletsLoader,
+  authLoader,
+  walletLoader,
+  settingsLoader,
+  reflectLoader,
+} from './loaders'
 
-import { LayoutProvider, WalletUpdateProvider } from "#contexts";
+import { LayoutProvider, WalletUpdateProvider } from '#contexts'
 
-import { Auth } from "#pages/auth";
-import { AppLayout, Dashboard, Wallets, Wallet, WalletOverview, WalletTransactions, WalletSettings } from "#pages/app";
-import { Settings } from "#pages/app/pages/Settings";
-import { Reflect } from "#pages/app/pages/Reflect";
+import { Auth } from '#pages/auth'
+import {
+  AppLayout,
+  Dashboard,
+  Wallets,
+  Wallet,
+  WalletOverview,
+  WalletTransactions,
+  WalletSettings,
+} from '#pages/app'
+import { Settings } from '#pages/app/pages/Settings'
+import { Reflect } from '#pages/app/pages/Reflect'
 
-import { NotFound, RootError } from "#components/errors";
+import { NotFound, RootError } from '#components/errors'
 
 // To do: find the reason for the infinite loop bug when defining all routes as children of INDEX
 // Create the routes
@@ -38,73 +64,75 @@ const routes = [
   },
   {
     path: ROUTES.APP,
-    element:
+    element: (
       <LayoutProvider>
         <AppLayout />
-      </LayoutProvider>,
-    id: "app",
+      </LayoutProvider>
+    ),
+    id: 'app',
     loader: appLoader,
     action: appAction,
     errorElement: <RootError />,
     children: [
       {
         index: true,
-        element: <Navigate to="dashboard" replace />
+        element: <Navigate to="dashboard" replace />,
       },
       {
         path: ROUTES.DASHBOARD,
         element: <Dashboard />,
         loader: dashboardLoader,
-        action: dashboardAction
+        action: dashboardAction,
       },
       {
         path: ROUTES.WALLETS,
         element: <Wallets />,
         loader: walletsLoader,
-        action: walletsAction
+        action: walletsAction,
       },
       {
         path: ROUTES.WALLET.STATIC,
         element: <Wallet />,
-        id: "wallet",
+        id: 'wallet',
         loader: walletLoader,
         action: walletAction,
         children: [
           {
             index: true,
-            element: <Navigate to="overview" replace />
+            element: <Navigate to="overview" replace />,
           },
           {
             path: ROUTES.WALLET_OVERVIEW.STATIC,
-            element: <WalletOverview />
+            element: <WalletOverview />,
           },
           {
             path: ROUTES.WALLET_TRANSACTIONS.STATIC,
-            element: <WalletTransactions />
+            element: <WalletTransactions />,
           },
           {
             path: ROUTES.WALLET_SETTINGS.STATIC,
-            element:
+            element: (
               <WalletUpdateProvider>
                 <WalletSettings />
               </WalletUpdateProvider>
+            ),
           },
-        ]
+        ],
       },
       {
         path: ROUTES.REFLECT,
         element: <Reflect />,
-        id: "reflect",
+        id: 'reflect',
         loader: reflectLoader,
-        action: reflectAction
+        action: reflectAction,
       },
       {
         path: ROUTES.SETTINGS,
         element: <Settings />,
         loader: settingsLoader,
-        action: settingsAction
-      }
-    ]
+        action: settingsAction,
+      },
+    ],
   },
   {
     path: ROUTES.RESET_FETCHER,
@@ -112,8 +140,8 @@ const routes = [
   },
   {
     path: ROUTES.CATCH_ALL,
-    element: <NotFound />
-  }
+    element: <NotFound />,
+  },
 ]
 
 // Create the app's router
@@ -124,6 +152,6 @@ const router = createBrowserRouter(routes, {
     v7_normalizeFormMethod: true,
     v7_skipActionErrorRevalidation: true,
   },
-});
+})
 
-export default router;
+export default router

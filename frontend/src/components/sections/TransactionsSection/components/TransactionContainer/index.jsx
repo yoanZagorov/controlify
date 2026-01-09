@@ -1,1 +1,1 @@
-export { default as TransactionContainer } from "./TransactionContainer";
+export { default as TransactionContainer } from './TransactionContainer'

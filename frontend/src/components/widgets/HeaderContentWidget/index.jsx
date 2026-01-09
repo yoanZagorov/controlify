@@ -1,1 +1,1 @@
-export { default as HeaderContentWidget } from "./HeaderContentWidget";
+export { default as HeaderContentWidget } from './HeaderContentWidget'

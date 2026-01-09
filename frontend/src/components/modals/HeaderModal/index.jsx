@@ -1,1 +1,1 @@
-export { default as HeaderModal } from "./HeaderModal";
+export { default as HeaderModal } from './HeaderModal'

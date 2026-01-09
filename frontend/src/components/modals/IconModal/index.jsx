@@ -1,1 +1,1 @@
-export { default as IconModal } from "./IconModal";
+export { default as IconModal } from './IconModal'

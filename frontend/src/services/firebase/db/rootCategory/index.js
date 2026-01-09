@@ -1,1 +1,1 @@
-export { default as getRootCategories } from "./getRootCategories";
+export { default as getRootCategories } from './getRootCategories'

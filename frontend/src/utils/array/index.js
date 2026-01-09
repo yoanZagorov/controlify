@@ -1,1 +1,1 @@
-export { default as isArrayTruthy } from "./isArrayTruthy";
+export { default as isArrayTruthy } from './isArrayTruthy'

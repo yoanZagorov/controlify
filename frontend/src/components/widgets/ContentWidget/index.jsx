@@ -1,1 +1,1 @@
-export { default as ContentWidget } from "./ContentWidget";
+export { default as ContentWidget } from './ContentWidget'

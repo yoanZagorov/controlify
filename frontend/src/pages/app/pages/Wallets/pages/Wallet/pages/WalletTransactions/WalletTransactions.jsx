@@ -1,19 +1,19 @@
-import { useRouteLoaderData } from "react-router";
+import { useRouteLoaderData } from 'react-router'
 
-import { ROUTES } from "#constants";
+import { ROUTES } from '#constants'
 
-import { TransactionProvider } from "#contexts";
+import { TransactionProvider } from '#contexts'
 
-import { useLayout, useScrollToTop } from "#hooks";
+import { useLayout, useScrollToTop } from '#hooks'
 
-import { TransactionsSection } from "#components/sections/TransactionsSection";
+import { TransactionsSection } from '#components/sections/TransactionsSection'
 
 // The Transactions page for a single wallet
 export default function WalletTransactions() {
-  useScrollToTop();
+  useScrollToTop()
 
-  const { wallet, transactions } = useRouteLoaderData("wallet");
-  const { isSingleColLayout } = useLayout();
+  const { wallet, transactions } = useRouteLoaderData('wallet')
+  const { isSingleColLayout } = useLayout()
 
   return (
     <>
@@ -21,18 +21,18 @@ export default function WalletTransactions() {
         <TransactionsSection
           action={ROUTES.WALLET.DYNAMIC(wallet.id)}
           contentProps={{
-            type: isSingleColLayout ? "compact" : "expanded",
+            type: isSingleColLayout ? 'compact' : 'expanded',
             transactions,
             sectionProps: {
-              title: "Wallet Transactions",
+              title: 'Wallet Transactions',
             },
             widget: {
-              iconName: "arrows-rotate",
-              title: "activity overview"
+              iconName: 'arrows-rotate',
+              title: 'activity overview',
             },
             display: {
-              wallet: false
-            }
+              wallet: false,
+            },
           }}
         />
       </TransactionProvider>

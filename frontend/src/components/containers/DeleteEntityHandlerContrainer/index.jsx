@@ -1,1 +1,1 @@
-export { default as DeleteEntityHandlerContainer } from "./DeleteEntityHandlerContainer";
+export { default as DeleteEntityHandlerContainer } from './DeleteEntityHandlerContainer'

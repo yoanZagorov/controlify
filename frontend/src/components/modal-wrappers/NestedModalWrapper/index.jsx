@@ -1,1 +1,1 @@
-export { default as NestedModalWrapper } from "./NestedModalWrapper"; 
+export { default as NestedModalWrapper } from './NestedModalWrapper'

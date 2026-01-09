@@ -6,10 +6,11 @@
     "#*": "./src/*"
   },
   "scripts": {
+    "format": "npx prettier . --write",
+    "lint": "npx eslint .",
     "dev": "vite -c vite.config.js",
     "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint -c eslint.config.js ."
+    "preview": "vite preview"
   },
   "dependencies": {
     "classnames": "^2.5.1",

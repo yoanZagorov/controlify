@@ -1,12 +1,17 @@
-import { getCategories } from "#services/firebase/db/category";
-import { HTTP_STATUS_CODES } from "#constants";
-import { StatusCodeError } from "#utils/errors";
+import { getCategories } from '#services/firebase/db/category'
+import { HTTP_STATUS_CODES } from '#constants'
+import { StatusCodeError } from '#utils/errors'
 
 // Check if there is a category name duplicate
 export default async function checkCategoryNameDuplicate(userId, name) {
-  const categoryNames = (await getCategories(userId)).map(category => category.name);
+  const categoryNames = (await getCategories(userId)).map(
+    (category) => category.name,
+  )
 
   if (categoryNames.includes(name)) {
-    throw new StatusCodeError("A category with this name already exists. Please try a different one", HTTP_STATUS_CODES.CONFLICT);
+    throw new StatusCodeError(
+      'A category with this name already exists. Please try a different one',
+      HTTP_STATUS_CODES.CONFLICT,
+    )
   }
 }

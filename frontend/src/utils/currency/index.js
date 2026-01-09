@@ -1,1 +1,1 @@
-export { default as convertAmountToPreferredCurrency } from "./convertAmountToPreferredCurrency";
+export { default as convertAmountToPreferredCurrency } from './convertAmountToPreferredCurrency'

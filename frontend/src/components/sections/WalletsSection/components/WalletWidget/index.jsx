@@ -1,1 +1,1 @@
-export { default as WalletWidget } from "./WalletWidget";
+export { default as WalletWidget } from './WalletWidget'

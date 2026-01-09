@@ -1,64 +1,68 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react'
 
-import { useProvidedState } from "#hooks";
-import { compareDatesByDay, getNumDaysInMonth, getSpecificDay } from "#utils/date";
+import { useProvidedState } from '#hooks'
+import {
+  compareDatesByDay,
+  getNumDaysInMonth,
+  getSpecificDay,
+} from '#utils/date'
 
-import { SelectedDay } from "./components/SelectedDay";
-import { Calendar } from "./components/Calendar";
+import { SelectedDay } from './components/SelectedDay'
+import { Calendar } from './components/Calendar'
 
 export default function DateModal({ closeModal, state }) {
-  const today = getSpecificDay("today");
+  const today = getSpecificDay('today')
 
-  const [date, setDate] = useProvidedState(state, today);
+  const [date, setDate] = useProvidedState(state, today)
 
   // Keeping the month and day local to prevent unnecessary rerenders of the provider
   const [localDate, setLocalDate] = useState({
     month: date.getMonth(),
-    year: date.getFullYear()
+    year: date.getFullYear(),
   })
 
-  const startOfMonth = new Date(localDate.year, localDate.month);
-  startOfMonth.setDate(1);
+  const startOfMonth = new Date(localDate.year, localDate.month)
+  startOfMonth.setDate(1)
   // The getDay() method is Sunday-based (0 represents Sunday) so need to convert it to Monday-based
-  const startOfMonthDayOfWeek = (startOfMonth.getDay() + 6) % 7;
+  const startOfMonthDayOfWeek = (startOfMonth.getDay() + 6) % 7
 
-  const numDaysInMonth = getNumDaysInMonth(localDate.month, localDate.year);
+  const numDaysInMonth = getNumDaysInMonth(localDate.month, localDate.year)
 
   const daysOfMonth = Array.from({ length: numDaysInMonth }, (_, i) => {
-    const day = i + 1; // Normalize the number
+    const day = i + 1 // Normalize the number
 
-    const currentIterationDate = new Date(localDate.year, localDate.month, day);
+    const currentIterationDate = new Date(localDate.year, localDate.month, day)
 
-    const isCurrentDate = compareDatesByDay(currentIterationDate, date);
-    const isToday = compareDatesByDay(currentIterationDate, today);
-    const isAfterToday = compareDatesByDay(currentIterationDate, today, ">");
+    const isCurrentDate = compareDatesByDay(currentIterationDate, date)
+    const isToday = compareDatesByDay(currentIterationDate, today)
+    const isAfterToday = compareDatesByDay(currentIterationDate, today, '>')
 
-    return { value: day, isCurrentDate, isToday, isAfterToday };
+    return { value: day, isCurrentDate, isToday, isAfterToday }
   })
 
   // Click handlers
   function handleDayClick(dayOfMonth) {
-    setDate(new Date(localDate.year, localDate.month, dayOfMonth));
-    closeModal();
+    setDate(new Date(localDate.year, localDate.month, dayOfMonth))
+    closeModal()
   }
 
   const handleMonthDecrement = useCallback(() => {
-    setLocalDate(prevDate => ({
+    setLocalDate((prevDate) => ({
       ...prevDate,
       // Ensures wrapping to the prev year if needed
       month: prevDate.month === 0 ? 11 : prevDate.month - 1,
-      year: prevDate.month === 0 ? prevDate.year - 1 : prevDate.year
-    }));
-  }, []);
+      year: prevDate.month === 0 ? prevDate.year - 1 : prevDate.year,
+    }))
+  }, [])
 
   const handleMonthIncrement = useCallback(() => {
-    setLocalDate(prevDate => ({
+    setLocalDate((prevDate) => ({
       ...prevDate,
       // Ensures wrapping to the next year if needed
       month: prevDate.month === 11 ? 0 : prevDate.month + 1,
-      year: prevDate.month === 11 ? prevDate.year + 1 : prevDate.year
-    }));
-  }, []);
+      year: prevDate.month === 11 ? prevDate.year + 1 : prevDate.year,
+    }))
+  }, [])
 
   return (
     <div className="mx-auto max-w-80">
@@ -68,9 +72,12 @@ export default function DateModal({ closeModal, state }) {
         daysOfMonth={daysOfMonth}
         startOfMonthDayOfWeek={startOfMonthDayOfWeek}
         localDate={localDate}
-        clickHandlers={{ handleDayClick, handleMonthDecrement, handleMonthIncrement }}
+        clickHandlers={{
+          handleDayClick,
+          handleMonthDecrement,
+          handleMonthIncrement,
+        }}
       />
     </div>
   )
 }
-

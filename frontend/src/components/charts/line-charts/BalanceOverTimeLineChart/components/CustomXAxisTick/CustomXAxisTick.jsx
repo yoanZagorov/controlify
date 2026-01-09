@@ -1,5 +1,5 @@
 export default function CustomXAxisTick({ x, y, payload }) {
-  const VERTICAL_DISTANCE_X_AXIS = 16;
+  const VERTICAL_DISTANCE_X_AXIS = 16
 
   return (
     <g>

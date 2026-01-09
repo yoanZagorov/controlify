@@ -1,1 +1,1 @@
-export { default as IconDeleteBtn } from "./IconDeleteBtn";
+export { default as IconDeleteBtn } from './IconDeleteBtn'

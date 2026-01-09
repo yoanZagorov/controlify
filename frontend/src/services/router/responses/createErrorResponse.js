@@ -1,21 +1,22 @@
-import { HTTP_STATUS_CODES } from "#constants";
+import { HTTP_STATUS_CODES } from '#constants'
 
 // An unsuccessful response
-export default function createErrorResponse(msg, statusCode = HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR) {
+export default function createErrorResponse(
+  msg,
+  statusCode = HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
+) {
   return new Response(
-    JSON.stringify(
-      {
-        msg,
-        msgType: "error",
-        statusCode,
-        resetKey: Date.now()
-      }
-    ),
+    JSON.stringify({
+      msg,
+      msgType: 'error',
+      statusCode,
+      resetKey: Date.now(),
+    }),
     {
       status: statusCode,
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
-    }
-  );
+    },
+  )
 }

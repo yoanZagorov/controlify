@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "npx firebase emulators:start --only functions",
-    "dev": "npx firebase emulators:start --inspect-functions --only functions",
+    "dev--functions": "npx firebase emulators:start --inspect-functions --only functions",
     "start": "npx firebase functions:shell",
     "deploy": "firebase deploy --only functions",
     "logs": "npx firebase functions:log"

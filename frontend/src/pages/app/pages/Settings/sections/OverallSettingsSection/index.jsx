@@ -1,1 +1,1 @@
-export { default as OverallSettingsSection } from "./OverallSettingsSection";
+export { default as OverallSettingsSection } from './OverallSettingsSection'

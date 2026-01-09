@@ -1,19 +1,19 @@
-import { useRef } from "react";
-import { SvgIcon } from "#components/SvgIcon";
-import { useAutoFocus } from "#hooks";
+import { useRef } from 'react'
+import { SvgIcon } from '#components/SvgIcon'
+import { useAutoFocus } from '#hooks'
 
 // Icon selection
 export default function IconModal({ iconNames, closeModal, state }) {
-  const activeIconBtnRef = useRef(null);
-  useAutoFocus({ ref: activeIconBtnRef });
+  const activeIconBtnRef = useRef(null)
+  useAutoFocus({ ref: activeIconBtnRef })
 
   function handleClick(iconName) {
-    state.updateState(iconName);
-    closeModal();
+    state.updateState(iconName)
+    closeModal()
   }
 
-  const iconNamesEls = iconNames.map(iconName => {
-    const isActive = iconName === state.value;
+  const iconNamesEls = iconNames.map((iconName) => {
+    const isActive = iconName === state.value
 
     return (
       <li key={iconName}>
@@ -25,11 +25,11 @@ export default function IconModal({ iconNames, closeModal, state }) {
         >
           <SvgIcon iconName={iconName} className="size-1/2 fill-gray-dark" />
 
-          {isActive &&
+          {isActive && (
             <div className="absolute right-0 bottom-0 flex justify-center items-center size-4 border-2 border-gray-dark rounded-full bg-gray-light">
               <SvgIcon iconName="check" className="size-2.5 fill-green-dark" />
             </div>
-          }
+          )}
         </button>
       </li>
     )

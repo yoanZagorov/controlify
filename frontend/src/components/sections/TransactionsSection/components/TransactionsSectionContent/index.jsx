@@ -1,1 +1,1 @@
-export { default as TransactionsSectionContent } from "./TransactionsSectionContent";
+export { default as TransactionsSectionContent } from './TransactionsSectionContent'

@@ -1,5 +1,5 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase.config";
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../firebase.config'
 
 // Get the current auth user
 // onAuthStateChange guarantees that the authUser obj will not be "undefined" when trying to access it
@@ -7,12 +7,12 @@ import { auth } from "../firebase.config";
 export default function getAuthUserId() {
   return new Promise((resolve) => {
     const unsubsribe = onAuthStateChanged(auth, (authUser) => {
-      unsubsribe();
+      unsubsribe()
 
       if (authUser) {
-        resolve(authUser.uid);
+        resolve(authUser.uid)
       } else {
-        resolve(null);
+        resolve(null)
       }
     })
   })

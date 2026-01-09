@@ -1,3 +1,3 @@
 export default function andToAmpersand(str) {
-  return str.replace(/ and /g, " & ");
+  return str.replace(/ and /g, ' & ')
 }

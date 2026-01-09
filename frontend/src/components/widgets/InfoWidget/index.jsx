@@ -1,1 +1,1 @@
-export { default as InfoWidget } from "./InfoWidget";
+export { default as InfoWidget } from './InfoWidget'

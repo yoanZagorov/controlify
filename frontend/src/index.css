@@ -7,8 +7,8 @@
 
 /* Removes number inputs' default arrow */
 @layer base {
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
@@ -24,7 +24,7 @@
   }
 
   .custom-focus {
-    @apply focus:outline-none focus:ring transition-[box-shadow]
+    @apply focus:outline-none focus:ring transition-[box-shadow];
   }
 
   .focus-goldenrod {
@@ -34,9 +34,9 @@
   .focus-gray-dark {
     @apply custom-focus focus:ring-gray-dark;
   }
-  
+
   .custom-focus-visible {
-    @apply focus-visible:outline-none focus-visible:ring transition-[box-shadow]
+    @apply focus-visible:outline-none focus-visible:ring transition-[box-shadow];
   }
 
   .focus-visible-goldenrod {

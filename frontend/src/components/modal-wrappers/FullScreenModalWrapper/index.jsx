@@ -1,1 +1,1 @@
-export { default as FullScreenModalWrapper } from "./FullScreenModalWrapper";
+export { default as FullScreenModalWrapper } from './FullScreenModalWrapper'

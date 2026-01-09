@@ -1,1 +1,1 @@
-export { performDecimalCalculation } from "../../../../shared/utils/number"; // Easier to do it like this than change every occurence of the func to point to /shared
+export { performDecimalCalculation } from '../../../../shared/utils/number' // Easier to do it like this than change every occurence of the func to point to /shared

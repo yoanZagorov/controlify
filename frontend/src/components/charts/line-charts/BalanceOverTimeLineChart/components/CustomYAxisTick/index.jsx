@@ -1,1 +1,1 @@
-export { default as CustomYAxisTick } from "./CustomYAxisTick";
+export { default as CustomYAxisTick } from './CustomYAxisTick'

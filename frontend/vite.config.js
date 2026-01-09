@@ -5,7 +5,7 @@ import svgr from 'vite-plugin-svgr' // Transform svg-s to React components
 export default defineConfig({
   plugins: [react(), svgr()],
   server: {
-    open: "/",
-    host: "0.0.0.0",
+    open: '/',
+    host: '0.0.0.0',
   },
 })

@@ -1,67 +1,79 @@
-import { useEffect } from "react";
-import { useFetcher } from "react-router";
+import { useEffect } from 'react'
+import { useFetcher } from 'react-router'
 
-import { resetFetcher } from "#services/router/utils";
+import { resetFetcher } from '#services/router/utils'
 
-import { TransactionProvider } from "#contexts";
+import { TransactionProvider } from '#contexts'
 
-import { isArrayTruthy } from "#utils/array";
+import { isArrayTruthy } from '#utils/array'
 
-import { Section } from "#components/sections/Section";
-import { ContentWidget } from "#components/widgets/ContentWidget";
-import { Notification } from "#components/Notification";
-import { Button } from "#components/Button";
-import { TransactionItem } from "../TransactionItem";
+import { Section } from '#components/sections/Section'
+import { ContentWidget } from '#components/widgets/ContentWidget'
+import { Notification } from '#components/Notification'
+import { Button } from '#components/Button'
+import { TransactionItem } from '../TransactionItem'
 
 // Handles the UI display for the TransactionSection
-export default function TransactionsSectionContent({ type = "compact", hasFilter = true, period = "allTime", sectionProps, widget, display, transactions, action, openModal }) {
-  const hasTransactions = isArrayTruthy(transactions);
-  const isExpanded = type === "expanded";
-  const displayConfig = { date: true, wallet: true, ...display };
+export default function TransactionsSectionContent({
+  type = 'compact',
+  hasFilter = true,
+  period = 'allTime',
+  sectionProps,
+  widget,
+  display,
+  transactions,
+  action,
+  openModal,
+}) {
+  const hasTransactions = isArrayTruthy(transactions)
+  const isExpanded = type === 'expanded'
+  const displayConfig = { date: true, wallet: true, ...display }
 
-  const fetcher = useFetcher({ key: "updateTransaction" });
+  const fetcher = useFetcher({ key: 'updateTransaction' })
 
   // Manual cleanup for last transaction - needed to properly close the modal
   useEffect(() => {
     if (!hasTransactions) {
-      resetFetcher(fetcher);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      resetFetcher(fetcher)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
-  }, [hasTransactions]);
+  }, [hasTransactions])
 
-  const transactionEls = hasTransactions ?
-    transactions.map(transaction => {
-      const { id, amount, type, currency, wallet, category, date } = transaction;
+  const transactionEls = hasTransactions
+    ? transactions.map((transaction) => {
+        const { id, amount, type, currency, wallet, category, date } =
+          transaction
 
-      return (
-        <li key={id} data-actionable="true">
-          <TransactionProvider
-            providedTransactionData={{
-              amount: amount.toString(),
-              category: {
-                id: category.id,
-                name: category.name,
-              },
-              type,
-              currency,
-              date: new Date(date),
-              transactionId: transaction.id
-            }}
-            providedWallet={{
-              id: wallet.id,
-              name: wallet.name,
-            }}
-          >
-            <TransactionItem
-              action={action}
-              isExpanded={isExpanded}
-              transaction={transaction}
-              display={displayConfig}
-            />
-          </TransactionProvider>
-        </li >
-      )
-    }) : null;
+        return (
+          <li key={id} data-actionable="true">
+            <TransactionProvider
+              providedTransactionData={{
+                amount: amount.toString(),
+                category: {
+                  id: category.id,
+                  name: category.name,
+                },
+                type,
+                currency,
+                date: new Date(date),
+                transactionId: transaction.id,
+              }}
+              providedWallet={{
+                id: wallet.id,
+                name: wallet.name,
+              }}
+            >
+              <TransactionItem
+                action={action}
+                isExpanded={isExpanded}
+                transaction={transaction}
+                display={displayConfig}
+              />
+            </TransactionProvider>
+          </li>
+        )
+      })
+    : null
 
   return (
     <>
@@ -70,20 +82,27 @@ export default function TransactionsSectionContent({ type = "compact", hasFilter
           iconName={widget.iconName}
           title={widget.title}
           className="relative h-full"
-          content={{ hasBackground: false, className: "mt-4 flex flex-col gap-8" }}
+          content={{
+            hasBackground: false,
+            className: 'mt-4 flex flex-col gap-8',
+          }}
         >
           {hasTransactions ? (
-            <ul className={`flex flex-col ${isExpanded ? "gap-7" : "gap-5"}`}>
+            <ul className={`flex flex-col ${isExpanded ? 'gap-7' : 'gap-5'}`}>
               {transactionEls}
             </ul>
           ) : (
-            <Notification msgType="notification" className="self-center w-full max-w-80">
-              Oops... It looks like you haven't made any transactions yet{period === "today" && " today"}. Add one now!
+            <Notification
+              msgType="notification"
+              className="self-center w-full max-w-80"
+            >
+              Oops... It looks like you haven't made any transactions yet
+              {period === 'today' && ' today'}. Add one now!
             </Notification>
           )}
 
           <Button
-            size={isExpanded ? "l" : "m"}
+            size={isExpanded ? 'l' : 'm'}
             onClick={openModal}
             className="self-center w-full max-w-64 focus-visible:ring-4"
             data-actionable="true"

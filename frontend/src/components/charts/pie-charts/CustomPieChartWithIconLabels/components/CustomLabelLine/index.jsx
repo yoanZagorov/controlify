@@ -1,1 +1,1 @@
-export { default as CustomLabelLine } from "./CustomLabelLine";
+export { default as CustomLabelLine } from './CustomLabelLine'

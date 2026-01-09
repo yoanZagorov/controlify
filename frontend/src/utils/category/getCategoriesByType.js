@@ -1,29 +1,29 @@
 export default function getCategoriesByType(categories) {
-  let expenseCategories = [];
-  let incomeCategories = [];
+  let expenseCategories = []
+  let incomeCategories = []
 
   // Making sure the "Other" category is showed last
-  let expenseOtherCategory;
-  let incomeOtherCategory;
+  let expenseOtherCategory
+  let incomeOtherCategory
 
   for (const category of categories) {
-    if (category.name === "other") {
-      if (category.type === "expense") {
-        expenseOtherCategory = category;
+    if (category.name === 'other') {
+      if (category.type === 'expense') {
+        expenseOtherCategory = category
       } else {
-        incomeOtherCategory = category;
+        incomeOtherCategory = category
       }
     } else {
-      if (category.type === "expense") {
-        expenseCategories.push(category);
+      if (category.type === 'expense') {
+        expenseCategories.push(category)
       } else {
-        incomeCategories.push(category);
+        incomeCategories.push(category)
       }
     }
   }
 
-  expenseOtherCategory && expenseCategories.push(expenseOtherCategory);
-  incomeOtherCategory && incomeCategories.push(incomeOtherCategory);
+  expenseOtherCategory && expenseCategories.push(expenseOtherCategory)
+  incomeOtherCategory && incomeCategories.push(incomeOtherCategory)
 
-  return { expenseCategories, incomeCategories };
+  return { expenseCategories, incomeCategories }
 }

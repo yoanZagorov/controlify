@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
-// Used to perform smooth transitions 
+// Used to perform smooth transitions
 export default function useMountTransition(isMounted, unmountDelay = 300) {
-  const [hasTransitioned, setHasTransitioned] = useState(isMounted);
+  const [hasTransitioned, setHasTransitioned] = useState(isMounted)
 
   useEffect(() => {
-    let timeoutId;
+    let timeoutId
 
     if (isMounted && !hasTransitioned) {
-      setHasTransitioned(true);
+      setHasTransitioned(true)
     } else if (!isMounted && hasTransitioned) {
-      timeoutId = setTimeout(() => setHasTransitioned(false), unmountDelay);
+      timeoutId = setTimeout(() => setHasTransitioned(false), unmountDelay)
     }
 
-    return () => clearTimeout(timeoutId);
-  }, [isMounted]);
+    return () => clearTimeout(timeoutId)
+  }, [isMounted])
 
-  return hasTransitioned;
+  return hasTransitioned
 }

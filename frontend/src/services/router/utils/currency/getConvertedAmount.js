@@ -1,40 +1,59 @@
-import { where } from "firebase/firestore";
+import { where } from 'firebase/firestore'
 
-import { getBaseCurrency, getCurrencies } from "#services/firebase/db/currency";
+import { getBaseCurrency, getCurrencies } from '#services/firebase/db/currency'
 
-import { isArrayTruthy } from "#utils/array";
-import { performDecimalCalculation } from "#utils/number";
+import { isArrayTruthy } from '#utils/array'
+import { performDecimalCalculation } from '#utils/number'
 
-export default async function getConvertedAmount(oldCurrencyCode, newCurrencyCode, oldAmount, providedCurrencies = []) {
-  const isProvidedCurrencies = isArrayTruthy(providedCurrencies);
+export default async function getConvertedAmount(
+  oldCurrencyCode,
+  newCurrencyCode,
+  oldAmount,
+  providedCurrencies = [],
+) {
+  const isProvidedCurrencies = isArrayTruthy(providedCurrencies)
 
-  const baseCurrency = await getBaseCurrency();
+  const baseCurrency = await getBaseCurrency()
 
-  let amountInBaseCurrency = oldAmount;
+  let amountInBaseCurrency = oldAmount
   if (oldCurrencyCode !== baseCurrency.code) {
-    let oldCurrency;
+    let oldCurrency
     if (isProvidedCurrencies) {
-      oldCurrency = providedCurrencies.find(currency => currency.code === oldCurrencyCode);
+      oldCurrency = providedCurrencies.find(
+        (currency) => currency.code === oldCurrencyCode,
+      )
     } else {
-      const oldCurrencyQuery = [where("code", "==", oldCurrencyCode)]
-      oldCurrency = (await getCurrencies(oldCurrencyQuery))[0];
+      const oldCurrencyQuery = [where('code', '==', oldCurrencyCode)]
+      oldCurrency = (await getCurrencies(oldCurrencyQuery))[0]
     }
 
-    amountInBaseCurrency = performDecimalCalculation(oldAmount, oldCurrency.conversionRate, "*", 4);
+    amountInBaseCurrency = performDecimalCalculation(
+      oldAmount,
+      oldCurrency.conversionRate,
+      '*',
+      4,
+    )
   }
 
-  let newAmount = amountInBaseCurrency;
+  let newAmount = amountInBaseCurrency
   if (newCurrencyCode !== baseCurrency.code) {
-    let newCurrency;
+    let newCurrency
     if (isProvidedCurrencies) {
-      newCurrency = providedCurrencies.find(currency => currency.code === newCurrencyCode);
+      newCurrency = providedCurrencies.find(
+        (currency) => currency.code === newCurrencyCode,
+      )
     } else {
-      const newCurrencyQuery = [where("code", "==", newCurrencyCode)]
-      newCurrency = (await getCurrencies(newCurrencyQuery))[0];
+      const newCurrencyQuery = [where('code', '==', newCurrencyCode)]
+      newCurrency = (await getCurrencies(newCurrencyQuery))[0]
     }
 
-    newAmount = performDecimalCalculation(amountInBaseCurrency, newCurrency.conversionRate, "/", 4);
+    newAmount = performDecimalCalculation(
+      amountInBaseCurrency,
+      newCurrency.conversionRate,
+      '/',
+      4,
+    )
   }
 
-  return parseFloat(newAmount.toFixed(2));;
+  return parseFloat(newAmount.toFixed(2))
 }

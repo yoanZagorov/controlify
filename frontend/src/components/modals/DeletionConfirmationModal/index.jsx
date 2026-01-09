@@ -1,1 +1,1 @@
-export { default as DeletionConfirmationModal } from "./DeletionConfirmationModal";
+export { default as DeletionConfirmationModal } from './DeletionConfirmationModal'

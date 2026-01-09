@@ -1,28 +1,28 @@
-import { redirect } from "react-router";
-import { signOut } from "firebase/auth";
+import { redirect } from 'react-router'
+import { signOut } from 'firebase/auth'
 
-import { ROUTES } from "#constants";
+import { ROUTES } from '#constants'
 
-import { createErrorResponse } from "../responses";
+import { createErrorResponse } from '../responses'
 
-import { auth } from "#services/firebase/firebase.config";
+import { auth } from '#services/firebase/firebase.config'
 
-import { storeRedirectData } from "#utils/localStorage";
+import { storeRedirectData } from '#utils/localStorage'
 
 export default async function appAction({ request }) {
-  const formData = Object.fromEntries(await request.formData());
+  const formData = Object.fromEntries(await request.formData())
 
-  const { intent } = formData;
+  const { intent } = formData
 
-  if (intent === "logout") {
+  if (intent === 'logout') {
     try {
-      await signOut(auth);
+      await signOut(auth)
 
-      storeRedirectData("Successfully logged out!", "success");
-      return redirect(ROUTES.LOGIN);
+      storeRedirectData('Successfully logged out!', 'success')
+      return redirect(ROUTES.LOGIN)
     } catch (error) {
-      console.error(error);
-      throw createErrorResponse("Couldn't sign you out. Please try again");
+      console.error(error)
+      throw createErrorResponse("Couldn't sign you out. Please try again")
     }
   }
 }

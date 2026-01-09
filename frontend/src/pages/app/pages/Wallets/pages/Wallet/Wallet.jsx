@@ -1,19 +1,19 @@
-import { Link, Outlet, useLoaderData } from "react-router";
+import { Link, Outlet, useLoaderData } from 'react-router'
 
-import { PAGES } from "#constants";
+import { PAGES } from '#constants'
 
-import { useScrollToTop } from "#hooks";
-import { formatEntityNameForUI } from "#utils/formatting";
+import { useScrollToTop } from '#hooks'
+import { formatEntityNameForUI } from '#utils/formatting'
 
-import BackArrow from "#assets/icons/arrow-back.png";
+import BackArrow from '#assets/icons/arrow-back.png'
 
-import { NavItem } from "./layout-components/NavItem";
+import { NavItem } from './layout-components/NavItem'
 
 // The Wallet page layout
 export default function Wallet() {
-  useScrollToTop();
+  useScrollToTop()
 
-  const { wallet } = useLoaderData();
+  const { wallet } = useLoaderData()
 
   const navElements = PAGES.WALLET.map((page, index) => (
     <NavItem key={index} page={page} index={index} />
@@ -21,15 +21,20 @@ export default function Wallet() {
 
   return (
     <div className="relative">
-      <Link to=".." relative="path" className="inline-block" data-actionable={true}>
+      <Link
+        to=".."
+        relative="path"
+        className="inline-block"
+        data-actionable={true}
+      >
         <img src={BackArrow} />
       </Link>
 
-      <h1 className="mt-5 text-5xl text-navy-dark font-bold">{formatEntityNameForUI(wallet.name)}</h1>
+      <h1 className="mt-5 text-5xl text-navy-dark font-bold">
+        {formatEntityNameForUI(wallet.name)}
+      </h1>
       <nav className="mt-6 w-full">
-        <ul className="flex">
-          {navElements}
-        </ul>
+        <ul className="flex">{navElements}</ul>
       </nav>
 
       <div className="mt-12">

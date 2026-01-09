@@ -1,25 +1,25 @@
-import { createContext, useState } from "react";
+import { createContext, useState } from 'react'
 
 // Keeps the state for the login and create-account pages
-export const AuthContext = createContext(null);
+export const AuthContext = createContext(null)
 
 export default function AuthProvider({ children }) {
   const defaultAuthData = {
-    email: "",
-    password: "",
-    fullName: ""
+    email: '',
+    password: '',
+    fullName: '',
   }
 
-  const [authData, setAuthData] = useState(defaultAuthData);
+  const [authData, setAuthData] = useState(defaultAuthData)
   function updateAuthData(newAuthData) {
-    setAuthData(prevAuthData => ({
+    setAuthData((prevAuthData) => ({
       ...prevAuthData,
-      ...newAuthData
+      ...newAuthData,
     }))
   }
 
   function resetAuthData() {
-    setAuthData(defaultAuthData);
+    setAuthData(defaultAuthData)
   }
 
   return (

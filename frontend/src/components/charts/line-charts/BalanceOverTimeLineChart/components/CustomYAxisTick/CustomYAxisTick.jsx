@@ -1,10 +1,10 @@
-import cn from "classnames";
+import cn from 'classnames'
 
 export default function CustomYAxisTick({ x, y, payload, currency }) {
   // Could not use the custom Amount component since <text> accepts a text node, not a <span>
-  const isPositive = payload.value >= 0;
-  const absAmount = Math.abs(payload.value);
-  const sign = isPositive ? "" : "-";
+  const isPositive = payload.value >= 0
+  const absAmount = Math.abs(payload.value)
+  const sign = isPositive ? '' : '-'
 
   return (
     <g>
@@ -14,11 +14,12 @@ export default function CustomYAxisTick({ x, y, payload, currency }) {
         textAnchor="end"
         dominantBaseline="middle"
         className={cn(
-          "text-xs font-bold",
-          isPositive ? "fill-green-dark" : "fill-red-dark"
+          'text-xs font-bold',
+          isPositive ? 'fill-green-dark' : 'fill-red-dark',
         )}
       >
-        {sign}{currency} {absAmount}
+        {sign}
+        {currency} {absAmount}
       </text>
     </g>
   )

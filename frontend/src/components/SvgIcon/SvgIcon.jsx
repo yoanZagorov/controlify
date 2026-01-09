@@ -1,9 +1,7 @@
-import iconComponentsMap from "./iconComponentsMap";
+import iconComponentsMap from './iconComponentsMap'
 
 export default function SvgIcon({ iconName, ...props }) {
-  const IconComponent = iconComponentsMap[iconName];
+  const IconComponent = iconComponentsMap[iconName]
 
-  return IconComponent
-    ? <IconComponent {...props} />
-    : <div {...props}></div>
+  return IconComponent ? <IconComponent {...props} /> : <div {...props}></div>
 }

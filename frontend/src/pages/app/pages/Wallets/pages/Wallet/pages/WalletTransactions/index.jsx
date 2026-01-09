@@ -1,1 +1,1 @@
-export { default as WalletTransactions } from "./WalletTransactions";
+export { default as WalletTransactions } from './WalletTransactions'

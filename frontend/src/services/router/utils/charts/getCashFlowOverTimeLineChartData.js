@@ -1,60 +1,76 @@
-import { performDecimalCalculation } from "#utils/number";
-import { isArrayTruthy } from "#utils/array";
-import { convertTransactionsToPreferredCurrency } from "../currency";
+import { performDecimalCalculation } from '#utils/number'
+import { isArrayTruthy } from '#utils/array'
+import { convertTransactionsToPreferredCurrency } from '../currency'
 
 // Get income and expenses over time
-export default async function getCashFlowOverTimeLineChartData(periodTransactions, periodInfo, preferredCurrency = null, providedBaseCurrency = null) {
+export default async function getCashFlowOverTimeLineChartData(
+  periodTransactions,
+  periodInfo,
+  preferredCurrency = null,
+  providedBaseCurrency = null,
+) {
   // Convert to preferred currency if not already done
-  if (isArrayTruthy(periodTransactions) && !periodTransactions[0].convertedAmount) {
-    await convertTransactionsToPreferredCurrency(periodTransactions, preferredCurrency, providedBaseCurrency);
+  if (
+    isArrayTruthy(periodTransactions) &&
+    !periodTransactions[0].convertedAmount
+  ) {
+    await convertTransactionsToPreferredCurrency(
+      periodTransactions,
+      preferredCurrency,
+      providedBaseCurrency,
+    )
   }
 
   // Create a period map by each day
-  let transactionsByDayMap = {};
+  let transactionsByDayMap = {}
   for (const transaction of periodTransactions) {
-    const dateKey = transaction.date.toDateString();
+    const dateKey = transaction.date.toDateString()
 
-    if (!transactionsByDayMap[dateKey]) transactionsByDayMap[dateKey] = [];
-    transactionsByDayMap[dateKey].push(transaction);
+    if (!transactionsByDayMap[dateKey]) transactionsByDayMap[dateKey] = []
+    transactionsByDayMap[dateKey].push(transaction)
   }
 
   // Calculate the balance for each individual day
-  const { periodLength } = periodInfo;
+  const { periodLength } = periodInfo
 
   const days = Array.from({ length: periodLength }, (_, i) => {
-    const day = new Date();
-    day.setDate(day.getDate() - (periodLength - i));
+    const day = new Date()
+    day.setDate(day.getDate() - (periodLength - i))
 
-    let presentationKey;
+    let presentationKey
     switch (periodInfo.timeframe) {
-      case "lastThirtyDays":
-        presentationKey = `${day.getDate()}/${day.getMonth() + 1}`;
-        break;
+      case 'lastThirtyDays':
+        presentationKey = `${day.getDate()}/${day.getMonth() + 1}`
+        break
     }
 
-    const dateKey = day.toDateString();
+    const dateKey = day.toDateString()
 
     return {
       dateKey,
       presentationKey,
       expense: 0,
-      income: 0
-    };
-  });
+      income: 0,
+    }
+  })
 
-  days.forEach(day => {
-    const currentDayTransactions = transactionsByDayMap[day.dateKey] || [];
+  days.forEach((day) => {
+    const currentDayTransactions = transactionsByDayMap[day.dateKey] || []
 
     for (const transaction of currentDayTransactions) {
-      const { convertedAmount, type } = transaction;
+      const { convertedAmount, type } = transaction
 
-      if (type === "expense") {
-        day.expense = performDecimalCalculation(day.expense, convertedAmount, "+");
+      if (type === 'expense') {
+        day.expense = performDecimalCalculation(
+          day.expense,
+          convertedAmount,
+          '+',
+        )
       } else {
-        day.income = performDecimalCalculation(day.income, convertedAmount, "+");
+        day.income = performDecimalCalculation(day.income, convertedAmount, '+')
       }
     }
   })
 
-  return days;
+  return days
 }

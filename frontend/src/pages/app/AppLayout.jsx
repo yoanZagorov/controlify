@@ -1,117 +1,140 @@
-import { useState } from "react";
-import { Outlet, useFetcher, useLoaderData } from "react-router";
-import cn from "classnames";
+import { useState } from 'react'
+import { Outlet, useFetcher, useLoaderData } from 'react-router'
+import cn from 'classnames'
 
-import { useBreakpoint, useLayout, useFlashMsg } from "#hooks";
-import { createFetcherMsg } from "#utils/general";
+import { useBreakpoint, useLayout, useFlashMsg } from '#hooks'
+import { createFetcherMsg } from '#utils/general'
 
-import { InfoWidget } from "#components/widgets/InfoWidget";
-import { CollapsedSidebar } from "./layout-components/CollapsedSidebar";
-import { Sidebar } from "./layout-components/Sidebar";
-import { TopBar } from "./layout-components/TopBar";
+import { InfoWidget } from '#components/widgets/InfoWidget'
+import { CollapsedSidebar } from './layout-components/CollapsedSidebar'
+import { Sidebar } from './layout-components/Sidebar'
+import { TopBar } from './layout-components/TopBar'
 
 // The layout for the entire app
 // Keeps the central state for all the flash messages
-// Decides which sidebar component should be displayed 
+// Decides which sidebar component should be displayed
 export default function AppLayout() {
-  const { isSidebarExpanded } = useLayout();
-  const { isMobile, isTablet, isLaptopS, isDesktop } = useBreakpoint();
+  const { isSidebarExpanded } = useLayout()
+  const { isMobile, isTablet, isLaptopS, isDesktop } = useBreakpoint()
 
-  const addTransactionFetcher = useFetcher({ key: "addTransaction" });
-  const updateTransactionFetcher = useFetcher({ key: "updateTransaction" });
-  const deleteTransactionFetcher = useFetcher({ key: "deleteTransaction" });
-  const addWalletFetcher = useFetcher({ key: "addWallet" });
-  const updateWalletFetcher = useFetcher({ key: "updateWallet" });
-  const addCategoryFetcher = useFetcher({ key: "addCategory" });
-  const updateCategoryFetcher = useFetcher({ key: "updateCategory" });
-  const deleteCategoryFetcher = useFetcher({ key: "deleteCategory" });
-  const updateSettingsFetcher = useFetcher({ key: "updateSettings" });
-  const deleteAccountFetcher = useFetcher({ key: "deleteAccount" });
+  const addTransactionFetcher = useFetcher({ key: 'addTransaction' })
+  const updateTransactionFetcher = useFetcher({ key: 'updateTransaction' })
+  const deleteTransactionFetcher = useFetcher({ key: 'deleteTransaction' })
+  const addWalletFetcher = useFetcher({ key: 'addWallet' })
+  const updateWalletFetcher = useFetcher({ key: 'updateWallet' })
+  const addCategoryFetcher = useFetcher({ key: 'addCategory' })
+  const updateCategoryFetcher = useFetcher({ key: 'updateCategory' })
+  const deleteCategoryFetcher = useFetcher({ key: 'deleteCategory' })
+  const updateSettingsFetcher = useFetcher({ key: 'updateSettings' })
+  const deleteAccountFetcher = useFetcher({ key: 'deleteAccount' })
 
-  const [addTransactionMsg, addTransactionMsgType] = createFetcherMsg(addTransactionFetcher);
-  const [updateTransactionMsg, updateTransactionMsgType] = createFetcherMsg(updateTransactionFetcher);
-  const [deleteTransactionMsg, deleteTransactionMsgType] = createFetcherMsg(deleteTransactionFetcher);
-  const [addWalletMsg, addWalletMsgType] = createFetcherMsg(addWalletFetcher);
-  const [updateWalletMsg, updateWalletMsgType] = createFetcherMsg(updateWalletFetcher);
-  const [addCategoryMsg, addCategoryMsgType] = createFetcherMsg(addCategoryFetcher);
-  const [updateCategoryMsg, updateCategoryMsgType] = createFetcherMsg(updateCategoryFetcher);
-  const [deleteCategoryMsg, deleteCategoryMsgType] = createFetcherMsg(deleteCategoryFetcher);
-  const [updateSettingsMsg, updateSettingsMsgType] = createFetcherMsg(updateSettingsFetcher);
-  const [deleteAccountMsg, deleteAccountMsgType] = createFetcherMsg(deleteAccountFetcher);
+  const [addTransactionMsg, addTransactionMsgType] = createFetcherMsg(
+    addTransactionFetcher,
+  )
+  const [updateTransactionMsg, updateTransactionMsgType] = createFetcherMsg(
+    updateTransactionFetcher,
+  )
+  const [deleteTransactionMsg, deleteTransactionMsgType] = createFetcherMsg(
+    deleteTransactionFetcher,
+  )
+  const [addWalletMsg, addWalletMsgType] = createFetcherMsg(addWalletFetcher)
+  const [updateWalletMsg, updateWalletMsgType] =
+    createFetcherMsg(updateWalletFetcher)
+  const [addCategoryMsg, addCategoryMsgType] =
+    createFetcherMsg(addCategoryFetcher)
+  const [updateCategoryMsg, updateCategoryMsgType] = createFetcherMsg(
+    updateCategoryFetcher,
+  )
+  const [deleteCategoryMsg, deleteCategoryMsgType] = createFetcherMsg(
+    deleteCategoryFetcher,
+  )
+  const [updateSettingsMsg, updateSettingsMsgType] = createFetcherMsg(
+    updateSettingsFetcher,
+  )
+  const [deleteAccountMsg, deleteAccountMsgType] =
+    createFetcherMsg(deleteAccountFetcher)
 
-  const { notificationData: { quote, redirectData } } = useLoaderData();
+  const {
+    notificationData: { quote, redirectData },
+  } = useLoaderData()
 
-  const [redirectMsg, setRedirectMsg] = useState({ msg: redirectData.msg, msgType: redirectData.msgType }); // need to use local state to ensure no stale data
+  const [redirectMsg, setRedirectMsg] = useState({
+    msg: redirectData.msg,
+    msgType: redirectData.msgType,
+  }) // need to use local state to ensure no stale data
 
-  const { flashMsg, clearFlashMsg } = useFlashMsg([
-    {
-      msg: addTransactionMsg,
-      msgType: addTransactionMsgType,
-      clearMsg: null
-    },
-    {
-      msg: updateTransactionMsg,
-      msgType: updateTransactionMsgType,
-      clearMsg: null
-    },
-    {
-      msg: deleteTransactionMsg,
-      msgType: deleteTransactionMsgType,
-      clearMsg: null
-    },
-    {
-      msg: addWalletMsg,
-      msgType: addWalletMsgType,
-      clearMsg: null
-    },
-    {
-      msg: updateWalletMsg,
-      msgType: updateWalletMsgType,
-      clearMsg: null
-    },
-    {
-      msg: addCategoryMsg,
-      msgType: addCategoryMsgType,
-      clearMsg: null
-    },
-    {
-      msg: updateCategoryMsg,
-      msgType: updateCategoryMsgType,
-      clearMsg: null
-    },
-    {
-      msg: deleteCategoryMsg,
-      msgType: deleteCategoryMsgType,
-      clearMsg: null
-    },
-    {
-      msg: updateSettingsMsg,
-      msgType: updateSettingsMsgType,
-      clearMsg: null
-    },
-    {
-      msg: deleteAccountMsg,
-      msgType: deleteAccountMsgType,
-      clearMsg: null
-    },
-    {
-      msg: redirectMsg.msg,
-      msgType: redirectMsg.msgType,
-      clearMsg: () => setRedirectMsg({ msg: null, msgType: null })
-    },
-  ], [
-    addTransactionMsg,
-    updateTransactionMsg,
-    deleteTransactionMsg,
-    addWalletMsg,
-    updateWalletMsg,
-    addCategoryMsg,
-    updateCategoryMsg,
-    deleteCategoryMsg,
-    updateSettingsMsg,
-    deleteAccountMsg,
-    redirectMsg
-  ]);
+  const { flashMsg, clearFlashMsg } = useFlashMsg(
+    [
+      {
+        msg: addTransactionMsg,
+        msgType: addTransactionMsgType,
+        clearMsg: null,
+      },
+      {
+        msg: updateTransactionMsg,
+        msgType: updateTransactionMsgType,
+        clearMsg: null,
+      },
+      {
+        msg: deleteTransactionMsg,
+        msgType: deleteTransactionMsgType,
+        clearMsg: null,
+      },
+      {
+        msg: addWalletMsg,
+        msgType: addWalletMsgType,
+        clearMsg: null,
+      },
+      {
+        msg: updateWalletMsg,
+        msgType: updateWalletMsgType,
+        clearMsg: null,
+      },
+      {
+        msg: addCategoryMsg,
+        msgType: addCategoryMsgType,
+        clearMsg: null,
+      },
+      {
+        msg: updateCategoryMsg,
+        msgType: updateCategoryMsgType,
+        clearMsg: null,
+      },
+      {
+        msg: deleteCategoryMsg,
+        msgType: deleteCategoryMsgType,
+        clearMsg: null,
+      },
+      {
+        msg: updateSettingsMsg,
+        msgType: updateSettingsMsgType,
+        clearMsg: null,
+      },
+      {
+        msg: deleteAccountMsg,
+        msgType: deleteAccountMsgType,
+        clearMsg: null,
+      },
+      {
+        msg: redirectMsg.msg,
+        msgType: redirectMsg.msgType,
+        clearMsg: () => setRedirectMsg({ msg: null, msgType: null }),
+      },
+    ],
+    [
+      addTransactionMsg,
+      updateTransactionMsg,
+      deleteTransactionMsg,
+      addWalletMsg,
+      updateWalletMsg,
+      addCategoryMsg,
+      updateCategoryMsg,
+      deleteCategoryMsg,
+      updateSettingsMsg,
+      deleteAccountMsg,
+      redirectMsg,
+    ],
+  )
 
   return (
     <>
@@ -121,7 +144,7 @@ export default function AppLayout() {
             <TopBar />
             <Sidebar />
           </>
-        ) : (isTablet || isLaptopS) ? (
+        ) : isTablet || isLaptopS ? (
           <>
             <CollapsedSidebar />
             <Sidebar />
@@ -131,16 +154,20 @@ export default function AppLayout() {
         )}
       </header>
 
-      <main className={cn(
-        "min-h-screen pt-24 px-4 pb-8 tab:pt-10 ll:pt-12 ls:px-8 ll:px-10 overflow-x-hidden rounded-b-lg",
-        isSidebarExpanded ? "tab:ml-80 ll:ml-96" : "tab:ml-20"
-      )}>
-        <div className={cn(
-          "w-full mx-auto rounded-b-lg",
-          isDesktop || (isLaptopS && !isSidebarExpanded)
-            ? "max-w-6xl"
-            : "max-w-lg"
-        )}>
+      <main
+        className={cn(
+          'min-h-screen pt-24 px-4 pb-8 tab:pt-10 ll:pt-12 ls:px-8 ll:px-10 overflow-x-hidden rounded-b-lg',
+          isSidebarExpanded ? 'tab:ml-80 ll:ml-96' : 'tab:ml-20',
+        )}
+      >
+        <div
+          className={cn(
+            'w-full mx-auto rounded-b-lg',
+            isDesktop || (isLaptopS && !isSidebarExpanded)
+              ? 'max-w-6xl'
+              : 'max-w-lg',
+          )}
+        >
           <InfoWidget
             flashMsg={flashMsg}
             clearFlashMsg={clearFlashMsg}

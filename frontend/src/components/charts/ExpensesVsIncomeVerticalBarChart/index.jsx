@@ -1,1 +1,1 @@
-export { default as ExpensesVsIncomeVerticalBarChart } from "./ExpensesVsIncomeVerticalBarChart";
+export { default as ExpensesVsIncomeVerticalBarChart } from './ExpensesVsIncomeVerticalBarChart'

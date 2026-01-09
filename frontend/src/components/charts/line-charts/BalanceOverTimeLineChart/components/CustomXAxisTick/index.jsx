@@ -1,1 +1,1 @@
-export { default as CustomXAxisTick } from "./CustomXAxisTick";
+export { default as CustomXAxisTick } from './CustomXAxisTick'
