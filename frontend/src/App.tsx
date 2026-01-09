@@ -11,9 +11,6 @@ export default function App() {
     <BreakpointProvider>
       <RouterProvider
         router={router}
-        future={{
-          v7_startTransition: true,
-        }}
       />
     </BreakpointProvider>
   )
