@@ -1,9 +1,9 @@
 import { useRef } from "react";
 
-import { useAutoFocus } from "@/hooks";
+import { useAutoFocus } from "#hooks";
 
-import { SvgIcon } from "@/components/SvgIcon";
-import { Widget } from "@/components/widgets/Widget";
+import { SvgIcon } from "#components/SvgIcon";
+import { Widget } from "#components/widgets/Widget";
 
 // Currency selection
 export default function CurrencyModal({ closeModal, currencies, state }) {

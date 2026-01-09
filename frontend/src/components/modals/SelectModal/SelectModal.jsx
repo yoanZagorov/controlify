@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { capitalizeEveryWord } from "@/utils/str";
+import { capitalizeEveryWord } from "#utils/str";
 
 // A wrapper around presentational modals which are used for selection
 export default function SelectModal({ type = "fullScreen", name, contentMaxWidth = "max-w-none", children }) {

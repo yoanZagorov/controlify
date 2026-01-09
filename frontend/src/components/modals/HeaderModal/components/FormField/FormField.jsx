@@ -1,11 +1,11 @@
 import { useRef } from "react";
 
-import { useSelectInput } from "@/hooks";
-import { capitalizeEveryWord } from "@/utils/str";
+import { useSelectInput } from "#hooks";
+import { capitalizeEveryWord } from "#utils/str";
 
-import { SvgIcon } from "@/components/SvgIcon";
-import { Input } from "@/components/Input";
-import { Select } from "@/components/Select";
+import { SvgIcon } from "#components/SvgIcon";
+import { Input } from "#components/Input";
+import { Select } from "#components/Select";
 
 // UI for the form field
 // controlProps refer to either input/selectBtn, depending on the type

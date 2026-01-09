@@ -10,10 +10,4 @@ export default defineConfig({
     open: "/",
     host: "0.0.0.0",
   },
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-      "services": path.resolve(__dirname, "./src/services"),
-    },
-  },
 })

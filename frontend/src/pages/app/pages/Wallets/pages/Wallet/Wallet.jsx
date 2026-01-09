@@ -1,11 +1,11 @@
 import { Link, Outlet, useLoaderData } from "react-router";
 
-import { PAGES } from "@/constants";
+import { PAGES } from "#constants";
 
-import { useScrollToTop } from "@/hooks";
-import { formatEntityNameForUI } from "@/utils/formatting";
+import { useScrollToTop } from "#hooks";
+import { formatEntityNameForUI } from "#utils/formatting";
 
-import BackArrow from "@/assets/icons/arrow-back.png";
+import BackArrow from "#assets/icons/arrow-back.png";
 
 import { NavItem } from "./layout-components/NavItem";
 

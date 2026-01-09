@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { SvgIcon } from "@/components/SvgIcon";
+import { SvgIcon } from "#components/SvgIcon";
 
 // Displays a preview for a profile pic
 // The native input is hidden and replaced by the preview

@@ -1,4 +1,4 @@
-import { useScrollToTop } from "@/hooks";
+import { useScrollToTop } from "#hooks";
 import { OverviewSection } from "./sections/OverviewSection";
 import { CashFlowSection } from "./sections/CashFlowSection";
 

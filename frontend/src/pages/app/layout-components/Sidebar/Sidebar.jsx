@@ -1,13 +1,13 @@
 import cn from "classnames";
 import { useRouteLoaderData } from "react-router";
 
-import { COLORS, PAGES, ROUTES } from "@/constants";
+import { COLORS, PAGES, ROUTES } from "#constants";
 
-import { useBreakpoint, useLayout } from "@/hooks";
+import { useBreakpoint, useLayout } from "#hooks";
 
-import { FullLogo } from "@/assets/logos/FullLogo";
+import { FullLogo } from "#assets/logos/FullLogo";
 
-import { SvgIcon } from "@/components/SvgIcon";
+import { SvgIcon } from "#components/SvgIcon";
 import { NavItem } from "../NavItem";
 
 // The primary sidebar

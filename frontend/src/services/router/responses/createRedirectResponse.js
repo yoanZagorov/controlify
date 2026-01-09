@@ -1,4 +1,4 @@
-import { HTTP_STATUS_CODES } from "@/constants";
+import { HTTP_STATUS_CODES } from "#constants";
 
 // A redirect response
 // Currently not used but could be in the future

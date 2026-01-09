@@ -1,11 +1,11 @@
 import { useRef } from "react";
 import cn from "classnames";
 
-import { formatEntityNameForUI } from "@/utils/formatting";
+import { formatEntityNameForUI } from "#utils/formatting";
 
-import { SvgIcon } from "@/components/SvgIcon";
-import { Amount } from "@/components/Amount";
-import { useAutoFocus } from "@/hooks";
+import { SvgIcon } from "#components/SvgIcon";
+import { Amount } from "#components/Amount";
+import { useAutoFocus } from "#hooks";
 
 export default function WalletModal({ wallets, closeModal, state }) {
   const activeWalletBtnRef = useRef(null);

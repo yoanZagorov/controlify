@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { isObjTruthy } from "@/utils/obj";
+import { isObjTruthy } from "#utils/obj";
 
 // Look through the provided messages and return the first one with content (if there is one)
 export default function useFlashMsg(messages, deps) {

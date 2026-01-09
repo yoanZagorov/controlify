@@ -1,4 +1,4 @@
-import { getAuthUserId } from "@/services/firebase/auth";
+import { getAuthUserId } from "#services/firebase/auth";
 import { handleTransactionDeletion, handleTransactionSubmission, handleTransactionUpdate } from "../utils/transaction";
 import { handleWalletSubmission } from "../utils/wallet";
 

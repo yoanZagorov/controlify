@@ -1,4 +1,4 @@
-import { performDecimalCalculation } from "@/utils/number";
+import { performDecimalCalculation } from "#utils/number";
 
 // Currencies in the db hold conversion rate references only to the base currency
 export default function convertAmountToPreferredCurrency({ amount, currency, baseCurrency, preferredCurrency, nonBaseCurrenciesRates }) {

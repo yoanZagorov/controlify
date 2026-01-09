@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Outlet, useFetcher, useLoaderData } from "react-router";
 import cn from "classnames";
 
-import { useBreakpoint, useLayout, useFlashMsg } from "@/hooks";
-import { createFetcherMsg } from "@/utils/general";
+import { useBreakpoint, useLayout, useFlashMsg } from "#hooks";
+import { createFetcherMsg } from "#utils/general";
 
-import { InfoWidget } from "@/components/widgets/InfoWidget";
+import { InfoWidget } from "#components/widgets/InfoWidget";
 import { CollapsedSidebar } from "./layout-components/CollapsedSidebar";
 import { Sidebar } from "./layout-components/Sidebar";
 import { TopBar } from "./layout-components/TopBar";

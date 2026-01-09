@@ -1,4 +1,4 @@
-import { SvgIcon } from "@/components/SvgIcon";
+import { SvgIcon } from "#components/SvgIcon";
 
 export default function CustomIconLabel({ size, cx, cy, midAngle, outerRadius, percent, fill, payload }) {
   if (percent === 0) return null; // Nothing to render

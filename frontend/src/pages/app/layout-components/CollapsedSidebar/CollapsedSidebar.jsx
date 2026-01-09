@@ -1,10 +1,10 @@
 import cn from "classnames";
 
-import { PAGES } from "@/constants";
+import { PAGES } from "#constants";
 
-import { useLayout } from "@/hooks";
+import { useLayout } from "#hooks";
 
-import { SvgIcon } from "@/components/SvgIcon";
+import { SvgIcon } from "#components/SvgIcon";
 import { NavItem } from "../NavItem";
 
 // The sidebar appearing on tablet screens

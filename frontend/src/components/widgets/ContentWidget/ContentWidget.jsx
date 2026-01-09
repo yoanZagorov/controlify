@@ -1,6 +1,6 @@
 import cn from "classnames"
-import { SvgIcon } from "@/components/SvgIcon"
-import { Widget } from "@/components/widgets/Widget"
+import { SvgIcon } from "#components/SvgIcon"
+import { Widget } from "#components/widgets/Widget"
 
 // A widget with a title and an icon. Used a lot throughout the app
 // If the content.hasBackground is true, it provides a structured area to show the content. Else, it gives more freedom to the consumer

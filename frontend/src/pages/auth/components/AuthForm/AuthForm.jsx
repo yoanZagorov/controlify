@@ -2,11 +2,11 @@ import cn from "classnames";
 import { useRef } from "react";
 import { Link } from "react-router";
 
-import { useAuth, useAutoFocus, useBreakpoint } from "@/hooks";
+import { useAuth, useAutoFocus, useBreakpoint } from "#hooks";
 
-import { Input } from "@/components/Input";
-import { Form } from "@/components/Form";
-import { VALIDATION_RULES } from "@/constants";
+import { Input } from "#components/Input";
+import { Form } from "#components/Form";
+import { VALIDATION_RULES } from "#constants";
 
 // Using a controlled inputs approach to guide the user
 // To do: create handleChange functions for the inputs

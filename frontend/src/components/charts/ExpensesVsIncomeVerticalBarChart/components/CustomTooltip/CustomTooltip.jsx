@@ -1,4 +1,4 @@
-import { Amount } from "@/components/Amount";
+import { Amount } from "#components/Amount";
 import cn from "classnames";
 
 export default function CustomTooltip({ active, payload, currency }) {

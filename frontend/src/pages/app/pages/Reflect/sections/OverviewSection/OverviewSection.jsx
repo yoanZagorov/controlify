@@ -1,17 +1,17 @@
 import cn from "classnames";
 import { useRouteLoaderData } from "react-router";
 
-import { PERIODS } from "@/constants";
+import { PERIODS } from "#constants";
 
-import { useLayout } from "@/hooks";
-import { formatPeriodNameForUI } from "@/utils/formatting";
+import { useLayout } from "#hooks";
+import { formatPeriodNameForUI } from "#utils/formatting";
 
-import { Amount } from "@/components/Amount";
-import { Carousel } from "@/components/Carousel";
-import { FinancialScoreGaugeChart } from "@/components/charts/FinancialScoreGaugeChart";
-import { WaterfallChart } from "@/components/charts/WaterfallChart";
-import { Section } from "@/components/sections/Section";
-import { HeaderContentWidget } from "@/components/widgets/HeaderContentWidget";
+import { Amount } from "#components/Amount";
+import { Carousel } from "#components/Carousel";
+import { FinancialScoreGaugeChart } from "#components/charts/FinancialScoreGaugeChart";
+import { WaterfallChart } from "#components/charts/WaterfallChart";
+import { Section } from "#components/sections/Section";
+import { HeaderContentWidget } from "#components/widgets/HeaderContentWidget";
 
 // The Reflect page Overview section
 // Displays a financial score gauge chart + a balance waterfall chart

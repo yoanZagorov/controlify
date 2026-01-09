@@ -1,6 +1,6 @@
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-import { COLORS } from "@/constants";
+import { COLORS } from "#constants";
 
 import { CustomXAxisTick } from "../line-charts/BalanceOverTimeLineChart/components/CustomXAxisTick";
 import { CustomYAxisTick } from "../line-charts/BalanceOverTimeLineChart/components/CustomYAxisTick";

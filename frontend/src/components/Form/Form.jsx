@@ -1,8 +1,8 @@
 import { Form as RouterForm } from "react-router"
 import cn from "classnames";
 
-import { isObjTruthy } from "@/utils/obj";
-import { isArrayTruthy } from "@/utils/array";
+import { isObjTruthy } from "#utils/obj";
+import { isArrayTruthy } from "#utils/array";
 
 import { Button } from "../Button"
 

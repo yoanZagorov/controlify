@@ -1,4 +1,4 @@
-import { getStoredRedirectData, storeRedirectData } from "@/utils/localStorage";
+import { getStoredRedirectData, storeRedirectData } from "#utils/localStorage";
 
 // Used in every loader to ensure the paths are protected
 // Had to implement it like this because of the loaders' core philosophy. See the docs for more info

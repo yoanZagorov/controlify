@@ -1,9 +1,9 @@
 import cn from "classnames";
 
-import { isObjTruthy } from "@/utils/obj";
+import { isObjTruthy } from "#utils/obj";
 
-import { Form } from "@/components/Form";
-import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
+import { Form } from "#components/Form";
+import { DeleteEntityHandlerContainer } from "#components/containers/DeleteEntityHandlerContrainer";
 
 import { Section } from "../Section";
 import { SettingWidgetFormField } from "./components/SettingWidgetFormField";

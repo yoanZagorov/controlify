@@ -1,4 +1,4 @@
-import { Amount } from "@/components/Amount";
+import { Amount } from "#components/Amount";
 
 export default function CustomTooltip({ active, label, payload, currency }) {
   if (active && payload && payload.length) {

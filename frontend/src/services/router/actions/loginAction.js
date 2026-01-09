@@ -1,16 +1,16 @@
 import { redirect } from "react-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-import { ROUTES } from "@/constants";
+import { ROUTES } from "#constants";
 
 import { createErrorResponse } from "../responses";
 
-import { auth } from "@/services/firebase/firebase.config";
-import { firebaseAuthErrorsMap } from "@/services/firebase/auth";
+import { auth } from "#services/firebase/firebase.config";
+import { firebaseAuthErrorsMap } from "#services/firebase/auth";
 
-import { ValidationError } from "@/utils/errors";
-import { storeRedirectData } from "@/utils/localStorage";
-import { validateLoginFields } from "@/utils/validation";
+import { ValidationError } from "#utils/errors";
+import { storeRedirectData } from "#utils/localStorage";
+import { validateLoginFields } from "#utils/validation";
 
 export default async function loginAction({ request }) {
   const formData = Object.fromEntries(await request.formData());

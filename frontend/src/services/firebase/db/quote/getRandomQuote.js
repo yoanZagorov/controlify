@@ -1,9 +1,9 @@
 import { collection } from "firebase/firestore";
 
-import { HTTP_STATUS_CODES } from "@/constants";
+import { HTTP_STATUS_CODES } from "#constants";
 
-import { getRandomDocQuery } from "@/services/firebase/db/utils/query";
-import { db } from "@/services/firebase/firebase.config";
+import { getRandomDocQuery } from "#services/firebase/db/utils/query";
+import { db } from "#services/firebase/firebase.config";
 import getQuotes from "./getQuotes";
 
 // Get a random quote

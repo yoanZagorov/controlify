@@ -1,8 +1,8 @@
 import { doc } from "firebase/firestore";
 
-import { db } from "@/services/firebase/firebase.config";
-import { getEntity } from "@/services/firebase/db/utils/entity";
-import { transformUserProfilePic } from "@/services/cloudinary";
+import { db } from "#services/firebase/firebase.config";
+import { getEntity } from "#services/firebase/db/utils/entity";
+import { transformUserProfilePic } from "#services/cloudinary";
 
 export default async function getUser(userId) {
   const userDocRef = doc(db, "users", userId);

@@ -1,14 +1,14 @@
 import { deleteUser, signOut } from "firebase/auth";
 import { redirect } from "react-router";
 
-import { ROUTES } from "@/constants";
+import { ROUTES } from "#constants";
 
 import { createErrorResponse } from "../../responses";
 
-import { auth } from "@/services/firebase/firebase.config";
-import { getAuthUser } from "@/services/firebase/auth";
+import { auth } from "#services/firebase/firebase.config";
+import { getAuthUser } from "#services/firebase/auth";
 
-import { storeRedirectData } from "@/utils/localStorage";
+import { storeRedirectData } from "#utils/localStorage";
 
 export default async function handleAccountDeletion() {
   const authUser = await getAuthUser();

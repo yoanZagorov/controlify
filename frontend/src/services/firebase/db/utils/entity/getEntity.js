@@ -1,5 +1,5 @@
 import { getDoc } from "firebase/firestore";
-import { capitalize } from "@/utils/str";
+import { capitalize } from "#utils/str";
 
 // Used to get a single entity - reused for almost all of single entity reads
 export default async function getEntity(docRef, docId, entityName) {

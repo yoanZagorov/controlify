@@ -1,5 +1,5 @@
-import { PERIODS } from "@/constants";
-import { getLastThirtyDaysStartandEnd } from "@/utils/date";
+import { PERIODS } from "#constants";
+import { getLastThirtyDaysStartandEnd } from "#utils/date";
 import { dashToCamelCase } from "../str";
 
 export default function getPeriodInfo(period = dashToCamelCase(PERIODS.DEFAULT_PERIOD)) {

@@ -1,4 +1,4 @@
-import { isObjTruthy } from "@/utils/obj";
+import { isObjTruthy } from "#utils/obj";
 import { createContext, useState } from "react"
 import { useRouteLoaderData } from "react-router";
 

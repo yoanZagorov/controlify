@@ -1,4 +1,4 @@
-import { VALIDATION_RULES } from "@/constants";
+import { VALIDATION_RULES } from "#constants";
 import { spaceToDash } from "../str"
 
 // If there is a currency code, keep it as is for prettier look

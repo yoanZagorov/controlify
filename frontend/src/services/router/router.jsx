@@ -1,18 +1,18 @@
 import { createBrowserRouter, Navigate } from "react-router";
 
-import { ROUTES } from "@/constants";
+import { ROUTES } from "#constants";
 
 import { appAction, createAccountAction, dashboardAction, loginAction, reflectAction, resetFetcherAction, settingsAction, walletAction, walletsAction } from "./actions";
 import { appLoader, dashboardLoader, walletsLoader, authLoader, walletLoader, settingsLoader, reflectLoader } from "./loaders";
 
-import { LayoutProvider, WalletUpdateProvider } from "@/contexts";
+import { LayoutProvider, WalletUpdateProvider } from "#contexts";
 
-import { Auth } from "@/pages/auth";
-import { AppLayout, Dashboard, Wallets, Wallet, WalletOverview, WalletTransactions, WalletSettings } from "@/pages/app";
-import { Settings } from "@/pages/app/pages/Settings";
-import { Reflect } from "@/pages/app/pages/Reflect";
+import { Auth } from "#pages/auth";
+import { AppLayout, Dashboard, Wallets, Wallet, WalletOverview, WalletTransactions, WalletSettings } from "#pages/app";
+import { Settings } from "#pages/app/pages/Settings";
+import { Reflect } from "#pages/app/pages/Reflect";
 
-import { NotFound, RootError } from "@/components/errors";
+import { NotFound, RootError } from "#components/errors";
 
 // To do: find the reason for the infinite loop bug when defining all routes as children of INDEX
 // Create the routes

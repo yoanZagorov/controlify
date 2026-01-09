@@ -1,7 +1,7 @@
 import { createContext, useState } from "react"
 import { useRouteLoaderData } from "react-router";
 
-import { COLORS } from "@/constants";
+import { COLORS } from "#constants";
 
 // Used to keep the state for adding a new wallet
 export const WalletSubmissionContext = createContext(null);

@@ -1,4 +1,4 @@
-import { HTTP_STATUS_CODES } from "@/constants";
+import { HTTP_STATUS_CODES } from "#constants";
 
 // An unsuccessful response
 export default function createErrorResponse(msg, statusCode = HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR) {

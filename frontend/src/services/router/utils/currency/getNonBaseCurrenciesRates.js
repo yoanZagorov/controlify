@@ -1,5 +1,5 @@
 import { where } from "firebase/firestore";
-import { getCurrencies } from "@/services/firebase/db/currency";
+import { getCurrencies } from "#services/firebase/db/currency";
 
 // Fetch the needed currency rates all at once
 // Entities could be either wallets or transactions

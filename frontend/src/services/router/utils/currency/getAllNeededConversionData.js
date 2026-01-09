@@ -1,7 +1,7 @@
-import { getBaseCurrency } from "@/services/firebase/db/currency";
-import { getWallet, getWallets } from "@/services/firebase/db/wallet";
-import { getPeriodTransactions } from "@/services/firebase/db/transaction";
-import { getUser } from "@/services/firebase/db/user";
+import { getBaseCurrency } from "#services/firebase/db/currency";
+import { getWallet, getWallets } from "#services/firebase/db/wallet";
+import { getPeriodTransactions } from "#services/firebase/db/transaction";
+import { getUser } from "#services/firebase/db/user";
 
 import getNonBaseCurrenciesRates from "./getNonBaseCurrenciesRates";
 

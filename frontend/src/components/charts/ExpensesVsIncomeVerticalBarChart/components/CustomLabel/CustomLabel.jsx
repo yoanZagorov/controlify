@@ -1,4 +1,4 @@
-import { capitalize } from "@/utils/str";
+import { capitalize } from "#utils/str";
 
 export default function CustomLabel({ x, y, name }) {
   const barMarginTop = 15;

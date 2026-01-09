@@ -1,14 +1,14 @@
 import { collection, doc, serverTimestamp, writeBatch } from "firebase/firestore";
 
-import { COLORS, ICON_NAMES, VALIDATION_RULES } from "@/constants";
+import { COLORS, ICON_NAMES, VALIDATION_RULES } from "#constants";
 
 import { createSuccessResponse } from "../../responses";
 
-import { db } from "@/services/firebase/firebase.config";
-import { getActiveWallets } from "@/services/firebase/db/wallet";
+import { db } from "#services/firebase/firebase.config";
+import { getActiveWallets } from "#services/firebase/db/wallet";
 
-import { formatEntityNameForFirebase } from "@/utils/formatting";
-import { validateCategoryType, validateColor, validateEntityName, validateIconName } from "@/utils/validation";
+import { formatEntityNameForFirebase } from "#utils/formatting";
+import { validateCategoryType, validateColor, validateEntityName, validateIconName } from "#utils/validation";
 
 import handleActionError from "../handleActionError";
 import checkCategoryNameDuplicate from "./checkCategoryNameDuplicate";

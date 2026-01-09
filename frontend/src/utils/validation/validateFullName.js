@@ -1,5 +1,5 @@
-import { VALIDATION_RULES } from "@/constants";
-import { ValidationError } from "@/utils/errors";
+import { VALIDATION_RULES } from "#constants";
+import { ValidationError } from "#utils/errors";
 
 export default function validateFullName(fullName) {
   if (!fullName) {

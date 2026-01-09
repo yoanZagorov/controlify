@@ -1,6 +1,6 @@
 import cn from "classnames";
-import { formatEntityNameForUI } from "@/utils/formatting";
-import { SvgIcon } from "@/components/SvgIcon";
+import { formatEntityNameForUI } from "#utils/formatting";
+import { SvgIcon } from "#components/SvgIcon";
 
 // To do: give the ability to edit the categories
 export default function CategoryItem({ category: { id, iconName, name, isVisible, color }, handleVisibilityToggle }) {

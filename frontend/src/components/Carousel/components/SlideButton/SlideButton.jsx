@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { SvgIcon } from "@/components/SvgIcon";
+import { SvgIcon } from "#components/SvgIcon";
 
 export default function SlideButton({ disabled, handleClick, iconName }) {
   return (

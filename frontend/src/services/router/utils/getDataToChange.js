@@ -1,5 +1,5 @@
-import { ValidationError } from "@/utils/errors";
-import { isObjTruthy } from "@/utils/obj";
+import { ValidationError } from "#utils/errors";
+import { isObjTruthy } from "#utils/obj";
 
 // Utility used to get only the fields that should change when updating an entity
 export default function getDataToChange(hasDataChanged, newData) {

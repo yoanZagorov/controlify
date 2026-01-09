@@ -1,13 +1,13 @@
 import cn from "classnames";
 import { useRef } from "react";
 
-import { useAutoFocus, useSelectInput } from "@/hooks";
+import { useAutoFocus, useSelectInput } from "#hooks";
 
-import { isObjTruthy } from "@/utils/obj";
+import { isObjTruthy } from "#utils/obj";
 
-import { Form } from "@/components/Form";
-import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
-import { Button } from "@/components/Button";
+import { Form } from "#components/Form";
+import { DeleteEntityHandlerContainer } from "#components/containers/DeleteEntityHandlerContrainer";
+import { Button } from "#components/Button";
 
 import { FormField } from "./components/FormField";
 import { DeleteEntityBtn } from "./components/DeleteEntityBtn";

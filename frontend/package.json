@@ -1,6 +1,10 @@
 {
   "name": "frontend",
   "type": "module",
+  "private": "true",
+  "imports": {
+    "#*": "./src/*"
+  },
   "scripts": {
     "dev": "vite -c vite.config.js",
     "build": "vite build",

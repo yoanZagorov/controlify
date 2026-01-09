@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
-import { useProvidedState } from "@/hooks";
-import { compareDatesByDay, getNumDaysInMonth, getSpecificDay } from "@/utils/date";
+import { useProvidedState } from "#hooks";
+import { compareDatesByDay, getNumDaysInMonth, getSpecificDay } from "#utils/date";
 
 import { SelectedDay } from "./components/SelectedDay";
 import { Calendar } from "./components/Calendar";

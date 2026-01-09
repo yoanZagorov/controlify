@@ -1,7 +1,7 @@
-import { useModal } from "@/hooks";
+import { useModal } from "#hooks";
 
-import { SelectModal } from "@/components/modals/SelectModal";
-import { FullScreenModalWrapper } from "@/components/modal-wrappers/FullScreenModalWrapper";
+import { SelectModal } from "#components/modals/SelectModal";
+import { FullScreenModalWrapper } from "#components/modal-wrappers/FullScreenModalWrapper";
 
 // Provides the logic for form fields that open nested modals
 export default function FormFieldContainer({ field, modal }) {

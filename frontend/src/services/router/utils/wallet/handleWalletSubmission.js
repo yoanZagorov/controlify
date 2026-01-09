@@ -1,16 +1,16 @@
 import { collection, doc, serverTimestamp, where, writeBatch } from "firebase/firestore";
 
-import { COLORS, VALIDATION_RULES } from "@/constants";
+import { COLORS, VALIDATION_RULES } from "#constants";
 
 import { createSuccessResponse } from "../../responses";
 
-import { getCurrencies } from "@/services/firebase/db/currency";
-import { getCategories } from "@/services/firebase/db/category";
-import { db } from "@/services/firebase/firebase.config";
+import { getCurrencies } from "#services/firebase/db/currency";
+import { getCategories } from "#services/firebase/db/category";
+import { db } from "#services/firebase/firebase.config";
 
-import { validateColor, validateCurrency, validateEntityName, validateWalletVisibleCategories } from "@/utils/validation";
-import { formatEntityNameForFirebase } from "@/utils/formatting";
-import validateAmount from "@/utils/validation/validateAmount";
+import { validateColor, validateCurrency, validateEntityName, validateWalletVisibleCategories } from "#utils/validation";
+import { formatEntityNameForFirebase } from "#utils/formatting";
+import validateAmount from "#utils/validation/validateAmount";
 
 import checkWalletNameDuplicate from "./checkWalletNameDuplicate";
 import handleActionError from "../handleActionError";

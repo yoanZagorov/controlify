@@ -1,11 +1,11 @@
 import { Link } from "react-router";
 
-import { ROUTES } from "@/constants";
+import { ROUTES } from "#constants";
 
-import { FullLogo } from "@/assets/logos/FullLogo";
+import { FullLogo } from "#assets/logos/FullLogo";
 
-import { Widget } from "@/components/widgets/Widget";
-import { Button } from "@/components/Button";
+import { Widget } from "#components/widgets/Widget";
+import { Button } from "#components/Button";
 
 export default function ErrorWrapper({ error }) {
   const errorConfig = {
