@@ -1,28 +1,40 @@
 import globals from 'globals'
+import { defineConfig } from 'eslint/config'
+
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
 import sharedConfig from '../shared/eslint.config.js'
 
-export default [
-  ...sharedConfig,
-  { ignores: ['dist'] },
+export default defineConfig([
   {
-    languageOptions: {
-      globals: globals.browser,
-      parserOptions: { ecmaFeatures: { jsx: true } },
-    },
-    settings: { react: { version: '18.3' } },
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    ignores: ['dist'],
+
     plugins: {
       react,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      reactHooks,
+      reactRefresh, // ensure react-refresh (hot component reloading) works properly
     },
+
+    extends: [
+      react.configs.flat.recommended,
+      react.configs.flat['jsx-runtime'], // used, since using React 17+
+      reactHooks.configs.flat.recommended,
+      reactRefresh.configs.recommended,
+      sharedConfig,
+    ],
+
+    languageOptions: {
+      globals: {
+        ...globals.browser, // additional global variables
+      },
+    },
+
+    settings: { react: { version: 'detect' } },
+
     rules: {
-      ...react.configs.recommended.rules,
-      ...react.configs['jsx-runtime'].rules,
-      ...reactHooks.configs.recommended.rules,
       'react/prop-types': 'off',
       'react/jsx-no-target-blank': 'off',
       'react-refresh/only-export-components': [
@@ -31,4 +43,4 @@ export default [
       ],
     },
   },
-]
+])

@@ -1,4 +1,5 @@
 {
+  "extends": "../shared/tsconfig.json",
   "include": ["src"],
   "compilerOptions": {
     "target": "esnext",
@@ -7,15 +8,7 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
-    "noEmit": true,
     "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
     "paths": {
       "#*": ["./src/*"]
     },
