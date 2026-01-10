@@ -17,20 +17,12 @@
 - **Transactions:** Create, edit, and delete income or expense transactions.
 - **Wallets:** Organize your transactions by wallets. Create, edit, and delete multiple wallets in different currencies with various purposes (e.g., savings, travel, etc.).
 - **Categories:** Create, edit, delete, and assign categories to transactions (e.g., groceries, entertainment, salary) to easily track spending and income.
-- **Data Visualization:** Visualize your financial data with beautiful, interactive charts and graphs powered by Recharts.
-- **Account Management:** Sign up, log in, and manage your account seamlessly with Firebase Authentication.
+- **Data Visualization:** Visualize your financial data with beautiful, interactive charts and graphs.
+- **Account Management:** Sign up, log in, and manage your account seamlessly.
 
 ## **Tech Stack**
 
-- **Frontend:** React, React Router, Tailwind CSS
-- **Backend:** Node.js, Firebase Cloud Functions
-- **Database:** Firebase Cloud Firestore
-- **Authentication:** Firebase Authentication
-- **Data Visualization:** Recharts
-- **Image Storage and Transformation:** Cloudinary
-- **Bundling:** Vite
-- **Hosting:** Netlify
-- **Version control:** Git
+Built with modern web technologies such as React, TypeScript and Firebase. For more info, check out the [technical document](./README-TECHNICAL.md#tech-stack)
 
 ## **Installation**
 
@@ -48,14 +40,14 @@ For a smoother, app-like experience, you can **install Controlify** on your devi
 2. Click the **install** icon in the address bar (or go to the browser menu → "Install Controlify").
 3. Confirm the installation. The app will now open as a standalone window!
 
-#### **On Mobile (Android – Chrome, Edge, etc.):**
+#### **On Mobile (Android - Chrome, Edge, etc.):**
 
 1. Open [Controlify](https://controlify.netlify.app/create-account) in **Chrome**.
 2. Tap the **three-dot menu** (⋮) in the top-right corner.
 3. Select **"Add to Home Screen"** and confirm.
 4. Controlify will now appear on your home screen like a native app!
 
-#### **On iOS (Safari – iPhone/iPad):**
+#### **On Mobile (iOS - Safari):**
 
 1. Open [Controlify](https://controlify.netlify.app/create-account) in **Safari**.
 2. Tap the **Share** button at the bottom of the screen.
@@ -68,21 +60,21 @@ For a smoother, app-like experience, you can **install Controlify** on your devi
 
 ### **Adding your first transaction**
 
-1. Navigate to any page with an **"ADD TRANSACTION"** button and click it;
-2. Fill out the form. Make sure each required field (**amount, wallet, category and date**) is completed;
-3. Click **"COMPLETE TRANSACTION"**;
+1. Navigate to any page with an **"ADD TRANSACTION"** button and click it.
+2. Fill out the form. Make sure each required field (**amount, wallet, category and date**) is completed.
+3. Click **"COMPLETE TRANSACTION"**.
 4. Congratulations! You've just taken your first step toward better financial management!
 
 ### **Managing your wallets**
 
-1. Navigate to the **"Wallets"** page. Here you can gain useful insights about all of your wallets along with a full list of the active ones;
-2. Click on any individual wallet widget to view its details, transactions, and settings;
+1. Navigate to the **"Wallets"** page. Here you can gain useful insights about all of your wallets along with a full list of the active ones.
+2. Click on any individual wallet widget to view its details, transactions, and settings.
 3. Analyze your data, track transactions and make edits as needed - **you have full creative freedom!**
 
 ### **Managing your categories**
 
-1. Navigate to the **"Settings"** page;
-2. Scroll down to the **"Categories"** section;
+1. Navigate to the **"Settings"** page.
+2. Scroll down to the **"Categories"** section.
 3. Click **"ADD CATEGORY"** to create a new one, or select an existing category to edit it.
 
 ### **Managing your account**
@@ -91,31 +83,12 @@ For a smoother, app-like experience, you can **install Controlify** on your devi
 - **Editing Your Account:** Navigate to the **"Settings"** page, scroll to the **"Overall"**, then update your details as needed.
 - **Deleting Your Account:** Scroll to the bottom of the **"Settings"** page and click **"DELETE ACCOUNT"** (⚠This action is irreversible).
 
-## **Local development**
-
-1. Clone the repository
-
-   ```
-   git clone https://github.com/yoanZagorov/controlify.git
-   cd controlify
-   ```
-
-2. Install dependencies
-
-   ```
-   npm install
-   ```
-
-3. Start the project
-
-   ```
-   npm run dev
-   ```
+## **Technical details** 
+For more info regarding the technical implementation, see the [technical document](./README-TECHNICAL.md)
 
 ## **Contact**
-
 For any questions, feedback, or support, feel free to reach out:
 
 - Email: yoan.zagorov@gmail.com
-- LinkedIn: www.linkedin.com/in/yoan-zagorov
+- LinkedIn: https://www.linkedin.com/in/yoan-zagorov
 - GitHub: https://github.com/yoanZagorov
