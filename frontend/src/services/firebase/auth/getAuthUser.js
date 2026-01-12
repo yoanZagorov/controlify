@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from 'firebase/auth'
-import { auth } from '#services/firebase/firebase.config'
+import { auth } from '#/services/firebase/firebase.config'
 
 // Get the current auth user
 // onAuthStateChange guarantees that the authUser obj will not be "undefined" when trying to access it

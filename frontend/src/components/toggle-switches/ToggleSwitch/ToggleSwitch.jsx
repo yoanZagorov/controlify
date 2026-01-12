@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { capitalize } from '#utils/str'
+import { capitalize } from '#/utils/str'
 
 export default function ToggleSwitch({
   options,

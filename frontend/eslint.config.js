@@ -20,7 +20,7 @@ export default defineConfig([
 
     extends: [
       react.configs.flat.recommended,
-      react.configs.flat['jsx-runtime'], // used, since using React 17+
+      react.configs.flat['jsx-runtime'], // needed since using React 17+
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.recommended,
       sharedConfig,
@@ -35,7 +35,7 @@ export default defineConfig([
     settings: { react: { version: 'detect' } },
 
     rules: {
-      'react/prop-types': 'off',
+      'react/prop-types': 'off', 
       'react/jsx-no-target-blank': 'off',
       'react-refresh/only-export-components': [
         'warn',

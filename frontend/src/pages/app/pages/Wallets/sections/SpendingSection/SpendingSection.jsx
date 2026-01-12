@@ -1,14 +1,14 @@
 import cn from 'classnames'
 
-import { PERIODS } from '#constants'
+import { PERIODS } from '#/constants'
 
-import { useBreakpoint } from '#hooks'
-import { formatPeriodNameForUI } from '#utils/formatting'
+import { useBreakpoint } from '#/hooks'
+import { formatPeriodNameForUI } from '#/utils/formatting'
 
-import { ContentWidget } from '#components/widgets/ContentWidget'
-import { Section } from '#components/sections/Section'
-import { Notification } from '#components/Notification'
-import { CustomPieChartWithIconLabels } from '#components/charts/pie-charts/CustomPieChartWithIconLabels'
+import { ContentWidget } from '#/components/widgets/ContentWidget'
+import { Section } from '#/components/sections/Section'
+import { Notification } from '#/components/Notification'
+import { CustomPieChartWithIconLabels } from '#/components/charts/pie-charts/CustomPieChartWithIconLabels'
 
 // The Spending Section for the Wallets page
 export default function SpendingSection({ sectionProps, chart }) {

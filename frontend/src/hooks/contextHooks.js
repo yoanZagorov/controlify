@@ -8,7 +8,7 @@ import {
   WalletUpdateContext,
   SettingsContext,
   CategoryContext,
-} from '#contexts'
+} from '#/contexts'
 
 // Define all context hooks
 export function useTransaction() {

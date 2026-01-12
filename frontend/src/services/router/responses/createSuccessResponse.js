@@ -1,4 +1,4 @@
-import { HTTP_STATUS_CODES } from '#constants'
+import { HTTP_STATUS_CODES } from '#/constants'
 
 // A successful response
 export default function createSuccessResponse(data, isStringified = false) {

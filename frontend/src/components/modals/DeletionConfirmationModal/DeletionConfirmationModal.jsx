@@ -1,6 +1,6 @@
 import cn from 'classnames'
-import { capitalize } from '#utils/str'
-import { Button } from '#components/Button'
+import { capitalize } from '#/utils/str'
+import { Button } from '#/components/Button'
 
 // Used to delete an entity
 export default function DeletionConfirmationModal({

@@ -1,18 +1,18 @@
 import { useRouteLoaderData } from 'react-router'
 import cn from 'classnames'
 
-import { PERIODS } from '#constants'
+import { PERIODS } from '#/constants'
 
-import { useBreakpoint, useLayout } from '#hooks'
-import { isArrayTruthy } from '#utils/array'
+import { useBreakpoint, useLayout } from '#/hooks'
+import { isArrayTruthy } from '#/utils/array'
 
-import { Carousel } from '#components/Carousel'
-import { Section } from '#components/sections/Section'
-import { ContentWidget } from '#components/widgets/ContentWidget'
-import { CashFlowOverTimeLineChart } from '#components/charts/line-charts/CashFlowOverTimeLineChart'
-import { CustomPieChartWithIconLabels } from '#components/charts/pie-charts/CustomPieChartWithIconLabels'
-import { ChartWrapper } from '#components/charts/ChartWrapper'
-import { formatPeriodNameForUI } from '#utils/formatting'
+import { Carousel } from '#/components/Carousel'
+import { Section } from '#/components/sections/Section'
+import { ContentWidget } from '#/components/widgets/ContentWidget'
+import { CashFlowOverTimeLineChart } from '#/components/charts/line-charts/CashFlowOverTimeLineChart'
+import { CustomPieChartWithIconLabels } from '#/components/charts/pie-charts/CustomPieChartWithIconLabels'
+import { ChartWrapper } from '#/components/charts/ChartWrapper'
+import { formatPeriodNameForUI } from '#/utils/formatting'
 
 // The Reflect page Cash Flow section
 // Displays two pie charts - one breakin expenses by category and one breaking income by category

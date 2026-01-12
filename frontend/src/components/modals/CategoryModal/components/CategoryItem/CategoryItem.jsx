@@ -1,10 +1,10 @@
 import { useRef } from 'react'
 import cn from 'classnames'
 
-import { useAutoFocus } from '#hooks'
-import { formatEntityNameForUI } from '#utils/formatting'
+import { useAutoFocus } from '#/hooks'
+import { formatEntityNameForUI } from '#/utils/formatting'
 
-import { SvgIcon } from '#components/SvgIcon'
+import { SvgIcon } from '#/components/SvgIcon'
 
 export default function CategoryItem({ category, isActive, handleClick }) {
   const activeCategoryBtnRef = useRef(null)

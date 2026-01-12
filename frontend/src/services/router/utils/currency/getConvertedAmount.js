@@ -1,9 +1,9 @@
 import { where } from 'firebase/firestore'
 
-import { getBaseCurrency, getCurrencies } from '#services/firebase/db/currency'
+import { getBaseCurrency, getCurrencies } from '#/services/firebase/db/currency'
 
-import { isArrayTruthy } from '#utils/array'
-import { performDecimalCalculation } from '#utils/number'
+import { isArrayTruthy } from '#/utils/array'
+import { performDecimalCalculation } from '#/utils/number'
 
 export default async function getConvertedAmount(
   oldCurrencyCode,

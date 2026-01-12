@@ -1,4 +1,4 @@
-import { HTTP_STATUS_CODES } from '#constants'
+import { HTTP_STATUS_CODES } from '#/constants'
 
 // An unsuccessful response
 export default function createErrorResponse(

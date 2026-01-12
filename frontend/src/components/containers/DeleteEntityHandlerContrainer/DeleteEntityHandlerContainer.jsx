@@ -1,8 +1,8 @@
-import { useModal } from '#hooks'
+import { useModal } from '#/hooks'
 
-import { FullScreenModalWrapper } from '#components/modal-wrappers/FullScreenModalWrapper'
-import { NestedModalWrapper } from '#components/modal-wrappers/NestedModalWrapper'
-import { DeletionConfirmationModal } from '#components/modals/DeletionConfirmationModal'
+import { FullScreenModalWrapper } from '#/components/modal-wrappers/FullScreenModalWrapper'
+import { NestedModalWrapper } from '#/components/modal-wrappers/NestedModalWrapper'
+import { DeletionConfirmationModal } from '#/components/modals/DeletionConfirmationModal'
 
 // Handles just the modal logic. It doesn't handle deletion by itself - it must be used inside a form
 export default function DeleteEntityHandlerContainer({

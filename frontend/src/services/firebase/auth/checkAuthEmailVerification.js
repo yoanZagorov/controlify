@@ -1,8 +1,8 @@
 import { onAuthStateChanged } from 'firebase/auth'
 import { doc, updateDoc } from 'firebase/firestore'
 
-import { getEntity } from '#services/firebase/db/utils/entity'
-import { auth, db } from '#services/firebase/firebase.config'
+import { getEntity } from '#/services/firebase/db/utils/entity'
+import { auth, db } from '#/services/firebase/firebase.config'
 
 // This function is used to sync the state between Firebase Authentication and Firestore on email updates
 export default async function checkAuthEmailVerification(userId) {

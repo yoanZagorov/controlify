@@ -1,7 +1,5 @@
-const config = {
+export default {
   tabWidth: 2,
   semi: false,
   singleQuote: true,
 }
-
-export default config

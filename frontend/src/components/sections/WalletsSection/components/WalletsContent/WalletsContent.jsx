@@ -1,11 +1,11 @@
 import cn from 'classnames'
 import { Link } from 'react-router'
 
-import { useBreakpoint } from '#hooks'
+import { useBreakpoint } from '#/hooks'
 
-import { Section } from '#components/sections/Section'
-import { Widget } from '#components/widgets/Widget'
-import { SvgIcon } from '#components/SvgIcon'
+import { Section } from '#/components/sections/Section'
+import { Widget } from '#/components/widgets/Widget'
+import { SvgIcon } from '#/components/SvgIcon'
 import { WalletWidget } from '../WalletWidget'
 
 // Handles the UI display for the WalletSection

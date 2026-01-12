@@ -1,4 +1,4 @@
-import { performDecimalCalculation } from '#utils/number'
+import { performDecimalCalculation } from '#/utils/number'
 import { convertWalletBalancesToPreferredCurrency } from '../currency'
 
 // Consider allowing the function to fetch the data by itself if decide to use it in a context where the data won't be readily available (use getAllNeededConversionData)

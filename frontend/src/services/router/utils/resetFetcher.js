@@ -1,4 +1,4 @@
-import { ROUTES } from '#constants'
+import { ROUTES } from '#/constants'
 
 // Since fetchers don't automatically reset their data after a submission, reset it manually
 export default function resetFetcher(fetcher) {

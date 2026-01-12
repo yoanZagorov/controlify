@@ -8,7 +8,7 @@ import {
   YAxis,
 } from 'recharts'
 
-import { COLORS } from '#constants'
+import { COLORS } from '#/constants'
 
 import { CustomXAxisTick } from '../BalanceOverTimeLineChart/components/CustomXAxisTick'
 import { CustomYAxisTick } from '../BalanceOverTimeLineChart/components/CustomYAxisTick'

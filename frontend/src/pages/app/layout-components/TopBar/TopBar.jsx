@@ -1,11 +1,11 @@
 import cn from 'classnames'
 import { useLocation } from 'react-router'
 
-import { useLayout } from '#hooks'
-import { getCurrentPage } from '#utils/general'
-import { capitalize } from '#utils/str'
+import { useLayout } from '#/hooks'
+import { getCurrentPage } from '#/utils/general'
+import { capitalize } from '#/utils/str'
 
-import { SvgIcon } from '#components/SvgIcon'
+import { SvgIcon } from '#/components/SvgIcon'
 
 // Used on mobile
 export default function TopBar() {

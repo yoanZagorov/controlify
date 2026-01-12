@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import cn from 'classnames'
-import { COLORS } from '#constants'
+import { COLORS } from '#/constants'
 
 // A custom component wrapper around the logo to evenly distribute the letters across the available space
 // The textLength property doesn't work on iOS - that's why manual calculation is needed

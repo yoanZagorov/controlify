@@ -5,6 +5,9 @@ import tseslint from 'typescript-eslint'
 import importPlugin from 'eslint-plugin-import'
 import eslintConfigPrettier from 'eslint-config-prettier/flat'
 
+// The way configurations are extended (using plugins and extends) seems strange according to the plugin docs,
+// but right according to the ESLint docs themselves. See more here: https://eslint.org/docs/latest/use/configure/configuration-files#when-to-use-extends-vs-cascading
+
 export default defineConfig([
   globalIgnores(['**/node_modules/']),
   eslintConfigPrettier, // disable rules that would conflict with Prettier

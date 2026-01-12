@@ -1,4 +1,4 @@
-import { useScrollToTop } from '#hooks'
+import { useScrollToTop } from '#/hooks'
 
 import { BalanceSection } from './sections/BalanceSection'
 import { SpendingSection } from './sections/SpendingSection'

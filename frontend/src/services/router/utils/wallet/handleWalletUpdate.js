@@ -1,22 +1,22 @@
 import { doc, writeBatch } from 'firebase/firestore'
 
-import { COLORS, VALIDATION_RULES } from '#constants'
+import { COLORS, VALIDATION_RULES } from '#/constants'
 
 import { createSuccessResponse } from '../../responses'
 
-import { db } from '#services/firebase/firebase.config'
-import { getTransactions } from '#services/firebase/db/transaction'
-import { getEntity } from '#services/firebase/db/utils/entity'
-import { getCurrencies } from '#services/firebase/db/currency'
+import { db } from '#/services/firebase/firebase.config'
+import { getTransactions } from '#/services/firebase/db/transaction'
+import { getEntity } from '#/services/firebase/db/utils/entity'
+import { getCurrencies } from '#/services/firebase/db/currency'
 
-import { isObjTruthy } from '#utils/obj'
+import { isObjTruthy } from '#/utils/obj'
 import {
   validateColor,
   validateCurrency,
   validateEntityName,
   validateWalletVisibleCategories,
-} from '#utils/validation'
-import { formatEntityNameForFirebase } from '#utils/formatting'
+} from '#/utils/validation'
+import { formatEntityNameForFirebase } from '#/utils/formatting'
 
 import checkWalletNameDuplicate from './checkWalletNameDuplicate'
 import handleActionError from '../handleActionError'

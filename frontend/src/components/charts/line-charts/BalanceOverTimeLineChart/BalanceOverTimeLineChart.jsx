@@ -8,7 +8,7 @@ import {
   YAxis,
 } from 'recharts'
 
-import { COLORS } from '#constants'
+import { COLORS } from '#/constants'
 
 import { CustomXAxisTick } from './components/CustomXAxisTick'
 import { CustomYAxisTick } from './components/CustomYAxisTick'

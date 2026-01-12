@@ -1,6 +1,6 @@
 import { useFetcher } from 'react-router'
 
-import { useModal, useTransaction } from '#hooks'
+import { useModal, useTransaction } from '#/hooks'
 
 import { TransactionContainer } from './components/TransactionContainer'
 import { TransactionsSectionContent } from './components/TransactionsSectionContent'

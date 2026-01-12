@@ -1,5 +1,5 @@
-import { HTTP_STATUS_CODES } from '#constants'
-import { StatusCodeError } from '#utils/errors'
+import { HTTP_STATUS_CODES } from '#/constants'
+import { StatusCodeError } from '#/utils/errors'
 
 // Upload the profile pic chosen by the user to Cloudinary
 // Return the response data to store some of it in Firestore

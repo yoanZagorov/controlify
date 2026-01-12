@@ -1,16 +1,16 @@
 import { useEffect } from 'react'
 import { useFetcher } from 'react-router'
 
-import { resetFetcher } from '#services/router/utils'
+import { resetFetcher } from '#/services/router/utils'
 
-import { TransactionProvider } from '#contexts'
+import { TransactionProvider } from '#/contexts'
 
-import { isArrayTruthy } from '#utils/array'
+import { isArrayTruthy } from '#/utils/array'
 
-import { Section } from '#components/sections/Section'
-import { ContentWidget } from '#components/widgets/ContentWidget'
-import { Notification } from '#components/Notification'
-import { Button } from '#components/Button'
+import { Section } from '#/components/sections/Section'
+import { ContentWidget } from '#/components/widgets/ContentWidget'
+import { Notification } from '#/components/Notification'
+import { Button } from '#/components/Button'
 import { TransactionItem } from '../TransactionItem'
 
 // Handles the UI display for the TransactionSection

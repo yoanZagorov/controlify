@@ -1,13 +1,13 @@
-import { COLORS, ICON_NAMES, VALIDATION_RULES } from '#constants'
+import { COLORS, ICON_NAMES, VALIDATION_RULES } from '#/constants'
 
-import { useCategory } from '#hooks'
+import { useCategory } from '#/hooks'
 
-import { FullScreenModalWrapper } from '#components/modal-wrappers/FullScreenModalWrapper'
-import { ColorModal } from '#components/modals/ColorModal'
-import { HeaderModal } from '#components/modals/HeaderModal'
-import { IconModal } from '#components/modals/IconModal'
-import { SvgIcon } from '#components/SvgIcon'
-import { CategoriesTypeToggleSwitch } from '#components/toggle-switches/CategoriesTypeToggleSwitch'
+import { FullScreenModalWrapper } from '#/components/modal-wrappers/FullScreenModalWrapper'
+import { ColorModal } from '#/components/modals/ColorModal'
+import { HeaderModal } from '#/components/modals/HeaderModal'
+import { IconModal } from '#/components/modals/IconModal'
+import { SvgIcon } from '#/components/SvgIcon'
+import { CategoriesTypeToggleSwitch } from '#/components/toggle-switches/CategoriesTypeToggleSwitch'
 
 // Keeps the logic for a category operation. Used for both adding and editing
 export default function CategoryContainer({

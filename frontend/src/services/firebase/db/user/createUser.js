@@ -5,10 +5,10 @@ import {
   writeBatch,
 } from 'firebase/firestore'
 
-import { COLORS } from '#constants'
+import { COLORS } from '#/constants'
 
-import { db } from '#services/firebase/firebase.config'
-import { getUserDefaultCurrency } from '#services/location'
+import { db } from '#/services/firebase/firebase.config'
+import { getUserDefaultCurrency } from '#/services/location'
 
 import { getBaseCurrency } from '../currency'
 import { getRootCategories } from '../rootCategory'

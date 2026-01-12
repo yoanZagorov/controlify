@@ -1,4 +1,4 @@
-import { compareDatesByDay, formatDateLong, getSpecificDay } from '#utils/date'
+import { compareDatesByDay, formatDateLong, getSpecificDay } from '#/utils/date'
 
 export default function getDateBtnValue(date) {
   const today = getSpecificDay('today')

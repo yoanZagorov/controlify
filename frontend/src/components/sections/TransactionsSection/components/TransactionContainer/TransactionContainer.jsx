@@ -1,18 +1,18 @@
 import { useFetcher, useRouteLoaderData } from 'react-router'
 
-import { COLORS } from '#constants'
+import { COLORS } from '#/constants'
 
-import { useTransaction } from '#hooks'
-import { formatEntityNameForUI } from '#utils/formatting'
-import { handleAmountInputChange } from '#utils/input'
-import { getDateBtnValue } from '#utils/date'
+import { useTransaction } from '#/hooks'
+import { formatEntityNameForUI } from '#/utils/formatting'
+import { handleAmountInputChange } from '#/utils/input'
+import { getDateBtnValue } from '#/utils/date'
 
-import { CategoryModal } from '#components/modals/CategoryModal'
-import { DateModal } from '#components/modals/DateModal'
-import { HeaderModal } from '#components/modals/HeaderModal'
-import { WalletModal } from '#components/modals/WalletModal'
-import { CustomAmountInput } from '#components/sections/TransactionsSection/components/CustomAmountInput'
-import { FullScreenModalWrapper } from '#components/modal-wrappers/FullScreenModalWrapper'
+import { CategoryModal } from '#/components/modals/CategoryModal'
+import { DateModal } from '#/components/modals/DateModal'
+import { HeaderModal } from '#/components/modals/HeaderModal'
+import { WalletModal } from '#/components/modals/WalletModal'
+import { CustomAmountInput } from '#/components/sections/TransactionsSection/components/CustomAmountInput'
+import { FullScreenModalWrapper } from '#/components/modal-wrappers/FullScreenModalWrapper'
 
 // Keeps the logic for a transaction operation. Used for both adding and editing
 export default function TransactionContainer({

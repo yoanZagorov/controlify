@@ -1,17 +1,17 @@
 import { useRouteLoaderData } from 'react-router'
 import cn from 'classnames'
 
-import { PERIODS } from '#constants'
+import { PERIODS } from '#/constants'
 
-import { useLayout } from '#hooks'
-import { formatPeriodNameForUI } from '#utils/formatting'
-import { performDecimalCalculation } from '#utils/number'
+import { useLayout } from '#/hooks'
+import { formatPeriodNameForUI } from '#/utils/formatting'
+import { performDecimalCalculation } from '#/utils/number'
 
-import { Carousel } from '#components/Carousel'
-import { Section } from '#components/sections/Section'
-import { ContentWidget } from '#components/widgets/ContentWidget'
-import { BalanceOverTimeLineChart } from '#components/charts/line-charts/BalanceOverTimeLineChart'
-import { BalanceWidget } from '#components/widgets/BalanceWidget'
+import { Carousel } from '#/components/Carousel'
+import { Section } from '#/components/sections/Section'
+import { ContentWidget } from '#/components/widgets/ContentWidget'
+import { BalanceOverTimeLineChart } from '#/components/charts/line-charts/BalanceOverTimeLineChart'
+import { BalanceWidget } from '#/components/widgets/BalanceWidget'
 
 // The Balance Section for the Wallet Overview page
 // Displays the current balance, the balance before the start of the specified period and a line chart for the period

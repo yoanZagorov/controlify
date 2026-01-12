@@ -3,13 +3,13 @@ import { where } from 'firebase/firestore'
 
 import { createErrorResponse, createSuccessResponse } from '../responses'
 
-import { PERIODS, ROUTES } from '#constants'
+import { PERIODS, ROUTES } from '#/constants'
 
-import { checkUserAuthStatus, getAuthUserId } from '#services/firebase/auth'
-import { getBaseCurrency } from '#services/firebase/db/currency'
-import { getWallets } from '#services/firebase/db/wallet'
-import { getUser } from '#services/firebase/db/user'
-import { getPeriodTransactions } from '#services/firebase/db/transaction'
+import { checkUserAuthStatus, getAuthUserId } from '#/services/firebase/auth'
+import { getBaseCurrency } from '#/services/firebase/db/currency'
+import { getWallets } from '#/services/firebase/db/wallet'
+import { getUser } from '#/services/firebase/db/user'
+import { getPeriodTransactions } from '#/services/firebase/db/transaction'
 
 import { getUserFinancialScore } from '../utils/user'
 import {
@@ -20,8 +20,8 @@ import {
 } from '../utils/charts'
 import { convertTransactionsToPreferredCurrency } from '../utils/currency'
 
-import { getPeriodInfo } from '#utils/date'
-import { dashToCamelCase } from '#utils/str'
+import { getPeriodInfo } from '#/utils/date'
+import { dashToCamelCase } from '#/utils/str'
 
 export default async function reflectLoader({ request }) {
   const userId = await getAuthUserId()

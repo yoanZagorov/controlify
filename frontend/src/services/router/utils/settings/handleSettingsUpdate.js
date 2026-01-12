@@ -2,21 +2,21 @@ import { doc, updateDoc } from 'firebase/firestore'
 
 import { createSuccessResponse } from '../../responses'
 
-import { db } from '#services/firebase/firebase.config'
+import { db } from '#/services/firebase/firebase.config'
 import {
   deleteProfilePicFromCloudinary,
   uploadProfilePicToCloudinary,
-} from '#services/cloudinary'
-import { getEntity } from '#services/firebase/db/utils/entity'
-import { updateAuthEmail } from '#services/firebase/auth'
-import { getCurrencies } from '#services/firebase/db/currency'
+} from '#/services/cloudinary'
+import { getEntity } from '#/services/firebase/db/utils/entity'
+import { updateAuthEmail } from '#/services/firebase/auth'
+import { getCurrencies } from '#/services/firebase/db/currency'
 
 import {
   validateCurrency,
   validateEmail,
   validateFullName,
   validateProfilePic,
-} from '#utils/validation'
+} from '#/utils/validation'
 
 import handleActionError from '../handleActionError'
 import getDataToChange from '../getDataToChange'

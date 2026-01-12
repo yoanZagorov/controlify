@@ -1,14 +1,14 @@
 import { deleteField, doc, writeBatch } from 'firebase/firestore'
 
-import { CATEGORY } from '#constants'
+import { CATEGORY } from '#/constants'
 
 import { createSuccessResponse } from '../../responses'
 
-import { db } from '#services/firebase/firebase.config'
-import { getActiveWallets } from '#services/firebase/db/wallet'
-import { getCategories } from '#services/firebase/db/category'
+import { db } from '#/services/firebase/firebase.config'
+import { getActiveWallets } from '#/services/firebase/db/wallet'
+import { getCategories } from '#/services/firebase/db/category'
 
-import { ValidationError } from '#utils/errors'
+import { ValidationError } from '#/utils/errors'
 
 import handleActionError from '../handleActionError'
 

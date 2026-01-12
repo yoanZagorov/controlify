@@ -1,4 +1,4 @@
-import { HTTP_STATUS_CODES } from '#constants'
+import { HTTP_STATUS_CODES } from '#/constants'
 import StatusCodeError from './StatusCodeError'
 
 export default class ValidationError extends StatusCodeError {

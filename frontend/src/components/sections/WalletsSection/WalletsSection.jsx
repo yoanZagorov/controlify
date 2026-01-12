@@ -1,6 +1,6 @@
 import { useFetcher } from 'react-router'
 
-import { useModal } from '#hooks'
+import { useModal } from '#/hooks'
 
 import { WalletsContent } from './components/WalletsContent'
 import { WalletContainer } from './components/WalletContainer'

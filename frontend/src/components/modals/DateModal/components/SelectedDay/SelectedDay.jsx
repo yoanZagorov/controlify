@@ -1,6 +1,6 @@
 import cn from 'classnames'
-import { formatDateLong } from '#utils/date'
-import { SvgIcon } from '#components/SvgIcon'
+import { formatDateLong } from '#/utils/date'
+import { SvgIcon } from '#/components/SvgIcon'
 
 export default function SelectedDay({ date, iconName, className }) {
   const formattedDate = formatDateLong(date)

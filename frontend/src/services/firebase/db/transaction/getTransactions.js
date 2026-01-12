@@ -1,5 +1,5 @@
 import { collection, getDocs, query as firebaseQuery } from 'firebase/firestore'
-import { db } from '#services/firebase/firebase.config'
+import { db } from '#/services/firebase/firebase.config'
 import { getWallets } from '../wallet'
 
 // Get transactions

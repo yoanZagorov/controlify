@@ -1,15 +1,15 @@
 import { useRouteLoaderData } from 'react-router'
 
-import { PERIODS } from '#constants'
+import { PERIODS } from '#/constants'
 
-import { useBreakpoint, useLayout } from '#hooks'
-import { formatPeriodNameForUI } from '#utils/formatting'
+import { useBreakpoint, useLayout } from '#/hooks'
+import { formatPeriodNameForUI } from '#/utils/formatting'
 
-import { Section } from '#components/sections/Section'
-import { Carousel } from '#components/Carousel'
-import { ExpensesVsIncomeVerticalBarChart } from '#components/charts/ExpensesVsIncomeVerticalBarChart'
-import { CustomPieChartWithIconLabels } from '#components/charts/pie-charts/CustomPieChartWithIconLabels'
-import { ChartWrapper } from '#components/charts/ChartWrapper'
+import { Section } from '#/components/sections/Section'
+import { Carousel } from '#/components/Carousel'
+import { ExpensesVsIncomeVerticalBarChart } from '#/components/charts/ExpensesVsIncomeVerticalBarChart'
+import { CustomPieChartWithIconLabels } from '#/components/charts/pie-charts/CustomPieChartWithIconLabels'
+import { ChartWrapper } from '#/components/charts/ChartWrapper'
 
 // The Spending Section for the Wallet Overview page
 // Displays an expenses by category pie chart + income vs expenses ratio

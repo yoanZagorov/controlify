@@ -1,4 +1,4 @@
-import { ValidationError } from '#utils/errors'
+import { ValidationError } from '#/utils/errors'
 
 export default function validateProfilePic(profilePic) {
   if (!profilePic) {

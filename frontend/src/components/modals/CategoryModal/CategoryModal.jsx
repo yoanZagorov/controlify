@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-import { getCategoriesByType } from '#utils/category'
+import { getCategoriesByType } from '#/utils/category'
 
-import { CategoriesTypeToggleSwitch } from '#components/toggle-switches/CategoriesTypeToggleSwitch'
+import { CategoriesTypeToggleSwitch } from '#/components/toggle-switches/CategoriesTypeToggleSwitch'
 import { CategoryItem } from './components/CategoryItem'
 
 // Used to select a transaction's category

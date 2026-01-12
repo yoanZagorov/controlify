@@ -1,6 +1,6 @@
 import { useRef } from 'react'
-import { SvgIcon } from '#components/SvgIcon'
-import { useAutoFocus } from '#hooks'
+import { SvgIcon } from '#/components/SvgIcon'
+import { useAutoFocus } from '#/hooks'
 
 // Color selection
 export default function ColorModal({

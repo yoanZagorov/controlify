@@ -2,9 +2,6 @@
   "name": "frontend",
   "type": "module",
   "private": "true",
-  "imports": {
-    "#*": "./src/*"
-  },
   "scripts": {
     "format": "npx prettier . --write",
     "lint": "npx eslint .",

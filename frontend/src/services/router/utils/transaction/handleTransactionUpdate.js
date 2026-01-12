@@ -1,18 +1,18 @@
 import { doc, writeBatch } from 'firebase/firestore'
 
-import { VALIDATION_RULES } from '#constants'
+import { VALIDATION_RULES } from '#/constants'
 
 import { createSuccessResponse } from '../../responses'
 
-import { db } from '#services/firebase/firebase.config'
-import { getEntity } from '#services/firebase/db/utils/entity'
+import { db } from '#/services/firebase/firebase.config'
+import { getEntity } from '#/services/firebase/db/utils/entity'
 
-import validateAmount from '#utils/validation/validateAmount'
-import { getCategory } from '#services/firebase/db/category'
-import { ValidationError } from '#utils/errors'
-import { validateTransactionDate } from '#utils/validation'
-import { performDecimalCalculation } from '#utils/number'
-import { compareDatesByDay } from '#utils/date'
+import validateAmount from '#/utils/validation/validateAmount'
+import { getCategory } from '#/services/firebase/db/category'
+import { ValidationError } from '#/utils/errors'
+import { validateTransactionDate } from '#/utils/validation'
+import { performDecimalCalculation } from '#/utils/number'
+import { compareDatesByDay } from '#/utils/date'
 
 import { getConvertedAmount } from '../currency'
 import getDataToChange from '../getDataToChange'

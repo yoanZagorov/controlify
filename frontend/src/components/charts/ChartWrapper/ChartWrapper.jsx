@@ -1,5 +1,5 @@
-import { Notification } from '#components/Notification'
-import { ContentWidget } from '#components/widgets/ContentWidget'
+import { Notification } from '#/components/Notification'
+import { ContentWidget } from '#/components/widgets/ContentWidget'
 
 export default function ChartWrapper({
   iconName,

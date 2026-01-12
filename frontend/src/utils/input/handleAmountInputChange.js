@@ -1,4 +1,4 @@
-import { VALIDATION_RULES } from '#constants'
+import { VALIDATION_RULES } from '#/constants'
 
 // Guiding the user towards correct input
 export default function handleAmountInputChange({ state, value }) {

@@ -1,4 +1,4 @@
-import { VALIDATION_RULES } from '#constants'
+import { VALIDATION_RULES } from '#/constants'
 import { ValidationError } from '../errors'
 
 export default function validateEmail(email) {

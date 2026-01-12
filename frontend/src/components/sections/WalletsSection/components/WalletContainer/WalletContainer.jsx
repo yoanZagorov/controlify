@@ -1,19 +1,19 @@
 import { useMemo } from 'react'
 import { useRouteLoaderData } from 'react-router'
 
-import { COLORS, VALIDATION_RULES } from '#constants'
+import { COLORS, VALIDATION_RULES } from '#/constants'
 
-import { useWalletSubmission } from '#hooks'
+import { useWalletSubmission } from '#/hooks'
 import {
   handleAmountInputChange,
   handleWalletNameInputChange,
-} from '#utils/input'
+} from '#/utils/input'
 
-import { FullScreenModalWrapper } from '#components/modal-wrappers/FullScreenModalWrapper'
-import { CategoriesVisibilityModal } from '#components/modals/CategoriesVisibilityModal'
-import { ColorModal } from '#components/modals/ColorModal'
-import { CurrencyModal } from '#components/modals/CurrencyModal'
-import { HeaderModal } from '#components/modals/HeaderModal'
+import { FullScreenModalWrapper } from '#/components/modal-wrappers/FullScreenModalWrapper'
+import { CategoriesVisibilityModal } from '#/components/modals/CategoriesVisibilityModal'
+import { ColorModal } from '#/components/modals/ColorModal'
+import { CurrencyModal } from '#/components/modals/CurrencyModal'
+import { HeaderModal } from '#/components/modals/HeaderModal'
 
 // Keeps the logic for a wallet submission
 export default function WalletContainer({ formProps, modal, children }) {

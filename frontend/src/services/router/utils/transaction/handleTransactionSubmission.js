@@ -5,18 +5,18 @@ import {
   writeBatch,
 } from 'firebase/firestore'
 
-import { VALIDATION_RULES } from '#constants'
+import { VALIDATION_RULES } from '#/constants'
 
 import { createSuccessResponse } from '../../responses'
 
-import { db } from '#services/firebase/firebase.config'
-import { getEntity } from '#services/firebase/db/utils/entity'
-import { getCategory } from '#services/firebase/db/category'
+import { db } from '#/services/firebase/firebase.config'
+import { getEntity } from '#/services/firebase/db/utils/entity'
+import { getCategory } from '#/services/firebase/db/category'
 
-import { performDecimalCalculation } from '#utils/number'
-import { validateTransactionDate } from '#utils/validation'
-import validateAmount from '#utils/validation/validateAmount'
-import { ValidationError } from '#utils/errors'
+import { performDecimalCalculation } from '#/utils/number'
+import { validateTransactionDate } from '#/utils/validation'
+import validateAmount from '#/utils/validation/validateAmount'
+import { ValidationError } from '#/utils/errors'
 
 import handleActionError from '../handleActionError'
 

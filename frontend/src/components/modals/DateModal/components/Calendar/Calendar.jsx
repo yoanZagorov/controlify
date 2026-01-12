@@ -1,8 +1,8 @@
 import { useRef } from 'react'
 import cn from 'classnames'
 
-import { useAutoFocus } from '#hooks'
-import { monthsMap } from '#utils/date/maps'
+import { useAutoFocus } from '#/hooks'
+import { monthsMap } from '#/utils/date/maps'
 
 export default function Calendar({
   daysOfMonth,

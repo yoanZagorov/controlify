@@ -2,10 +2,10 @@ import { doc, writeBatch } from 'firebase/firestore'
 
 import { createSuccessResponse } from '../../responses'
 
-import { db } from '#services/firebase/firebase.config'
-import { getEntity } from '#services/firebase/db/utils/entity'
+import { db } from '#/services/firebase/firebase.config'
+import { getEntity } from '#/services/firebase/db/utils/entity'
 
-import { performDecimalCalculation } from '#utils/number'
+import { performDecimalCalculation } from '#/utils/number'
 
 import handleActionError from '../handleActionError'
 import { getConvertedAmount } from '../currency'

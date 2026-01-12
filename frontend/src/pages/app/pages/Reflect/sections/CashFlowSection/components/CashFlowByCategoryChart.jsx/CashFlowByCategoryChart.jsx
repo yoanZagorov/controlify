@@ -1,6 +1,6 @@
-import { CustomPieChartWithIconLabels } from '#components/charts/pie-charts/CustomPieChartWithIconLabels'
-import { Notification } from '#components/Notification'
-import { ContentWidget } from '#components/widgets/ContentWidget'
+import { CustomPieChartWithIconLabels } from '#/components/charts/pie-charts/CustomPieChartWithIconLabels'
+import { Notification } from '#/components/Notification'
+import { ContentWidget } from '#/components/widgets/ContentWidget'
 
 export default function CashFlowByCategoryChart({
   iconName,

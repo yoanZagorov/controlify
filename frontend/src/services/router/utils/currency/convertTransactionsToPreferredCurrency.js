@@ -1,5 +1,5 @@
-import { getBaseCurrency } from '#services/firebase/db/currency'
-import { convertAmountToPreferredCurrency } from '#utils/currency'
+import { getBaseCurrency } from '#/services/firebase/db/currency'
+import { convertAmountToPreferredCurrency } from '#/utils/currency'
 import getNonBaseCurrenciesRates from './getNonBaseCurrenciesRates'
 
 // If ended up converting the transactions, the baseCurrency and nonBaseCurrencyRates were most likely not readily available. So they can be fetched here

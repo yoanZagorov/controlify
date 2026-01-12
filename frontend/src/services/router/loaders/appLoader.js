@@ -1,8 +1,8 @@
 import { redirect } from 'react-router'
 import { orderBy, where } from 'firebase/firestore'
 
-import { ROUTES } from '#constants'
-import { PERIODS } from '#constants'
+import { ROUTES } from '#/constants'
+import { PERIODS } from '#/constants'
 
 import { createSuccessResponse, createErrorResponse } from '../responses'
 
@@ -10,24 +10,24 @@ import {
   checkAuthEmailVerification,
   checkUserAuthStatus,
   getAuthUserId,
-} from '#services/firebase/auth'
-import { getBaseCurrency, getCurrencies } from '#services/firebase/db/currency'
+} from '#/services/firebase/auth'
+import { getBaseCurrency, getCurrencies } from '#/services/firebase/db/currency'
 
-import { getUser } from '#services/firebase/db/user'
-import { getActiveWallets, getWallets } from '#services/firebase/db/wallet'
-import { getCategories } from '#services/firebase/db/category'
+import { getUser } from '#/services/firebase/db/user'
+import { getActiveWallets, getWallets } from '#/services/firebase/db/wallet'
+import { getCategories } from '#/services/firebase/db/category'
 import {
   getPeriodTransactions,
   getTodayTransactions,
-} from '#services/firebase/db/transaction'
-import { getRandomQuote } from '#services/firebase/db/quote'
+} from '#/services/firebase/db/transaction'
+import { getRandomQuote } from '#/services/firebase/db/quote'
 
 import { getCurrentUserBalance } from '../utils/user'
 import { getBalance, getBalanceOverTimeLineChartData } from '../utils/charts'
 
-import { getStoredRedirectData } from '#utils/localStorage'
-import { getPeriodInfo } from '#utils/date'
-import { dashToCamelCase } from '#utils/str'
+import { getStoredRedirectData } from '#/utils/localStorage'
+import { getPeriodInfo } from '#/utils/date'
+import { dashToCamelCase } from '#/utils/str'
 
 export default async function appLoader({ request }) {
   const userId = await getAuthUserId()

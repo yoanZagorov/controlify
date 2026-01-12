@@ -1,5 +1,5 @@
-import { performDecimalCalculation } from '#utils/number'
-import { isArrayTruthy } from '#utils/array'
+import { performDecimalCalculation } from '#/utils/number'
+import { isArrayTruthy } from '#/utils/array'
 import { convertTransactionsToPreferredCurrency } from '../currency'
 
 export default async function getUserFinancialScore(
