@@ -1,4 +1,5 @@
 import { getAuthUserId } from '#/services/firebase/auth'
+
 import { handleAccountDeletion, handleSettingsUpdate } from '../utils/settings'
 import {
   handleCategoryDeletion,

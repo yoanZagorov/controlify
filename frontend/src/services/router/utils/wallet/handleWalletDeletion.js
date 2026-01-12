@@ -1,13 +1,12 @@
 import { doc, writeBatch } from 'firebase/firestore'
 
-import { createSuccessResponse } from '../../responses'
 
 import { getEntity } from '#/services/firebase/db/utils/entity'
 import { db } from '#/services/firebase/firebase.config'
 import { getTransactions } from '#/services/firebase/db/transaction'
-
 import { isArrayTruthy } from '#/utils/array'
 
+import { createSuccessResponse } from '../../responses'
 import handleActionError from '../handleActionError'
 
 export default async function handleWalletDeletion(userId, walletId) {

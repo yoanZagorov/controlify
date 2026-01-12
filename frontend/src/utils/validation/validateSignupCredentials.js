@@ -1,7 +1,6 @@
 import { VALIDATION_RULES } from '#/constants'
 
 import { ValidationError } from '../errors'
-
 import validateEmail from './validateEmail'
 import validateFullName from './validateFullName'
 

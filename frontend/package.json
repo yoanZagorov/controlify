@@ -4,7 +4,7 @@
   "private": "true",
   "scripts": {
     "format": "npx prettier . --write",
-    "lint": "npx eslint .",
+    "lint": "npx eslint . --fix",
     "dev": "vite dev",
     "preview": "vite preview",
     "build": "vite build"

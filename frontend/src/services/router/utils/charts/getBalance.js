@@ -1,5 +1,6 @@
 import { getTransactions } from '#/services/firebase/db/transaction'
 import { calculateBalance } from '#/utils/charts'
+
 import { convertTransactionsToPreferredCurrency } from '../currency'
 
 // Get a specific balance

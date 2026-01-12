@@ -2,9 +2,6 @@ import { redirect } from 'react-router'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 
 import { ROUTES } from '#/constants'
-
-import { createErrorResponse } from '../responses'
-
 import { auth } from '#/services/firebase/firebase.config'
 import { createUser } from '#/services/firebase/db/user'
 import {
@@ -12,10 +9,11 @@ import {
   getAuthUser,
   rollbackAuthUserCreation,
 } from '#/services/firebase/auth'
-
 import { ValidationError } from '#/utils/errors'
 import { storeRedirectData } from '#/utils/localStorage'
 import { validateSignupCredentials } from '#/utils/validation'
+
+import { createErrorResponse } from '../responses'
 
 export default async function createAccountAction({ request }) {
   const formData = Object.fromEntries(await request.formData())

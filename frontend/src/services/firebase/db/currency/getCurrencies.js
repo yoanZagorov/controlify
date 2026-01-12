@@ -1,4 +1,5 @@
 import { collection } from 'firebase/firestore'
+
 import { getEntities } from '../utils/entity'
 import { db } from '../../firebase.config'
 

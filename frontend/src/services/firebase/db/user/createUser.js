@@ -6,7 +6,6 @@ import {
 } from 'firebase/firestore'
 
 import { COLORS } from '#/constants'
-
 import { db } from '#/services/firebase/firebase.config'
 import { getUserDefaultCurrency } from '#/services/location'
 

@@ -1,4 +1,5 @@
 import { deleteDoc } from 'firebase/firestore'
+
 import { capitalize } from '#/utils/str'
 
 // Delete an entity

@@ -1,4 +1,5 @@
 import { VALIDATION_RULES } from '#/constants'
+
 import { ValidationError } from '../errors'
 import { isArrayTruthy } from '../array'
 

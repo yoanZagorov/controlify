@@ -1,4 +1,5 @@
 import { where } from 'firebase/firestore'
+
 import { getCurrencies } from '#/services/firebase/db/currency'
 
 // Fetch the needed currency rates all at once

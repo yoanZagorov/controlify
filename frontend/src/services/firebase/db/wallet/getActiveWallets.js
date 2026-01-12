@@ -1,4 +1,5 @@
 import { orderBy, where } from 'firebase/firestore'
+
 import getWallets from './getWallets'
 
 // Get all the active wallets

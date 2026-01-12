@@ -1,5 +1,7 @@
-import { getTodayStartAndEnd } from '#/utils/date'
 import { where } from 'firebase/firestore'
+
+import { getTodayStartAndEnd } from '#/utils/date'
+
 import getTransactions from './getTransactions'
 
 // Get all of today's transactions

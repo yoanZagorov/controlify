@@ -1,15 +1,12 @@
 import { deleteField, doc, writeBatch } from 'firebase/firestore'
 
 import { CATEGORY } from '#/constants'
-
-import { createSuccessResponse } from '../../responses'
-
 import { db } from '#/services/firebase/firebase.config'
 import { getActiveWallets } from '#/services/firebase/db/wallet'
 import { getCategories } from '#/services/firebase/db/category'
-
 import { ValidationError } from '#/utils/errors'
 
+import { createSuccessResponse } from '../../responses'
 import handleActionError from '../handleActionError'
 
 export default async function handleCategoryDeletion(userId, formData) {

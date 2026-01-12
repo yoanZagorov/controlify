@@ -1,4 +1,5 @@
 import { where } from 'firebase/firestore'
+
 import getCurrencies from './getCurrencies'
 
 // Get the current base currency

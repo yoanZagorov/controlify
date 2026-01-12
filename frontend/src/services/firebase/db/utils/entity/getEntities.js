@@ -1,6 +1,7 @@
+import { getDocs, query as firebaseQuery } from 'firebase/firestore'
+
 import { HTTP_STATUS_CODES } from '#/constants'
 import { StatusCodeError } from '#/utils/errors'
-import { getDocs, query as firebaseQuery } from 'firebase/firestore'
 
 // Used to get a collection of entities - reused for almost all of the multiple entity reads
 export default async function getEntities(collectionRef, entities, query = []) {

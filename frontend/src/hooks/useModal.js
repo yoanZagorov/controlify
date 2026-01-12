@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { resetFetcher } from '#/services/router/utils'
-
 import { isObjTruthy } from '#/utils/obj'
 
 import useMountTransition from './useMountTransition'

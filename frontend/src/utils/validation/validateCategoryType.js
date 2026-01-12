@@ -1,4 +1,5 @@
 import CATEGORY from '#/constants/category'
+
 import { ValidationError } from '../errors'
 
 export default function validateCategoryType(type) {

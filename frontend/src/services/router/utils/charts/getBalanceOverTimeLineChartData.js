@@ -1,5 +1,4 @@
 import { convertTransactionsToPreferredCurrency } from '#/services/router/utils/currency'
-
 import { isArrayTruthy } from '#/utils/array'
 import { calculateBalance } from '#/utils/charts'
 import { performDecimalCalculation } from '#/utils/number'

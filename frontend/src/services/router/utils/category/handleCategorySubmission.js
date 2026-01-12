@@ -6,12 +6,8 @@ import {
 } from 'firebase/firestore'
 
 import { COLORS, ICON_NAMES, VALIDATION_RULES } from '#/constants'
-
-import { createSuccessResponse } from '../../responses'
-
 import { db } from '#/services/firebase/firebase.config'
 import { getActiveWallets } from '#/services/firebase/db/wallet'
-
 import { formatEntityNameForFirebase } from '#/utils/formatting'
 import {
   validateCategoryType,
@@ -20,6 +16,7 @@ import {
   validateIconName,
 } from '#/utils/validation'
 
+import { createSuccessResponse } from '../../responses'
 import handleActionError from '../handleActionError'
 import checkCategoryNameDuplicate from './checkCategoryNameDuplicate'
 

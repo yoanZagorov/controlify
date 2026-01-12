@@ -2,17 +2,15 @@ import { redirect } from 'react-router'
 import { where } from 'firebase/firestore'
 
 import { PERIODS, ROUTES } from '#/constants'
-
-import { createErrorResponse, createSuccessResponse } from '../responses'
-
 import { checkUserAuthStatus, getAuthUserId } from '#/services/firebase/auth'
-
 import { getBaseCurrency } from '#/services/firebase/db/currency'
 import {
   getPeriodTransactions,
   getTransactions,
 } from '#/services/firebase/db/transaction'
 import { getWallet } from '#/services/firebase/db/wallet'
+import { getPeriodInfo } from '#/utils/date'
+import { dashToCamelCase } from '#/utils/str'
 
 import {
   getBalance,
@@ -21,8 +19,7 @@ import {
   getExpensesVsIncomePieChartData,
 } from '../utils/charts'
 import { convertTransactionsToPreferredCurrency } from '../utils/currency'
-import { getPeriodInfo } from '#/utils/date'
-import { dashToCamelCase } from '#/utils/str'
+import { createErrorResponse, createSuccessResponse } from '../responses'
 
 export default async function walletLoader({ params, request }) {
   const userId = await getAuthUserId()

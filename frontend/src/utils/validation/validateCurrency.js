@@ -1,4 +1,5 @@
 import { VALIDATION_RULES } from '#/constants'
+
 import { ValidationError } from '../errors'
 
 export default function validateCurrency(currencyCode, supportedCurrencyCodes) {

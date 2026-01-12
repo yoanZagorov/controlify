@@ -7,13 +7,9 @@ import {
 } from 'firebase/firestore'
 
 import { COLORS, VALIDATION_RULES } from '#/constants'
-
-import { createSuccessResponse } from '../../responses'
-
 import { getCurrencies } from '#/services/firebase/db/currency'
 import { getCategories } from '#/services/firebase/db/category'
 import { db } from '#/services/firebase/firebase.config'
-
 import {
   validateColor,
   validateCurrency,
@@ -23,6 +19,7 @@ import {
 import { formatEntityNameForFirebase } from '#/utils/formatting'
 import validateAmount from '#/utils/validation/validateAmount'
 
+import { createSuccessResponse } from '../../responses'
 import checkWalletNameDuplicate from './checkWalletNameDuplicate'
 import handleActionError from '../handleActionError'
 

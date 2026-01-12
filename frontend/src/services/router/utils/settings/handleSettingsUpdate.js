@@ -1,6 +1,5 @@
 import { doc, updateDoc } from 'firebase/firestore'
 
-import { createSuccessResponse } from '../../responses'
 
 import { db } from '#/services/firebase/firebase.config'
 import {
@@ -10,7 +9,6 @@ import {
 import { getEntity } from '#/services/firebase/db/utils/entity'
 import { updateAuthEmail } from '#/services/firebase/auth'
 import { getCurrencies } from '#/services/firebase/db/currency'
-
 import {
   validateCurrency,
   validateEmail,
@@ -18,6 +16,7 @@ import {
   validateProfilePic,
 } from '#/utils/validation'
 
+import { createSuccessResponse } from '../../responses'
 import handleActionError from '../handleActionError'
 import getDataToChange from '../getDataToChange'
 

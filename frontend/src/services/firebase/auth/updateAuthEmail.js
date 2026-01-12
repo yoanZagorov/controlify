@@ -2,10 +2,8 @@ import { signOut, verifyBeforeUpdateEmail } from 'firebase/auth'
 import { redirect } from 'react-router'
 
 import { ROUTES } from '#/constants'
-
 import { getAuthUser } from '#/services/firebase/auth'
 import { auth } from '#/services/firebase/firebase.config'
-
 import { StatusCodeError } from '#/utils/errors'
 import { storeRedirectData } from '#/utils/localStorage'
 

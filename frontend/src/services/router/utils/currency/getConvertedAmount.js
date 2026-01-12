@@ -1,7 +1,6 @@
 import { where } from 'firebase/firestore'
 
 import { getBaseCurrency, getCurrencies } from '#/services/firebase/db/currency'
-
 import { isArrayTruthy } from '#/utils/array'
 import { performDecimalCalculation } from '#/utils/number'
 
