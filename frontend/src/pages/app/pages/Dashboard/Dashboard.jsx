@@ -31,7 +31,7 @@ export default function Dashboard() {
       <div
         className={cn(
           'grid gap-16 ll:gap-x-20 fhd:gap-x-24',
-          !isSingleColLayout && 'grid-cols-12 grid-flow-col gap-x-12',
+          !isSingleColLayout && 'grid-flow-col grid-cols-12 gap-x-12',
         )}
       >
         <BalanceSection

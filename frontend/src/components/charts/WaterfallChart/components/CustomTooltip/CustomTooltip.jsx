@@ -6,11 +6,11 @@ export default function CustomTooltip({ active, label, payload, currency }) {
 
     return (
       <div
-        className="bg-gray-medium p-2.5 rounded-lg text-sm"
+        className="rounded-lg bg-gray-medium p-2.5 text-sm"
         data-actionable={true}
       >
         {label === 'Total' ? (
-          <p className="text-gray-dark font-bold">
+          <p className="font-bold text-gray-dark">
             Total: &#32; {/* space */}
             <Amount
               amount={amount}
@@ -22,10 +22,10 @@ export default function CustomTooltip({ active, label, payload, currency }) {
           </p>
         ) : (
           <>
-            <p className="text-gray-dark font-bold">
+            <p className="font-bold text-gray-dark">
               Date: <span className="font-normal">{label}</span>
             </p>
-            <p className="text-gray-dark font-bold">
+            <p className="font-bold text-gray-dark">
               Balance change: &#32; {/* space */}
               <Amount
                 amount={amount}

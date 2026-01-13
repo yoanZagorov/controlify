@@ -30,7 +30,7 @@ export default function Wallet() {
         <img src={BackArrow} />
       </Link>
 
-      <h1 className="mt-5 text-5xl text-navy-dark font-bold">
+      <h1 className="mt-5 text-5xl font-bold text-navy-dark">
         {formatEntityNameForUI(wallet.name)}
       </h1>
       <nav className="mt-6 w-full">

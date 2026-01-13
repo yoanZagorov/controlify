@@ -15,7 +15,7 @@ export default function CategoryGroup({
 
   return (
     <div>
-      <span className="text-xs text-gray-dark opacity-50 font-bold uppercase">
+      <span className="text-xs font-bold uppercase text-gray-dark opacity-50">
         {type}
       </span>
       <div className="mt-4 flex flex-col gap-4">{categoriesEls}</div>

@@ -35,7 +35,7 @@ export default function SettingWidgetFormField({
           required
           value={displayValue}
           {...controlProps}
-          className="ml-auto w-2/3 ml:w-1/2 text-right font-semibold"
+          className="ml-auto w-2/3 text-right font-semibold ml:w-1/2"
         />
       ) : type === 'custom' ? (
         <customComponent.Component {...customComponent.props} />

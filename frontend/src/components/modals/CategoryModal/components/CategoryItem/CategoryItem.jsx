@@ -20,8 +20,8 @@ export default function CategoryItem({ category, isActive, handleClick }) {
         type="button"
         onClick={handleClick}
         className={cn(
-          'flex justify-center items-center size-12 rounded-full',
-          isActive ? 'bg-navy focus-goldenrod' : 'focus-gray-dark',
+          'flex size-12 items-center justify-center rounded-full',
+          isActive ? 'focus-goldenrod bg-navy' : 'focus-gray-dark',
         )}
         style={!isActive ? { backgroundColor: category.color } : {}}
       >

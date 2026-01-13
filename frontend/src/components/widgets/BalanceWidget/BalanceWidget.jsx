@@ -31,7 +31,7 @@ export default function BalanceWidget({
 
       {/* Display balance change if provided */}
       {balanceChange !== undefined && (
-        <div className="absolute top-4 right-4 flex items-center gap-2 py-1.5 px-2 rounded font-bold bg-gray-light">
+        <div className="absolute right-4 top-4 flex items-center gap-2 rounded bg-gray-light px-2 py-1.5 font-bold">
           {isBalanceChangePositive ? (
             <SvgIcon iconName="arrow-up" className="size-3.5 fill-green-dark" />
           ) : (

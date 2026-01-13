@@ -93,10 +93,10 @@ export default function HeaderModal({
       <Form
         {...formProps}
         btn={{ isBtn: false }}
-        className="flex-1 relative h-full flex flex-col rounded-t-lg ml:rounded-lg"
+        className="relative flex h-full flex-1 flex-col rounded-t-lg ml:rounded-lg"
       >
         <header
-          className="py-10 px-4 tab:px-6 flex items-end gap-4 rounded-t-lg font-semibold tracking-wide shadow transition-colors"
+          className="flex items-end gap-4 rounded-t-lg px-4 py-10 font-semibold tracking-wide shadow transition-colors tab:px-6"
           style={{ backgroundColor: color }}
         >
           {isHeaderSimple ? (
@@ -122,7 +122,7 @@ export default function HeaderModal({
           )}
         </header>
 
-        <div className="flex-1 pt-16 px-4 tab:px-6 pb-4 flex flex-col gap-12 ml:rounded-b-lg bg-gray-light overflow-auto">
+        <div className="flex flex-1 flex-col gap-12 overflow-auto bg-gray-light px-4 pb-4 pt-16 ml:rounded-b-lg tab:px-6">
           {' '}
           {/* Handling the overflow here so the header can look fixed */}
           <div className="flex flex-col gap-8">{itemFields}</div>
@@ -132,7 +132,7 @@ export default function HeaderModal({
             type="submit"
             name="intent"
             className={cn(
-              'll:py-4 self-center focus:ring-4',
+              'self-center focus:ring-4 ll:py-4',
               submitBtn.props?.className,
             )}
           >

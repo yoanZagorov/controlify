@@ -16,13 +16,13 @@ export default function ContentWidget({
   return (
     <Widget className={cn('flex flex-col', className)}>
       <SvgIcon iconName={iconName} className="size-5 fill-gray-dark" />
-      <span className="mt-2 uppercase text-sm text-gray-dark opacity-50 font-semibold">
+      <span className="mt-2 text-sm font-semibold uppercase text-gray-dark opacity-50">
         {title}
       </span>
 
       <div
         className={cn(
-          contentConfig.hasBackground && 'mt-4 p-3 rounded-lg bg-gray-light',
+          contentConfig.hasBackground && 'mt-4 rounded-lg bg-gray-light p-3',
           contentConfig.className,
         )}
         {...contentConfig.props}

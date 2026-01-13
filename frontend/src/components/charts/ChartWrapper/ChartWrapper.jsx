@@ -18,7 +18,7 @@ export default function ChartWrapper({
       {hasSufficientData ? (
         children // the chart itself
       ) : (
-        <Notification className="max-w-64 mx-auto">
+        <Notification className="mx-auto max-w-64">
           Not enough data available to create the chart yet. Add a few
           transactions to get started!
         </Notification>

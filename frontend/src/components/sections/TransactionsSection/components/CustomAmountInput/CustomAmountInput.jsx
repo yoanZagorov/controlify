@@ -18,13 +18,13 @@ export default function CustomAmountInput({
   return (
     <>
       <div className="flex items-end gap-3">
-        <label htmlFor="transactionAmount" className="text-gray-light text-2xl">
+        <label htmlFor="transactionAmount" className="text-2xl text-gray-light">
           Amount:
         </label>
 
         <span
           className={cn(
-            'flex gap-2 items-end text-lg',
+            'flex items-end gap-2 text-lg',
             isExpense ? 'text-red-light' : 'text-green-light',
           )}
         >
@@ -40,7 +40,7 @@ export default function CustomAmountInput({
             id="transactionAmount"
             min={VALIDATION_RULES.TRANSACTION.AMOUNT.MIN_AMOUNT}
             className={cn(
-              'px-1 rounded bg-transparent focus-goldenrod', // Use focus in all instances, since users had problems finding the input
+              'focus-goldenrod rounded bg-transparent px-1', // Use focus in all instances, since users had problems finding the input
               isEditTransaction ? 'w-[60%]' : 'w-full',
             )}
             {...inputProps}

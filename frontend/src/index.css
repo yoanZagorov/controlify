@@ -24,7 +24,7 @@
   }
 
   .custom-focus {
-    @apply focus:outline-none focus:ring transition-[box-shadow];
+    @apply transition-[box-shadow] focus:outline-none focus:ring;
   }
 
   .focus-goldenrod {
@@ -36,7 +36,7 @@
   }
 
   .custom-focus-visible {
-    @apply focus-visible:outline-none focus-visible:ring transition-[box-shadow];
+    @apply transition-[box-shadow] focus-visible:outline-none focus-visible:ring;
   }
 
   .focus-visible-goldenrod {

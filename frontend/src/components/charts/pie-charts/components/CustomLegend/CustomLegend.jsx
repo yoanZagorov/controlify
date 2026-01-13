@@ -22,7 +22,7 @@ export default function CustomLegend({ payload }) {
   })
 
   return (
-    <ul className="mt-4 flex justify-center flex-wrap gap-x-4 gap-y-2">
+    <ul className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2">
       {legendEls}
     </ul>
   )

@@ -91,7 +91,7 @@ export default function AuthForm({
           required
           value={field.formData.value}
           {...field.inputProps}
-          className="ll:py-3 ll:px-5 ll:text-xl"
+          className="ll:px-5 ll:py-3 ll:text-xl"
         />
       )
     })
@@ -111,9 +111,9 @@ export default function AuthForm({
     >
       <div className="flex flex-col gap-5">{inputFields}</div>
 
-      <p className="mt-3 text-sm mm:text-base ll:text-lg text-navy">
+      <p className="mt-3 text-sm text-navy mm:text-base ll:text-lg">
         {msg}
-        <Link to={path} className="ml-1 font-bold underline text-gray-dark">
+        <Link to={path} className="ml-1 font-bold text-gray-dark underline">
           {CTA}
         </Link>
       </p>

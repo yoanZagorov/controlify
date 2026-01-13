@@ -50,7 +50,7 @@ export default function CategoryModal({
         isToggleSwitchDisabled={isToggleSwitchDisabled}
       />
 
-      <ul className="mt-6 grid grid-cols-[repeat(auto-fit,80px)] justify-between items-start gap-6">
+      <ul className="mt-6 grid grid-cols-[repeat(auto-fit,80px)] items-start justify-between gap-6">
         {activeOption === 'expense'
           ? expenseCategoriesEls
           : incomeCategoriesEls}

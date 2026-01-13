@@ -1,6 +1,5 @@
 import { doc, writeBatch } from 'firebase/firestore'
 
-
 import { db } from '#/services/firebase/firebase.config'
 import { getEntity } from '#/services/firebase/db/utils/entity'
 import { performDecimalCalculation } from '#/utils/number'

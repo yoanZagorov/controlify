@@ -123,7 +123,7 @@ export default function CategoriesVisibilityModal({
 
       <Button
         size="l"
-        className="mt-10 w-full mx-auto max-w-72"
+        className="mx-auto mt-10 w-full max-w-72"
         onClick={handleSaveBtnClick}
       >
         Save Changes

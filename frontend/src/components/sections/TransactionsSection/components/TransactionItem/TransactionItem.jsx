@@ -68,7 +68,7 @@ export default function TransactionItem({
     >
       <button
         className={cn(
-          'w-full grid items-center bg-gray-light rounded-lg overflow-auto',
+          'grid w-full items-center overflow-auto rounded-lg bg-gray-light',
           isExpanded
             ? 'grid-cols-3 p-4'
             : 'grid-cols-[minmax(auto,max-content)_1fr] gap-6 p-3',
@@ -81,7 +81,7 @@ export default function TransactionItem({
           <div
             // ensure icon keeps its shape
             className={cn(
-              'flex justify-center items-center rounded-full',
+              'flex items-center justify-center rounded-full',
               isSpaceLimited
                 ? 'size-8 min-w-8'
                 : isExpanded
@@ -99,7 +99,7 @@ export default function TransactionItem({
           <div className="flex flex-col items-start">
             <span
               className={cn(
-                'text-gray-dark font-semibold',
+                'font-semibold text-gray-dark',
                 isSpaceLimited
                   ? 'text-sm'
                   : isExpanded
@@ -127,7 +127,7 @@ export default function TransactionItem({
               </div>
             )}
             {display.date && !isExpanded && (
-              <time className="mt-1 text-xs text-gray-dark opacity-50 font-bold">
+              <time className="mt-1 text-xs font-bold text-gray-dark opacity-50">
                 {formattedDate}
               </time>
             )}
@@ -135,7 +135,7 @@ export default function TransactionItem({
         </div>
 
         {display.date && isExpanded && (
-          <time className="text-left text-base text-gray-dark opacity-50 font-bold">
+          <time className="text-left text-base font-bold text-gray-dark opacity-50">
             {formattedDate}
           </time>
         )}

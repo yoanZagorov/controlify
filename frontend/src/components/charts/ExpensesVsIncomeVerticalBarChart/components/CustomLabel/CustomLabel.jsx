@@ -4,7 +4,7 @@ export default function CustomLabel({ x, y, name }) {
   const barMarginTop = 15
   return (
     <text
-      className="text-lg text-gray-dark font-semibold"
+      className="text-lg font-semibold text-gray-dark"
       x={x}
       y={y - barMarginTop}
     >

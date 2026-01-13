@@ -23,7 +23,7 @@ export default function ProfilePicPreview({ profilePic, handleChange }) {
 
   return (
     <label htmlFor="profilePicInput" className="ml-auto">
-      <div className="size-12 rounded-full cursor-pointer">
+      <div className="size-12 cursor-pointer rounded-full">
         {profilePic ? (
           <img
             src={imgPreview}

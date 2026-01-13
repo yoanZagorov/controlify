@@ -65,7 +65,7 @@ export default function Auth({ type }) {
   }
 
   return (
-    <div className="px-4 tab:px-6 py-12 mx-auto min-h-screen w-full max-w-screen-ml tab:max-w-7xl flex flex-col text-center">
+    <div className="mx-auto flex min-h-screen w-full max-w-screen-ml flex-col px-4 py-12 text-center tab:max-w-7xl tab:px-6">
       <header className="mx-auto w-full max-w-lg">
         <InfoWidget
           flashMsg={flashMsg}
@@ -74,15 +74,15 @@ export default function Auth({ type }) {
         />
       </header>
 
-      <main className="my-auto flex flex-col tab:flex-row tab:items-center gap-12 ls:gap-20">
+      <main className="my-auto flex flex-col gap-12 tab:flex-row tab:items-center ls:gap-20">
         <div className="mt-8 tab:mt-0 tab:w-1/2">
           <FullLogo />
-          <p className="ml:text-lg fhd:text-xl text-gray-dark">
+          <p className="text-gray-dark ml:text-lg fhd:text-xl">
             Take control of your finances
           </p>
         </div>
 
-        <div className="hidden tab:block min-h-96 ll:min-h-[450px] h-full border-r border-navy"></div>
+        <div className="hidden h-full min-h-96 border-r border-navy tab:block ll:min-h-[450px]"></div>
 
         <div className="tab:w-1/2">
           <AuthProvider>

@@ -1,6 +1,5 @@
 import { doc, writeBatch } from 'firebase/firestore'
 
-
 import { getEntity } from '#/services/firebase/db/utils/entity'
 import { db } from '#/services/firebase/firebase.config'
 import { getTransactions } from '#/services/firebase/db/transaction'

@@ -27,9 +27,9 @@ export default function TopBar() {
         onClick={toggleSidebar}
         className="focus:outline-none focus-visible:ring-2 focus-visible:ring-goldenrod"
       >
-        <SvgIcon iconName="hamburger" className="size-8 fill-gray-light " />
+        <SvgIcon iconName="hamburger" className="size-8 fill-gray-light" />
       </button>
-      <p className="text-lg text-gray-light font-medium">{currentPage}</p>
+      <p className="text-lg font-medium text-gray-light">{currentPage}</p>
     </div>
   )
 }

@@ -5,7 +5,7 @@ export default function IconDeleteBtn({ onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className="ml-auto flex justify-center items-center focus-goldenrod"
+      className="focus-goldenrod ml-auto flex items-center justify-center"
     >
       <SvgIcon iconName="trash-can" className="size-5 fill-red-dark" />
     </button>

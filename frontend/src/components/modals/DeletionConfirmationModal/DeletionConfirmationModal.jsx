@@ -12,14 +12,14 @@ export default function DeletionConfirmationModal({
   return (
     <div
       className={cn(
-        'flex-1 px-6 py-8 rounded-t-lg ml:rounded-lg border-gray-dark bg-gray-light text-center text-balance overflow-auto',
+        'flex-1 overflow-auto text-balance rounded-t-lg border-gray-dark bg-gray-light px-6 py-8 text-center ml:rounded-lg',
         isFullScreen ? 'border' : 'border-t',
       )}
     >
-      <h1 className="text-2xl text-gray-dark font-semibold">
+      <h1 className="text-2xl font-semibold text-gray-dark">
         Delete {capitalize(entity)}?
       </h1>
-      <p className="mt-6 text-sm text-gray-dark font-semibold">
+      <p className="mt-6 text-sm font-semibold text-gray-dark">
         Are you sure you would like to do this? This action cannot be undone.
       </p>
 

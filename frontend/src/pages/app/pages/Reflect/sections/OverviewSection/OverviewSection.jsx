@@ -52,7 +52,7 @@ export default function OverviewSection({ className }) {
       }}
       widgetContent={
         <div
-          className={`p-4 bg-gray-light rounded-md ${isSingleColLayout ? 'h-48' : 'h-64'}`}
+          className={`rounded-md bg-gray-light p-4 ${isSingleColLayout ? 'h-48' : 'h-64'}`}
         >
           <FinancialScoreGaugeChart financialScore={financialScore} />
         </div>
@@ -77,7 +77,7 @@ export default function OverviewSection({ className }) {
       }}
       widgetContent={
         <div
-          className={`p-4 bg-gray-light rounded-md ${isSingleColLayout ? 'h-48' : 'h-64'}`}
+          className={`rounded-md bg-gray-light p-4 ${isSingleColLayout ? 'h-48' : 'h-64'}`}
           data-actionable={true}
         >
           <WaterfallChart
@@ -99,7 +99,7 @@ export default function OverviewSection({ className }) {
       {isSingleColLayout ? (
         <Carousel items={elements} />
       ) : (
-        <div className="grid gap-12 grid-cols-3">{elements}</div>
+        <div className="grid grid-cols-3 gap-12">{elements}</div>
       )}
     </Section>
   )

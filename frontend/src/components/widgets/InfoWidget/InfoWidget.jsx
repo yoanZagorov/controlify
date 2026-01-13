@@ -6,7 +6,7 @@ import { Widget } from '../Widget'
 // To do: Implement smooth fade-in and fade-out between a quote and a notification
 export default function InfoWidget({ flashMsg, clearFlashMsg, quote }) {
   return (
-    <Widget className="min-h-32 mm:min-h-28 tab:min-h-24 flex justify-center items-center">
+    <Widget className="flex min-h-32 items-center justify-center mm:min-h-28 tab:min-h-24">
       {flashMsg.msg ? (
         <Notification
           size="l"

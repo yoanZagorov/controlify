@@ -30,7 +30,7 @@ export default function ColorModal({
           style={{ backgroundColor: color }}
         >
           {isActive && (
-            <div className="absolute right-0 bottom-0 flex justify-center items-center size-4 border-2 border-gray-dark rounded-full bg-gray-light">
+            <div className="absolute bottom-0 right-0 flex size-4 items-center justify-center rounded-full border-2 border-gray-dark bg-gray-light">
               <SvgIcon iconName="check" className="size-2.5 fill-green-dark" />
             </div>
           )}
@@ -41,7 +41,7 @@ export default function ColorModal({
 
   return (
     <>
-      <ul className="grid grid-cols-[repeat(auto-fit,48px)] justify-between items-center gap-x-10 gap-y-6">
+      <ul className="grid grid-cols-[repeat(auto-fit,48px)] items-center justify-between gap-x-10 gap-y-6">
         {colorsEls}
       </ul>
     </>

@@ -75,7 +75,7 @@ export default function CategoryContainer({
           type: 'select',
           displayValue: iconName ? (
             <div
-              className="flex justify-center items-center size-10 rounded-full"
+              className="flex size-10 items-center justify-center rounded-full"
               style={{ backgroundColor: color }}
             >
               <SvgIcon

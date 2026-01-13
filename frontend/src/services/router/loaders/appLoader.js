@@ -1,7 +1,7 @@
 import { redirect } from 'react-router'
 import { orderBy, where } from 'firebase/firestore'
 
-import { ROUTES , PERIODS } from '#/constants'
+import { ROUTES, PERIODS } from '#/constants'
 import {
   checkAuthEmailVerification,
   checkUserAuthStatus,

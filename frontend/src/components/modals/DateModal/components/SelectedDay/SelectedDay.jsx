@@ -8,7 +8,7 @@ export default function SelectedDay({ date, iconName, className }) {
   return (
     <div
       className={cn(
-        'flex items-end gap-4 p-3 rounded-lg bg-gray-light',
+        'flex items-end gap-4 rounded-lg bg-gray-light p-3',
         className,
       )}
     >
@@ -16,7 +16,7 @@ export default function SelectedDay({ date, iconName, className }) {
         iconName={iconName || 'calendar'}
         className="size-5 fill-gray-dark"
       />
-      <time className="text-sm text-gray-dark font-semibold">
+      <time className="text-sm font-semibold text-gray-dark">
         {formattedDate}
       </time>
     </div>

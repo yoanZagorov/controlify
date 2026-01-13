@@ -26,7 +26,7 @@ export default function WalletModal({ wallets, closeModal, state }) {
             ref={isActive ? activeWalletBtnRef : null}
             type="button"
             onClick={() => handleClick({ name, id, currency })}
-            className="w-full flex items-center gap-5 bg-gray-light p-4 rounded-lg focus-goldenrod"
+            className="focus-goldenrod flex w-full items-center gap-5 rounded-lg bg-gray-light p-4"
           >
             <SvgIcon iconName={iconName} className="size-7" fill={color} />
 
@@ -42,7 +42,7 @@ export default function WalletModal({ wallets, closeModal, state }) {
               />
             </div>
 
-            <div className="ml-auto size-6 rounded-full bg-navy flex justify-center items-center">
+            <div className="ml-auto flex size-6 items-center justify-center rounded-full bg-navy">
               <div
                 className={cn(
                   'size-2.5 rounded-full',

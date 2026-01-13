@@ -94,7 +94,7 @@ export default function TransactionsSectionContent({
           ) : (
             <Notification
               msgType="notification"
-              className="self-center w-full max-w-80"
+              className="w-full max-w-80 self-center"
             >
               Oops... It looks like you haven't made any transactions yet
               {period === 'today' && ' today'}. Add one now!
@@ -104,7 +104,7 @@ export default function TransactionsSectionContent({
           <Button
             size={isExpanded ? 'l' : 'm'}
             onClick={openModal}
-            className="self-center w-full max-w-64 focus-visible:ring-4"
+            className="w-full max-w-64 self-center focus-visible:ring-4"
             data-actionable="true"
           >
             add transaction

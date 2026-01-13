@@ -7,7 +7,7 @@ export default function CustomTooltip({ active, payload, currency }) {
     const isExpense = payload[0].payload.name === 'expense'
 
     return (
-      <p className="bg-gray-medium p-2.5 rounded-lg text-sm text-gray-dark font-bold">
+      <p className="rounded-lg bg-gray-medium p-2.5 text-sm font-bold text-gray-dark">
         Amount:{' '}
         <Amount
           amount={amount}

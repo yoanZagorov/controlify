@@ -156,13 +156,13 @@ export default function AppLayout() {
 
       <main
         className={cn(
-          'min-h-screen pt-24 px-4 pb-8 tab:pt-10 ll:pt-12 ls:px-8 ll:px-10 overflow-x-hidden rounded-b-lg',
+          'min-h-screen overflow-x-hidden rounded-b-lg px-4 pb-8 pt-24 tab:pt-10 ls:px-8 ll:px-10 ll:pt-12',
           isSidebarExpanded ? 'tab:ml-80 ll:ml-96' : 'tab:ml-20',
         )}
       >
         <div
           className={cn(
-            'w-full mx-auto rounded-b-lg',
+            'mx-auto w-full rounded-b-lg',
             isDesktop || (isLaptopS && !isSidebarExpanded)
               ? 'max-w-6xl'
               : 'max-w-lg',

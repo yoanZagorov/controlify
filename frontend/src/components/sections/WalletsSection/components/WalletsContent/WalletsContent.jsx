@@ -30,7 +30,7 @@ export default function WalletsContent({ wallets, section, openModal }) {
         <div className={gridClasses}>
           {walletWidgets}
 
-          <Widget className="h-full flex flex-col justify-center items-center gap-1.5">
+          <Widget className="flex h-full flex-col items-center justify-center gap-1.5">
             <h4 className="text-lg font-bold text-navy">Add Wallet</h4>
 
             <button

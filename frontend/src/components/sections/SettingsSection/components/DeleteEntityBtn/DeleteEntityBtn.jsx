@@ -4,7 +4,7 @@ export default function DeleteEntityBtn({ onClick }) {
   return (
     <button
       type="button"
-      className="absolute top-0 right-0 size-6"
+      className="absolute right-0 top-0 size-6"
       data-actionable={true}
       onClick={onClick}
     >

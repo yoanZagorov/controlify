@@ -16,7 +16,7 @@ export default function SelectModal({
   return (
     <div className={modalClassName}>
       <div className={`mx-auto ${contentMaxWidth}`}>
-        <span className="text-gray-dark font-semibold">
+        <span className="font-semibold text-gray-dark">
           Select {capitalizeEveryWord(name)}
         </span>
         <div className="mt-6">{children}</div>

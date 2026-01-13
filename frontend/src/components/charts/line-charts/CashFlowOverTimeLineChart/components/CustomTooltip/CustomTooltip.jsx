@@ -6,11 +6,11 @@ export default function CustomTooltip({ active, label, payload, currency }) {
     const incomeAmount = payload[1]?.value
 
     return (
-      <div className="bg-gray-medium p-2.5 rounded-lg text-sm">
-        <p className="text-gray-dark font-bold">
+      <div className="rounded-lg bg-gray-medium p-2.5 text-sm">
+        <p className="font-bold text-gray-dark">
           Date: <span className="font-normal">{label}</span>
         </p>
-        <p className="text-gray-dark font-bold">
+        <p className="font-bold text-gray-dark">
           Expense: &#32; {/* space */}
           <Amount
             amount={expenseAmount}
@@ -19,7 +19,7 @@ export default function CustomTooltip({ active, label, payload, currency }) {
             className="font-semibold text-red-dark"
           />
         </p>
-        <p className="text-gray-dark font-bold">
+        <p className="font-bold text-gray-dark">
           Income: &#32; {/* space */}
           <Amount
             amount={incomeAmount}

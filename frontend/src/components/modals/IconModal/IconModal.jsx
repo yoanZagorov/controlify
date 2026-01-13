@@ -21,12 +21,12 @@ export default function IconModal({ iconNames, closeModal, state }) {
           ref={isActive ? activeIconBtnRef : null}
           type="button"
           onClick={() => handleClick(iconName)}
-          className="relative flex justify-center items-center size-12 rounded-full bg-gray-light focus-goldenrod"
+          className="focus-goldenrod relative flex size-12 items-center justify-center rounded-full bg-gray-light"
         >
           <SvgIcon iconName={iconName} className="size-1/2 fill-gray-dark" />
 
           {isActive && (
-            <div className="absolute right-0 bottom-0 flex justify-center items-center size-4 border-2 border-gray-dark rounded-full bg-gray-light">
+            <div className="absolute bottom-0 right-0 flex size-4 items-center justify-center rounded-full border-2 border-gray-dark bg-gray-light">
               <SvgIcon iconName="check" className="size-2.5 fill-green-dark" />
             </div>
           )}
@@ -37,7 +37,7 @@ export default function IconModal({ iconNames, closeModal, state }) {
 
   return (
     <>
-      <ul className="grid grid-cols-[repeat(auto-fit,48px)] justify-between items-center gap-x-10 gap-y-6">
+      <ul className="grid grid-cols-[repeat(auto-fit,48px)] items-center justify-between gap-x-10 gap-y-6">
         {iconNamesEls}
       </ul>
     </>

@@ -1,6 +1,5 @@
 import { doc, updateDoc } from 'firebase/firestore'
 
-
 import { db } from '#/services/firebase/firebase.config'
 import {
   deleteProfilePicFromCloudinary,

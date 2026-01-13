@@ -14,7 +14,7 @@ export default function WalletWidget({ wallet, className }) {
     <Widget className={cn('relative flex flex-col', className)}>
       <SvgIcon iconName={iconName} className="size-5" fill={color} />
       <span
-        className="mt-2 uppercase text-sm font-semibold"
+        className="mt-2 text-sm font-semibold uppercase"
         style={{ color: color }}
       >
         {formatEntityNameForUI(name)}
@@ -28,7 +28,7 @@ export default function WalletWidget({ wallet, className }) {
       />
 
       <div
-        className="absolute top-0 right-5 h-8 w-2.5"
+        className="absolute right-5 top-0 h-8 w-2.5"
         style={{ backgroundColor: color }}
       ></div>
     </Widget>

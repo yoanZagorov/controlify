@@ -1,7 +1,6 @@
 import { redirect } from 'react-router'
 import { where } from 'firebase/firestore'
 
-
 import { PERIODS, ROUTES } from '#/constants'
 import { checkUserAuthStatus, getAuthUserId } from '#/services/firebase/auth'
 import { getBaseCurrency } from '#/services/firebase/db/currency'

@@ -52,17 +52,17 @@ export default function Sidebar() {
 
   return (
     <div className={classes.sidebar} ref={sidebarRef}>
-      <div className="w-full px-4 flex flex-col items-center text-center">
+      <div className="flex w-full flex-col items-center px-4 text-center">
         <FullLogo color={COLORS.THEME.GRAY.LIGHT} />
-        <p className="text-sm ml:text-base ll:text-lg tracking-wider font-light">
+        <p className="text-sm font-light tracking-wider ml:text-base ll:text-lg">
           Take control of your finances
         </p>
 
-        <div className="mt-8 ll:mt-10 size-20 tab:size-24 lm:size-28 ll:size-32 rounded-full">
+        <div className="mt-8 size-20 rounded-full tab:size-24 lm:size-28 ll:mt-10 ll:size-32">
           {profilePic?.url ? (
             <img
               src={profilePic.url}
-              className="rounded-full size-full"
+              className="size-full rounded-full"
               alt="Avatar"
             />
           ) : (
@@ -73,11 +73,11 @@ export default function Sidebar() {
           )}
         </div>
 
-        <p className="mt-4 text-xs ll:text-sm font-light">{email}</p>
+        <p className="mt-4 text-xs font-light ll:text-sm">{email}</p>
         <p className="mt-2 text-2xl">{fullName}</p>
       </div>
 
-      <nav className="w-full mt-8">
+      <nav className="mt-8 w-full">
         <ul>{primaryNavItems}</ul>
       </nav>
 

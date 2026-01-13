@@ -45,7 +45,7 @@ export default function Carousel({ items, className }) {
   return (
     <div className={cn(className)}>
       <ul className="relative flex">{itemsEls}</ul>
-      <div className="mt-4 flex justify-center items-center gap-6">
+      <div className="mt-4 flex items-center justify-center gap-6">
         <SlideButton
           disabled={isDecrementBtnDisabled}
           handleClick={handleDecrement}

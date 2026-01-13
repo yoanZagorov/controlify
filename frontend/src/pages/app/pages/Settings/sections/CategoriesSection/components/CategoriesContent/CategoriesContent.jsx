@@ -119,7 +119,7 @@ export default function CategoriesContent({
         ) : (
           <Notification
             msgType="notification"
-            className="self-center w-full max-w-80"
+            className="w-full max-w-80 self-center"
           >
             Oops... It looks like you don't have any categories left. Add one
             now!
@@ -128,7 +128,7 @@ export default function CategoriesContent({
 
         <Button
           size="l"
-          className="mt-8 mx-auto"
+          className="mx-auto mt-8"
           onClick={openModal}
           data-actionable={true}
         >

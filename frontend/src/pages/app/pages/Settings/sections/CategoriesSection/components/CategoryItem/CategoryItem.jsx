@@ -70,13 +70,13 @@ export default function CategoryItem({
       modal={modal}
     >
       <div
-        className="p-3 flex items-center gap-4 rounded-lg bg-gray-light"
+        className="flex items-center gap-4 rounded-lg bg-gray-light p-3"
         data-actionable={true}
       >
         <button
           onClick={() => setModalOpen(true)}
           className={cn(
-            'relative flex justify-center items-center size-12 rounded-full focus-gray-dark',
+            'focus-gray-dark relative flex size-12 items-center justify-center rounded-full',
             isExpanded ? 'size-12' : 'size-10',
           )}
           style={{ backgroundColor: color }}
@@ -84,7 +84,7 @@ export default function CategoryItem({
           <SvgIcon iconName={iconName} className="size-1/2 fill-gray-light" />
 
           {!isExpanded && (
-            <div className="absolute -bottom-1.5 -right-1.5 flex justify-center items-center size-5 rounded-full bg-gray-medium">
+            <div className="absolute -bottom-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full bg-gray-medium">
               <SvgIcon iconName="pen" className="size-3 fill-gray-dark" />
             </div>
           )}
@@ -92,7 +92,7 @@ export default function CategoryItem({
 
         <span
           className={cn(
-            'text-gray-dark font-semibold',
+            'font-semibold text-gray-dark',
             isExpanded ? 'text-base' : 'text-sm',
           )}
         >
@@ -100,7 +100,7 @@ export default function CategoryItem({
         </span>
 
         {isExpanded ? (
-          <div className="ml-auto flex justify-center items-center gap-6">
+          <div className="ml-auto flex items-center justify-center gap-6">
             <Button
               colorPalette="secondaryDark"
               onClick={() => setModalOpen(true)}

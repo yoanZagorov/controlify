@@ -4,7 +4,7 @@ export default function Quote({ quote, className }) {
   return (
     <div
       className={cn(
-        'text-center text-balance text-gray-dark font-semibold',
+        'text-balance text-center font-semibold text-gray-dark',
         className,
       )}
     >

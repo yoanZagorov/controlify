@@ -23,7 +23,7 @@ export default function FormField({
   isInput && useSelectInput(inputRef)
 
   return (
-    <div className="flex items-center gap-4 pb-7 border-b border-opacity-50 border-gray-dark">
+    <div className="flex items-center gap-4 border-b border-gray-dark border-opacity-50 pb-7">
       <SvgIcon iconName={iconName} className="size-6 min-w-6 fill-gray-dark" />
       <span className="text-sm font-bold text-gray-dark">
         {capitalizeEveryWord(name)}
