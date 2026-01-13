@@ -1,37 +1,25 @@
-import { defineConfig, globalIgnores } from 'eslint/config'
+import { globalIgnores } from 'eslint/config'
 import js from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import importPlugin from 'eslint-plugin-import'
 import eslintConfigPrettier from 'eslint-config-prettier/flat'
 
-// The way configurations are extended (using plugins and extends) seems strange according to the plugin docs,
-// but right according to the ESLint docs themselves. See more here: https://eslint.org/docs/latest/use/configure/configuration-files#when-to-use-extends-vs-cascading
+// Export a plain array since defineConfig should be called only once - in the package's config
 
-export default defineConfig([
+export default [
   globalIgnores(['**/node_modules/']),
+  js.configs.recommended,
+  tseslint.configs.recommended,
+  importPlugin.flatConfigs.recommended,
+  importPlugin.flatConfigs.typescript,
   eslintConfigPrettier, // disable rules that would conflict with Prettier
   {
-    files: ['**/*.{ts,js}'],
-
-    plugins: {
-      js,
-      tseslint,
-      importPlugin, // used for file import rules
-    },
-
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      importPlugin.flatConfigs.recommended,
-      importPlugin.flatConfigs.typescript,
-    ],
-
     languageOptions: {
       parserOptions: {
-        ecmaVersion: 'latest',
+        ecmaVersion: 2022,
         sourceType: 'module',
         // TODO: investigate why this option fails (used to allow tseslint to enforce ts-specific rules)
-        // projectService: true,
+        projectService: true,
       },
     },
 
@@ -55,4 +43,4 @@ export default defineConfig([
       'import/resolver': { typescript: {} }, // need this to allow the import plugin to resolve imports with ts
     },
   },
-])
+]

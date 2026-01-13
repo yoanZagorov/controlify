@@ -4,5 +4,6 @@
     "target": "es2022",
     "allowJs": true,
     "noUncheckedSideEffectImports": true
-  }
+  },
+  "include": []
 }

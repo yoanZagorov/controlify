@@ -1,7 +1,7 @@
 // TODO: split into 2 files to provide another set of options for files running in Node
 {
   "extends": ["../shared/tsconfig.json"],
-  "include": ["src"],
+  "include": ["."],
   "compilerOptions": {
     // Set if using a different name rather than tsconfig.json
     // "tsBuildInfoFile": "../node_modules/.tmp/tsconfig.exampleName.tsbuildinfo"",

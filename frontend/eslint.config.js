@@ -7,23 +7,14 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import sharedConfig from '../shared/eslint.config.js'
 
 export default defineConfig([
+  react.configs.flat.recommended,
+  react.configs.flat['jsx-runtime'], // needed since using React 17+
+  reactHooks.configs.flat.recommended,
+  reactRefresh.configs.recommended,
+  ...sharedConfig,
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     ignores: ['dist'],
-
-    plugins: {
-      react,
-      reactHooks,
-      reactRefresh, // ensure react-refresh (hot component reloading) works properly
-    },
-
-    extends: [
-      react.configs.flat.recommended,
-      react.configs.flat['jsx-runtime'], // needed since using React 17+
-      reactHooks.configs.flat.recommended,
-      reactRefresh.configs.recommended,
-      sharedConfig,
-    ],
 
     languageOptions: {
       globals: {
