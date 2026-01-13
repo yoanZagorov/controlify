@@ -1,10 +1,8 @@
 import cn from 'classnames'
 
 import { PERIODS } from '#/constants'
-
 import { useBreakpoint } from '#/hooks'
 import { formatPeriodNameForUI } from '#/utils/formatting'
-
 import { ContentWidget } from '#/components/widgets/ContentWidget'
 import { Section } from '#/components/sections/Section'
 import { Notification } from '#/components/Notification'

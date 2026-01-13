@@ -2,11 +2,9 @@ import { useRouteLoaderData } from 'react-router'
 import cn from 'classnames'
 
 import { PERIODS } from '#/constants'
-
 import { useLayout } from '#/hooks'
 import { formatPeriodNameForUI } from '#/utils/formatting'
 import { performDecimalCalculation } from '#/utils/number'
-
 import { Carousel } from '#/components/Carousel'
 import { Section } from '#/components/sections/Section'
 import { ContentWidget } from '#/components/widgets/ContentWidget'

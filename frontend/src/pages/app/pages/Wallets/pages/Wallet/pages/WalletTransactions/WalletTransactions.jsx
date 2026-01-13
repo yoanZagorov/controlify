@@ -1,11 +1,8 @@
 import { useRouteLoaderData } from 'react-router'
 
 import { ROUTES } from '#/constants'
-
 import { TransactionProvider } from '#/contexts'
-
 import { useLayout, useScrollToTop } from '#/hooks'
-
 import { TransactionsSection } from '#/components/sections/TransactionsSection'
 
 // The Transactions page for a single wallet

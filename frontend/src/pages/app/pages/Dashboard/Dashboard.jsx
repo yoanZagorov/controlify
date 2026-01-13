@@ -2,12 +2,11 @@ import cn from 'classnames'
 import { useRouteLoaderData } from 'react-router'
 
 import { ROUTES } from '#/constants'
-
 import { useLayout, useScrollToTop } from '#/hooks'
-
 import { TransactionProvider, WalletSubmissionProvider } from '#/contexts'
 import { TransactionsSection } from '#/components/sections/TransactionsSection'
 import { WalletsSection } from '#/components/sections/WalletsSection'
+
 import { BalanceSection } from './sections/BalanceSection'
 
 // Rendered on /dashboard

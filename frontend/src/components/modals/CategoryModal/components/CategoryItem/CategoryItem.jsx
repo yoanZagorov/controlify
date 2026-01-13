@@ -3,7 +3,6 @@ import cn from 'classnames'
 
 import { useAutoFocus } from '#/hooks'
 import { formatEntityNameForUI } from '#/utils/formatting'
-
 import { SvgIcon } from '#/components/SvgIcon'
 
 export default function CategoryItem({ category, isActive, handleClick }) {

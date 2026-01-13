@@ -2,13 +2,11 @@ import { useMemo } from 'react'
 import { useRouteLoaderData } from 'react-router'
 
 import { COLORS, VALIDATION_RULES } from '#/constants'
-
 import { useWalletSubmission } from '#/hooks'
 import {
   handleAmountInputChange,
   handleWalletNameInputChange,
 } from '#/utils/input'
-
 import { FullScreenModalWrapper } from '#/components/modal-wrappers/FullScreenModalWrapper'
 import { CategoriesVisibilityModal } from '#/components/modals/CategoriesVisibilityModal'
 import { ColorModal } from '#/components/modals/ColorModal'

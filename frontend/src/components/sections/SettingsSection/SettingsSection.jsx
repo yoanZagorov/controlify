@@ -1,7 +1,6 @@
 import cn from 'classnames'
 
 import { isObjTruthy } from '#/utils/obj'
-
 import { Form } from '#/components/Form'
 import { DeleteEntityHandlerContainer } from '#/components/containers/DeleteEntityHandlerContrainer'
 

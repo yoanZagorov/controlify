@@ -1,4 +1,5 @@
 import { useRouteError } from 'react-router'
+
 import { ErrorWrapper } from '../ErrorWrapper'
 
 export default function RootError() {

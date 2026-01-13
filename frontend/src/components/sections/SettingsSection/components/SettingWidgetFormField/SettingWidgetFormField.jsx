@@ -2,7 +2,6 @@ import { useRef } from 'react'
 
 import { useSelectInput } from '#/hooks'
 import { capitalizeEveryWord } from '#/utils/str'
-
 import { SvgIcon } from '#/components/SvgIcon'
 import { Widget } from '#/components/widgets/Widget'
 import { Input } from '#/components/Input'

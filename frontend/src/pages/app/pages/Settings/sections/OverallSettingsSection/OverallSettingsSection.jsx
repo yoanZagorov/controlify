@@ -2,13 +2,11 @@ import { useFetcher, useRouteLoaderData } from 'react-router'
 import { useEffect } from 'react'
 
 import { resetFetcher } from '#/services/router/utils'
-
 import { ROUTES, VALIDATION_RULES } from '#/constants'
-
 import { useLayout, useSettings } from '#/hooks'
-
 import { SettingsSection } from '#/components/sections/SettingsSection'
 import { CurrencyModal } from '#/components/modals/CurrencyModal'
+
 import { ProfilePicPreview } from './components/ProfilePicPreview'
 
 // The Settings Section for the Reflect Page

@@ -1,4 +1,5 @@
 import { HTTP_STATUS_CODES } from '#/constants'
+
 import { ErrorWrapper } from '../ErrorWrapper'
 
 export default function NotFound() {

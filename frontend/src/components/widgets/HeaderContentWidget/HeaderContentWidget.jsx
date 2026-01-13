@@ -1,4 +1,5 @@
 import cn from 'classnames'
+
 import { ContentWidget } from '../ContentWidget'
 import { Widget } from '../Widget'
 

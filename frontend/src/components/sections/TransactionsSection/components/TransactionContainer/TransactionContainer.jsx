@@ -1,12 +1,10 @@
 import { useFetcher, useRouteLoaderData } from 'react-router'
 
 import { COLORS } from '#/constants'
-
 import { useTransaction } from '#/hooks'
 import { formatEntityNameForUI } from '#/utils/formatting'
 import { handleAmountInputChange } from '#/utils/input'
 import { getDateBtnValue } from '#/utils/date'
-
 import { CategoryModal } from '#/components/modals/CategoryModal'
 import { DateModal } from '#/components/modals/DateModal'
 import { HeaderModal } from '#/components/modals/HeaderModal'

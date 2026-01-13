@@ -1,8 +1,9 @@
 import cn from 'classnames'
 
-import { ContentWidget } from '../ContentWidget'
 import { Amount } from '#/components/Amount'
 import { SvgIcon } from '#/components/SvgIcon'
+
+import { ContentWidget } from '../ContentWidget'
 
 // Displays the balance of the entity
 export default function BalanceWidget({

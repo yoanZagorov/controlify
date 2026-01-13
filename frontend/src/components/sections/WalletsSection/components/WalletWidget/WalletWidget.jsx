@@ -1,7 +1,6 @@
 import cn from 'classnames'
 
 import { formatEntityNameForUI } from '#/utils/formatting'
-
 import { Amount } from '#/components/Amount'
 import { Widget } from '#/components/widgets/Widget'
 import { SvgIcon } from '#/components/SvgIcon'

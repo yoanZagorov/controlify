@@ -1,4 +1,5 @@
 import cn from 'classnames'
+
 import { ToggleSwitch } from '../ToggleSwitch'
 
 export default function CategoriesTypeToggleSwitch({

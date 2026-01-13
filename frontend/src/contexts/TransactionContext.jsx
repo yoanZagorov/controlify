@@ -1,6 +1,7 @@
-import { isObjTruthy } from '#/utils/obj'
 import { createContext, useState } from 'react'
 import { useRouteLoaderData } from 'react-router'
+
+import { isObjTruthy } from '#/utils/obj'
 
 // Used to keep the state for transaction submissions and updates
 // The providedTransactionData is used when the operation is a transaction update so there already is initial data

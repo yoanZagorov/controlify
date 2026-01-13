@@ -4,7 +4,6 @@ import { useLocation } from 'react-router'
 import { useLayout } from '#/hooks'
 import { getCurrentPage } from '#/utils/general'
 import { capitalize } from '#/utils/str'
-
 import { SvgIcon } from '#/components/SvgIcon'
 
 // Used on mobile

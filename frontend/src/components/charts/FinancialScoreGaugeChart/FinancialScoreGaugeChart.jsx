@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Customized } from 'recharts'
+
 import { COLORS } from '#/constants'
+
 import { Needle } from './components/Needle'
 
 export default function FinancialScoreGaugeChart({

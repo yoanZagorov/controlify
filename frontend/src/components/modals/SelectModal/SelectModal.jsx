@@ -1,4 +1,5 @@
 import cn from 'classnames'
+
 import { capitalizeEveryWord } from '#/utils/str'
 
 // A wrapper around presentational modals which are used for selection

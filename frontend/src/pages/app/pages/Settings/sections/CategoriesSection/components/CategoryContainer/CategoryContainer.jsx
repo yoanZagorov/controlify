@@ -1,7 +1,5 @@
 import { COLORS, ICON_NAMES, VALIDATION_RULES } from '#/constants'
-
 import { useCategory } from '#/hooks'
-
 import { FullScreenModalWrapper } from '#/components/modal-wrappers/FullScreenModalWrapper'
 import { ColorModal } from '#/components/modals/ColorModal'
 import { HeaderModal } from '#/components/modals/HeaderModal'

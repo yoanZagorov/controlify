@@ -2,10 +2,8 @@ import cn from 'classnames'
 import { useRouteLoaderData } from 'react-router'
 
 import { PERIODS } from '#/constants'
-
 import { useLayout } from '#/hooks'
 import { formatPeriodNameForUI } from '#/utils/formatting'
-
 import { Amount } from '#/components/Amount'
 import { Carousel } from '#/components/Carousel'
 import { FinancialScoreGaugeChart } from '#/components/charts/FinancialScoreGaugeChart'

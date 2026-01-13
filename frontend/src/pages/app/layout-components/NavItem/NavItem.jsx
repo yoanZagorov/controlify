@@ -2,7 +2,6 @@ import { NavLink } from 'react-router'
 import cn from 'classnames'
 
 import { capitalize } from '#/utils/str'
-
 import { SvgIcon } from '#/components/SvgIcon'
 import { Form } from '#/components/Form'
 

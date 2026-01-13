@@ -2,17 +2,13 @@ import { useEffect, useState } from 'react'
 import { useActionData, useLoaderData } from 'react-router'
 
 import { ROUTES } from '#/constants'
-
 import { AuthProvider } from '#/contexts'
-
 import { loginAction, createAccountAction } from '#/services/router/actions'
-
 import { useFlashMsg } from '#/hooks'
-
 import { FullLogo } from '#/assets/logos/FullLogo'
+import { InfoWidget } from '#/components/widgets/InfoWidget'
 
 import { AuthForm } from './components/AuthForm'
-import { InfoWidget } from '#/components/widgets/InfoWidget'
 
 // Rendered at /login and /create-account
 export default function Auth({ type }) {

@@ -2,7 +2,6 @@ import { useFetcher } from 'react-router'
 import cn from 'classnames'
 
 import { ROUTES } from '#/constants'
-
 import { useCategory, useLayout, useModal } from '#/hooks'
 
 import { CategoryContainer } from './components/CategoryContainer'

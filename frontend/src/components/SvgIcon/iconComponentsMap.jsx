@@ -8,7 +8,6 @@ import LogOutIcon from '#/assets/icons/log-out.svg?react'
 
 // Categories
 import CategoriesIcon from '#/assets/icons/categories.svg?react'
-
 import ShoppingCartIcon from '#/assets/icons/shopping-cart.svg?react'
 import ShoppingBagIcon from '#/assets/icons/shopping-bag.svg?react'
 import BusIcon from '#/assets/icons/bus.svg?react'

@@ -1,4 +1,5 @@
 import cn from 'classnames'
+
 import { formatEntityNameForUI } from '#/utils/formatting'
 import { SvgIcon } from '#/components/SvgIcon'
 

@@ -2,11 +2,11 @@ import { useMemo, useState } from 'react'
 
 import { getCategoriesByType } from '#/utils/category'
 import { isArrayTruthy } from '#/utils/array'
-
 import { Button } from '#/components/Button'
 import { CategoriesTypeToggleSwitch } from '#/components/toggle-switches/CategoriesTypeToggleSwitch'
-import { CategoryGroup } from './components/CategoryGroup'
 import { CATEGORY } from '#/constants'
+
+import { CategoryGroup } from './components/CategoryGroup'
 
 // Used to select which wallet categories should be visible and which not
 // Since it's used in a larger context (there is a higher state), it keeps a local state to avoid multiple rerenders

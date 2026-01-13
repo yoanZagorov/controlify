@@ -1,10 +1,8 @@
 import { useRouteLoaderData } from 'react-router'
 
 import { PERIODS } from '#/constants'
-
 import { useBreakpoint, useLayout } from '#/hooks'
 import { formatPeriodNameForUI } from '#/utils/formatting'
-
 import { Section } from '#/components/sections/Section'
 import { Carousel } from '#/components/Carousel'
 import { ExpensesVsIncomeVerticalBarChart } from '#/components/charts/ExpensesVsIncomeVerticalBarChart'

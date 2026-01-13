@@ -2,7 +2,6 @@ import { createContext, useState } from 'react'
 
 import { COLORS } from '#/constants'
 import CATEGORY from '#/constants/category'
-
 import { isObjTruthy } from '#/utils/obj'
 
 export const CategoryContext = createContext(null)

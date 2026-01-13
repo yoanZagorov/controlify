@@ -2,12 +2,9 @@ import { useEffect, useMemo } from 'react'
 import { useFetcher, useNavigate, useRouteLoaderData } from 'react-router'
 
 import { resetFetcher } from '#/services/router/utils'
-
 import { COLORS, ROUTES, VALIDATION_RULES } from '#/constants'
-
 import { useLayout, useScrollToTop, useWalletUpdate } from '#/hooks'
 import { handleWalletNameInputChange } from '#/utils/input'
-
 import { CategoriesVisibilityModal } from '#/components/modals/CategoriesVisibilityModal'
 import { ColorModal } from '#/components/modals/ColorModal'
 import { CurrencyModal } from '#/components/modals/CurrencyModal'

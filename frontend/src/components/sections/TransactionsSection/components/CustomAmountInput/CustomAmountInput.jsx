@@ -2,7 +2,6 @@ import { useRef } from 'react'
 import cn from 'classnames'
 
 import { VALIDATION_RULES } from '#/constants'
-
 import { useAutoFocus, useSelectInput } from '#/hooks'
 
 export default function CustomAmountInput({

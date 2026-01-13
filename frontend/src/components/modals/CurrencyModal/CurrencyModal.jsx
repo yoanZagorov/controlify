@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 
 import { useAutoFocus } from '#/hooks'
-
 import { SvgIcon } from '#/components/SvgIcon'
 import { Widget } from '#/components/widgets/Widget'
 

@@ -5,9 +5,9 @@ import { useFetcher } from 'react-router'
 import { useBreakpoint, useModal, useTransaction } from '#/hooks'
 import { formatEntityNameForUI } from '#/utils/formatting'
 import { formatDateLong, formatDateShort } from '#/utils/date'
-
 import { Amount } from '#/components/Amount'
 import { SvgIcon } from '#/components/SvgIcon'
+
 import { TransactionContainer } from '../TransactionContainer'
 
 // Handles the UI display for a single transaction

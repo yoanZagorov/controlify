@@ -3,7 +3,6 @@ import { useRef } from 'react'
 import { Link } from 'react-router'
 
 import { useAuth, useAutoFocus, useBreakpoint } from '#/hooks'
-
 import { Input } from '#/components/Input'
 import { Form } from '#/components/Form'
 import { VALIDATION_RULES } from '#/constants'

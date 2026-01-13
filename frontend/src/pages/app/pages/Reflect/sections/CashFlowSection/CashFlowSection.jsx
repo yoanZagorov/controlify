@@ -2,10 +2,8 @@ import { useRouteLoaderData } from 'react-router'
 import cn from 'classnames'
 
 import { PERIODS } from '#/constants'
-
 import { useBreakpoint, useLayout } from '#/hooks'
 import { isArrayTruthy } from '#/utils/array'
-
 import { Carousel } from '#/components/Carousel'
 import { Section } from '#/components/sections/Section'
 import { ContentWidget } from '#/components/widgets/ContentWidget'

@@ -6,6 +6,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+
 import { CustomLabel } from './components/CustomLabel'
 import { CustomTooltip } from './components/CustomTooltip'
 

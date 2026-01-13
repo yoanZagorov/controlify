@@ -2,20 +2,18 @@ import { useEffect, useMemo, useState } from 'react'
 import { useFetcher, useRouteLoaderData } from 'react-router'
 
 import { resetFetcher } from '#/services/router/utils'
-
 import { CATEGORY, ROUTES } from '#/constants'
-
 import { isArrayTruthy } from '#/utils/array'
 import { getCategoriesByType } from '#/utils/category'
 import { formatEntityNameForUI } from '#/utils/formatting'
-
 import { CategoryProvider } from '#/contexts'
 import { Section } from '#/components/sections/Section'
 import { CategoriesTypeToggleSwitch } from '#/components/toggle-switches/CategoriesTypeToggleSwitch'
 import { ContentWidget } from '#/components/widgets/ContentWidget'
 import { Button } from '#/components/Button'
-import { CategoryItem } from '../CategoryItem'
 import { Notification } from '#/components/Notification'
+
+import { CategoryItem } from '../CategoryItem'
 
 // Handles the UI display for the CategorySection
 export default function CategoriesContent({

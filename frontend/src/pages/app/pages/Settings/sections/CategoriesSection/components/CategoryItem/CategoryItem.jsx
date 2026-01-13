@@ -4,11 +4,11 @@ import { useFetcher } from 'react-router'
 
 import { useCategory, useModal } from '#/hooks'
 import { formatEntityNameForUI } from '#/utils/formatting'
-
 import { SvgIcon } from '#/components/SvgIcon'
 import { Button } from '#/components/Button'
 import { DeleteEntityHandlerContainer } from '#/components/containers/DeleteEntityHandlerContrainer'
 import { Form } from '#/components/Form'
+
 import { CategoryContainer } from '../CategoryContainer'
 import { IconDeleteBtn } from './components/IconDeleteBtn'
 
