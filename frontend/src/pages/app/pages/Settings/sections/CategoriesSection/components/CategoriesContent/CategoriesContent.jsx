@@ -15,6 +15,7 @@ import { CategoriesTypeToggleSwitch } from '#/components/toggle-switches/Categor
 import { ContentWidget } from '#/components/widgets/ContentWidget'
 import { Button } from '#/components/Button'
 import { CategoryItem } from '../CategoryItem'
+import { Notification } from '#/components/Notification'
 
 // Handles the UI display for the CategorySection
 export default function CategoriesContent({

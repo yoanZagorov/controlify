@@ -1,5 +1,5 @@
 export default {
-  content: ['index.html', 'src/**/*.{js,jsx,svg}'],
+  content: ['index.html', 'src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     colors: {
       black: '#000000',

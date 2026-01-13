@@ -2,9 +2,6 @@
   "name": "backend",
   "type": "module",
   "private": true,
-  "scripts": {
-    "lint": "npx eslint ."
-  },
   "engines": {
     "node": "22"
   },

@@ -1,2 +1,7 @@
 // Extend if necessary
-export { default } from '../shared/prettier.config.js'
+import sharedConfig from '../shared/prettier.config.js'
+
+export default {
+  ...sharedConfig,
+  plugins: ['prettier-plugin-tailwindcss'],
+}
