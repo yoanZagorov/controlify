@@ -1,1 +1,1 @@
-export { default as ErrorWrapper } from "./ErrorWrapper";
+export { default as ErrorWrapper } from './ErrorWrapper'

@@ -1,1 +1,1 @@
-export { default as getUserDefaultCurrency } from "./getUserDefaultCurrency";
+export { default as getUserDefaultCurrency } from './getUserDefaultCurrency'

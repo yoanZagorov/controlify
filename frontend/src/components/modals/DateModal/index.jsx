@@ -1,1 +1,1 @@
-export { default as DateModal } from "./DateModal";
+export { default as DateModal } from './DateModal'

@@ -1,1 +1,1 @@
-export { default as CategoriesVisibilityModal } from "./CategoriesVisibilityModal";
+export { default as CategoriesVisibilityModal } from './CategoriesVisibilityModal'

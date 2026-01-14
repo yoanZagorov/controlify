@@ -1,5 +1,5 @@
 export default function CustomXAxisTick({ x, y, payload }) {
-  const VERTICAL_DISTANCE_X_AXIS = 16;
+  const VERTICAL_DISTANCE_X_AXIS = 16
 
   return (
     <g>
@@ -7,7 +7,7 @@ export default function CustomXAxisTick({ x, y, payload }) {
         x={x}
         y={y + VERTICAL_DISTANCE_X_AXIS}
         textAnchor="middle"
-        className="text-xs font-bold fill-gray-dark"
+        className="fill-gray-dark text-xs font-bold"
       >
         {payload.value}
       </text>

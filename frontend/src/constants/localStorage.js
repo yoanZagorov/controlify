@@ -1,7 +1,7 @@
 const LOCAL_STORAGE = {
   KEYS: {
-    REDIRECT_DATA: "redirectData"
-  }
+    REDIRECT_DATA: 'redirectData',
+  },
 }
 
-export default LOCAL_STORAGE;
+export default LOCAL_STORAGE

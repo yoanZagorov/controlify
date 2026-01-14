@@ -1,1 +1,1 @@
-export { default as FinancialScoreGaugeChart } from "./FinancialScoreGaugeChart";
+export { default as FinancialScoreGaugeChart } from './FinancialScoreGaugeChart'

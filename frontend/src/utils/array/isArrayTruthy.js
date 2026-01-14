@@ -1,3 +1,3 @@
 export default function isArrayTruthy(arr) {
-  return arr.length > 0;
+  return arr.length > 0
 }

@@ -1,22 +1,22 @@
+# Env variables
+**/.env.local
+
+# Firebase service account key
+backend/serviceAccountPrivateKey.json
+
+# Deps and dist
+**/node_modules/
+**/dist/
+
 # Logs
 logs
 *.log
 npm-debug.log*
 
-node_modules
-dist
-*.local
-
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
 
-# Firebase service account key
-backend/serviceAccountPrivateKey.json
+# OS files
+.DS_Store
+Thumbs.db

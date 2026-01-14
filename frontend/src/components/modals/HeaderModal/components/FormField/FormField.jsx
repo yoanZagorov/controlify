@@ -1,24 +1,32 @@
-import { useRef } from "react";
+import { useRef } from 'react'
 
-import { useSelectInput } from "@/hooks";
-import { capitalizeEveryWord } from "@/utils/str";
-
-import { SvgIcon } from "@/components/SvgIcon";
-import { Input } from "@/components/Input";
-import { Select } from "@/components/Select";
+import { useSelectInput } from '#/hooks'
+import { capitalizeEveryWord } from '#/utils/str'
+import { SvgIcon } from '#/components/SvgIcon'
+import { Input } from '#/components/Input'
+import { Select } from '#/components/Select'
 
 // UI for the form field
 // controlProps refer to either input/selectBtn, depending on the type
-export default function FormField({ type = "select", name, iconName, displayValue, controlProps = {}, customComponent = {} }) {
-  const isInput = type === "input";
+export default function FormField({
+  type = 'select',
+  name,
+  iconName,
+  displayValue,
+  controlProps = {},
+  customComponent = {},
+}) {
+  const isInput = type === 'input'
 
-  const inputRef = isInput ? useRef(null) : null;
-  isInput && useSelectInput(inputRef);
+  const inputRef = isInput ? useRef(null) : null
+  isInput && useSelectInput(inputRef)
 
   return (
-    <div className="flex items-center gap-4 pb-7 border-b border-opacity-50 border-gray-dark">
+    <div className="flex items-center gap-4 border-b border-gray-dark border-opacity-50 pb-7">
       <SvgIcon iconName={iconName} className="size-6 min-w-6 fill-gray-dark" />
-      <span className="text-sm font-bold text-gray-dark">{capitalizeEveryWord(name)}</span>
+      <span className="text-sm font-bold text-gray-dark">
+        {capitalizeEveryWord(name)}
+      </span>
 
       {isInput ? (
         <Input
@@ -30,16 +38,19 @@ export default function FormField({ type = "select", name, iconName, displayValu
           {...controlProps}
           className="ml-auto w-full max-w-44 text-right font-semibold"
         />
-      ) : type === "custom" ? (
+      ) : type === 'custom' ? (
         <customComponent.Component {...customComponent.props} />
-      ) : type === "customBtn" ? (
-        <customComponent.Component {...customComponent.props} {...controlProps} />
+      ) : type === 'customBtn' ? (
+        <customComponent.Component
+          {...customComponent.props}
+          {...controlProps}
+        />
       ) : (
         <Select
           btnProps={{
             ...controlProps,
-            className: "ml-auto border-0 bg-gray-light",
-            "data-actionable": true,
+            className: 'ml-auto border-0 bg-gray-light',
+            'data-actionable': true,
           }}
           value={displayValue}
         />

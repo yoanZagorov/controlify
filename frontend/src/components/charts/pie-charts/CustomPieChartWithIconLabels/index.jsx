@@ -1,1 +1,1 @@
-export { default as CustomPieChartWithIconLabels } from "./CustomPieChartWithIconLabels";
+export { default as CustomPieChartWithIconLabels } from './CustomPieChartWithIconLabels'

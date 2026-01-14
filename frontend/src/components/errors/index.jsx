@@ -1,2 +1,2 @@
-export { RootError } from "./RootError";
-export { NotFound } from "./NotFound";
+export { RootError } from './RootError'
+export { NotFound } from './NotFound'

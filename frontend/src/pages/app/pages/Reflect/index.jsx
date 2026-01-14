@@ -1,1 +1,1 @@
-export { default as Reflect } from "./Reflect";
+export { default as Reflect } from './Reflect'

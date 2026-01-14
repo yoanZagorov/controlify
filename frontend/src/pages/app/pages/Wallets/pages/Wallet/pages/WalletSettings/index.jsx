@@ -1,1 +1,1 @@
-export { default as WalletSettings } from "./WalletSettings";
+export { default as WalletSettings } from './WalletSettings'

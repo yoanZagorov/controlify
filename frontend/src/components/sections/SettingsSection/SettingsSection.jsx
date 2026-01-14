@@ -1,19 +1,27 @@
-import cn from "classnames";
+import cn from 'classnames'
 
-import { isObjTruthy } from "@/utils/obj";
+import { isObjTruthy } from '#/utils/obj'
+import { Form } from '#/components/Form'
+import { DeleteEntityHandlerContainer } from '#/components/containers/DeleteEntityHandlerContrainer'
 
-import { Form } from "@/components/Form";
-import { DeleteEntityHandlerContainer } from "@/components/containers/DeleteEntityHandlerContrainer";
-
-import { Section } from "../Section";
-import { SettingWidgetFormField } from "./components/SettingWidgetFormField";
-import { DeleteEntityBtn } from "./components/DeleteEntityBtn";
-import { FormFieldContainer } from "./components/FormFieldContainer";
+import { Section } from '../Section'
+import { SettingWidgetFormField } from './components/SettingWidgetFormField'
+import { DeleteEntityBtn } from './components/DeleteEntityBtn'
+import { FormFieldContainer } from './components/FormFieldContainer'
 
 // A section that the user can use to change settings. Used in the settings and wallet/settings
-export default function SettingsSection({ entity, formProps, sectionProps, fields, deleteEntityFetcher = {}, isSpaceLimited }) {
-  const isDeleteEntity = isObjTruthy(deleteEntityFetcher);
-  const isFetcherSubmitting = formProps.fetcher.state === "submitting" || formProps.fetcher.state === "loading";
+export default function SettingsSection({
+  entity,
+  formProps,
+  sectionProps,
+  fields,
+  deleteEntityFetcher = {},
+  isSpaceLimited,
+}) {
+  const isDeleteEntity = isObjTruthy(deleteEntityFetcher)
+  const isFetcherSubmitting =
+    formProps.fetcher.state === 'submitting' ||
+    formProps.fetcher.state === 'loading'
 
   const settingEls = fields.map((field, index) => {
     return field.modal ? (
@@ -24,8 +32,11 @@ export default function SettingsSection({ entity, formProps, sectionProps, field
           props: {
             name: field.name,
             ...field.props,
-            controlProps: { ...field.props.controlProps, colorPalette: "secondaryLight" }
-          }
+            controlProps: {
+              ...field.props.controlProps,
+              colorPalette: 'secondaryLight',
+            },
+          },
         }}
         modal={field.modal}
       />
@@ -42,14 +53,18 @@ export default function SettingsSection({ entity, formProps, sectionProps, field
         btn={{
           props: {
             ...formProps.btn.props,
-            className: "w-full mt-12 mx-auto max-w-72",
-            disabled: isFetcherSubmitting
+            className: 'w-full mt-12 mx-auto max-w-72',
+            disabled: isFetcherSubmitting,
           },
-          text: "save changes",
+          text: 'save changes',
         }}
       >
-
-        <div className={cn("grid gap-8", isSpaceLimited ? "grid-cols-1" : "grid-cols-2")}>
+        <div
+          className={cn(
+            'grid gap-8',
+            isSpaceLimited ? 'grid-cols-1' : 'grid-cols-2',
+          )}
+        >
           {settingEls}
         </div>
 
@@ -58,7 +73,7 @@ export default function SettingsSection({ entity, formProps, sectionProps, field
             entity={entity}
             deleteEntityFetcher={deleteEntityFetcher}
             deleteBtnComponent={{
-              Component: DeleteEntityBtn
+              Component: DeleteEntityBtn,
             }}
             isDeleteConfirmationBtnDisabled={isFetcherSubmitting}
           />

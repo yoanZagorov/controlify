@@ -1,18 +1,17 @@
-import cn from "classnames";
-import { useRouteLoaderData } from "react-router";
+import cn from 'classnames'
+import { useRouteLoaderData } from 'react-router'
 
-import { ROUTES } from "@/constants";
+import { ROUTES } from '#/constants'
+import { useLayout, useScrollToTop } from '#/hooks'
+import { TransactionProvider, WalletSubmissionProvider } from '#/contexts'
+import { TransactionsSection } from '#/components/sections/TransactionsSection'
+import { WalletsSection } from '#/components/sections/WalletsSection'
 
-import { useLayout, useScrollToTop } from "@/hooks";
-
-import { TransactionProvider, WalletSubmissionProvider } from "@/contexts";
-import { TransactionsSection } from "@/components/sections/TransactionsSection";
-import { WalletsSection } from "@/components/sections/WalletsSection";
-import { BalanceSection } from "./sections/BalanceSection";
+import { BalanceSection } from './sections/BalanceSection'
 
 // Rendered on /dashboard
 export default function Dashboard() {
-  useScrollToTop();
+  useScrollToTop()
 
   const {
     userData: {
@@ -20,25 +19,25 @@ export default function Dashboard() {
       wallets,
       balance,
       todayTransactions,
-      balanceOverTimeChartData
-    }
-  } = useRouteLoaderData("app");
+      balanceOverTimeChartData,
+    },
+  } = useRouteLoaderData('app')
 
-  const { isSingleColLayout } = useLayout();
+  const { isSingleColLayout } = useLayout()
 
   return (
     <>
       <div
         className={cn(
-          "grid gap-16 ll:gap-x-20 fhd:gap-x-24",
-          !isSingleColLayout && "grid-cols-12 grid-flow-col gap-x-12",
+          'grid gap-16 ll:gap-x-20 fhd:gap-x-24',
+          !isSingleColLayout && 'grid-flow-col grid-cols-12 gap-x-12',
         )}
       >
         <BalanceSection
-          sectionClassName={cn(!isSingleColLayout && "col-span-6")}
+          sectionClassName={cn(!isSingleColLayout && 'col-span-6')}
           balance={{
             amount: balance,
-            chartData: balanceOverTimeChartData
+            chartData: balanceOverTimeChartData,
           }}
           currency={currency}
         />
@@ -49,9 +48,9 @@ export default function Dashboard() {
             contentProps={{
               wallets,
               section: {
-                title: "Wallets",
-                className: cn(!isSingleColLayout && "col-span-6")
-              }
+                title: 'Wallets',
+                className: cn(!isSingleColLayout && 'col-span-6'),
+              },
             }}
           />
         </WalletSubmissionProvider>
@@ -62,23 +61,26 @@ export default function Dashboard() {
             contentProps={{
               hasFilter: false,
               transactions: todayTransactions,
-              period: "today",
+              period: 'today',
               sectionProps: {
-                title: "Transactions",
-                className: cn("h-full flex flex-col", !isSingleColLayout && "col-span-6 row-span-2"),
-                contentClassName: "flex-1"
+                title: 'Transactions',
+                className: cn(
+                  'h-full flex flex-col',
+                  !isSingleColLayout && 'col-span-6 row-span-2',
+                ),
+                contentClassName: 'flex-1',
               },
               widget: {
-                iconName: "calendar",
-                title: "today"
+                iconName: 'calendar',
+                title: 'today',
               },
               display: {
-                date: false
-              }
+                date: false,
+              },
             }}
           />
         </TransactionProvider>
-      </div >
+      </div>
     </>
   )
 }

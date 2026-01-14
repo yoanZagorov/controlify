@@ -1,1 +1,1 @@
-export { default as WaterfallChart } from "./WaterfallChart";
+export { default as WaterfallChart } from './WaterfallChart'

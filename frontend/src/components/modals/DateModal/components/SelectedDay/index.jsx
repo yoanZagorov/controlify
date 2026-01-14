@@ -1,1 +1,1 @@
-export { default as SelectedDay } from "./SelectedDay";
+export { default as SelectedDay } from './SelectedDay'

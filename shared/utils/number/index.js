@@ -1,1 +1,1 @@
-export { default as performDecimalCalculation } from "./performDecimalCalculation.js";
+export { default as performDecimalCalculation } from './performDecimalCalculation.js'

@@ -2,20 +2,34 @@
   "name": "controlify",
   "version": "1.0.0",
   "type": "module",
+  "private": "true",
+  "author": {
+    "name": "Yoan Zagorov",
+    "email": "yoan.zagorov@gmail.com"
+  },
   "workspaces": [
     "frontend",
     "backend",
     "backend/cloud-functions"
   ],
   "scripts": {
-    "lint": "npm run lint --workspace=frontend --workspace=backend"
-  },
-  "dependencies": {
-    "firebase": "^11.3.1"
+    "format": "npm run format --workspaces --if-present --",
+    "lint": "npm run lint --workspaces --if-present --",
+    "dev": "npm run dev --workspaces --if-present --",
+    "build": "npm run build --workspaces --if-present --"
   },
   "devDependencies": {
-    "@eslint/js": "^9.21.0",
+    "@eslint/js": "^9.39.2",
+    "@tsconfig/strictest": "^2.0.8",
+    "@typescript-eslint/eslint-plugin": "^8.52.0",
+    "@typescript-eslint/parser": "^8.52.0",
     "eslint": "^9.21.0",
-    "globals": "^16.0.0"
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "globals": "^16.0.0",
+    "prettier": "^3.7.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.52.0"
   }
 }

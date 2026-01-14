@@ -1,1 +1,1 @@
-export { default as RootError } from "./RootError";
+export { default as RootError } from './RootError'

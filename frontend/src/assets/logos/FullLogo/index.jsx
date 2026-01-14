@@ -1,1 +1,1 @@
-export { default as FullLogo } from "./FullLogo";
+export { default as FullLogo } from './FullLogo'

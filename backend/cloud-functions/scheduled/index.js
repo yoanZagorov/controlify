@@ -1,1 +1,1 @@
-export { default as updateCurrencyRates } from "./updateCurrencyRates.js";
+export { default as updateCurrencyRates } from './updateCurrencyRates.js'

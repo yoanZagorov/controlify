@@ -1,1 +1,1 @@
-export { default as DeleteEntityBtn } from "./DeleteEntityBtn";
+export { default as DeleteEntityBtn } from './DeleteEntityBtn'

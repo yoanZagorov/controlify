@@ -2,9 +2,6 @@
   "name": "backend",
   "type": "module",
   "private": true,
-  "scripts": {
-    "lint": "eslint -c eslint.config.js ."
-  },
   "engines": {
     "node": "22"
   },

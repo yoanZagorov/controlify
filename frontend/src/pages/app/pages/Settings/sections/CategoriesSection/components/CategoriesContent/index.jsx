@@ -1,1 +1,1 @@
-export { default as CategoriesContent } from "./CategoriesContent";
+export { default as CategoriesContent } from './CategoriesContent'

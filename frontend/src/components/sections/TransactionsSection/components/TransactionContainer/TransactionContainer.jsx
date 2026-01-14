@@ -1,110 +1,130 @@
-import { useFetcher, useRouteLoaderData } from "react-router";
+import { useFetcher, useRouteLoaderData } from 'react-router'
 
-import { COLORS } from "@/constants";
-
-import { useTransaction } from "@/hooks";
-import { formatEntityNameForUI } from "@/utils/formatting";
-import { handleAmountInputChange } from "@/utils/input";
-import { getDateBtnValue } from "@/utils/date";
-
-import { CategoryModal } from "@/components/modals/CategoryModal";
-import { DateModal } from "@/components/modals/DateModal";
-import { HeaderModal } from "@/components/modals/HeaderModal";
-import { WalletModal } from "@/components/modals/WalletModal";
-import { CustomAmountInput } from "@/components/sections/TransactionsSection/components/CustomAmountInput";
-import { FullScreenModalWrapper } from "@/components/modal-wrappers/FullScreenModalWrapper";
+import { COLORS } from '#/constants'
+import { useTransaction } from '#/hooks'
+import { formatEntityNameForUI } from '#/utils/formatting'
+import { handleAmountInputChange } from '#/utils/input'
+import { getDateBtnValue } from '#/utils/date'
+import { CategoryModal } from '#/components/modals/CategoryModal'
+import { DateModal } from '#/components/modals/DateModal'
+import { HeaderModal } from '#/components/modals/HeaderModal'
+import { WalletModal } from '#/components/modals/WalletModal'
+import { CustomAmountInput } from '#/components/sections/TransactionsSection/components/CustomAmountInput'
+import { FullScreenModalWrapper } from '#/components/modal-wrappers/FullScreenModalWrapper'
 
 // Keeps the logic for a transaction operation. Used for both adding and editing
-export default function TransactionContainer({ mode = "add", modal, formProps, submitBtn, children }) {
-  const DEFAULT_TRANSACTION_TYPE = "expense";
+export default function TransactionContainer({
+  mode = 'add',
+  modal,
+  formProps,
+  submitBtn,
+  children,
+}) {
+  const DEFAULT_TRANSACTION_TYPE = 'expense'
 
-  const isEditTransaction = mode === "edit";
+  const isEditTransaction = mode === 'edit'
 
   const {
     modalState: [isModalOpen, setModalOpen],
     hasTransitioned,
-    modalRef
-  } = modal;
+    modalRef,
+  } = modal
 
-  const { userData: { wallets, categories } } = useRouteLoaderData("app");
+  const {
+    userData: { wallets, categories },
+  } = useRouteLoaderData('app')
 
-  const deleteTransactionFetcher = isEditTransaction ? useFetcher({ key: "deleteTransaction" }) : {};
+  const deleteTransactionFetcher = isEditTransaction
+    ? useFetcher({ key: 'deleteTransaction' })
+    : {}
 
-  const { transactionData, updateTransactionData } = useTransaction();
-  const { amount, type, currency, wallet, category, date } = transactionData;
-  const { transactionId } = isEditTransaction ? transactionData : {}; // The id is available only if it's an edit
+  const { transactionData, updateTransactionData } = useTransaction()
+  const { amount, type, currency, wallet, category, date } = transactionData
+  const { transactionId } = isEditTransaction ? transactionData : {} // The id is available only if it's an edit
 
-  const transactionType = type || DEFAULT_TRANSACTION_TYPE;
-  const isExpense = transactionType === "expense";
+  const transactionType = type || DEFAULT_TRANSACTION_TYPE
+  const isExpense = transactionType === 'expense'
 
   const transactionDataConfig = [
     {
       formData: {
-        name: "amount",
-        value: amount
-      }
+        name: 'amount',
+        value: amount,
+      },
     },
     {
       formData: {
-        name: "walletId",
-        value: wallet.id
+        name: 'walletId',
+        value: wallet.id,
       },
       field: {
-        name: "wallet",
+        name: 'wallet',
         props: {
-          iconName: "wallet",
+          iconName: 'wallet',
           displayValue: formatEntityNameForUI(wallet.name),
           controlProps: {
-            disabled: wallet.isLocked
-          }
+            disabled: wallet.isLocked,
+          },
         },
         modal: {
           innerModal: {
             Component: WalletModal,
-            props: { wallets }
+            props: { wallets },
           },
           state: {
             value: wallet,
             // Spreading the old wallet data to not overwrite the isLocked prop
-            updateState: (newWallet) => updateTransactionData({ wallet: { ...wallet, id: newWallet.id, name: newWallet.name }, currency: newWallet.currency })
+            updateState: (newWallet) =>
+              updateTransactionData({
+                wallet: { ...wallet, id: newWallet.id, name: newWallet.name },
+                currency: newWallet.currency,
+              }),
           },
-          minHeight: "min-h-[40%]"
-        }
-      }
+          minHeight: 'min-h-[40%]',
+        },
+      },
     },
     {
       formData: {
-        name: "categoryId",
-        value: category.id
+        name: 'categoryId',
+        value: category.id,
       },
       field: {
-        name: "category",
+        name: 'category',
         props: {
-          iconName: "categories",
+          iconName: 'categories',
           displayValue: formatEntityNameForUI(category.name),
         },
         modal: {
           innerModal: {
             Component: CategoryModal,
-            props: { categories, defaultType: transactionType, isToggleSwitchDisabled: isEditTransaction }
+            props: {
+              categories,
+              defaultType: transactionType,
+              isToggleSwitchDisabled: isEditTransaction,
+            },
           },
           state: {
             value: category,
-            updateState: (newCategory) => updateTransactionData({ category: { id: newCategory.id, name: newCategory.name }, type: newCategory.type })
+            updateState: (newCategory) =>
+              updateTransactionData({
+                category: { id: newCategory.id, name: newCategory.name },
+                type: newCategory.type,
+              }),
           },
-          minHeight: "min-h-[75%]" // ensures no "jump shifts" in the UI
-        }
-      }
+          minHeight: 'min-h-[75%]', // ensures no "jump shifts" in the UI
+        },
+      },
     },
     {
       formData: {
-        name: "date",
-        value: date
+        name: 'date',
+        value: date,
       },
       field: {
-        name: "date",
+        name: 'date',
         props: {
-          iconName: "calendar",
+          iconName: 'calendar',
           displayValue: getDateBtnValue(date),
         },
         modal: {
@@ -113,61 +133,70 @@ export default function TransactionContainer({ mode = "add", modal, formProps, s
           },
           state: {
             value: date,
-            updateState: (newDate) => updateTransactionData({ date: newDate })
+            updateState: (newDate) => updateTransactionData({ date: newDate }),
           },
-        }
-      }
+        },
+      },
     },
-    ...(transactionId ? [{
-      formData: {
-        name: "transactionId",
-        value: transactionId
-      }
-    }] : [])
-  ];
+    ...(transactionId
+      ? [
+          {
+            formData: {
+              name: 'transactionId',
+              value: transactionId,
+            },
+          },
+        ]
+      : []),
+  ]
 
   // Using a forEach and standard pushing to a new arr because it's more performant than chaining .filter and .map
-  let headerModalFields = [];
-  transactionDataConfig.forEach(option => { if (option.field) headerModalFields.push(option.field) });
+  let headerModalFields = []
+  transactionDataConfig.forEach((option) => {
+    if (option.field) headerModalFields.push(option.field)
+  })
 
   return (
     <>
       {children}
 
-      {(isModalOpen || hasTransitioned) &&
+      {(isModalOpen || hasTransitioned) && (
         <FullScreenModalWrapper
           isModalOpen={isModalOpen}
           hasTransitioned={hasTransitioned}
           modalRef={modalRef}
           layoutProps={{
-            height: "h-[90dvh]",
-            handleOverflow: false // Overflow is handled in the HeaderModal
+            height: 'h-[90dvh]',
+            handleOverflow: false, // Overflow is handled in the HeaderModal
           }}
         >
           <HeaderModal
             entity="transaction"
             formProps={{
-              fields: transactionDataConfig.map(option => option.formData),
-              ...formProps
+              fields: transactionDataConfig.map((option) => option.formData),
+              ...formProps,
             }}
             submitBtn={submitBtn}
             header={{
-              type: "custom",
-              CustomComponent:
+              type: 'custom',
+              CustomComponent: (
                 <CustomAmountInput
                   value={amount}
-                  onChange={(e) => handleAmountInputChange({
-                    state: {
-                      updateState: updateTransactionData,
-                      value: amount,
-                      prop: "amount"
-                    },
-                    value: e.target.value
-                  })}
+                  onChange={(e) =>
+                    handleAmountInputChange({
+                      state: {
+                        updateState: updateTransactionData,
+                        value: amount,
+                        prop: 'amount',
+                      },
+                      value: e.target.value,
+                    })
+                  }
                   isExpense={isExpense}
                   currency={currency}
                   isEditTransaction={isEditTransaction}
-                />,
+                />
+              ),
               deleteEntityFetcher: deleteTransactionFetcher,
             }}
             parentModalRef={modalRef}
@@ -175,7 +204,7 @@ export default function TransactionContainer({ mode = "add", modal, formProps, s
             color={COLORS.THEME.NAVY}
           />
         </FullScreenModalWrapper>
-      }
+      )}
     </>
   )
 }

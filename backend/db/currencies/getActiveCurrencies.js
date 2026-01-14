@@ -1,17 +1,17 @@
-import { db } from "../../firebase.config.js";
+import { db } from '../../firebase.config.js'
 
 export default async function getActiveCurrencies() {
   try {
-    const currenciesRef = db.collection("currencies");
-    const snapshot = await currenciesRef.get();
+    const currenciesRef = db.collection('currencies')
+    const snapshot = await currenciesRef.get()
 
-    const currencies = snapshot.docs.map(doc => ({
+    const currencies = snapshot.docs.map((doc) => ({
       ...doc.data(),
-      id: doc.id
-    }));
+      id: doc.id,
+    }))
 
-    return currencies;
+    return currencies
   } catch (error) {
-    throw new Error("Error fetching active currencies", { cause: error });
+    throw new Error('Error fetching active currencies', { cause: error })
   }
 }

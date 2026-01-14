@@ -1,63 +1,75 @@
-import { useEffect, useMemo, useState } from "react";
-import { useFetcher, useRouteLoaderData } from "react-router";
+import { useEffect, useMemo, useState } from 'react'
+import { useFetcher, useRouteLoaderData } from 'react-router'
 
-import { resetFetcher } from "@/services/router/utils";
+import { resetFetcher } from '#/services/router/utils'
+import { CATEGORY, ROUTES } from '#/constants'
+import { isArrayTruthy } from '#/utils/array'
+import { getCategoriesByType } from '#/utils/category'
+import { formatEntityNameForUI } from '#/utils/formatting'
+import { CategoryProvider } from '#/contexts'
+import { Section } from '#/components/sections/Section'
+import { CategoriesTypeToggleSwitch } from '#/components/toggle-switches/CategoriesTypeToggleSwitch'
+import { ContentWidget } from '#/components/widgets/ContentWidget'
+import { Button } from '#/components/Button'
+import { Notification } from '#/components/Notification'
 
-import { CATEGORY, ROUTES } from "@/constants";
-
-import { isArrayTruthy } from "@/utils/array";
-import { getCategoriesByType } from "@/utils/category";
-import { formatEntityNameForUI } from "@/utils/formatting";
-
-import { CategoryProvider } from "@/contexts";
-import { Section } from "@/components/sections/Section";
-import { CategoriesTypeToggleSwitch } from "@/components/toggle-switches/CategoriesTypeToggleSwitch";
-import { ContentWidget } from "@/components/widgets/ContentWidget";
-import { Button } from "@/components/Button";
-import { CategoryItem } from "../CategoryItem";
+import { CategoryItem } from '../CategoryItem'
 
 // Handles the UI display for the CategorySection
-export default function CategoriesContent({ type = "compact", openModal, className }) {
-  const isExpanded = type === "expanded";
+export default function CategoriesContent({
+  type = 'compact',
+  openModal,
+  className,
+}) {
+  const isExpanded = type === 'expanded'
 
-  const { userData: { categories } } = useRouteLoaderData("app");
+  const {
+    userData: { categories },
+  } = useRouteLoaderData('app')
 
-  const fetcher = useFetcher({ key: "updateCategory" });
+  const fetcher = useFetcher({ key: 'updateCategory' })
 
   const hasExpenseCategories = useMemo(
-    () => isArrayTruthy(categories.filter(category => category.type === "expense")),
-    [categories]
+    () =>
+      isArrayTruthy(
+        categories.filter((category) => category.type === 'expense'),
+      ),
+    [categories],
   )
   const hasIncomeCategories = useMemo(
-    () => isArrayTruthy(categories.filter(category => category.type === "income")),
-    [categories]
+    () =>
+      isArrayTruthy(
+        categories.filter((category) => category.type === 'income'),
+      ),
+    [categories],
   )
-  const hasCategories = hasExpenseCategories || hasIncomeCategories;
+  const hasCategories = hasExpenseCategories || hasIncomeCategories
 
   // Perform cleanup for last category
   useEffect(() => {
     if (!hasExpenseCategories || !hasIncomeCategories) {
-      resetFetcher(fetcher);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      resetFetcher(fetcher)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
-  }, [hasExpenseCategories, hasIncomeCategories]);
+  }, [hasExpenseCategories, hasIncomeCategories])
 
-  const [activeOption, setActiveOption] = useState(CATEGORY.DEFAULT_TYPE);
-  const isExpenseCategories = activeOption === "expense";
+  const [activeOption, setActiveOption] = useState(CATEGORY.DEFAULT_TYPE)
+  const isExpenseCategories = activeOption === 'expense'
 
-  const { expenseCategories, incomeCategories } = getCategoriesByType(categories);
+  const { expenseCategories, incomeCategories } =
+    getCategoriesByType(categories)
 
   function renderCategoriesEls(categories) {
-    return categories.map(category => {
-      // Destructuring what is not needed 
-      const { rootCategoryId, createdAt, ...restOfCategory } = category;
+    return categories.map((category) => {
+      // Destructuring what is not needed
+      const { rootCategoryId, createdAt, ...restOfCategory } = category
 
       return (
         <CategoryProvider
           key={category.id}
           providedCategoryData={{
             ...restOfCategory,
-            name: formatEntityNameForUI(category.name)
+            name: formatEntityNameForUI(category.name),
           }}
           providedType={category.type} // Providing the type explicitly so it can be locked for change
         >
@@ -71,43 +83,53 @@ export default function CategoriesContent({ type = "compact", openModal, classNa
     })
   }
 
-  const expenseCategoriesEls = hasExpenseCategories ? renderCategoriesEls(expenseCategories) : null;
-  const incomeCategoriesEls = hasIncomeCategories ? renderCategoriesEls(incomeCategories) : null;
+  const expenseCategoriesEls = hasExpenseCategories
+    ? renderCategoriesEls(expenseCategories)
+    : null
+  const incomeCategoriesEls = hasIncomeCategories
+    ? renderCategoriesEls(incomeCategories)
+    : null
 
   return (
-    <Section
-      title="Categories"
-      className={className}
-    >
+    <Section title="Categories" className={className}>
       <ContentWidget
         iconName="categories"
         title="all"
         content={{
           hasBackground: false,
-          className: "mt-4 flex flex-col"
+          className: 'mt-4 flex flex-col',
         }}
       >
         <CategoriesTypeToggleSwitch
           activeOption={activeOption}
-          handleToggle={() => setActiveOption(prev => prev === "expense" ? "income" : "expense")}
+          handleToggle={() =>
+            setActiveOption((prev) =>
+              prev === 'expense' ? 'income' : 'expense',
+            )
+          }
           className="max-w-lg"
         />
 
         {hasCategories ? (
           <div className="mt-6 flex flex-col gap-4">
-            {isExpenseCategories
-              ? expenseCategoriesEls
-              : incomeCategoriesEls
-            }
+            {isExpenseCategories ? expenseCategoriesEls : incomeCategoriesEls}
           </div>
         ) : (
-          <Notification msgType="notification" className="self-center w-full max-w-80">
-            Oops... It looks like you don't have any categories left. Add one now!
+          <Notification
+            msgType="notification"
+            className="w-full max-w-80 self-center"
+          >
+            Oops... It looks like you don't have any categories left. Add one
+            now!
           </Notification>
-        )
-        }
+        )}
 
-        <Button size="l" className="mt-8 mx-auto" onClick={openModal} data-actionable={true}>
+        <Button
+          size="l"
+          className="mx-auto mt-8"
+          onClick={openModal}
+          data-actionable={true}
+        >
           add category
         </Button>
       </ContentWidget>

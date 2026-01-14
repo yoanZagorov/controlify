@@ -1,16 +1,18 @@
-import { useFetcher } from "react-router";
+import { useFetcher } from 'react-router'
 
-import { useModal } from "@/hooks";
+import { useModal } from '#/hooks'
 
-import { WalletsContent } from "./components/WalletsContent";
-import { WalletContainer } from "./components/WalletContainer";
+import { WalletsContent } from './components/WalletsContent'
+import { WalletContainer } from './components/WalletContainer'
 
 // Used to display and edit wallets
 export default function WalletsSection({ action, contentProps }) {
-  const fetcher = useFetcher({ key: "addWallet" });
+  const fetcher = useFetcher({ key: 'addWallet' })
 
-  const modal = useModal({ fetcher });
-  const { modalState: [isModalOpen, setModalOpen] } = modal;
+  const modal = useModal({ fetcher })
+  const {
+    modalState: [isModalOpen, setModalOpen],
+  } = modal
 
   return (
     <WalletContainer formProps={{ fetcher, action }} modal={modal}>

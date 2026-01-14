@@ -1,1 +1,1 @@
-export { default as SpendingSection } from "./SpendingSection";
+export { default as SpendingSection } from './SpendingSection'

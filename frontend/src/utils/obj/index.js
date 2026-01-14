@@ -1,1 +1,1 @@
-export { default as isObjTruthy } from "./isObjTruthy";
+export { default as isObjTruthy } from './isObjTruthy'

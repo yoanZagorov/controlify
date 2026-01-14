@@ -1,3 +1,3 @@
 export default function spaceToDash(str) {
-  return str.replace(/ /g, "-");
+  return str.replace(/ /g, '-')
 }

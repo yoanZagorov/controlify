@@ -1,2 +1,2 @@
-export { default as Wallets } from "./Wallets";
-export * from "./pages/Wallet";
+export { default as Wallets } from './Wallets'
+export * from './pages/Wallet'

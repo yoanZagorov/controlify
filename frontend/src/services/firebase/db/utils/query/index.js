@@ -1,1 +1,1 @@
-export { default as getRandomDocQuery } from "./getRandomDocQuery";
+export { default as getRandomDocQuery } from './getRandomDocQuery'

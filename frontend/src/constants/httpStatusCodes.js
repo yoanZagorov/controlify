@@ -7,6 +7,6 @@ const HTTP_STATUS_CODES = {
   TOO_MANY_REQUESTS: 429,
   INTERNAL_SERVER_ERROR: 500,
   SERVICE_UNAVAILABLE: 503, // Server is not able to handle the request at the moment
-};
+}
 
-export default HTTP_STATUS_CODES;
+export default HTTP_STATUS_CODES

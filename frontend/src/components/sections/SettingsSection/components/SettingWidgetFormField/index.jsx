@@ -1,1 +1,1 @@
-export { default as SettingWidgetFormField } from "./SettingWidgetFormField";
+export { default as SettingWidgetFormField } from './SettingWidgetFormField'

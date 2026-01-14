@@ -1,3 +1,3 @@
 export default async function reflectAction() {
-  return null;
+  return null
 }

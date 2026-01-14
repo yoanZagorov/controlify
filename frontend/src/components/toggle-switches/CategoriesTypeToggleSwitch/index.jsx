@@ -1,1 +1,1 @@
-export { default as CategoriesTypeToggleSwitch } from "./CategoriesTypeToggleSwitch";
+export { default as CategoriesTypeToggleSwitch } from './CategoriesTypeToggleSwitch'

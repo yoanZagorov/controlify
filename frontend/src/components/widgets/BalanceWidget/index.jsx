@@ -1,1 +1,1 @@
-export { default as BalanceWidget } from "./BalanceWidget";
+export { default as BalanceWidget } from './BalanceWidget'
