@@ -5,9 +5,9 @@
   "scripts": {
     "format": "npx prettier .",
     "lint": "npx eslint .",
-    "dev": "vite dev",
+    "dev": "vite dev --mode local-dev",
     "preview": "vite preview",
-    "build": "vite build"
+    "build": "vite build --mode prod"
   },
   "dependencies": {
     "classnames": "^2.5.1",

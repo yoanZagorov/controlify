@@ -2,13 +2,24 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 
+// Helper function to get required env var or throw error
+function getRequiredEnvVar(name) {
+  const value = import.meta.env[name]
+  if (!value) {
+    throw new Error(
+      `Missing required environment variable: ${name}. Please ensure it is set in the appropriate .env file.`,
+    )
+  }
+  return value
+}
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyDXdd8tw86Td77Oc7YBZFJAhc5yuDX5lHs', // Safe - Firebase relies on security rules, not on the apiKey for keeping the routes secure
-  authDomain: 'controlify-3bdd8.firebaseapp.com',
-  projectId: 'controlify-3bdd8',
-  storageBucket: 'controlify-3bdd8.appspot.com',
-  messagingSenderId: '837564313324',
-  appId: '1:837564313324:web:e0c624f85288ce2a173fc9',
+  apiKey: getRequiredEnvVar('VITE_FIREBASE_API_KEY'),
+  authDomain: getRequiredEnvVar('VITE_FIREBASE_AUTH_DOMAIN'),
+  projectId: getRequiredEnvVar('VITE_FIREBASE_PROJECT_ID'),
+  storageBucket: getRequiredEnvVar('VITE_FIREBASE_STORAGE_BUCKET'),
+  messagingSenderId: getRequiredEnvVar('VITE_FIREBASE_MESSAGING_SENDER_ID'),
+  appId: getRequiredEnvVar('VITE_FIREBASE_APP_ID'),
 }
 
 const app = initializeApp(firebaseConfig)
