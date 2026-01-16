@@ -14,7 +14,6 @@ export default defineConfig([
   ...sharedConfig,
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
-    ignores: ['dist'],
 
     languageOptions: {
       globals: {

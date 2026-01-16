@@ -7,7 +7,7 @@ import eslintConfigPrettier from 'eslint-config-prettier/flat'
 // Export a plain array since defineConfig should be called only once - in the package's config
 
 export default [
-  globalIgnores(['**/node_modules/']),
+  globalIgnores(['**/node_modules/', '**/dist/']),
   js.configs.recommended,
   tseslint.configs.recommended,
   importPlugin.flatConfigs.recommended,
