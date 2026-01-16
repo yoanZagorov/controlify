@@ -1,8 +1,9 @@
 # Env variables
 **/.env.local
 
-# Firebase service account key
+# Firebase service account keys
 backend/serviceAccountPrivateKey.json
+backend/serviceAccountPrivateKey.test.json
 
 # Deps and dist
 **/node_modules/
@@ -20,3 +21,7 @@ npm-debug.log*
 # OS files
 .DS_Store
 Thumbs.db
+
+# Playwright test results and reports
+**/playwright-report/
+**/test-results/
