@@ -2,7 +2,8 @@ import type { Timestamp } from 'firebase/firestore'
 
 import type { CURRENCY_CODES } from '#/constants'
 
-export default interface Wallet {
+// Represents the shape of a wallet document as stored in Firestore.
+export interface StoredWallet {
   balance: number
   currency: (typeof CURRENCY_CODES)[number]
   name: string
@@ -13,3 +14,7 @@ export default interface Wallet {
   createdAt: Timestamp
   deletedAt: Timestamp | null
 }
+
+// Represents a wallet object returned from the data fetching layer.
+export type RetrievedWallet = StoredWallet & { id: string }
+
