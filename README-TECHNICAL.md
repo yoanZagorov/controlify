@@ -69,3 +69,19 @@ Firebase API keys are committed to the repository. This is safe because Firebase
    This will start the Vite development server in `local-dev` mode, which loads `.env.local-dev` and uses the test Firebase project.
 
    **Note**: You can create a `.env.local-dev.local` file (gitignored) to override any environment variables for your local setup without affecting the committed configuration.
+
+## **Testing**
+
+E2E tests are set up using Playwright and run against the test Firebase project. Tests use the `test` environment mode, which loads `.env.test` and connects to the test Firebase project.
+
+### Running Tests Locally
+
+```bash
+npm run test:e2e
+```
+
+This runs tests against the Vite development server in `test` mode, providing fast feedback during development.
+
+### Future CI/CD Considerations
+
+For CI/CD pipelines, the recommended approach would be to test against a production build rather than the dev server. The same `test` mode can be used: build with `vite build --mode test` (which loads `.env.test`) and serve the static files for testing. This ensures tests run against the actual production build that will be deployed, while still using the isolated test Firebase project.
