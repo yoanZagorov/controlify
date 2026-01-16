@@ -1,17 +1,19 @@
-import { where } from 'firebase/firestore'
+import { where, type QueryConstraint } from 'firebase/firestore'
 
+import type { RetrievedTransaction } from '#/types/models/Transaction'
+import type { RetrievedWallet } from '#/types/models/Wallet'
 import { getTodayStartAndEnd } from '#/utils/date'
 
 import getTransactions from './getTransactions'
 
 // Get all of today's transactions
 export default async function getTodayTransactions(
-  userId,
-  providedWallets,
-  query = [],
-) {
+  userId: string,
+  providedWallets: RetrievedWallet[],
+  query: QueryConstraint[] = [],
+): Promise<RetrievedTransaction[]> {
   const { start, end } = getTodayStartAndEnd()
-  const todayTransactionsQuery = [
+  const todayTransactionsQuery: QueryConstraint[] = [
     where('date', '>=', start),
     where('date', '<=', end),
     ...query,
@@ -21,6 +23,7 @@ export default async function getTodayTransactions(
     userId,
     providedWallets,
     query: todayTransactionsQuery,
+    dataFormat: 'flat',
     sortType: 'newestFirst',
   })
 }

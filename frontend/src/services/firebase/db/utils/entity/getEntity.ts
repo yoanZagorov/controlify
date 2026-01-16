@@ -1,9 +1,16 @@
+import type { DocumentData, DocumentReference } from 'firebase/firestore'
 import { getDoc } from 'firebase/firestore'
 
 import { capitalize } from '#/utils/str'
 
-// Used to get a single entity - reused for almost all of single entity reads
-export default async function getEntity(docRef, docId, entityName) {
+// Used to get a single entity - reused for almost all single-entity reads.
+// It attaches the document id to the returned data and preserves the
+// underlying Firestore field types (e.g. Timestamps).
+export default async function getEntity<T extends DocumentData>(
+  docRef: DocumentReference<T>,
+  docId: string,
+  entityName: string,
+): Promise<T & { id: string }> {
   try {
     const docSnapshot = await getDoc(docRef)
 
@@ -16,7 +23,7 @@ export default async function getEntity(docRef, docId, entityName) {
     return {
       ...docSnapshot.data(),
       id: docSnapshot.id,
-    }
+    } as T & { id: string }
   } catch (error) {
     throw new Error(`Error fetching ${entityName} with the id ${docId}`, {
       cause: error,

@@ -1,6 +1,6 @@
 const CATEGORY = {
   DEFAULT_TYPE: 'expense',
-  TYPES: ['expense', 'income'],
+  TYPES: ['expense', 'income'] as const,
   MIN_AMOUNT: {
     EXPENSE: 1,
     INCOME: 1,

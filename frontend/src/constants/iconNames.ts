@@ -17,7 +17,8 @@ const ICON_NAMES = {
     'briefcase',
     'piggy-bank',
     'money-bill-stock-up',
-  ],
+  ] as const,
+  CURRENCIES: ['flag-bulgaria', 'flag-uk', 'flag-usa', 'flag-eu'] as const,
 }
 
 export default ICON_NAMES
