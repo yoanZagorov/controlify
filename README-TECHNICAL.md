@@ -1,7 +1,8 @@
 ## **Tech Stack**
 
-- **Frontend:** React, TypeScript, React Router, Tailwind CSS
+- **Frontend:** React, TypeScript*, React Router, Tailwind CSS
 - **Backend:** Node.js, Firebase Cloud Functions
+- **Testing:** Playwright**
 - **Database:** Firebase Cloud Firestore
 - **Authentication:** Firebase Authentication
 - **Data Visualization:** Recharts
@@ -9,6 +10,11 @@
 - **Bundling:** Vite
 - **Hosting:** Netlify
 - **Version control:** Git
+
+*Typescript implementation is ongoing. Currently the data fetching layer is typed.
+
+** Playwright (E2E testing) implementation is ongoing. Currently the auth is covered.
+
 
 ## **Environment Configuration**
 
